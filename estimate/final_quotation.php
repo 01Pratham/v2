@@ -54,6 +54,8 @@ $MothlyTotal = array();
                     <?php
                     require '../view/Table.php';
                     ?>
+
+                    <tbody id = "tblBody"></tbody>
                 </table>
 
                 <?php require '../view/summary_table.php' ?>
@@ -68,21 +70,14 @@ $MothlyTotal = array();
                     <?php
 
                     $time = date("Y/m/d h:i:sa");
-                    $verQuery = mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `pot_id` = '{$_POST['pot_id']}' ");
-                    while ($data = mysqli_fetch_assoc($verQuery)) {
-                        $verData = $data['version'];
-                    }
-                    if ($verData < 2 || !empty($verData)) {
-                    }
+                    $query = mysqli_fetch_assoc(mysqli_query($con , "SELECT * FROM `tbl_saved_estimates` WHERE `pot_id` = '{$_POST['pot_id']}' AND emp_code = '{$_SESSION['emp_code']}'"));
 
-                    if (!empty($check) && $check['emp_code'] == $_SESSION['emp_code']) {
-                        $Version = $check;
+                    if(!empty($query['id'])){
                     ?>
-                        <button class="btn btn-outline-success btn-lg mx-1 save" id="save_as"><i class="fas fa-save pr-2"></i> Save as Version</button>
                         <button class="btn btn-outline-success btn-lg mx-1 save" id="update"><i class="fas fa-refresh pr-2"></i> Update</button>
-                    <?php } else { ?>
+                    <?php } else{ ?>  
                         <button class="btn btn-outline-success btn-lg mx-1 save" id="save"><i class="fas fa-save pr-2"></i> Save</button>
-                    <?php  } ?>
+                    <?php } ?>  
                 </div>
                 <?php
                 $temp =  json_encode(json_template($Sku_Data, $I_M), JSON_PRETTY_PRINT);
@@ -109,21 +104,12 @@ $MothlyTotal = array();
         $('.nav-link').removeClass('active')
         $('#create').addClass('active');
         <?php
-
         if (UserRole($get_emp["user_role"]) == "User") { ?>
             $('#push').remove();
-            // $('.unshareable').remove();
-            // $('table').find('.colspan').each(function() {
-            //     // console.log($(this).prop('colspan'))
-            //     if ($(this).prop('colspan') > 4) {
-            //         // console.log($(this))
-            //         $(this).attr('colspan', (parseInt($(this).prop('colspan')) - 4))
-            //     } else {
-            //         $(this).removeAttr('colspan')
-            //     }
-            // })
         <?php }
         ?>
+
+        
 
         $(document).ready(function() {
             $.ajax({
@@ -161,23 +147,19 @@ $MothlyTotal = array();
 
         <?php
         if (UserRole($get_emp["user_role"]) == "Super Admin") { ?>
-
             $('.discount').attr('contentEditable', 'true')
             var mrc = $('#vm-mrc').html();
             $(".discount").keypress(function(e) {
-                // console.log(e.keyCode);
-                var key = e.keyCode || e.charCode; // ie||others
-                if (key == 13) { // if enter key is pressed            
+                var key = e.keyCode || e.charCode;
+                if (key == 13) {
                     $(this).blur();
                     $(this).html();
                 }
-
                 $(this).on('blur', function() {
                     if ($(this).html() > 10) {
                         $('.errors').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">Maximum Discount limit is only 10%. <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="remAlert()"><span aria-hidden="true">&times;</span></button></div>')
                         var val = 0;
                         $(this).html(0)
-                        // location.reload();
                     } else {
                         var val = $(this).html();
                     }
@@ -186,9 +168,7 @@ $MothlyTotal = array();
                     var mrc = $(this).parent().find('.mrc');
                     cost = cost.replace(',', "");
                     cost = cost.replace('₹', "");
-
                     unit = unit.replace('  NO', "")
-                    // console.log(cost , unit);
                     $.ajax({
                         type: 'POST',
                         url: "../controller/discounting.php",
@@ -213,20 +193,6 @@ $MothlyTotal = array();
         <?php }
 
         ?>
-        // $('#final_OTC').attr('contentEditable', 'true');
-        // $('#final_OTC').on('click', function() {
-
-        //     var otc = $(this).html();
-        //     $(this).html('(<p class ="alert-danger"> Total Monthly</p> * 12 ) * 5%');
-        //     $('#total_monthly').attr('style', 'background-color: rgb(255, 207, 203); border: 5px red solid;')
-        //     $(this).on('blur', function() {
-        //         $('#total_monthly').removeAttr('style')
-        //         $('#total_monthly').attr('style', 'background-color: rgb(255, 207, 203);')
-
-        //         $(this).html(otc);
-        //     })
-        // })
-
         let sheetNames = {
             <?php
             $i = 1;
@@ -236,7 +202,6 @@ $MothlyTotal = array();
             }
             echo "sheet{$i} : 'Summary Sheet'";
             ?>}
-        // console.log(sheetNames);
 
         $(document).ready(function() {
             $("#export").click(function() {
@@ -254,8 +219,6 @@ $MothlyTotal = array();
         function remAlert() {
             $('.alert').remove();
         }
-
-
         $('.save').click(function() {
             $.ajax({
                 type: "POST",
@@ -268,30 +231,24 @@ $MothlyTotal = array();
                     'pot_id': '<?= $_POST['pot_id'] ?>',
                     'project_name': '<?= $_POST['project_name'] ?>',
                     'period': <?= $period[1] ?>,
-                    // 'edit_id': <?= $period[1] ?>
-
                 },
                 dataType: "TEXT",
                 success: function(response) {
                     alert("Data Saved Successfully");
                 }
             });
-
         })
 
         $(document).ready(function() {
             $('.full').find('.mng_qty').each(function() {
                 var tr_val = $(this).html()
                 if (tr_val == "0 NO") {
-                    // console.log($(this).parent())
                     $(this).parent().find('td').each(function() {
                         $(this).addClass('bg-danger')
                     })
                 }
             })
         })
-
-
         window.addEventListener('beforeunload',
             function(e) {
                 let conf = confirm("Are You sure want to unsave this Estimate ? ");

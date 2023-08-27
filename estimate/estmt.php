@@ -7,9 +7,19 @@
         unset($_SESSION['edit_id']);
     }
     elseif (isset($_GET['rateCard'])){
+        echo "
+        <script>
+            $('.nav-link').removeClass('active')
+            $('#rateCard').addClass('active')
+        </script>";
         require '../view/CreateRateCard.php';
     }
     elseif (isset($_GET['rateCardId'])){
+        echo "
+        <script>
+            $('.nav-link').removeClass('active')
+            $('#rateCard').addClass('active')
+        </script>";
         require '../view/RateCardCompnents.php';
     }
     // elseif (isset($_GET['priceBook'])) {

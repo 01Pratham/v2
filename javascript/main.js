@@ -1,3 +1,4 @@
+
 if(typeof name === 'undefined' || typeof state === 'undefined'){
     let name; 
     let state;
@@ -642,7 +643,9 @@ function AJAX(Data){
         dataType: "TEXT",
         data: Data,
         success: function (response) {
-            console.log(response);
+            console.log(response)
+        },
+        complete:function(){
             window.location.reload();
         }
     })

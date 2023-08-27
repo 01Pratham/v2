@@ -30,7 +30,7 @@
                 <option value="">Replication Link</option>
                 <?php create_opt('link') ?>
             </select>
-            <input type="checkbox" name="rep_link[<?= $name ?>]" id="rep_link_type_<?= $id ?>"
+            <input type="checkbox" name="rep_link[<?= $name ?>]" id="rep_link_<?= $id ?>"
                 class="check <?= ($Editable['rep_link'][$name] == "on") ? "Checked" : "" ?>">
             <!-- <input type="number" min=0 id="rep_link_qty_<?= $id ?>" name="rep_link_qty[<?= $name ?>]" class="hide form-control" value="<?= $Editable['rep_link_type'][$name] ?>" style="width: 75%" placeholder="Mbps"> -->
             <div class="input-group hide" style="width: 75%">

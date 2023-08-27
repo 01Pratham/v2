@@ -52,7 +52,7 @@ if (isset($_GET['type'])) {
           <i class="except icons fa fa-ellipsis-v text-white" title="Actions"></i>
         </div>
         <?php
-        $potQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `pot_id` = '{$_GET['pot_id']}' "));
+        $potQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `pot_id` = '{$_GET['pot_id']}' AND `emp_code` = '{$_SESSION['emp_code']}'"));
         // print_r($potQuery);
         if (!isset($_GET['edit_id']) && empty($potQuery['id'])) { ?>
           <div class="except sub-button shadow  btn btn-outline-success action" id="save">

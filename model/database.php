@@ -1,5 +1,5 @@
 <?php
-// error_reporting( E_ERROR | E_PARSE );
+error_reporting( E_ERROR | E_PARSE );
 
 $HostName = 'localhost';
 $UserName = 'idxesdsd_cal';
@@ -14,7 +14,7 @@ mysqli_set_charset($con,'utf8');
 $reg = mysqli_query( $con, 'Select Distinct region from tbl_pack' );
 $ser = mysqli_query( $con, 'Select Distinct pack_series from tbl_pack' );
 
-$pack_query = 'Select Distinct pack from tbl_pack' ;
+$pack_query = 'Select Distinct pack from tbl_pack';
 $pack = mysqli_query( $con, $pack_query );
 $product_prices = array();
 $tbl = array();

@@ -48,7 +48,7 @@
             <h6><small>Replication Link</small></h6>
             <!-- <input type="number" min=0 name="rep_link[<?= $name ?>]" id="rep_link_<?= $id ?>" class="form-control" placeholder="Quantity" value="<?= $Editable['rep_link'][$name] ?>"> -->
             <div class="input-group">
-                <input type="number" min=0 name="rep_link[<?= $name ?>]" id="rep_link_<?= $id ?>" class="form-control my-1" placeholder="" value="<?= $Editable['rep_link'][$name] ?>" aria-describedby="inputGroupPrepend">
+                <input type="number" min=0 name="rep_link_qty[<?= $name ?>]" id="rep_link_qty_<?= $id ?>" class="form-control my-1" placeholder="" value="<?= $Editable['rep_link'][$name] ?>" aria-describedby="inputGroupPrepend">
                 <span class="input-group-text py-0 form-control my-1 col-3 bg-light" id="rep_linkUnit_<?= $id ?>">Mbps</span>
             </div>
         </div>

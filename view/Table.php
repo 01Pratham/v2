@@ -7,6 +7,7 @@ for ($j = 1; $j <= count($estmtname); $j++) {
     $Infrastructure = array();
     $antiVirus = false;
 ?>
+
     <tr>
         <th class='colspan except noExl' colspan="7" style="font-size: 30px;"><?= $estmtname[$j] ?></th>
     </tr>
@@ -28,37 +29,22 @@ for ($j = 1; $j <= count($estmtname); $j++) {
         $vm_total = array();
         $vcore_data = array();
         for ($i = 0; $i < count($vmname[$j]); $i++) {
-            // $sr_no = trim(substr($instance[$j][$i], 0, 4));
-            $cost_rows = mysqli_fetch_assoc(mysqli_query($con, 'SELECT * FROM `tbl_pack` WHERE `sr_no` = "' . $instance[$j][$i] . '" AND `region` = "' . $region[$j][$i] . '" '));
-            // echo "fiehf{$j}".$i;
-            // $vcore = $cpu[$j][$i];
-            // array_push($vcore_data, $vcore);
+            $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
             $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk - 1000 IOPS -  {$disk[$j][$i]} GB";
-
             $price = ($instance[$j][$i] == "Flexi") ?
                 (($product_prices['cpu'] * intval($cpu[$j][$i])) +
                     ($product_prices['ram'] * intval($ram[$j][$i])) +
                     ($product_prices['iops_1'] * intval($disk[$j][$i])))
                 : $cost_rows['price'];
-
-
-
-            // print_r($price);
-
             $vCore[$j][$i] = $cpu[$j][$i];
             $vRam[$j][$i] = $ram[$j][$i];
             $vDisk[$j][$i] = $disk[$j][$i];
-
-            // $vcore = $cost_rows['vCores'];
             array_push($vcore_data, $vCore[$j][$i]);
-            // print_r($vcore_data);
-            // $price = intval($cost_rows['price']);
             if (!empty($av_type[$j][$i])) {
                 $av = true;
             } else {
-                // continue;
-            }
 
+            }
         ?>
             <tr>
                 <td><?php echo !empty($vmname[$j][$i]) ? ($vmname[$j][$i]) : ("Virtual Machine") . " - " . $region[$j][$i] . " - " . $sector[$j][$i] . " " . $state[$j][$i]; ?></td>
@@ -91,10 +77,8 @@ for ($j = 1; $j <= count($estmtname); $j++) {
             <th class="unshareable except" id='otc'>OTC</th>
         </tr>
         <?php
-
         $os_data = (!empty($os[$j])) ? array_values(array_unique($os[$j])) : null;
         $db_data = (!empty($db[$j])) ? array_values(array_unique($db[$j])) : null;
-
         for ($i = 0; $i < count($vmname[$j]); $i++) {   ?>
             <?php
             if ($os_data[$i] == "Windows Standard Edition") {
