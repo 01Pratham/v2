@@ -1,14 +1,10 @@
 <?php
-// echo "<pre>" ; print_r($_POST);echo "</pre>";
-// exit();
-
 session_start();
 if (!isset($_SESSION['emp_code'])) {
     require "../view/session_expired.php";
     exit();
 }
 $_SESSION['post_data'] = $_POST;
-// echo "<pre>" ; print_r($_SESSION);echo "</pre>";
 $ProjectTotal = array();
 $MothlyTotal = array();
 ?>
@@ -42,48 +38,28 @@ $MothlyTotal = array();
         <div class="content Main except ">
             <div class="container-fluid except full" style="zoom : 65%">
                 <div class="errors except container" style="max-width: 2020px; margin: auto; "> </div>
-
-                <!-- <div class="container"> -->
-                <table class="final-tbl table except" id="final-tbl<?= $j ?>">
-                    <tr hidden></tr>
-                    <tr hidden></tr>
-                    <tr hidden></tr>
-                    <tr hidden></tr>
-                    <tr hidden></tr>
-                    <tr hidden></tr>
                     <?php
-                    require '../view/Table.php';
+                    require '../view/Table21.php';
+                    require '../view/summary_table.php' 
                     ?>
-
-                    <tbody id = "tblBody"></tbody>
-                </table>
-
-                <?php require '../view/summary_table.php' ?>
-
-
                 <div class="container except d-flex justify-content-center mt-3 py-3">
-
                     <button class="btn btn-outline-success btn-lg mx-1" id="export"><i class="fa fa-file-excel-o pr-2"></i> Export</button>
                     <button class="btn btn-outline-success btn-lg mx-1" id="exportShareable"><i class="fa fa-file-excel-o pr-2"></i> Export as Shareable</button>
                     <button class="btn btn-outline-success btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button>
-
                     <?php
-
-                    $time = date("Y/m/d h:i:sa");
                     $query = mysqli_fetch_assoc(mysqli_query($con , "SELECT * FROM `tbl_saved_estimates` WHERE `pot_id` = '{$_POST['pot_id']}' AND emp_code = '{$_SESSION['emp_code']}'"));
-
                     if(!empty($query['id'])){
                     ?>
                         <button class="btn btn-outline-success btn-lg mx-1 save" id="update"><i class="fas fa-refresh pr-2"></i> Update</button>
-                    <?php } else{ ?>  
+                    <?php 
+                    }
+                    else{ 
+                    ?>  
                         <button class="btn btn-outline-success btn-lg mx-1 save" id="save"><i class="fas fa-save pr-2"></i> Save</button>
                     <?php } ?>  
                 </div>
                 <?php
-                $temp =  json_encode(json_template($Sku_Data, $I_M), JSON_PRETTY_PRINT);
-                // echo "<pre>" ; print_r($temp);echo "</pre>";
-
-
+                    $temp =  json_encode(json_template($Sku_Data, $I_M), JSON_PRETTY_PRINT);
                 ?>
             </div>
         </div>
@@ -91,11 +67,9 @@ $MothlyTotal = array();
 
 
     <?php
-    // print_r($ProjectTotal);
     require '../view/includes/footer.php';
     ?>
     <script src="../javascript/jquery-3.6.4.js"></script>
-    <!-- <script src="../javascript/jquery.table2excel.js"></script> -->
     <script src="https://unpkg.com/exceljs/dist/exceljs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
@@ -125,9 +99,6 @@ $MothlyTotal = array();
                 }
             })
         });
-
-
-
         function Push() {
             $.ajax({
                 type: 'POST',
@@ -142,9 +113,6 @@ $MothlyTotal = array();
                 }
             })
         }
-
-
-
         <?php
         if (UserRole($get_emp["user_role"]) == "Super Admin") { ?>
             $('.discount').attr('contentEditable', 'true')
@@ -190,8 +158,8 @@ $MothlyTotal = array();
                     })
                 })
             })
-        <?php }
-
+        <?php 
+        }
         ?>
         let sheetNames = {
             <?php
@@ -208,12 +176,10 @@ $MothlyTotal = array();
                 var tables = document.querySelectorAll('table');
                 convertTablesToExcel(Array.from(tables), "unShareable", sheetNames, "<?= $_POST['project_name'] ?>");
             });
-
             $("#exportShareable").click(function() {
                 var tables = document.querySelectorAll('table');
                 convertTablesToExcel(Array.from(tables), "Shareable", sheetNames, "<?= $_POST['project_name'] ?>");
             });
-
         });
 
         function remAlert() {
