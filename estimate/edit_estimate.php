@@ -36,10 +36,8 @@ if (isset($_GET['type'])) {
           require '../view/DC_DR.php';
           require '../view/Colocation.php';
 
-          // DC_DR(1, 1);
           $getTypeQuot = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_quot_type` WHERE `id` = '{$_GET['type']}'"));
           $getTypeQuot['template_name'](1, 1);
-          // DC_DR(1, 1, $_GET['type']);
           ?>
         </div>
         <div class="light py-2 rounded d-flex justify-content-center my-4">
@@ -98,6 +96,8 @@ if (isset($_GET['type'])) {
               alert(response)
               if (act == "save") {
                 window.location.href = "index.php?all";
+              }else{
+                alert("Quotation updated Successfully ")
               }
             }
           })

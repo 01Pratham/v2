@@ -16,10 +16,8 @@ if (isset($_GET['rateCardId'])) {
             </span>
         </div>
         <div class="form-group ml-auto">
-            <button type="button" class="btn btn-danger" id="deleteProds"> <i class="fa fa-trash"></i> Delete
-                Items</button>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Add
-                Items</button>
+            <button type="button" class="btn btn-danger" id="deleteProds"> <i class="fa fa-trash"></i> Delete Items</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Add Items</button>
         </div>
         <div class="modal fade bd-example-modal-xl except" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
@@ -89,8 +87,8 @@ if (isset($_GET['rateCardId'])) {
                                 <tr class="border-bottom">
                                     <th><input type="checkbox" name="" id="" class="selectActionProds" oninput="$('.selectProds').each(function(){$(this).click()})"></th>
                                     <th>#</th>
-                                    <th class="col-4 text-center">Product</th>
-                                    <th class="text-center">Actual Price</th>
+                                    <th class="text-start">Product</th>
+                                    <?=($_GET['rateCardId'] != "1") ? '<th class="text-center">General Price</th>' : '' ?>
                                     <th class="text-center">Configured Price</th>
                                     <th class="text-center">Is Active</th>
                                     <!-- <th class="text-center">Action</th> -->
@@ -101,18 +99,18 @@ if (isset($_GET['rateCardId'])) {
                                 $rateCardQuery = mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$id}'");
                                 $i = 1;
                                 while ($prods = mysqli_fetch_assoc($rateCardQuery)) {
+                                    $generalPrice = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = 1 AND `prod_id` = '{$prods['prod_id']}' "));
                                 ?>
                                     <tr class="border-bottom">
                                         <td><input type="checkbox" name="" id="prods_<?= $prods['id'] ?>" class="selectProds"></td>
                                         <td class="">
                                             <?= $i ?>
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-start">
                                             <?= GetVal($prods['prod_id'])['product'] ?>
                                         </td>
-                                        <td class="text-center">
-                                            <?= INR(GetVal($prods['prod_id'])['price']) ?>
-                                        </td>
+                                        <?php  
+                                        if ($_GET['rateCardId'] != "1") {?> <td class='text-center'><?=INR($generalPrice['price'])?> </td> <?php }?>
                                         <td class="text-center Price" contenteditable="true" id="price_<?= $prods['id'] ?>">
                                             <?= (!empty($prods['price'])) ? INR($prods['price']) : INR(0) ?>
                                         </td>

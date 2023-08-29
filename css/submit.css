@@ -1,6 +1,6 @@
 
-.final-tbl th {
-    background-color: rgb(199, 239, 255);
+.final-tbl .Head {
+    background-color: rgb(199, 239, 255) !important;
 }
 .final-tbl th, .final-tbl td {
     border: 1px solid #575757;
