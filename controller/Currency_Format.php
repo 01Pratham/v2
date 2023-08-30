@@ -13,7 +13,6 @@
             }
             $delimiter .=$money[$i];
         }
-
         $result = strrev($delimiter);
         $decimal = preg_replace("/0\./i", ".", $decimal);
         $decimal = substr($decimal, 0, 3);
@@ -22,6 +21,6 @@
             $result = $result.$decimal;
         }
 
-        echo "₹ ".$result;
+        echo  "₹ ".$result;
     }
 }

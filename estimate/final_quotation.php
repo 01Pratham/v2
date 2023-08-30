@@ -39,7 +39,7 @@ $MothlyTotal = array();
             <div class="container-fluid except full" style="zoom : 65%">
                 <div class="errors except container" style="max-width: 2020px; margin: auto; "> </div>
                     <?php
-                    require '../view/Table2.php';
+                    require '../view/Table.php';
                     require '../view/summary_table.php' 
                     ?>
                 <div class="container except d-flex justify-content-center mt-3 py-3">
@@ -53,8 +53,7 @@ $MothlyTotal = array();
                         <button class="btn btn-outline-success btn-lg mx-1 save" id="update"><i class="fas fa-refresh pr-2"></i> Update</button>
                     <?php 
                     }
-                    else{ 
-                    ?>  
+                    else{ ?>  
                         <button class="btn btn-outline-success btn-lg mx-1 save" id="save"><i class="fas fa-save pr-2"></i> Save</button>
                     <?php } ?>  
                 </div>

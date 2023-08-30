@@ -35,16 +35,6 @@ function get_OS($sw_name, $core_devide = 1, $price = 1, $Data = 'Price')
   // print_r($vcore_data);
 }
 
-function show($func)
-{
-  if ($func == 1 || $func == 0) {
-    echo ($func) . "  License";
-  } else {
-    echo ($func) . "  Licenses";
-  }
-
-  // echo $func;
-}
 
 function get_DB($sw_name, $core_devide = 1, $price = 1, $Data = 'price')
 {
