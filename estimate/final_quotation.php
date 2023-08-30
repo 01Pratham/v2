@@ -39,7 +39,7 @@ $MothlyTotal = array();
             <div class="container-fluid except full" style="zoom : 65%">
                 <div class="errors except container" style="max-width: 2020px; margin: auto; "> </div>
                     <?php
-                    require '../view/Table21.php';
+                    require '../view/Table2.php';
                     require '../view/summary_table.php' 
                     ?>
                 <div class="container except d-flex justify-content-center mt-3 py-3">
