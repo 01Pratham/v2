@@ -424,7 +424,7 @@ HSM -  $siemqty[4]'  ></i>";
                 $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($siem_name[$j], 'sku_code')] = array_sum($siemqty);
             }
             if (isset($pim[$j])) {
-                tblRow("Services", "PIM " . $info, $pimqty, $product_prices['pim']);
+                tblRow("Services", "PIM ", $pimqty[$j], $product_prices['pim']);
                 $Infrastructure['Security Solution']['pim'] = intval($pimqty[$j]) * $product_prices['pim'];
                 $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['pim']] = $pimqty[$j];
             }
@@ -444,148 +444,51 @@ HSM -  $siemqty[4]'  ></i>";
                     );
 
                 $info = "<i class='fa fa-info-circle  float-right' title='
-                    VM Quantity -  $Devices[0]  
-                    Internal & External Firewall -  $Devices[1]  
-                    Web App Firewall -  $Devices[2]  
-                    Load Balancer -  $Devices[3]  
-                    HSM -  $Devices[4]'  ></i>";
+VM Quantity -  $Devices[0]  
+Internal & External Firewall -  $Devices[1]  
+Web App Firewall -  $Devices[2]  
+Load Balancer -  $Devices[3]  
+HSM -  $Devices[4]'  ></i>";
 
                 $vaptName = $vapt_type[$j] . ' ' . $vapt_frequency[$j] . ' ' . $vaptqty[$j];
-                tblRow("Services", $vaptName, array_sum($Devices), get_Price($vapt_type[$j]));
+                tblRow("Services", $vaptName . $info, array_sum($Devices), get_Price($vapt_type[$j]));
                 $Infrastructure['Security Solution']['vapt'] = array_sum($Devices) * get_Price($vapt_type[$j]);
                 $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($vapt_type[$j], 'sku_code')] = array_sum($Devices);
             }
             if (isset($hsm[$j])) {
-        ?>
-                <tr>
-                    <td><?php echo 'Services';
-                        ?></td>
-                    <td class='final'><?php echo $hsmtype[$j];
-                                        ?></td>
-                    <td class='qty'><?php echo $hsmqty[$j] . ' NO';
-                                    ?></td>
-                    <td class='cost unshareable'><?php INR(get_Price($hsmtype[$j]));
-                                                    ?></td>
-                    <td class='discount unshareable' id='disc'></td>
-                    <td class="mrc_<?= $j ?> unshareable"><?php INR(intval($hsmqty[$j]) * get_Price($hsmtype[$j]));
-                                                            $Infrastructure['Security Solution']['hsm'] = intval($hsmqty[$j]) * $product_prices['hsm'];
-                                                            $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($hsmtype[$j], 'sku_code')] = $hsmqty[$j];
-                                                            ?></td>
-                    <td class='unshareable' id='otc'><? ?></td>
-                </tr>
-            <?php }
+                tblRow("Services", $hsmtype, $hsmqty[$j], get_Price($hsmtype[$j]));
+
+                $Infrastructure['Security Solution']['hsm'] = intval($hsmqty[$j]) * $product_prices['hsm'];
+                $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($hsmtype[$j], 'sku_code')] = $hsmqty[$j];
+            }
             if (isset($iam[$j])) {
-            ?>
-                <tr>
-                    <td><?php echo 'Services';
-                        ?></td>
-                    <td class='final'><?php echo 'IAM';
-                                        ?></td>
-                    <td class='qty'><?php echo $iamqty[$j] . ' NO';
-                                    ?></td>
-                    <td class='cost unshareable'><?php INR($product_prices['iam']);
-                                                    ?></td>
-                    <td class='discount unshareable' id='disc'></td>
-                    <td class="mrc_<?= $j ?> unshareable"><?php INR(intval($iamqty[$j]) * $product_prices['iam']);
-                                                            $Infrastructure['Security Solution']['iam'] = intval($iamqty[$j]) * $product_prices['iam'];
-                                                            $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['iam']] = $iamqty[$j];
-                                                            ?></td>
-                    <td class='unshareable' id='otc'><? ?></td>
-                </tr>
-            <?php }
+                tblRow("Services", "IAM", $iamqty[$j], $product_prices['iam']);
+                $Infrastructure['Security Solution']['iam'] = intval($iamqty[$j]) * $product_prices['iam'];
+                $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['iam']] = $iamqty[$j];
+            }
             if (isset($dlp[$j])) {
-            ?>
-                <tr>
-                    <td><?php echo 'Services';
-                        ?></td>
-                    <td class='final'><?php echo 'DLP';
-                                        ?></td>
-                    <td class='qty'><?php echo $dlpqty[$j] . ' NO';
-                                    ?></td>
-                    <td class='cost unshareable'><?php INR($product_prices['dlp']);
-                                                    ?></td>
-                    <td class='discount unshareable' id='disc'></td>
-                    <td class="mrc_<?= $j ?> unshareable"><?php INR(intval($dlpqty[$j]) * $product_prices['dlp']);
-                                                            $Infrastructure['Security Solution']['dlp'] = intval($dlpqty[$j]) * $product_prices['dlp'];
-                                                            $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['dlp']] = $dlpqty[$j];
-                                                            ?></td>
-                    <td class='unshareable' id='otc'><? ?></td>
-                </tr>
-            <?php }
+                tblRow("Services", "DLP", $dlpqty[$j], $product_prices['dlp']);
+                $Infrastructure['Security Solution']['dlp'] = intval($dlpqty[$j]) * $product_prices['dlp'];
+                $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['dlp']] = $dlpqty[$j];
+            }
             if (isset($edr[$j])) {
-            ?>
-                <tr>
-                    <td><?php echo 'Services';
-                        ?></td>
-                    <td class='final'><?php echo 'EDR';
-                                        ?></td>
-                    <td class='qty'><?php echo $edrqty[$j] . ' NO';
-                                    ?></td>
-                    <td class='cost unshareable'><?php INR($product_prices['edr']);
-                                                    ?></td>
-                    <td class='discount unshareable' id='disc'></td>
-                    <td class="mrc_<?= $j ?> unshareable"><?php INR(intval($edrqty[$j]) * $product_prices['edr']);
-                                                            $Infrastructure['Security Solution']['edr'] = intval($edrqty[$j]) * $product_prices['edr'];
-                                                            $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['edr']] = $edrqty[$j];
-                                                            ?></td>
-                    <td class='unshareable' id='otc'><? ?></td>
-                </tr>
-            <?php }
+                tblRow("Services", "EDR", $edrqty[$j], $product_prices['edr']);
+                $Infrastructure['Security Solution']['edr'] = intval($edrqty[$j]) * $product_prices['edr'];
+                $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['edr']] = $edrqty[$j];
+            }
             if (isset($dam[$j])) {
-            ?>
-                <tr>
-                    <td><?php echo 'Services';
-                        ?></td>
-                    <td class='final'><?php echo 'DAM';
-                                        ?></td>
-                    <td class='qty'><?php echo $damqty[$j] . ' NO';
-                                    ?></td>
-                    <td class='cost unshareable'><?php INR($product_prices['dam']);
-                                                    ?></td>
-                    <td class='discount unshareable' id='disc'></td>
-                    <td class="mrc_<?= $j ?> unshareable"><?php INR(intval($damqty[$j]) * $product_prices['dam']);
-                                                            $Infrastructure['Security Solution']['dam'] = intval($damqty[$j]) * $product_prices['dam'];
-                                                            $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['dam']] = $damqty[$j];
-                                                            ?></td>
-                    <td class='unshareable' id='otc'><? ?></td>
-                </tr>
-            <?php }
+                tblRow("Services", "DAM", $damqty[$j], $product_prices['dam']);
+                $Infrastructure['Security Solution']['dam'] = intval($damqty[$j]) * $product_prices['dam'];
+                $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['dam']] = $damqty[$j];
+            }
             if (isset($sor[$j])) {
-            ?>
-                <tr>
-                    <td><?php echo 'Services';
-                        ?></td>
-                    <td class='final'><?php echo 'SOR';
-                                        ?></td>
-                    <td class='qty'><?php echo $sorqty[$j] . ' NO';
-                                    ?></td>
-                    <td class='cost unshareable'><?php INR($product_prices['sor']);
-                                                    ?></td>
-                    <td class='discount unshareable' id='disc'></td>
-                    <td class="mrc_<?= $j ?> unshareable"><?php INR(intval($sorqty[$j]) * $product_prices['sor']);
-                                                            $Infrastructure['Security Solution']['sor'] = intval($sorqty[$j]) * $product_prices['sor'];
-                                                            $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['sor']] = $sorqty[$j];
-                                                            ?></td>
-                    <td class='unshareable' id='otc'><? ?></td>
-                </tr>
-        <?php }
+                tblRow("Services", "SOR", $sorqty[$j], $product_prices['sor']);
+                $Infrastructure['Security Solution']['sor'] = intval($sorqty[$j]) * $product_prices['sor'];
+                $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['sor']] = $sorqty[$j];
+            }
         }
-        ?>
-
-        <tr>
-            <th class='Head except' id='sr'><?php $f = 'A.' . $no = $no + 1;
-                                            echo 'A.' . $no;
-                                            ?></th>
-            <th class='Head except' id='comp'>Managed Services</th>
-            <th class='Head except' id='unit'>Unit</th>
-            <th class='Head unshareable except' id='cost'>Cost/Unit</th>
-            <th class='Head unshareable except' id='disc-head'>Discount %</th>
-            <th class='Head unshareable except' id='mrc'>Monthly Cost</th>
-            <th class='Head unshareable except' id='otc'>OTC</th>
-        </tr>
-        <?php
-
-        // print_r( $os_data );
+        $f = 'A.' . $no = $no + 1;
+        tblHead("Managed Services");
 
         if (isset($rep_link_mgmt[$j])) {
             $replication_mgmt = (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0;
@@ -659,8 +562,6 @@ HSM -  $siemqty[4]'  ></i>";
             }
             $db_mgmt_data = (!empty($db_mgmt_name)) ? array_values(array_unique($db_mgmt_name)) : null;
         }
-        // print_r( $db_mgmt_data );
-
         if (isset($strgmgmt[$j])) {
             $strgmgmtqty = array(
                 ($strgunit03[$j] == 'TB') ? intval($iops03qty[$j]) * 1024 : intval($iops03qty[$j]),
@@ -673,12 +574,6 @@ HSM -  $siemqty[4]'  ></i>";
         } else {
             $strgmgmtqty = array();
         }
-        // if ( isset( $dbmgmt[ $j ] ) && !empty( $db ) ) {
-        //     foreach ( array_keys( $db[ $j ], 'NA' ) as $key ) {
-        //         unset( $db[ $j ][ $key ] );
-        //     }
-        //     $dbmgmtqty = count( $db[ $j ] );
-        // } else $dbmgmtqty = 0;
 
         if (isset($backup_mgmt[$j]) && !empty($backupstrg[$j])) {
             $backmgmtqty = (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0;
@@ -712,8 +607,6 @@ HSM -  $siemqty[4]'  ></i>";
         if (isset($_POST['emagic'][$j])) {
             $emagicqty = array(intval($lbmgmtqty), intval($fvmgmtqty), intval($wafmgmtqty), (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0, intval($ccptqty[$j]), $bandwidth_monitoring);
         }
-        // print_r( $emagicqty );
-
         $managed_services = array(
             'st_mg' => floor(array_sum($strgmgmtqty) / 1024) * $product_prices['st_mg'],
             'back_mg' => intval($backmgmtqty) * intval($product_prices['back_mg']),
@@ -753,7 +646,6 @@ HSM -  $siemqty[4]'  ></i>";
                 array_push($newInfra, $val);
             }
         }
-        // print_r( $newInfra )  ;
 
         $total[$j] = array(array_sum($newInfra), array_sum($managed_services));
 
@@ -765,6 +657,7 @@ HSM -  $siemqty[4]'  ></i>";
         $push_total[$j]['infra'] = $newInfra;
         $push_total[$j]['service'] = $managed_services;
 
+        tblRow('Services','One Time Infrastructure Setup' , '','',"", (array_sum($total[$j]) * 12) * 0.05)
         ?>
         <tr>
             <td><?php echo 'Services';
