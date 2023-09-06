@@ -21,8 +21,8 @@ $sql = "INSERT INTO `visitor_activity_logs` (`user_ip_address`, `emp_code`, `una
 $insert = mysqli_query($con,$sql);
 
 if($insert){
-    echo "<script>console.log('yes')</script>";
+    // echo "<script>console.log('yes')</script>";
 }else{
-    echo "<script>console.log('No')</script>";
+    // echo "<script>console.log('No')</script>";
 }
 ?>

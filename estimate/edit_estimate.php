@@ -3,7 +3,8 @@ if (isset($_GET['type'])) {
   include '../view/content-header.php';
   contentHeader('Estimate');
   // print_r($Editable);
-  ?>
+?>
+
   <div class="content Main">
     <div class="container mt-2 Main">
       <form action="final_quotation.php" class="form1" id="form1" method="post">
@@ -41,8 +42,7 @@ if (isset($_GET['type'])) {
           ?>
         </div>
         <div class="light py-2 rounded d-flex justify-content-center my-4">
-          <button class="Next-Btn" name="proceed" formtarget="_blank">Proceed <i
-              class="px-2 py-2  fa fa-angle-double-right"></i></button>
+          <button class="Next-Btn" name="proceed" formtarget="_blank">Proceed <i class="px-2 py-2  fa fa-angle-double-right"></i></button>
         </div>
       </form>
       <div class="except fab-container d-flex align-items-end flex-column">
@@ -67,19 +67,19 @@ if (isset($_GET['type'])) {
   </div>
 
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
       get_default();
       remove_arrow();
     })
 
-    $(".action").click(function () {
+    $(".action").click(function() {
       let act = $(this).prop('id');
       $.ajax({
         url: "../controller/test.php",
         method: "post",
         dataType: "TEXT",
         data: $("#form1").serialize(),
-        success: function (res) {
+        success: function(res) {
           $.ajax({
             url: '../model/remove_estmt.php',
             dataType: "TEXT",
@@ -92,11 +92,11 @@ if (isset($_GET['type'])) {
               'project_name': '<?= $_GET['project_name'] ?>',
               'period': $('#period_1').val(),
             },
-            success: function (response) {
+            success: function(response) {
               alert(response)
               if (act == "save") {
                 window.location.href = "index.php?all";
-              }else{
+              } else {
                 alert("Quotation updated Successfully ")
               }
             }
@@ -104,6 +104,7 @@ if (isset($_GET['type'])) {
         }
       })
     })
+
   </script>
 
 <?php

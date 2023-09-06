@@ -43,7 +43,7 @@ if (isset($_POST['name'])) {
                         let newId = $(this).prop('id');
                         let oldId = newId.replace(/<?= $id ?>/g, <?= $cloneId ?>);
                         if ($("#" + newId).prop("type") == "hidden") {
-                            console.log("yes");
+                            // console.log("yes");
                         } else
                         if ($("#" + oldId).val() != "") {
                             $("#" + newId).val($("#" + oldId).val());

@@ -1,7 +1,10 @@
 <?php
+require "../controller/constants.php";
 $Sku_Data = array();
 require_once "../controller/calculations.php";
-
+// echo "<pre>";
+// print_r($_Prices);
+// echo "</pre>";
 foreach ($estmtname as $j => $_Key) {
     $no = 0;
     $Infrastructure = array();
@@ -15,7 +18,7 @@ foreach ($estmtname as $j => $_Key) {
         <tr hidden></tr>
         <tr hidden></tr>
         <tr>
-            <th class='Head colspan except noExl' colspan='7' style='font-size: 30px;'>
+            <th class='Head colspan except noExl' colspan='8' style='font-size: 30px;'>
                 <?= $estmtname[$j] ?>
             </th>
         </tr>
@@ -51,10 +54,7 @@ foreach ($estmtname as $j => $_Key) {
 
                 $ProdName = $instance[$j][$i] . ' : ' . $compute[$j][$i] . ' | OS : ' . $os[$j][$i] . ' | DB : ' . $db[$j][$i];
 
-                tblRow($Service, $ProdName, $vmqty[$j][$i], $price);
-
-                $Infrastructure['VM' . $i] = GroupPrice()['VM' . $i];
-                $Infrastructure['VM' . $i][$vmname[$j][$i]] = intval($vmqty[$j][$i]) * $price;
+                tblRow($Service, $ProdName, $vmqty[$j][$i], $_Prices[$j]["VM{$i}"][$vmname[$j][$i]]);
             }
         }
 
@@ -67,17 +67,18 @@ foreach ($estmtname as $j => $_Key) {
             $db_data = (!empty($db[$j])) ? array_values(array_unique($db[$j])) : null;
             foreach ($vmqty[$j] as $i => $val) {
 
+
                 if ($os_data[$i] == 'Windows Standard Edition') {
                     // echo array_search($os,$EstmDATA);
-                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i], 2), $product_prices['win_se'], "Lic.");
+                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i], 2), PriceOs($os_data[$i], "os"), "Lic.");
                 }
 
                 if ($os_data[$i] == 'Windows Datacenter Edition') {
-                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i], 2), $product_prices['win_dc'], "Lic.");
+                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i], 2), PriceOs($os_data[$i], "os"), "Lic.");
                 }
 
                 if ($os_data[$i] == 'Linux : RHEL') {
-                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), $product_prices['rhel'], "Lic.");
+                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), PriceOs($os_data[$i], "os"), "Lic.");
                 }
 
                 if ($os_data[$i] == 'Linux : UBUNTU') {
@@ -89,50 +90,49 @@ foreach ($estmtname as $j => $_Key) {
                 }
 
                 if ($os_data[$i] == 'Linux : SUSE') {
-                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), $product_prices['suse'], "Lic.");
+                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), PriceOs($os_data[$i], "os"), "Lic.");
                 }
-                
             }
 
             foreach ($vmqty[$j] as $i => $val) {
                 if ($db_data[$i] == 'MS SQL Standard') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), $product_prices['ms_std'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), PriceOs($db_data[$i], "db"), " Lic.");
                 }
                 if ($db_data[$i] == 'MS SQL Enterprise') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), $product_prices['ms_ent'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), PriceOs($db_data[$i], "db"), " Lic.");
                 }
                 if ($db_data[$i] == 'MS SQL WEB') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), $product_prices['ms_web'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), PriceOs($db_data[$i], "db"), " Lic.");
                 }
                 if ($db_data[$i] == 'MY SQL Community') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['my_com'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), PriceOs($db_data[$i], "db"), " Lic.");
                 }
                 if ($db_data[$i] == 'MY SQL Standard') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 4), $product_prices['my_std'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 4), PriceOs($db_data[$i], "db"), " Lic.");
                 }
                 if ($db_data[$i] == 'MY SQL Enterprise') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 4), $product_prices['my_ent'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 4), PriceOs($db_data[$i], "db"), " Lic.");
                 }
                 if ($db_data[$i] == 'Postgre SQL Enterprise') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), $product_prices['post_ent'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), PriceOs($db_data[$i], "db"), " Lic.");
                 }
                 if ($db_data[$i] == 'Postgre SQL Community') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['post_com'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), PriceOs($db_data[$i], "db"), " Lic.");
                 }
                 if ($db_data[$i] == 'Oracle SQL Standard') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 8), $product_prices['orc_std'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 8), PriceOs($db_data[$i], "db"), " Lic.");
                 }
                 if ($db_data[$i] == 'Oracle SQL Enterprise') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), $product_prices['orc_ent'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), PriceOs($db_data[$i], "db"), " Lic.");
                 }
                 if ($db_data[$i] == 'Mongo DB Community') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['mong_com'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), PriceOs($db_data[$i], "db"), " Lic.");
                 }
                 if ($db_data[$i] == 'Maria DB Community') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['mar_com'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), PriceOs($db_data[$i], "db"), " Lic.");
                 }
                 if ($db_data[$i] == 'Other') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['mar_com'], " Lic.");
+                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), PriceOs($db_data[$i], "db"), " Lic.");
                 }
             }
             $Sku_Data[$estmtname[$j]] = SkuList();
@@ -150,14 +150,13 @@ foreach ($estmtname as $j => $_Key) {
                     $agentqty[$j][$i] = $EstmDATA['ageqty'][$j];
                 }
 
-                tblRow("Software", 'Backup Agent', array_sum($agentqty[$j]), $product_prices['backup_age']);
+                tblRow("Software", 'Backup Agent', array_sum($agentqty[$j]), $_Prices[$j]['Software']['Backup Agent']);
 
-                $Infrastructure['Software']['Backup Agent'] = array_sum($agentqty[$j]) * $product_prices['backup_age'];
                 $Sku_Data[$estmtname[$j]]['Software'][$product_sku['backup_age']] = array_sum($agentqty[$j]);
             }
             if (isset($drm_tool[$j])) {
                 $drm_tool_qty = (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0;
-                tblRow("Software", 'DRM Tool', $drm_tool_qty, $product_prices['drm_tool']);
+                tblRow("Software", 'DRM Tool', $drm_tool_qty, $_Prices[$j]['Software']['DRM Tool']);
                 $Infrastructure['Software']['DRM Tool'] = $drm_tool_qty * $product_prices['drm_tool'];
                 $Sku_Data[$estmtname[$j]]['Software'][$product_sku['drm_tool']] = $drm_tool_qty;
             }
@@ -168,64 +167,57 @@ foreach ($estmtname as $j => $_Key) {
             tblHead("Storage and Backup Services");
 
             if (isset($iops03[$j])) {
-                tblRow("Additional Storage", strg_iops($strgunit03[$j], 300), $iops03qty[$j], get_strg($strgunit03[$j], $product_prices['iops_03']), $strgunit03[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit03[$j], 300)] = get_strg($strgunit03[$j], $product_prices['iops_03'])*$iops03qty[$j];
+                tblRow("Additional Storage", strg_iops($strgunit03[$j], 300), $iops03qty[$j], $_Prices[$j]['Storage Solution'][strg_iops($strgunit03[$j], 300)], $strgunit03[$j]);
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_03']] = ($strgunit03[$j] == 'TB') ? intval($iops03qty[$j]) * 1024 : intval($iops03qty[$j]);
             }
             if (isset($iops1[$j])) {
-                tblRow("Additional Storage", strg_iops($strgunit1[$j], 1000), $iops1qty[$j], get_strg($strgunit1[$j], $product_prices['iops_1']), $strgunit1[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit1[$j], 1000)] = get_strg($strgunit1[$j], $product_prices['iops_1'])*$iops1qty[$j];
+                tblRow("Additional Storage", strg_iops($strgunit1[$j], 1000), $iops1qty[$j], $Infrastructure['Storage Solution'][strg_iops($strgunit1[$j], 1000)], $strgunit1[$j]);
+                $Infrastructure['Storage Solution'][strg_iops($strgunit1[$j], 1000)] = get_strg($strgunit1[$j], $product_prices['iops_1']) * $iops1qty[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_1']] = ($strgunit1[$j] == 'TB') ? intval($iops1qty[$j]) * 1024 : intval($iops1qty[$j]);
             }
 
             if (isset($iops3[$j])) {
-                tblRow("Additional Storage", strg_iops($strgunit3[$j], 3000), $iops3qty[$j], get_strg($strgunit3[$j], $product_prices['iops_3']), $strgunit3[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit3[$j], 3000)] = get_strg($strgunit3[$j], $product_prices['iops_3'])*$iops3qty[$j];
+                tblRow("Additional Storage", strg_iops($strgunit3[$j], 3000), $iops3qty[$j], $_Prices[$j]['Storage Solution'][strg_iops($strgunit3[$j], 3000)], $strgunit3[$j]);
+                $Infrastructure['Storage Solution'][strg_iops($strgunit3[$j], 3000)] = get_strg($strgunit3[$j], $product_prices['iops_3']) * $iops3qty[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_3']] = ($strgunit3[$j] == 'TB') ? intval($iops3qty[$j]) * 1024 : intval($iops3qty[$j]);
             }
 
             if (isset($iops5[$j])) {
-                tblRow("Additional Storage", strg_iops($strgunit5[$j], 5000), $iops5qty[$j], get_strg($strgunit5[$j], $product_prices['iops_5']), $strgunit5[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit5[$j], 5000)] = get_strg($strgunit5[$j], $product_prices['iops_5'])*$iops5qty[$j];
+                tblRow("Additional Storage", strg_iops($strgunit5[$j], 5000), $iops5qty[$j], $_Prices[$j]['Storage Solution'][strg_iops($strgunit5[$j], 5000)], $strgunit5[$j]);
+                $Infrastructure['Storage Solution'][strg_iops($strgunit5[$j], 5000)] = get_strg($strgunit5[$j], $product_prices['iops_5']) * $iops5qty[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_5']] = ($strgunit5[$j] == 'TB') ? intval($iops5qty[$j]) * 1024 : intval($iops5qty[$j]);
             }
 
             if (isset($iops8[$j])) {
-                tblRow("Additional Storage", strg_iops($strgunit8[$j], 8000), $iops8qty[$j], get_strg($strgunit8[$j], $product_prices['iops_8']), $strgunit8[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit8[$j], 8000)] = get_strg($strgunit8[$j], $product_prices['iops_8'])*$iops8qty[$j];
+                tblRow("Additional Storage", strg_iops($strgunit8[$j], 8000), $iops8qty[$j], $_Prices[$j]['Storage Solution'][strg_iops($strgunit8[$j], 8000)], $strgunit8[$j]);
+                $Infrastructure['Storage Solution'][strg_iops($strgunit8[$j], 8000)] = get_strg($strgunit8[$j], $product_prices['iops_8']) * $iops8qty[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_8']] = ($strgunit8[$j] == 'TB') ? intval($iops8qty[$j]) * 1024 : intval($iops8qty[$j]);
             }
             if (isset($iops10[$j])) {
-                tblRow("Additional Storage", strg_iops($strgunit10[$j], 10000), $iops10qty[$j], get_strg($strgunit10[$j], $product_prices['iops_10']), $strgunit10[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit10[$j], 10000)] = get_strg($strgunit10[$j], $product_prices['iops_10'])*$iops10qty[$j];
+                tblRow("Additional Storage", strg_iops($strgunit10[$j], 10000), $iops10qty[$j], $_Prices[$j]['Storage Solution'][strg_iops($strgunit10[$j], 10000)], $strgunit10[$j]);
+                $Infrastructure['Storage Solution'][strg_iops($strgunit10[$j], 10000)] = get_strg($strgunit10[$j], $product_prices['iops_10']) * $iops10qty[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_10']] = ($strgunit10[$j] == 'TB') ? intval($iops10qty[$j]) * 1024 : intval($iops10qty[$j]);
             }
-
             if (!empty($backupstrg[$j])) {
-                tblRow("Backup Storage", 'Backup Space', $backupstrg[$j], get_strg($backupunit[$j], $product_prices['backup_gb']), $backupunit[$j]);
-                $Infrastructure['Storage Solution']['Backup Space'] = get_strg($backupunit[$j], $product_prices['backup_gb']) * $backupstrg[$j];
+                tblRow("Backup Storage", 'Backup Space', $backupstrg[$j], $_Prices[$j]['Storage Solution']['Backup Space'], $backupunit[$j]);
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['backup_gb']] = ($backupunit[$j] == 'TB') ? intval($backupstrg[$j]) * 1024 : intval($backupstrg[$j]);
             }
             if (!empty($arc_strg[$j])) {
-                tblRow("Archival Storage", 'Archival Space', $arc_strg[$j], get_strg($archival_unit[$j], $product_prices['arc_strg_gb']), $archival_unit[$j]);
-                $Infrastructure['Storage Solution']['Archival Space'] = get_strg($archival_unit[$j], $product_prices['arc_strg_gb'], $arc_strg[$j]);
+                tblRow("Archival Storage", 'Archival Space', $arc_strg[$j], $_Prices[$j]['Storage Solution']['Archival Space'], $archival_unit[$j]);
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['arc_strg_gb']] = ($archival_unit[$j] == 'TB') ? intval($arc_strg[$j]) * 1024 : intval($arc_strg[$j]);
             }
             if (isset($tape_lib[$j])) {
-                tblRow('Offline Backup', 'Offline Backup Solution Tape Library', $tlqty[$j], $product_prices['tl']);
-                $Infrastructure['Storage Solution']['Offline Backup Solution Tape Library'] = intval($tlqty[$j]) * $product_prices['tl'];
+                tblRow('Offline Backup', 'Offline Backup Solution Tape Library', $_Prices[$j]['Storage Solution']['Offline Backup Solution Tape Library'], $product_prices['tl']);
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['tl']] = $tlqty[$j];
             }
 
             if (isset($tape_cart[$j])) {
-                tblRow('Offline Backup', 'Offline Backup Solution Tape Cartridge', $tcqty[$j], $product_prices['tc']);
-                $Infrastructure['Storage Solution']['Offline Backup Solution Tape Cartridge'] = intval($tcqty[$j]) * $product_prices['tc'];
+                tblRow('Offline Backup', 'Offline Backup Solution Tape Cartridge', $_Prices[$j]['Storage Solution']['Offline Backup Solution Tape Cartridge'], $product_prices['tc']);
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['tc']] = $tcqty[$j];
             }
 
             if (isset($fire_cab[$j])) {
-                tblRow('Offline Backup', 'Offline Backup Solution Fireproof cabinate', $fcqty[$j], $product_prices['fc']);
-                $Infrastructure['Storage Solution']['Offline Backup Solution Fireproof cabinate'] = intval($fcqty[$j]) * $product_prices['fc'];
+                tblRow('Offline Backup', 'Offline Backup Solution Fireproof cabinate', $_Prices[$j]['Storage Solution']['Offline Backup Solution Fireproof cabinate'], $product_prices['fc']);
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['fc']] = $fcqty[$j];
             }
         }
@@ -234,39 +226,39 @@ foreach ($estmtname as $j => $_Key) {
             $c .= ' +';
             tblHead("Colocation Services");
             if (isset($rack[$j])) {
-                tblRow('Services', 'Rack Space', $rackqty[$j], $product_prices['rack_space'], "U");
+                tblRow('Services', 'Rack Space', $rackqty[$j], $_Prices[$j]['Colocation']['Rack Space'], "U");
                 $Infrastructure['Colocation']['Rack Space'] = ($rackqty[$j] * $product_prices['rack_space']);
                 $Sku_Data[$estmtname[$j]]['Colocation'][$product_sku['rack_space']] = ($rackqty[$j]);
             }
             if (isset($metered[$j])) {
-                tblRow('Services', 'Metered Power', $meteredqty[$j], $product_prices['metered_power'], "Power Unit");
+                tblRow('Services', 'Metered Power', $meteredqty[$j], $_Prices[$j]['Colocation']['metered_power'], "Power Unit");
                 $Infrastructure['Colocation']['metered_power'] = ($meteredqty[$j] * $product_prices['metered_power']);
                 $Sku_Data[$estmtname[$j]]['Colocation'][$product_sku['metered_power']] = ($meteredqty[$j]);
             }
             if (isset($rated[$j])) {
-                tblRow('Services', 'Rated Power', $ratedqty[$j], $product_prices['rated_power'], "Power Unit");
+                tblRow('Services', 'Rated Power', $ratedqty[$j], $_Prices[$j]['Colocation']['rated_power'], "Power Unit");
                 $Infrastructure['Colocation']['rated_power'] = ($ratedqty[$j] * $product_prices['rated_power']);
                 $Sku_Data[$estmtname[$j]]['Colocation'][$product_sku['rated_power']] = ($ratedqty[$j]);
             }
 
             if (isset($cage[$j])) {
-                tblRow('Services', 'Cage For RACK', $cageqty[$j], $product_prices['cage']);
+                tblRow('Services', 'Cage For RACK', $cageqty[$j], $_Prices[$j]['Colocation']['cage']);
                 $Infrastructure['Colocation']['cage'] = ($cageqty[$j] * $product_prices['cage']);
                 $Sku_Data[$estmtname[$j]]['Colocation'][$product_sku['cage']] = ($cageqty[$j]);
             }
             if (isset($bio[$j])) {
-                tblRow('Services', 'Bio-matrix for Cage', $bioqty[$j], $product_prices['bio']);
+                tblRow('Services', 'Bio-matrix for Cage', $bioqty[$j], $_Prices[$j]['Colocation']['bio']);
                 $Infrastructure['Colocation']['bio'] = ($bioqty[$j] * $product_prices['bio']);
                 $Sku_Data[$estmtname[$j]]['Colocation'][$product_sku['bio']] = ($bioqty[$j]);
             }
             if (isset($pdu[$j])) {
-                tblRow('Services', 'PDU Meter', $pduqty[$j], $product_prices['pdu']);
+                tblRow('Services', 'PDU Meter', $pduqty[$j], $_Prices[$j]['Colocation']['pdu']);
                 $Infrastructure['Colocation']['pdu'] = ($pduqty[$j] * $product_prices['pdu']);
                 $Sku_Data[$estmtname[$j]]['Colocation'][$product_sku['pdu']] = ($pduqty[$j]);
             }
 
             if (isset($cctv[$j])) {
-                tblRow('Services', 'CCTV Camera fo Rack', $cctvqty[$j], $product_prices['cctv']);
+                tblRow('Services', 'CCTV Camera fo Rack', $cctvqty[$j], $_Prices[$j]['Colocation']['cctv']);
                 $Infrastructure['Colocation']['cctv'] = ($cctvqty[$j] * $product_prices['cctv']);
                 $Sku_Data[$estmtname[$j]]['Colocation'][$product_sku['cctv']] = ($cctvqty[$j]);
             }
@@ -284,8 +276,8 @@ foreach ($estmtname as $j => $_Key) {
             tblHead("Network and Connectivity Services");
             foreach ($vmqty[$j] as $i => $val) {
                 if (isset($public_data[$j][$i])) {
-                    tblRow('Services', 'Public IP Address : ' . $publicip_vers[$j][$i], array_sum($publicip_qty[$j]), $product_prices['ip']);
-                    $Infrastructure['Network Solution']['ip'] = array_sum($publicip_qty[$j]) * $product_prices['ip'];
+                    tblRow('Services', 'Public IP Address : ' . $publicip_vers[$j][$i], array_sum($publicip_qty[$j]), $_Prices[$j]['Network Solution']['ip']);
+
                     $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['ip']] = array_sum($publicip_qty[$j]);
                 }
 
@@ -297,36 +289,36 @@ foreach ($estmtname as $j => $_Key) {
             if (!empty($bandwidth[$j])) {
                 $bandInt = ($bandwidthType[$j] == 'Speed Based Internet Bandwidth') ? 'speed_band' : 'volume_band';
                 $bandUnit = ($bandwidthType[$j] == 'Speed Based Internet Bandwidth') ? ' Mbps' : ' GB';
-                tblRow('Services', $bandwidthType[$j], $bandwidth[$j], $product_prices[$bandInt], $bandUnit);
+                tblRow('Services', $bandwidthType[$j], $bandwidth[$j], $_Prices[$j]['Network Solution']['bandwidth'], $bandUnit);
                 $Infrastructure['Network Solution']['bandwidth'] = intval($product_prices[$bandInt]) * intval($bandwidth[$j]);
                 $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku[$bandInt]] = $bandwidth[$j];
             }
             if (!empty($ccptqty[$j])) {
-                tblRow('Services', "Cross Connect and Port Termination", $ccptqty[$j], $product_prices['ccpt']);
+                tblRow('Services', "Cross Connect and Port Termination", $ccptqty[$j], $_Prices[$j]['Network Solution']['ccpt']);
                 $Infrastructure['Network Solution']['ccpt'] = intval($product_prices['ccpt']) * intval($ccptqty[$j]);
                 $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['ccpt']] = $ccptqty[$j];
             }
 
             if (isset($rep_link[$j])) {
-                tblRow('Services', $rep_link_type[$j] . ' Replication Link', $rep_link_qty[$j], get_Price($rep_link_type[$j]), "Mbps");
+                tblRow('Services', $rep_link_type[$j] . ' Replication Link', $rep_link_qty[$j], $_Prices[$j]['Network Solution']['rep_link'], "Mbps");
                 $Infrastructure['Network Solution']['rep_link'] = intval($rep_link_qty[$j]) * get_Price($rep_link_type[$j]);
                 $Sku_Data[$estmtname[$j]]['Network Solution']['CNPP000000000000'] = $rep_link_qty[$j];
             }
 
             if (!empty($ipsec[$j])) {
-                tblRow('Services', 'Virtual Private Network (VPN) : IPSEC', $ipsecqty[$j], $product_prices['ipsec']);
+                tblRow('Services', 'Virtual Private Network (VPN) : IPSEC', $ipsecqty[$j], $_Prices[$j]['Network Solution']['ipsec']);
                 $Infrastructure['Network Solution']['ipsec'] = intval($ipsecqty[$j]) * $product_prices['ipsec'];
                 $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['ipsec']] = $ipsecqty[$j];
             }
 
             if (!empty($sslvpn[$j])) {
-                tblRow('Services', 'Virtual Private Network (VPN) : SSL', $sslvpnqty[$j], $product_prices['ssl_vpn']);
+                tblRow('Services', 'Virtual Private Network (VPN) : SSL', $sslvpnqty[$j], $_Prices[$j]['Network Solution']['sslvpn']);
                 $Infrastructure['Network Solution']['sslvpn'] = intval($sslvpnqty[$j]) * $product_prices['ssl_vpn'];
                 $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['ssl_vpn']] = $sslvpnqty[$j];
             }
 
             if (!empty($lb[$j])) {
-                tblRow('Services', 'Load Balancer', $lbqty[$j], get_Price($lb[$j]));
+                tblRow('Services', 'Load Balancer', $lbqty[$j], $_Prices[$j]['Network Solution']['lb']);
                 $Infrastructure['Network Solution']['lb'] = get_Price($lb[$j]) * intval($lbqty[$j]);
                 $Sku_Data[$estmtname[$j]]['Network Solution']['INLBPLCI00000000'] = $lbqty[$j];
             }
@@ -354,9 +346,7 @@ foreach ($estmtname as $j => $_Key) {
                 $av_count = array();
                 foreach ($vmqty[$j] as $i => $val) {
                     if (!empty($av_type[$j][$i])) {
-                        // $av_type[ $j ][ $key ] = $val;
                         $newAV = $av_type[$j][$i];
-                        // echo $vmqty[ $j ][ $i ];
                         array_push($av_count, $vmqty[$j][$i]);
                     } else {
                         unset($av_type[$j][$i]);
@@ -368,47 +358,37 @@ foreach ($estmtname as $j => $_Key) {
 
             if (!empty($newAV)) {
                 $avPrice = (preg_match('/HIPS/', $newAV)) ? 1200 : 300;
-                tblRow('Services', $newAV, array_sum($av_count), $avPrice);
-                $Infrastructure['Security Solution']['av'] = (preg_match('/HIPS/', $newAV)) ? (array_sum($av_count) * 1200) : (array_sum($av_count) * 300);
+                tblRow('Services', $newAV, array_sum($av_count), $_Prices[$j]['Security Solution']['av']);
                 $Sku_Data[$estmtname[$j]]['Security Solution']['ESAVAHMA00000000'] = array_sum($av_count);
             }
             if (isset($ext_firewall[$j])) {
                 $throughput = preg_split('/:/', $efv_throughput[$j]);
                 $efvName = ((isset($utm[$j])) ? ('vUTM ') : ('')) . "External Firewall - {$throughput[1]} Throughput";
-
-                tblRow('Services', $efvName, $extfvqty[$j], get_Price($efv_throughput[$j]));
-
-                $Infrastructure['Security Solution']['efw'] = intval($extfvqty[$j]) * get_Price($efv_throughput[$j]);
+                tblRow('Services', $efvName, $extfvqty[$j], $_Prices[$j]['Security Solution']['efw']);
                 $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($efv_throughput[$j], 'sku_code')] = $extfvqty[$j];
             }
             if (isset($int_fv[$j])) {
                 $throughput = preg_split('/:/', $ifv_throughput[$j]);
                 $ifvName = "Internal Firewall - {$throughput[1]} Throughput";
-
-                tblRow('Services', $ifvName, $intfvqty[$j], get_Price($ifv_throughput[$j]));
-                $Infrastructure['Security Solution']['ifw'] = intval($intfvqty[$j]) * get_Price($ifv_throughput[$j]);
+                tblRow('Services', $ifvName, $intfvqty[$j], $_Prices[$j]['Security Solution']['ifw']);
                 $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($ifv_throughput[$j], 'sku_code')] = $intfvqty[$j];
             }
             if (isset($ddos[$j])) {
                 $ddosName = "DDoS Mitigation up to 1 Gbps Mitigation";
-                tblRow('Services', $ddosName, 1, get_Price($ddos_throughput[$j]));
+                tblRow('Services', $ddosName, 1, $_Prices[$j]['Security Solution']['ddos']);
 
-                $Infrastructure['Security Solution']['ddos'] = intval(1) * get_Price($ddos_throughput[$j]);
                 $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($ddos_throughput[$j], 'sku_code')] = 1;
             }
             if (isset($waf[$j])) {
-                tblRow('Services', $waf_name[$j], $wafqty[$j], get_Price($waf_name[$j]));
-                $Infrastructure['Security Solution']['waf'] = intval($wafqty[$j]) * get_Price($waf_name[$j]);
+                tblRow('Services', $waf_name[$j], $wafqty[$j], $_Prices[$j]['Security Solution']['waf']);
                 $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($waf_name[$j], 'sku_code')] = $wafqty[$j];
             }
             if (isset($tfa[$j])) {
-                tblRow('Services', "Two Factor Authentication", $tfaqty[$j], $product_prices['tfa']);
-                $Infrastructure['Security Solution']['tfa'] = intval($tfaqty[$j]) * $product_prices['tfa'];
+                tblRow('Services', "Two Factor Authentication", $tfaqty[$j], $_Prices[$j]['Security Solution']['tfa']);
                 $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['tfa']] = $tfaqty[$j][1];
             }
             if (isset($sslcert[$j])) {
-                tblRow('Services', 'SSL Certificate : ' . $ssl[$j], $sslqty[$j], get_Price($ssl[$j]));
-                $Infrastructure['Security Solution']['ssl'] = get_Price($ssl[$j]) * intval($sslqty[$j]);
+                tblRow('Services', 'SSL Certificate : ' . $ssl[$j], $sslqty[$j], $_Prices[$j]['Security Solution']['ssl']);
                 $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($ssl[$j], 'sku_code')] = $sslqty[$j];
             }
             if (isset($siem[$j])) {
@@ -426,17 +406,17 @@ Internal & External Firewall -  $siemqty[1]
 Web App Firewall -  $siemqty[2]  
 Load Balancer -  $siemqty[3]  
 HSM -  $siemqty[4]'  ></i>";
-                tblRow("Services", "SIEM " . $info, array_sum($siemqty), get_Price($siem_name[$j]));
+                tblRow("Services", "SIEM " . $info, array_sum($siemqty), $_Prices[$j]['Security Solution']['siem']);
                 $Infrastructure['Security Solution']['siem'] = array_sum($siemqty) * get_Price($siem_name[$j]);
                 $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($siem_name[$j], 'sku_code')] = array_sum($siemqty);
             }
             if (isset($pim[$j])) {
-                tblRow("Services", "PIM ", $pimqty[$j], $product_prices['pim']);
+                tblRow("Services", "PIM ", $pimqty[$j], $_Prices[$j]['Security Solution']['pim']);
                 $Infrastructure['Security Solution']['pim'] = intval($pimqty[$j]) * $product_prices['pim'];
                 $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['pim']] = $pimqty[$j];
             }
             if (isset($vtm[$j])) {
-                tblRow("Services", "VTM Scan ( {$vtmqty[$j]} )", 1, get_Price($vtmqty[$j]));
+                tblRow("Services", "VTM Scan ( {$vtmqty[$j]} )", 1, $_Prices[$j]['Security Solution']['vtm']);
                 $Infrastructure['Security Solution']['vtm'] = get_Price($vtmqty[$j]);
                 $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($vtmqty[$j], 'sku_code')] = 1;
             }
@@ -458,38 +438,37 @@ Load Balancer -  $Devices[3]
 HSM -  $Devices[4]'  ></i>";
 
                 $vaptName = $vapt_type[$j] . ' ' . $vapt_frequency[$j] . ' ' . $vaptqty[$j];
-                tblRow("Services", $vaptName . $info, array_sum($Devices), get_Price($vapt_type[$j]));
+                tblRow("Services", $vaptName . $info, array_sum($Devices), $_Prices[$j]['Security Solution']['vapt']);
                 $Infrastructure['Security Solution']['vapt'] = array_sum($Devices) * get_Price($vapt_type[$j]);
                 $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($vapt_type[$j], 'sku_code')] = array_sum($Devices);
             }
             if (isset($hsm[$j])) {
-                tblRow("Services", $hsmtype, $hsmqty[$j], get_Price($hsmtype[$j]));
-
+                tblRow("Services", $hsmtype, $hsmqty[$j], $_Prices[$j]['Security Solution']['hsm']);
                 $Infrastructure['Security Solution']['hsm'] = intval($hsmqty[$j]) * $product_prices['hsm'];
                 $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($hsmtype[$j], 'sku_code')] = $hsmqty[$j];
             }
             if (isset($iam[$j])) {
-                tblRow("Services", "IAM", $iamqty[$j], $product_prices['iam']);
+                tblRow("Services", "IAM", $iamqty[$j], $_Prices[$j]['Security Solution']['iam']);
                 $Infrastructure['Security Solution']['iam'] = intval($iamqty[$j]) * $product_prices['iam'];
                 $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['iam']] = $iamqty[$j];
             }
             if (isset($dlp[$j])) {
-                tblRow("Services", "DLP", $dlpqty[$j], $product_prices['dlp']);
+                tblRow("Services", "DLP", $dlpqty[$j], $_Prices[$j]['Security Solution']['dlp']);
                 $Infrastructure['Security Solution']['dlp'] = intval($dlpqty[$j]) * $product_prices['dlp'];
                 $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['dlp']] = $dlpqty[$j];
             }
             if (isset($edr[$j])) {
-                tblRow("Services", "EDR", $edrqty[$j], $product_prices['edr']);
+                tblRow("Services", "EDR", $edrqty[$j], $_Prices[$j]['Security Solution']['edr']);
                 $Infrastructure['Security Solution']['edr'] = intval($edrqty[$j]) * $product_prices['edr'];
                 $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['edr']] = $edrqty[$j];
             }
             if (isset($dam[$j])) {
-                tblRow("Services", "DAM", $damqty[$j], $product_prices['dam']);
+                tblRow("Services", "DAM", $damqty[$j], $_Prices[$j]['Security Solution']['dam']);
                 $Infrastructure['Security Solution']['dam'] = intval($damqty[$j]) * $product_prices['dam'];
                 $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['dam']] = $damqty[$j];
             }
             if (isset($sor[$j])) {
-                tblRow("Services", "SOR", $sorqty[$j], $product_prices['sor']);
+                tblRow("Services", "SOR", $sorqty[$j], $_Prices[$j]['Security Solution']['sor']);
                 $Infrastructure['Security Solution']['sor'] = intval($sorqty[$j]) * $product_prices['sor'];
                 $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['sor']] = $sorqty[$j];
             }
@@ -614,34 +593,6 @@ HSM -  $Devices[4]'  ></i>";
         if (isset($EstmDATA['emagic'][$j])) {
             $emagicqty = array(intval($lbmgmtqty), intval($fvmgmtqty), intval($wafmgmtqty), (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0, intval($ccptqty[$j]), $bandwidth_monitoring);
         }
-        $managed_services = array(
-            'st_mg' => floor(array_sum($strgmgmtqty) / 1024) * $product_prices['st_mg'],
-            'back_mg' => intval($backmgmtqty) * intval($product_prices['back_mg']),
-            'rep_mgmt' => $replication_mgmt * $product_prices['rep_mgmt'],
-            'dr_drill' => intval($drill_qty[$j]) * $product_prices['dr_drill'],
-            'lb_mgmt' => intval($lbmgmtqty) * intval($product_prices['lb_mg']),
-            'fw_mgmt' => (isset($utm[$j])) ? $product_prices['utm_fv_mg'] * intval($fvmgmtqty) : $product_prices['fv_mg'] * intval($fvmgmtqty),
-            'waf_mgmt' => intval($wafmgmtqty) * intval($product_prices['waf_mg']),
-            'emagic' => (isset($EstmDATA['emagic'][$j])) ? array_sum($emagicqty) * intval($product_prices['emagic']) : 0
-        );
-        if (isset($osmgmt[$j]) && !empty($os_mgmt_name)) {
-            for (
-                $i = 0;
-                $i < count($os_mgmt_data);
-                $i++
-            ) {
-                $managed_services[$mgmtINT[$os_mgmt_data[$i]]] = array_sum($os_mgmt_qty[$os_mgmt_data[$i]]) * intval($product_prices[$mgmtINT[$os_mgmt_data[$i]]]);
-            }
-        }
-        if (isset($dbmgmt[$j]) && !empty($db_mgmt_name)) {
-            for (
-                $i = 0;
-                $i < count($db_mgmt_data);
-                $i++
-            ) {
-                $managed_services[$mgmtINT[$db_mgmt_data[$i]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]) * intval($product_prices[$mgmtINT[$db_mgmt_data[$i]]]);
-            }
-        }
 
         $newInfra = array();
         foreach ($Infrastructure as $key => $val) {
@@ -654,63 +605,59 @@ HSM -  $Devices[4]'  ></i>";
             }
         }
 
-        $total[$j] = array(array_sum($newInfra), array_sum($managed_services));
 
         $period = $EstmDATA['period'];
         if (empty($period[$j])) {
             $period[$j] = 1;
         }
 
-        $push_total[$j]['infra'] = $newInfra;
-        $push_total[$j]['service'] = $managed_services;
-
-        tblRow('Services', 'One Time Infrastructure Setup', '', '', "", (array_sum($total[$j]) * 12) * 0.05);
+        tblRow('Services', 'One Time Infrastructure Setup', '', '', "");
 
 
         if (isset($osmgmt[$j]) && !empty($os_mgmt_name)) {
             for ($i = 0; $i < count($os_mgmt_data); $i++) {
-                tblRow("Services", $os_mgmt_data[$i] . ' OS Managed Services', array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $product_prices[$mgmtINT[$os_mgmt_data[$i]]]);
+                tblRow("Services", $os_mgmt_data[$i] . ' OS Managed Services', array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $_Prices[$j]['Managed Services'][$mgmtINT[$os_mgmt_data[$i]]]);
                 $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$mgmtINT[$os_mgmt_data[$i]]]] = array_sum($os_mgmt_qty[$os_mgmt_data[$i]]);
             }
         }
         if (isset($dbmgmt[$j]) && !empty($db_mgmt_data)) {
             for ($i = 0; $i < count($db_mgmt_data); $i++) {
                 $name = $db_mgmt_data[$i] . ' Database Managed Services (Up to 100 GB)';
-                tblRow("Service", $name, array_sum($db_mgmt_qty[$db_mgmt_data[$i]]), $product_prices[$mgmtINT[$db_mgmt_data[$i]]]);
+                tblRow("Service", $name, array_sum($db_mgmt_qty[$db_mgmt_data[$i]]), $_Prices[$j]['Managed Services'][$mgmtINT[$db_mgmt_data[$i]]]);
                 $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$mgmtINT[$db_mgmt_data[$i]]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]);
                 $managed_services[$mgmtINT[$db_mgmt_data[$i]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]) * intval($product_prices[$mgmtINT[$db_mgmt_data[$i]]]);
             }
         }
         if (isset($strgmgmt[$j])) {
-            tblRow("Service", "Storage Management Per TB'", floor(array_sum($strgmgmtqty) / 1024), $product_prices['st_mg']);
+            tblRow("Service", "Storage Management Per TB'", floor(array_sum($strgmgmtqty) / 1024), $_Prices[$j]['Managed Services']["st_mg"]);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['st_mg']] = floor(array_sum($strgmgmtqty) / 1024);
         }
         if (isset($backup_mgmt[$j])) {
-            tblRow("Service", 'Backup Management - per Instance', $backmgmtqty, $product_prices['back_mg']);
+            tblRow("Service", 'Backup Management - per Instance', $backmgmtqty, $_Prices[$j]['Managed Services']["back_mg"]);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['back_mg']] = $backmgmtqty;
         }
         if (isset($rep_link_mgmt[$j])) {
-            tblRow("Service", 'Replication Service Management', $replication_mgmt, $product_prices['rep_mgmt']);
+            tblRow("Service", 'Replication Service Management', $replication_mgmt, $_Prices[$j]['Managed Services']['rep_mgmt']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['rep_mgmt']] = $replication_mgmt;
         }
 
         if (isset($dr_drill[$j])) {
-            tblRow("Service", 'DR Drill Per Year', $drill_qty, $product_prices['dr_drill']);
+            tblRow("Service", 'DR Drill Per Year', $drill_qty, $_Prices[$j]['Managed Services']["dr_drill"]);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['dr_drill']] = $drill_qty[$j];
         }
 
         if (isset($lbmgmt[$j])) {
-            tblRow("Service", 'Load Balancer Management', $lbmgmtqty, $product_prices['lb_mg']);
+            tblRow("Service", 'Load Balancer Management', $lbmgmtqty, $_Prices[$j]['Managed Services']['lb_mgmt']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['lb_mg']] = $lbmgmtqty;
         }
         if (isset($fvmgmt[$j])) {
             $name = ((isset($utm[$j])) ? 'vUTM ' : '') . "FireWall Management";
             $price = (isset($utm[$j])) ? ($product_prices['utm_fv_mg']) : ($product_prices['fv_mg']);
-            tblRow("Service", $name, $fvmgmtqty, $price);
+            tblRow("Service", $name, $fvmgmtqty, $_Prices[$j]['Managed Services']["fw_mgmt"]);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['fv_mg']] = $fvmgmtqty;
         }
         if (isset($wafmgmt[$j])) {
-            tblRow("Service", "Web Application Firewall Management", $wafmgmtqty, $product_prices['waf_mg']);
+            tblRow("Service", "Web Application Firewall Management", $wafmgmtqty, $_Prices[$j]['Managed Services']['waf_mgmt']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['waf_mg']] = $wafmgmtqty;
         }
 
@@ -722,14 +669,14 @@ Web App Firewall - $emagicqty[2]
 VM Quantity - $emagicqty[3]
 Cross Connect & Port Termination - $emagicqty[4] 
 Bandwidth Monitoring - $emagicqty[5] '></i>";
-$name = 'eMagic Monitoring ' . $emagic_type[$j];
-            tblRow("Services", $name , array_sum($emagicqty), $product_prices['emagic']);
+            $name = 'eMagic Monitoring ' . $emagic_type[$j];
+            tblRow("Services", $name, array_sum($emagicqty), $_Prices[$j]['Managed Services']['emagic']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['emagic']] = array_sum($emagicqty);
         }
         ?>
         <tr>
             <th class='except unshareable' style='background: rgba(212,212,212,1); '> Sr No . </th>
-            <th class=' final colspan except unshareable' colspan='4' style='background: rgba(212,212,212,1); '> Description </th>
+            <th class=' final colspan except unshareable' colspan='5' style='background: rgba(212,212,212,1); '> Description </th>
             <th class='colspan except unshareable' style='background: rgba(212,212,212,1);' colspan='2'>MRC</th>
         </tr>
         <?php
@@ -740,13 +687,12 @@ $name = 'eMagic Monitoring ' . $emagic_type[$j];
                 <td class='unshareable'>
                     <?= $m + 1 ?>
                 </td>
-                <td class='colspan  final unshareable' colspan='4'> Infrastructure [ <?= $a . ' ' ?>
+                <td class='colspan  final unshareable' colspan='5'> Infrastructure [ <?= $a . ' ' ?>
                     <?= $b . ' ' ?>
                     <?= $c . ' ' ?>
                     <?= $d . ' ' ?>
                     <?= $e . ' ' ?> ]</td>
-                <td class='colspan unshareable ' colspan='2'><?php INR(array_sum($newInfra));
-                                                                ?></td>
+                <td class='colspan unshareable ' colspan='2'></td>
             </tr>
         <?php }
         ?>
@@ -754,45 +700,36 @@ $name = 'eMagic Monitoring ' . $emagic_type[$j];
             <td class='unshareable'>
                 <?= $m = $m + 1 ?>
             </td>
-            <td class='colspan final unshareable' colspan='4'> Managed Services [ <?= $f ?> ] </td>
-            <td class='colspan unshareable' colspan='2'><?php INR(array_sum($managed_services));
-                                                        ?></td>
+            <td class='colspan final unshareable' colspan='5'> Managed Services [ <?= $f ?> ] </td>
+            <td class='colspan unshareable' colspan='2'></td>
         </tr>
 
         <tr>
             <td class='unshareable'>
                 <?= $m = $m + 1 ?>
             </td>
-            <td class='colspan final unshareable' colspan='4'> One Time Cost </td>
-            <td class='colspan unshareable' colspan='2'>
-                <?= INR((array_sum($total[$j]) * 12) * 0.05); ?>
-            </td>
+            <td class='colspan final unshareable' colspan='5'> One Time Cost </td>
+            <td class='colspan unshareable' colspan='2'></td>
         </tr>
         <tr>
             <th class=' final unshareable' style='background-color: rgb(255, 207, 203);'> </th>
-            <th class=' final colspan except unshareable' colspan='4' style='background-color: rgb(255, 207, 203);'> Total [ Monthly ]</th>
-            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 207, 203);' id='total_monthly'><?php INR(array_sum($total[$j]));
-                                                                                                                                    array_push($MothlyTotal, array_sum($total[$j]));
-                                                                                                                                    ?></th>
+            <th class=' final colspan except unshareable' colspan='5' style='background-color: rgb(255, 207, 203);'> Total [ Monthly ]</th>
+            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 207, 203);' id='total_monthly'></th>
         </tr>
         <tr>
             <th class=' final unshareable' style='background-color: rgb(255, 226, 182);'> </th>
-            <th class=' final colspan except unshareable' colspan='4' style='background-color: rgb(255, 226, 182);'> Total [ For <?= $period[$j] ?> Months ]</th>
-            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);'><?php INR(array_sum($total[$j]) * intval($period[$j]));
-                                                                                                                array_push($ProjectTotal, array_sum($total[$j]) * intval($period[$j]));
-                                                                                                                ?></th>
+            <th class=' final colspan except unshareable' colspan='5' style='background-color: rgb(255, 226, 182);'> Total [ For <?= $period[$j] ?> Months ]</th>
+            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);'></th>
         </tr>
     </table>
 <?php
     $I_M[$j] = $Infrastructure;
     $I_M[$j]['Managed Services'] = $managed_services;
-    // echo "<pre>";print_r($Sku_Data);echo "</pre>";    
-
 }
 
 
 
-function tblRow($Service, $Product, $Quantity, $Price, $Unit = "NO", $OTC = '')
+function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
 {
     global $j;
     // echo gettype($OTC);
@@ -801,10 +738,25 @@ function tblRow($Service, $Product, $Quantity, $Price, $Unit = "NO", $OTC = '')
         <td><?php echo $Service; ?></td>
         <td class='final'><?php echo $Product; ?></td>
         <td class='qty'><?php echo $Quantity . " " . $Unit; ?></td>
-        <td class='cost unshareable'><?php INR(intval($Price)); ?></td>
+        <td class='cost unshareable'><?php
+                                        try {
+                                            $P = floatval($MRC) / floatval($Quantity);
+                                            INR($P);
+                                        } catch (DivisionByZeroError  $e) {
+                                            INR(0);
+                                        }
+                                        ?></td>
         <td class='discount unshareable' id='disc'></td>
-        <td class="mrc_<?= $j ?> unshareable"><?php INR(intval($Price) * floatval($Quantity)); ?></td>
-        <td class='unshareable' id='otc'><?php (!empty($OTC))? INR($OTC) : '' ?></td>
+        <td class="mrc_<?= $j ?> unshareable">
+            <?php
+            try {
+                INR($MRC);
+            } catch (TypeError $e) {
+                INR(0);
+            }
+            ?></td>
+            <td class='DiscountedMrc unshareable'></td>
+        <td class='unshareable' id='otc'><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>
     </tr>
 <?php
 }
@@ -820,10 +772,20 @@ function tblHead($Service)
         <th class='Head unshareable except' id='cost'>Cost/Unit</th>
         <th class='Head unshareable except' id='disc-head'>Discount %</th>
         <th class='Head unshareable except' id='mrc'>Monthly Cost</th>
+        <th class='Head unshareable except' id='discCost'>Discounted Price</th>
         <th class='Head unshareable except' id='otc'>OTC</th>
     </tr>
 <?php
 }
-
-
+function PriceOs($SW, $Feild)
+{
+    global $$Feild, $j, $_Prices, $vmqty;
+    foreach ($vmqty[$j] as $i => $val) {
+        if ($$Feild[$j][$i] == $SW) {
+            $Price[] = $_Prices[$j]["VM{$i}"][$$Feild[$j][$i]];
+        }
+    }
+    // print_r($Price);
+    return array_sum($Price);
+}
 ?>

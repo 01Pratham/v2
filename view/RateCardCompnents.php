@@ -36,14 +36,22 @@ if (isset($_GET['rateCardId'])) {
                             <table class="table mb-0 rounded-2">
                                 <thead class="small text-uppercase bg-body text-muted">
                                     <tr class="border-bottom">
-                                        <th><input type="checkbox" name="" id="SelectAll" class='from-control' oninput="$('.prodChecks').each(function(){($(this).click())})"></th>
+                                        <th><input 
+                                            type="checkbox" 
+                                            name="" 
+                                            id="SelectAll" 
+                                            class='from-control' 
+                                            oninput="
+                                            $('.prodChecks').each(function(){
+                                                if($(this).prop('checked') && $('#SelectAll').prop('cheked') ){} else{$(this).click()}
+                                                })"></th>
                                         <th class="col-8 text-center">Product Name</th>
                                         <th class="text-center">Product Prices</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $productPricesQuery = mysqli_query($con, "SELECT * FROM `price_list`");
+                                    $productPricesQuery = mysqli_query($con, "SELECT * FROM `price_list` ORDER BY `price_list`.`product` ASC");
                                     while ($product = mysqli_fetch_assoc($productPricesQuery)) {
                                         $productRateQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$id}' AND `prod_id` = '{$product['id']}'"));
                                         // echo $productRateQuery['id'];
@@ -214,6 +222,25 @@ if (isset($_GET['rateCardId'])) {
                 })
             })
         })
+
+        let stat = false;
+        $('.prodChecks').each(function(){
+            if($(this).prop("checked")){
+                stat = true;
+            }
+
+            $(this).on("input",function(){
+                if(!$(this).prop("checked")){
+                    $('#SelectAll').removeAttr('checked');
+                }else if($(this).prop("checked")){
+                    $('#SelectAll').attr('checked',true);
+                }
+            })
+        });
+
+        if(stat){
+            $('#SelectAll').attr('checked', true);
+        }
     </script>
 
 

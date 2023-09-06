@@ -1,11 +1,11 @@
 <?php
-// error_reporting(E_ERROR | E_PARSE);    
 // echo 'hi';
+session_start();
+$EstmDATA = $_SESSION['post_data'];
+// if (isset($EstmDATA['proceed'])) {
 
-// if (isset($_POST['proceed'])) {
-
-    // $form1 = $_POST['form1'];
-    $estmtname = $_POST['estmtname'];
+    // $form1 = $EstmDATA['form1'];
+    $estmtname = $EstmDATA['estmtname'];
     $i = 1;
     $t=false;
     foreach ($estmtname as $K => $V){
@@ -19,172 +19,172 @@
             $i++;
         }
     }
-    $instance = $_POST['instance'];
+    $instance = $EstmDATA['instance'];
 
-    $cpu = $_POST['vcpu'];
-    $ram = $_POST['ram'];
-    $disk = $_POST['inst_disk'];
+    $cpu = $EstmDATA['vcpu'];
+    $ram = $EstmDATA['ram'];
+    $disk = $EstmDATA['inst_disk'];
 
-    $vmname = $_POST['vmname'];
-    $back_soft = $_POST['backup_soft'];
+    $vmname = $EstmDATA['vmname'];
+    $back_soft = $EstmDATA['backup_soft'];
 
-    $vmqty = $_POST['vmqty'];
-    $region =  $_POST['region'];
-    $sector = $_POST['sector'];
-    $os = $_POST['os'];
-    $db = $_POST['database'];
-    $series = $_POST['series'];
-    $ip_public = $_POST['ip_public'];
-    $publicip_vers = $_POST["publicipversion"];
-    $ip_private = $_POST['ipprivate'];
-    $privateip_vers = $_POST["privateipversion"];
-    $state = $_POST["state"];
-    $av_type = $_POST["virus_type"];
+    $vmqty = $EstmDATA['vmqty'];
+    $region =  $EstmDATA['region'];
+    $sector = $EstmDATA['sector'];
+    $os = $EstmDATA['os'];
+    $db = $EstmDATA['database'];
+    $series = $EstmDATA['series'];
+    $ip_public = $EstmDATA['ip_public'];
+    $publicip_vers = $EstmDATA["publicipversion"];
+    $ip_private = $EstmDATA['ipprivate'];
+    $privateip_vers = $EstmDATA["privateipversion"];
+    $state = $EstmDATA["state"];
+    $av_type = $EstmDATA["virus_type"];
     
-    $iops03 = $_POST['03iops'];
-    $iops1 = $_POST['1iops'];
-    $iops3 = $_POST['3iops'];
-    $iops5 = $_POST['5iops'];
-    $iops8 = $_POST['8iops'];
-    $iops10 = $_POST['10iops'];
+    $iops03 = $EstmDATA['03iops'];
+    $iops1 = $EstmDATA['1iops'];
+    $iops3 = $EstmDATA['3iops'];
+    $iops5 = $EstmDATA['5iops'];
+    $iops8 = $EstmDATA['8iops'];
+    $iops10 = $EstmDATA['10iops'];
 
-    $strgunit03 = $_POST['03strgunit'];
-    $strgunit1 = $_POST['1strgunit'];
-    $strgunit3 = $_POST['3strgunit'];
-    $strgunit5 = $_POST['5strgunit'];
-    $strgunit8 = $_POST['8strgunit'];
-    $strgunit10 = $_POST['10strgunit'];
+    $strgunit03 = $EstmDATA['03strgunit'];
+    $strgunit1 = $EstmDATA['1strgunit'];
+    $strgunit3 = $EstmDATA['3strgunit'];
+    $strgunit5 = $EstmDATA['5strgunit'];
+    $strgunit8 = $EstmDATA['8strgunit'];
+    $strgunit10 = $EstmDATA['10strgunit'];
 
-    $agenttype = $_POST['age_qty_type'];
-    $backupstrg = $_POST['backup_strg'];
-    $backupunit = $_POST['backup_unit'];
-    $tape_lib = $_POST['tape_lib'];
+    $agenttype = $EstmDATA['age_qty_type'];
+    $backupstrg = $EstmDATA['backup_strg'];
+    $backupunit = $EstmDATA['backup_unit'];
+    $tape_lib = $EstmDATA['tape_lib'];
 
-    $tape_cart = $_POST['tape_cart'];
+    $tape_cart = $EstmDATA['tape_cart'];
 
-    $fire_cab = $_POST['fire_cab'];
+    $fire_cab = $EstmDATA['fire_cab'];
 
-    $bandwidth = $_POST['bandwidth'];
-    $bandwidthType = $_POST['bandwidthType'];
+    $bandwidth = $EstmDATA['bandwidth'];
+    $bandwidthType = $EstmDATA['bandwidthType'];
 
-    // $vpn = $_POST['vpn'];
-    $ipsec = $_POST['ipsec'];
-    $ipsecqty = $_POST['ipsecqty'];
-    $sslvpn = $_POST['sslvpn'];
-    $sslvpnqty = $_POST['sslvpnqty'];
+    // $vpn = $EstmDATA['vpn'];
+    $ipsec = $EstmDATA['ipsec'];
+    $ipsecqty = $EstmDATA['ipsecqty'];
+    $sslvpn = $EstmDATA['sslvpn'];
+    $sslvpnqty = $EstmDATA['sslvpnqty'];
 
-    $lb = $_POST['load_balancer'];
+    $lb = $EstmDATA['load_balancer'];
 
-    $ccptqty = $_POST['ccptqty'];
+    $ccptqty = $EstmDATA['ccptqty'];
     
-    $utm = $_POST['utm'];
+    $utm = $EstmDATA['utm'];
     
-    $ext_firewall = $_POST['extfirewall'];
-    $efv_throughput = $_POST['efv_throughput'];
+    $ext_firewall = $EstmDATA['extfirewall'];
+    $efv_throughput = $EstmDATA['efv_throughput'];
 
-    $int_fv = $_POST['intfirewall'];
-    $ifv_throughput = $_POST['ifv_throughput'];
+    $int_fv = $EstmDATA['intfirewall'];
+    $ifv_throughput = $EstmDATA['ifv_throughput'];
 
-    $ddos = $_POST['ddos'];
-    $ddos_throughput = $_POST['ddos_throughput'];
+    $ddos = $EstmDATA['ddos'];
+    $ddos_throughput = $EstmDATA['ddos_throughput'];
 
-    $waf = $_POST['waf'];
-    $waf_name = $_POST['waf_type'];
+    $waf = $EstmDATA['waf'];
+    $waf_name = $EstmDATA['waf_type'];
 
-    $tfa = $_POST['tfa'];
-    $arc_strg = $_POST["arc_strg"];
-    $archival_unit = $_POST["archival_unit"];
+    $tfa = $EstmDATA['tfa'];
+    $arc_strg = $EstmDATA["arc_strg"];
+    $archival_unit = $EstmDATA["archival_unit"];
 
-    $ssl = $_POST['ssl'];
-    $sslcert = $_POST['ssl-check'];
+    $ssl = $EstmDATA['ssl'];
+    $sslcert = $EstmDATA['ssl-check'];
 
-    $hsmtype = $_POST['hsm_type'];
+    $hsmtype = $EstmDATA['hsm_type'];
 
-    $siem = $_POST['siem'];
-    $siem_name = $_POST['siem_name'];
+    $siem = $EstmDATA['siem'];
+    $siem_name = $EstmDATA['siem_name'];
 
-    $pim = $_POST['pim'];
+    $pim = $EstmDATA['pim'];
 
-    $vtm = $_POST['vtm'];
+    $vtm = $EstmDATA['vtm'];
 
-    $vapt = $_POST['vapt'];
-    $vapt_type = $_POST['vapt_type'];
-    $vapt_frequency = $_POST['vapt_frequency'];
+    $vapt = $EstmDATA['vapt'];
+    $vapt_type = $EstmDATA['vapt_type'];
+    $vapt_frequency = $EstmDATA['vapt_frequency'];
 
-    $dlp = $_POST['dlp'];
-    $dlpqty = $_POST['dlpqty'];
+    $dlp = $EstmDATA['dlp'];
+    $dlpqty = $EstmDATA['dlpqty'];
 
-    $edr = $_POST['edr'];
-    $edrqty = $_POST['edrqty'];
+    $edr = $EstmDATA['edr'];
+    $edrqty = $EstmDATA['edrqty'];
 
-    $dam = $_POST['dam'];
-    $damqty = $_POST['damqty'];
+    $dam = $EstmDATA['dam'];
+    $damqty = $EstmDATA['damqty'];
 
-    $sor = $_POST['sor'];
-    $sorqty = $_POST['sorqty'];
+    $sor = $EstmDATA['sor'];
+    $sorqty = $EstmDATA['sorqty'];
 
-    $hsm = $_POST['hsm'];
+    $hsm = $EstmDATA['hsm'];
 
-    $iam = $_POST['iam'];
-
-
-    $osmgmt = $_POST['osmgmt'];
-    $backup_mgmt = $_POST['backmgmt'];
-    $dbmgmt = $_POST['dbmgmt'];
-    $strgmgmt = $_POST['strgmgmt'];
-    $lbmgmt = $_POST['lb_mgmt'];
-    $fvmgmt = $_POST['fv_mgmt'];
-    $wafmgmt = $_POST['wafmgmt'];
+    $iam = $EstmDATA['iam'];
 
 
-    $drm_tool = $_POST['drm_tool'];
-    $dr_drill = $_POST['dr_drill'];
-    $drill_qty = $_POST['drillqty'];
-    $rep_link = $_POST['rep_link'];
-    $rep_link_type = $_POST['rep_link_type'];
-    $rep_link_qty = $_POST['rep_link_qty'];
-    $rep_link_mgmt = $_POST['rep_link_mgmt'];
+    $osmgmt = $EstmDATA['osmgmt'];
+    $backup_mgmt = $EstmDATA['backmgmt'];
+    $dbmgmt = $EstmDATA['dbmgmt'];
+    $strgmgmt = $EstmDATA['strgmgmt'];
+    $lbmgmt = $EstmDATA['lb_mgmt'];
+    $fvmgmt = $EstmDATA['fv_mgmt'];
+    $wafmgmt = $EstmDATA['wafmgmt'];
 
 
-    $publicip_qty = $_POST["public_ipqty"];
-    $privateip_qty = $_POST["private_ipqty"];
-    $iops03qty = $_POST['03iopsqty'];
-    $iops1qty = $_POST['1iopsqty'];
-    $iops3qty = $_POST['3iopsqty'];
-    $iops5qty = $_POST['5iopsqty'];
-    $iops8qty = $_POST['8iopsqty'];
+    $drm_tool = $EstmDATA['drm_tool'];
+    $dr_drill = $EstmDATA['dr_drill'];
+    $drill_qty = $EstmDATA['drillqty'];
+    $rep_link = $EstmDATA['rep_link'];
+    $rep_link_type = $EstmDATA['rep_link_type'];
+    $rep_link_qty = $EstmDATA['rep_link_qty'];
+    $rep_link_mgmt = $EstmDATA['rep_link_mgmt'];
 
-    $iops10qty = $_POST['10iopsqty'];
 
-    $tlqty = $_POST['tlqty'];
+    $publicip_qty = $EstmDATA["public_ipqty"];
+    $privateip_qty = $EstmDATA["private_ipqty"];
+    $iops03qty = $EstmDATA['03iopsqty'];
+    $iops1qty = $EstmDATA['1iopsqty'];
+    $iops3qty = $EstmDATA['3iopsqty'];
+    $iops5qty = $EstmDATA['5iopsqty'];
+    $iops8qty = $EstmDATA['8iopsqty'];
 
-    $tcqty = $_POST['tcqty'];
-    $fcqty = $_POST['fcqty'];
+    $iops10qty = $EstmDATA['10iopsqty'];
 
-    $vpnqty = $_POST['vpnqty'];
+    $tlqty = $EstmDATA['tlqty'];
 
-    $lbqty = $_POST['lbqty'];
-    $extfvqty = $_POST['extfvqty'];
-    $intfvqty = $_POST['intfvqty'];
-    $ddosqty = $_POST['ddosqty'];
-    $wafqty = $_POST['wafqty'];
-    $tfaqty = $_POST['tfaqty'];
-    $sslqty = $_POST['sslqty'];
-    $pimqty = $_POST['pimqty'];
-    $vtmqty = $_POST['vtmqty'];
-    $vaptqty = $_POST['vaptqty'];
-    $hsmqty = $_POST['hsmqty'];
-    $iamqty = $_POST['iamqty'];
-    $period = $_POST['period'];
+    $tcqty = $EstmDATA['tcqty'];
+    $fcqty = $EstmDATA['fcqty'];
 
-    $emagic_type = $_POST['emagic_type'];
+    $vpnqty = $EstmDATA['vpnqty'];
 
-    $rack = $_POST['rack'];    $rackqty = $_POST['rackqty'];
-    $rated = $_POST['rated'];    $ratedqty = $_POST['ratedqty'];
-    $metered = $_POST['metered'];    $meteredqty = $_POST['meteredqty'];
-    $cage = $_POST['cage'];    $cageqty = $_POST['cageqty'];
-    $bio = $_POST['bio'];    $bioqty = $_POST['bioqty'];
-    $pdu = $_POST['pdu'];    $pduqty = $_POST['pduqty'];
-    $cctv = $_POST['cctv'];    $cctvqty = $_POST['cctvqty'];
+    $lbqty = $EstmDATA['lbqty'];
+    $extfvqty = $EstmDATA['extfvqty'];
+    $intfvqty = $EstmDATA['intfvqty'];
+    $ddosqty = $EstmDATA['ddosqty'];
+    $wafqty = $EstmDATA['wafqty'];
+    $tfaqty = $EstmDATA['tfaqty'];
+    $sslqty = $EstmDATA['sslqty'];
+    $pimqty = $EstmDATA['pimqty'];
+    $vtmqty = $EstmDATA['vtmqty'];
+    $vaptqty = $EstmDATA['vaptqty'];
+    $hsmqty = $EstmDATA['hsmqty'];
+    $iamqty = $EstmDATA['iamqty'];
+    $period = $EstmDATA['period'];
+
+    $emagic_type = $EstmDATA['emagic_type'];
+
+    $rack = $EstmDATA['rack'];    $rackqty = $EstmDATA['rackqty'];
+    $rated = $EstmDATA['rated'];    $ratedqty = $EstmDATA['ratedqty'];
+    $metered = $EstmDATA['metered'];    $meteredqty = $EstmDATA['meteredqty'];
+    $cage = $EstmDATA['cage'];    $cageqty = $EstmDATA['cageqty'];
+    $bio = $EstmDATA['bio'];    $bioqty = $EstmDATA['bioqty'];
+    $pdu = $EstmDATA['pdu'];    $pduqty = $EstmDATA['pduqty'];
+    $cctv = $EstmDATA['cctv'];    $cctvqty = $EstmDATA['cctvqty'];
 
 // }

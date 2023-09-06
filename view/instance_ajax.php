@@ -19,7 +19,7 @@ if (!isset($_POST['action'])) {
             $pack_query = " Select * From tbl_pack Where region ='{$reg_name}' And pack_series = '{$ser_name}' ";
         }
         $res2 = mysqli_query($con, $pack_query);
-        
+
         $inst = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$Editable['instance'][$name][$count]}'"));
 ?>
         <select name="instance[<?= $name ?>][]" id="instance_<?= $id ?>" class="form-control bg-transparent" onchange="instanceVals()" onload="instanceVals()">
@@ -32,24 +32,24 @@ if (!isset($_POST['action'])) {
         </select>
 
         <div id="inst_vals_<?= $id ?>">
-            <?php 
-            if(!empty($Editable['instance'][$name][$count])){
-             ?>
-                 <input type="hidden" name="vcpu[<?= $name ?>][]" value="<?= $Editable['vcpu'][$name][$count] ?>">
+            <?php
+            if (!empty($Editable['instance'][$name][$count])) {
+            ?>
+                <input type="hidden" name="vcpu[<?= $name ?>][]" value="<?= $Editable['vcpu'][$name][$count] ?>">
                 <input type="hidden" name="ram[<?= $name ?>][]" value="<?= $Editable['ram'][$name][$count] ?>">
                 <input type="hidden" name="inst_disk[<?= $name ?>][]" value="<?= $Editable['inst_disk'][$name][$count] ?>">
-             
-             <?php   
+
+            <?php
             }
             ?>
-            
+
         </div>
 
         <script>
             if ($('#instance_<?= $id ?> .editable').val() == '') {
                 $('#instance_<?= $id ?> .editable').remove()
             }
-            
+
             function instanceVals() {
                 $.ajax({
                     url: "../view/instance_ajax.php",
@@ -67,6 +67,8 @@ if (!isset($_POST['action'])) {
                 })
             }
 
+            
+            var loader = "stop"
             <?php
             if (!empty($cloneId)) {
             ?>
@@ -92,7 +94,7 @@ if (!isset($_POST['action'])) {
                 <label for="inst_disk_<?= $id ?>" class="small d-inline-block pl-1">Disk [ GB ] : </label>
                 <input type="number" min=0 name="inst_disk[<?= $name ?>][]" value='<?= !empty($Editable['inst_disk'][$name][$count]) ? $Editable['inst_disk'][$name][$count] : 100 ?>' id="inst_disk_<?= $id ?>" placeholder='QTY..' class="form-control d-inline-block col-5 border-0 bg-transparent">
             </div>
-            <input type="hidden" name="instance[<?=$name?>][]" value="Flexi">
+            <input type="hidden" name="instance[<?= $name ?>][]" value="Flexi">
         </div>
         <script>
             <?php
@@ -100,8 +102,8 @@ if (!isset($_POST['action'])) {
             ?>
                 $(".flexComp").find("input[type = number]").each(function() {
                     let newId = $(this).prop("id");
-                    let oldId = newId.replace(<?=$id?>, <?=$cloneId?>);
-                    $(this).val($("#"+oldId).val());
+                    let oldId = newId.replace(<?= $id ?>, <?= $cloneId ?>);
+                    $(this).val($("#" + oldId).val());
                 })
             <?php
             }

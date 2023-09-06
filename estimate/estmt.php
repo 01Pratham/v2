@@ -1,3 +1,4 @@
+<!-- <span class="loader except" ></span> -->
 <div class="except content-wrapper Main bg-transparent" >
     <?php
 //  print_r($_SERVER);

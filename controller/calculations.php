@@ -70,8 +70,7 @@ function get_DB($sw_name, $core_devide = 1, $price = 1, $Data = 'price')
   return $value;
 }
 
-function get_Price($prod, $act = "price")
-{
+function get_Price($prod, $act = "price"){
 
   global $con, $_POST;
   $query = mysqli_query($con, "SELECT * FROM `price_list` WHERE `product` = '{$prod}'");
@@ -82,21 +81,17 @@ function get_Price($prod, $act = "price")
   } else {
     return $val[$act];
   }
-  //   print_r($val);
 }
-// echo get_Price("Load Balancer : CITRIX");
 
-function get_strg($unit, $price = 1, $qty = 1)
-{
+function get_strg($unit, $price = 1, $qty = 1){
   if ($unit == "TB") {
     return (intval($qty) * 1024) * $price;
   } else {
-    return $price * intval($qty);
+    return intval($price) * intval($qty);
   }
 }
 
-function strg_iops($unit, $iops)
-{
+function strg_iops($unit, $iops){
   if ($unit == 'GB') {
     return "Storage Space with " . ($iops / 1000) . " IOPS";
   } else {
@@ -105,8 +100,7 @@ function strg_iops($unit, $iops)
 }
 
 
-function ManagedServices($service, $service_qty)
-{
+function ManagedServices($service, $service_qty){
   if (isset($service)) {
     if (!empty($service_qty)) {
 
@@ -117,7 +111,7 @@ function ManagedServices($service, $service_qty)
 $db_cal = array(
   'MS SQL Enterprise' => 2,
   'MS SQL WEB' => 2,
-  'MS SQL Standerd' => 2,
+  'MS SQL Standard' => 2,
   'MY SQL Community' => NULL,
   'MY SQL Standard' => 4,
   'MY SQL Enterprise' => 4,
@@ -136,7 +130,6 @@ if (!function_exists('SkuList')) {
     include 'constants.php';
     require '../model/database.php';
     global $vmname, $j, $product_sku, $db_cal, $vCore, $vRam, $vDisk, $vmqty;
-
     $Sku_Data = array();
     foreach ($vmname[$j] as $i => $nameVal) {
       $Sku_Data["VM" . $i]['Group_Name'] = $vmname[$j][$i];
@@ -172,14 +165,11 @@ if (!function_exists('SkuList')) {
 }
 
 if (!function_exists('GroupPrice')) {
-  function GroupPrice()
-  {
+  function GroupPrice(){
     include 'constants.php';
     require '../model/database.php';
     global $vmname, $j, $i, $db_cal, $vCore, $vRam, $vDisk, $vmqty;
-
     $PriceData = array();
-
     $Infrastructure['VM' . $i][$vmname[$j][$i]] = intval($vmqty[$j][$i]) * $price;
     foreach ($prod_cat as $int => $cat) {
       foreach ($products as $new_int => $product) {
@@ -195,12 +185,8 @@ if (!function_exists('GroupPrice')) {
             }
           }
         }
-
       }
-      // $PriceData[$vmname[$j][$i]]['Quantity']= $vmqty[$j][$i];
     }
     return $PriceData;
   }
 }
-
-?>
