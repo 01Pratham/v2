@@ -218,34 +218,50 @@ if (isset($_POST['action']) && $_POST['action'] == "Discount") {
     // $Data = base64_decode($_POST['data']);
     // $arr = json_decode($Data,true);
     $Data = $_POST['data'];
-
+    // echo "<pre>";
+    // print_r($Data);
     $avg = (($Total / count($Data)) * $discountPercentage) / 100;
+    echo $avg."<br>";
+
     foreach ($Data as $index => $arr) {
         if (is_array($arr)) {
             foreach ($arr as $K => $V) {
-                $maxDisc = Product($V['SKU'])['discountable_price'] * $V['Quantity'];
-                if ($maxDisc > 0) {
-                    if ($maxDisc >= $avg) {
-                        $DiscountedPrices[$V['SKU']] = $V["MRC"] - $avg;
-                    } elseif ($maxDisc < $avg) {
-                        $DiscountedPrices[$V['SKU']] = $maxDisc;
-                        $RemainingAvg = $avg - $maxDisc;
-                        $avg = $avg + $RemainingAvg;
+                if (is_array($V)) {
+                    $maxDisc = Product($V['SKU'])['discountable_price'] * $V['Quantity'];
+                    if ($maxDisc > 0) {
+                        if ($maxDisc >= $avg) {
+                            $DiscountedPrices[$V['SKU']] = $V["MRC"] - $avg;
+                        } elseif ($maxDisc < $avg) {
+                            $DiscountedPrices[$V['SKU']] = $maxDisc;
+                            $RemainingAvg = $avg - $maxDisc;
+                            $avg = $avg + $RemainingAvg;
+                        }
+                    }
+                    // print_r($V['SKU']);
+                }else {
+                    echo $avg."\n";
+                    $maxDisc = Product($arr['SKU'])['discountable_price'] * $arr['Quantity'];
+                    if ($maxDisc > 0) {
+                        if ($maxDisc >= $avg) {
+                            $DiscountedPrices[$arr['SKU']] = $arr["MRC"] - $avg;
+                        } elseif ($maxDisc < $avg) {
+                            $DiscountedPrices[$arr['SKU']] = $maxDisc;
+                            $RemainingAvg = $avg - $maxDisc;
+                            $avg = $avg + $RemainingAvg;
+                        }
                     }
                 }
             }
-        }
+        } 
         // echo $index;
     }
-    echo "<pre>";
-    print_r($DiscountedPrices);
 }
 
-// print_r($_POST);
+// print_r($DiscountedPrices);
 function Product($SKU)
 {
     global $con;
-    $getProdId = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `price_list`"));
+    $getProdId = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `price_list` WHERE `sku_code` = '{$SKU}'"));
     $getPrices = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `prod_id` = '{$getProdId['id']}'"));
 
     return $getPrices;
