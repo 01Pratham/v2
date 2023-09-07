@@ -20,6 +20,7 @@ if (isset($_GET['id'])) {
         require '../controller/json_format.php';
         require '../controller/Currency_Format.php';
         require '../view/includes/header.php';
+
         ?>
         <link rel="stylesheet" href="../css/submit.css">
     </head>
@@ -37,14 +38,12 @@ if (isset($_GET['id'])) {
                 <div class="content Main except ">
                     <div class="container-fluid except full" style="zoom : 65%">
                         <div class="errors except container" style="max-width: 2020px; margin: auto; "> </div>
-                        <div class="col-3 except mx-3 input-group">
-                            <input type="number" min=0 max=100 name="" class="form-control col-sm-11" id="" aria-describedby="perce">
-                            <span class="input-group-text form-control bg-light col-1 p-0 d-flex justify-content-center " id="perce"> % </span>
-                        </div>
+
                         <?php
                         if (isset($_GET["id"])) {
                             $Quer = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `id` = '{$_GET['id']}'"));
                             if (!empty($Quer['data'])) {
+                                require "../controller/constants.php";
                                 $_Prices = json_decode($Quer['prices'], true);
                                 $_Data = json_decode($Quer['data'], true);
                                 $_SESSION['post_data'] = $_Data;
@@ -81,7 +80,6 @@ if (isset($_GET['id'])) {
                         dataType: "TEXT",
                         data: {
                             action: 'push',
-                            data: '<?= base64_encode($temp) ?>'
                         },
                         success: function(response) {
                             alert(response);
@@ -143,18 +141,16 @@ if (isset($_GET['id'])) {
                         echo "'sheet{$i}' : '{$val}' ,";
                         $i++;
                     }
-                    echo "sheet{$i} : 'Summary Sheet'";
-                    ?>
-                }
+                    echo "sheet{$i} : 'Summary Sheet'"; ?>}
 
                 $(document).ready(function() {
                     $("#export").click(function() {
                         var tables = document.querySelectorAll('table');
-                        convertTablesToExcel(Array.from(tables), "unShareable", sheetNames, "<?= $_POST['project_name'] ?>");
+                        convertTablesToExcel(Array.from(tables), "unShareable", sheetNames, "<?= $EstmDATA['project_name'] ?>");
                     });
                     $("#exportShareable").click(function() {
                         var tables = document.querySelectorAll('table');
-                        convertTablesToExcel(Array.from(tables), "Shareable", sheetNames, "<?= $_POST['project_name'] ?>");
+                        convertTablesToExcel(Array.from(tables), "Shareable", sheetNames, "<?= $EstmDATA['project_name'] ?>");
                     });
                 });
 
@@ -168,10 +164,10 @@ if (isset($_GET['id'])) {
                         data: {
                             'action': $(this).prop("id"),
                             'emp_id': <?= $_SESSION['emp_code'] ?>,
-                            'data': '<?= json_encode($_POST) ?>',
+                            'data': '<?= json_encode($EstmDATA) ?>',
                             'total': '<?= array_sum($ProjectTotal) ?>',
-                            'pot_id': '<?= $_POST['pot_id'] ?>',
-                            'project_name': '<?= $_POST['project_name'] ?>',
+                            'pot_id': '<?= $EstmDATA['pot_id'] ?>',
+                            'project_name': '<?= $EstmDATA['project_name'] ?>',
                             'period': <?= $period[1] ?>,
                         },
                         dataType: "TEXT",

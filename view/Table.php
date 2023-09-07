@@ -46,7 +46,6 @@ foreach ($estmtname as $j => $_Key) {
                     $av = true;
                 } else {
                 }
-
                 $Service = !empty($vmname[$j][$i]) ? ($vmname[$j][$i]) : ('Virtual Machine') . ' - ' . $region[$j][$i] . ' - ' . $sector[$j][$i] . ' ' . $state[$j][$i];
 
                 $ProdName = $instance[$j][$i] . ' : ' . $compute[$j][$i] . ' | OS : ' . $os[$j][$i] . ' | DB : ' . $db[$j][$i];
@@ -772,7 +771,7 @@ $name = 'eMagic Monitoring ' . $emagic_type[$j];
             <th class=' final unshareable' style='background-color: rgb(255, 207, 203);'> </th>
             <th class=' final colspan except unshareable' colspan='4' style='background-color: rgb(255, 207, 203);'> Total [ Monthly ]</th>
             <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 207, 203);' id='total_monthly'><?php INR(array_sum($total[$j]));
-                                                                                                                                    array_push($MothlyTotal, array_sum($total[$j]));
+                                                                                                                                    $MothlyTotal[$j] = array_sum($total[$j]);
                                                                                                                                     ?></th>
         </tr>
         <tr>
@@ -786,7 +785,9 @@ $name = 'eMagic Monitoring ' . $emagic_type[$j];
 <?php
     $I_M[$j] = $Infrastructure;
     $I_M[$j]['Managed Services'] = $managed_services;
-    // echo "<pre>";print_r($Sku_Data);echo "</pre>";    
+    
+    $I_M[$j]['MonthlyTotal'] = $MothlyTotal[$j];
+    echo "<pre>";print_r($I_M);echo "</pre>";    
 
 }
 
