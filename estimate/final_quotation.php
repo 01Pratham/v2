@@ -16,8 +16,8 @@ $MothlyTotal = array();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php
-    require '../model/database.php';
     require '../controller/constants.php';
+    require '../model/database.php';
     require '../controller/json_format.php';
     require '../controller/Currency_Format.php';
     require '../view/includes/header.php';
@@ -49,6 +49,7 @@ $MothlyTotal = array();
                     $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `pot_id` = '{$_POST['pot_id']}' AND emp_code = '{$_SESSION['emp_code']}'"));
                     if (!empty($query['id'])) {
                     ?>
+
                         <button class="btn btn-outline-danger btn-lg mx-1 save" id="update"><i class="fas fa-refresh pr-2"></i> Update</button>
                         <a class="btn btn-outline-info btn-lg mx-1" id="push" href="discounting.php?id=<?= $_SESSION['edit_id'] ?>"><i class="fa fa-calculator pr-2" aria-hidden="true"> Discounting</i></a>
                     <?php

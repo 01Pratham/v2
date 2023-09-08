@@ -31,11 +31,15 @@ foreach ($estmtname as $j => $_Key) {
             foreach ($vmqty[$j] as $i => $val) {
                 $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
                 $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk - 1000 IOPS -  {$disk[$j][$i]} GB";
-                $price = ($instance[$j][$i] == 'Flexi') ?
-                    (($product_prices['cpu'] * intval($cpu[$j][$i])) +
+                // $price = ($instance[$j][$i] == 'Flexi') ?
+                //     (($product_prices['cpu'] * intval($cpu[$j][$i])) +
+                //         ($product_prices['ram'] * intval($ram[$j][$i])) +
+                //         ($product_prices['iops_1'] * intval($disk[$j][$i])))
+                //     : $cost_rows['price'];
+
+                $price = (($product_prices['cpu'] * intval($cpu[$j][$i])) +
                         ($product_prices['ram'] * intval($ram[$j][$i])) +
-                        ($product_prices['iops_1'] * intval($disk[$j][$i])))
-                    : $cost_rows['price'];
+                        ($product_prices['iops_1'] * intval($disk[$j][$i])));
 
                 $vCore[$j][$i] = $cpu[$j][$i];
                 $vRam[$j][$i] = $ram[$j][$i];

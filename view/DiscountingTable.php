@@ -85,6 +85,7 @@ foreach ($estmtname as $j => $_Key) {
                     "Quantity" => $disk[$j][$i],
                     "MRC" => ($product_prices['iops_1'] * intval($disk[$j][$i]))
                 );
+                $Products[$j]["VM{$i}"]["QTY"] = $vmqty[$j][$i];
             }
         }
 
@@ -694,12 +695,14 @@ HSM -  $Devices[4]'  ></i>";
 
         if (isset($osmgmt[$j]) && !empty($os_mgmt_name)) {
             for ($i = 0; $i < count($os_mgmt_data); $i++) {
+                $SKU = $product_sku[$mgmtINT[$os_mgmt_data[$i]]];
                 $Products[$j][] = tblRow("Services", $os_mgmt_data[$i] . ' OS Managed Services', array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $_Prices[$j]['Managed Services'][$mgmtINT[$os_mgmt_data[$i]]]);
                 $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$mgmtINT[$os_mgmt_data[$i]]]] = array_sum($os_mgmt_qty[$os_mgmt_data[$i]]);
             }
         }
         if (isset($dbmgmt[$j]) && !empty($db_mgmt_data)) {
             for ($i = 0; $i < count($db_mgmt_data); $i++) {
+                $SKU = $product_sku[$mgmtINT[$db_mgmt_data[$i]]];
                 $name = $db_mgmt_data[$i] . ' Database Managed Services (Up to 100 GB)';
                 $Products[$j][] = tblRow("Service", $name, array_sum($db_mgmt_qty[$db_mgmt_data[$i]]), $_Prices[$j]['Managed Services'][$mgmtINT[$db_mgmt_data[$i]]]);
                 $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$mgmtINT[$db_mgmt_data[$i]]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]);
@@ -707,39 +710,47 @@ HSM -  $Devices[4]'  ></i>";
             }
         }
         if (isset($strgmgmt[$j])) {
+            $SKU = $product_sku['st_mg'];
             $Products[$j][] = tblRow("Service", "Storage Management Per TB'", floor(array_sum($strgmgmtqty) / 1024), $_Prices[$j]['Managed Services']["st_mg"]);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['st_mg']] = floor(array_sum($strgmgmtqty) / 1024);
         }
         if (isset($backup_mgmt[$j])) {
+            $SKU = $product_sku['back_mg'];
             $Products[$j][] = tblRow("Service", 'Backup Management - per Instance', $backmgmtqty, $_Prices[$j]['Managed Services']["back_mg"]);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['back_mg']] = $backmgmtqty;
         }
         if (isset($rep_link_mgmt[$j])) {
+            $SKU = $product_sku['rep_mgmt'];
             $Products[$j][] = tblRow("Service", 'Replication Service Management', $replication_mgmt, $_Prices[$j]['Managed Services']['rep_mgmt']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['rep_mgmt']] = $replication_mgmt;
         }
 
         if (isset($dr_drill[$j])) {
+            $SKU = $product_sku['dr_drill'];
             $Products[$j][] = tblRow("Service", 'DR Drill Per Year', $drill_qty, $_Prices[$j]['Managed Services']["dr_drill"]);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['dr_drill']] = $drill_qty[$j];
         }
 
         if (isset($lbmgmt[$j])) {
+            $SKU = $product_sku['lb_mg'];
             $Products[$j][] = tblRow("Service", 'Load Balancer Management', $lbmgmtqty, $_Prices[$j]['Managed Services']['lb_mgmt']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['lb_mg']] = $lbmgmtqty;
         }
         if (isset($fvmgmt[$j])) {
             $name = ((isset($utm[$j])) ? 'vUTM ' : '') . "FireWall Management";
-            $price = (isset($utm[$j])) ? ($product_prices['utm_fv_mg']) : ($product_prices['fv_mg']);
+            $INT = (isset($utm[$j])) ? 'utm_fv_mg' : 'fv_mg';
+            $SKU = $product_sku[$INT];
             $Products[$j][] = tblRow("Service", $name, $fvmgmtqty, $_Prices[$j]['Managed Services']["fw_mgmt"]);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['fv_mg']] = $fvmgmtqty;
+            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$INT]] = $fvmgmtqty;
         }
         if (isset($wafmgmt[$j])) {
+            $SKU = $product_sku['waf_mg'];
             $Products[$j][] = tblRow("Service", "Web Application Firewall Management", $wafmgmtqty, $_Prices[$j]['Managed Services']['waf_mgmt']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['waf_mg']] = $wafmgmtqty;
         }
 
         if (isset($EstmDATA['emagic'][$j])) {
+            $SKU = $product_sku['emagic'];
             $info = "<i class='fa fa-info-circle  float-right' title='
 Load Balancer - $emagicqty[0]
 Internal & External Firewall - $emagicqty[1]
@@ -755,8 +766,9 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
         ?>
         <tr>
             <th class='except unshareable' style='background: rgba(212,212,212,1); '> Sr No . </th>
-            <th class=' final colspan except unshareable' colspan='5' style='background: rgba(212,212,212,1); '> Description </th>
+            <th class=' final colspan except unshareable' colspan='3' style='background: rgba(212,212,212,1); '> Description </th>
             <th class='colspan except unshareable' style='background: rgba(212,212,212,1);' colspan='2'>MRC</th>
+            <th class='colspan except unshareable' style='background: rgba(212,212,212,1);' colspan='2'>Discounted MRC</th>
         </tr>
         <?php
         $m = 0;
@@ -766,11 +778,12 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
                 <td class='unshareable'>
                     <?= $m + 1 ?>
                 </td>
-                <td class='colspan  final unshareable' colspan='5'> Infrastructure [ <?= $a . ' ' ?>
+                <td class='colspan  final unshareable' colspan='3'> Infrastructure [ <?= $a . ' ' ?>
                     <?= $b . ' ' ?>
                     <?= $c . ' ' ?>
                     <?= $d . ' ' ?>
                     <?= $e . ' ' ?> ]</td>
+                <td class='colspan unshareable ' colspan='2'></td>
                 <td class='colspan unshareable ' colspan='2'></td>
             </tr>
         <?php }
@@ -779,7 +792,8 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
             <td class='unshareable'>
                 <?= $m = $m + 1 ?>
             </td>
-            <td class='colspan final unshareable' colspan='5'> Managed Services [ <?= $f ?> ] </td>
+            <td class='colspan final unshareable' colspan='3'> Managed Services [ <?= $f ?> ] </td>
+            <td class='colspan unshareable' colspan='2'></td>
             <td class='colspan unshareable' colspan='2'></td>
         </tr>
 
@@ -787,17 +801,20 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
             <td class='unshareable'>
                 <?= $m = $m + 1 ?>
             </td>
-            <td class='colspan final unshareable' colspan='5'> One Time Cost </td>
+            <td class='colspan final unshareable' colspan='3'> One Time Cost </td>
+            <td class='colspan unshareable' colspan='2'></td>
             <td class='colspan unshareable' colspan='2'></td>
         </tr>
         <tr>
             <th class=' final unshareable' style='background-color: rgb(255, 207, 203);'> </th>
-            <th class=' final colspan except unshareable' colspan='5' style='background-color: rgb(255, 207, 203);'> Total [ Monthly ]</th>
+            <th class=' final colspan except unshareable' colspan='3' style='background-color: rgb(255, 207, 203);'> Total [ Monthly ]</th>
+            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 207, 203);' id='total_monthly'></th>
             <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 207, 203);' id='total_monthly'></th>
         </tr>
         <tr>
             <th class=' final unshareable' style='background-color: rgb(255, 226, 182);'> </th>
-            <th class=' final colspan except unshareable' colspan='5' style='background-color: rgb(255, 226, 182);'> Total [ For <?= $period[$j] ?> Months ]</th>
+            <th class=' final colspan except unshareable' colspan='3' style='background-color: rgb(255, 226, 182);'> Total [ For <?= $period[$j] ?> Months ]</th>
+            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);'></th>
             <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);'></th>
         </tr>
     </table>
@@ -836,7 +853,6 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
                                             INR(0);
                                         }
                                         ?></td>
-        <td class='discount unshareable' id='disc'></td>
         <td class="mrc_<?= $j ?> unshareable">
             <?php
             try {
@@ -845,6 +861,7 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
                 INR(0);
             }
             ?></td>
+            <td class='discount unshareable' id='disc'></td>
         <td class='DiscountedMrc unshareable'></td>
         <td class='unshareable' id='otc'><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>
     </tr>
@@ -868,8 +885,8 @@ function tblHead($Service)
         <th class='Head except' id='comp'><?= $Service ?></th>
         <th class='Head except' id='unit'>Unit</th>
         <th class='Head unshareable except' id='cost'>Cost/Unit</th>
-        <th class='Head unshareable except' id='disc-head'>Discount %</th>
         <th class='Head unshareable except' id='mrc'>Monthly Cost</th>
+        <th class='Head unshareable except' id='disc-head'>Discount %</th>
         <th class='Head unshareable except' id='discCost'>Discounted Price</th>
         <th class='Head unshareable except' id='otc'>OTC</th>
     </tr>
