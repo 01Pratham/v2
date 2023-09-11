@@ -893,6 +893,7 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
             <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);' id="MonthlyDiscounted_<?= $j ?>"></th>
         </tr>
     </table>
+    <input type="hidden" name="" id="Months_<?= $j ?>" value="<?= $period[$j] ?>">
     <script>
         $("#perce_<?= $j ?>").on("click", function() {
             $obj = {
@@ -907,43 +908,24 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
 
 
 
-        var Infrastructure_<?= $j ?> = {};
-        var Managed_<?= $j ?> = {};
-        var i_<?= $j ?> = 0;
+        var Infrastructure = {};
+        var Managed = {};
+        var i = 0;
         $(".Managed_<?= $j ?> , .Infrastructure_<?= $j ?>").each(function() {
-
             if ($(this).hasClass("Infrastructure_<?= $j ?>") && $(this).hasClass("mrc_<?= $j ?>")) {
                 let val = $(this).html().replace(/₹ |,/g, '');
-                Infrastructure_<?= $j ?>[i_<?= $j ?>] = parseFloat(val);
-                i_<?= $j ?>++
-                // console.log($(this))
+                Infrastructure[i] = parseFloat(val);
+                i++;
             } else if ($(this).hasClass("Managed_<?= $j ?>") && $(this).hasClass("mrc_<?= $j ?>")) {
                 let val = $(this).html().replace(/₹ |,/g, '');
-                Managed_<?= $j ?>[i_<?= $j ?>] = parseFloat(val);
-                i_<?= $j ?>++;
-            }
-
-        })
-
-        $.ajax({
-            url: "../controller/Currency_Format.php",
-            type: "POST",
-            dataType: "TEXT",
-            data: {
-                action: "CurrencyFormat",
-                months: <?= $period[$j] ?>,
-                arr1: JSON.stringify(Infrastructure_<?= $j ?>),
-                arr2: JSON.stringify(Managed_<?= $j ?>),
-            },
-            success: function(response) {
-                let Data = JSON.parse(response);
-                $("#infraTotal_<?= $j ?>").html(Data.infra);
-                $("#MngTotal_<?= $j ?>").html(Data.mng);
-                $("#total_monthly_<?= $j ?>").html(Data.Total);
-                $("#MonthlyTotal_<?= $j ?>").html(Data.MonthlyTotal);
-                $("#final_otc_<?= $j ?> , #otc<?= $j ?>").html(Data.Otc);
+                Managed[i] = parseFloat(val);
+                i++;
             }
         })
+
+        CurrencyFormat();
+
+        
     </script>
 <?php
     $I_M[$j] = $Infrastructure;
@@ -954,7 +936,7 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
 
 function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
 {
-    global $j, $DiscountingId,$SKU, $info, $Class;
+    global $j, $DiscountingId, $SKU, $info, $Class;
     // echo gettype($OTC);
 ?>
     <tr>
@@ -977,8 +959,8 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
                 INR(0);
             }
             ?></td>
-        <td class='discount unshareable' id='disc' ></td>
-        <td class='DiscountedMrc unshareable <?= $Class ?>' id="<?=$DiscountingId?>"></td>
+        <td class='discount unshareable' id='disc'></td>
+        <td class='DiscountedMrc unshareable <?= $Class ?>' id="<?= $DiscountingId ?>"></td>
         <td class='unshareable' <?= (!empty($OTC)) ? "id='otc{$j}'" : '' ?>><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>
     </tr>
 <?php
@@ -1025,6 +1007,27 @@ function PriceOs($SW, $Feild)
 
 
 <script>
+    function CurrencyFormat() {
+            $.ajax({
+                url: "../controller/Currency_Format.php",
+                type: "POST",
+                dataType: "TEXT",
+                data: {
+                    action: "CurrencyFormat",
+                    months: $("#Months_<?= $j ?>").val(),
+                    arr1: JSON.stringify(Infrastructure),
+                    arr2: JSON.stringify(Managed),
+                },
+                success: function(response) {
+                    let Data = JSON.parse(response);
+                    $("#infraTotal_<?= $j ?>").html(Data.infra);
+                    $("#MngTotal_<?= $j ?>").html(Data.mng);
+                    $("#total_monthly_<?= $j ?>").html(Data.Total);
+                    $("#MonthlyTotal_<?= $j ?>").html(Data.MonthlyTotal);
+                    $("#final_otc_<?= $j ?> , #otc<?= $j ?>").html(Data.Otc);
+                }
+            })
+        }
     function DiscountingAjax(DATA) {
         $.ajax({
             type: "post", //http method
@@ -1035,7 +1038,7 @@ function PriceOs($SW, $Feild)
                 let Json = JSON.parse(res);
                 Object.keys(Json).forEach(key => {
                     // console.log(key, Json[key]);
-                    $("#"+key).html(Json[key]);
+                    $("#" + key).html(Json[key]);
                 });
             }
         })
