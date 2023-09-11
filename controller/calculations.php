@@ -85,9 +85,9 @@ function get_Price($prod, $act = "price"){
 
 function get_strg($unit, $price = 1, $qty = 1){
   if ($unit == "TB") {
-    return (intval($qty) * 1024) * $price;
+    return (floatval($qty) * 1024) * $price;
   } else {
-    return intval($price) * intval($qty);
+    return floatval($price) * floatval($qty);
   }
 }
 

@@ -20,6 +20,7 @@ foreach ($estmtname as $j => $_Key) {
             </th>
         </tr>
         <?php
+        $Class = 'Infrastructure';
         if (!empty($series[$j][0])) {
             $no + 1;
             $a = 'A.' . $no . ' +';
@@ -331,7 +332,7 @@ foreach ($estmtname as $j => $_Key) {
             if (!empty($lb[$j])) {
                 tblRow('Services', 'Load Balancer', $lbqty[$j], get_Price($lb[$j]));
                 $Infrastructure['Network Solution']['lb'] = get_Price($lb[$j]) * intval($lbqty[$j]);
-                $Sku_Data[$estmtname[$j]]['Network Solution']['INLBPLCI00000000'] = $lbqty[$j];
+                $Sku_Data[$estmtname[$j]]['Network Solution']['INLBVLHP00000000'] = $lbqty[$j];
             }
         }
         if (
@@ -499,6 +500,7 @@ HSM -  $Devices[4]'  ></i>";
         }
         $f = 'A.' . $no = $no + 1;
         tblHead("Managed Services");
+        $Class = 'Managed';
 
         if (isset($rep_link_mgmt[$j])) {
             $replication_mgmt = (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0;

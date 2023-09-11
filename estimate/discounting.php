@@ -102,7 +102,7 @@ if (isset($_GET['id'])) {
                                 var val = 0;
                                 $(this).html(0)
                             } else {
-                                var val = $(this).html();
+                                var val = $(this).html()/100;
                             }
                             var unit = $(this).parent().find('.qty').html();
                             var cost = $(this).parent().find('.cost').html();
