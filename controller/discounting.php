@@ -6,6 +6,7 @@ require "Currency_Format.php";
 if (isset($_POST['action']) && $_POST['action'] == "Discount") {
     // print_r($_POST);
     $discountPercentage = $_POST['discountVal'];
+    $months = $_POST[''];
     $Total = $_POST['Total'];
     $Data = json_decode(base64_decode($_POST['data']), true);
     $maxDiscountTotal = array();

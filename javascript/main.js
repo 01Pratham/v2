@@ -1,6 +1,6 @@
 
-if(typeof name === 'undefined' || typeof state === 'undefined'){
-    let name; 
+if (typeof name === 'undefined' || typeof state === 'undefined') {
+    let name;
     let state;
 }
 function escapeHtml(str) {
@@ -27,9 +27,9 @@ $('body').find('input[type = "number"]').each(function () {
         }
     });
 });
- 
-function click(id){
-    $("#"+id).click();
+
+function click(id) {
+    $("#" + id).click();
 }
 
 function isInt(value) {
@@ -51,7 +51,7 @@ function get_default() {
 }
 
 
-function mySeries(name = '', id = '' ,cloneId ='', count = '',) {
+function mySeries(name = '', id = '', cloneId = '', count = '',) {
     var ser_name = $('#series_' + id).val();
     var reg_name = $('#region_' + id).val();
     $.ajax({
@@ -60,9 +60,9 @@ function mySeries(name = '', id = '' ,cloneId ='', count = '',) {
         data: {
             reg_name: reg_name,
             ser_name: ser_name,
-            count : count,
+            count: count,
             name: name,
-            cloneId : cloneId,
+            cloneId: cloneId,
             id: id
         },
         success: function (data) {
@@ -123,7 +123,7 @@ function validate_input(check_class) {
             })
         }
     })
-    $(document).ready(function(){
+    $(document).ready(function () {
         if ($(this).prop('checked')) {
             $(this).parent().find('input[type="number"]').each(function () {
                 $(this).attr('required', 'true');
@@ -240,7 +240,7 @@ function add_vm(count = null, name, id, cloneId = '') {
     // console.log($('.add_btn').prop("id"));
     var count_of_vm = parseInt($('#count_of_vm_' + name).val()) + 1;
     $('#count_of_vm_' + name).val(count_of_vm);
-    countID = name+""+count_of_vm
+    countID = name + "" + count_of_vm
     var region_val = $('#region_' + id).val();
     var sector_val = $('#sector_' + id).val();
     // console.log(count);
@@ -253,7 +253,7 @@ function add_vm(count = null, name, id, cloneId = '') {
             "reg_val": region_val,
             "sect_val": sector_val,
             "count": count,
-            "cloneId" : cloneId
+            "cloneId": cloneId
         },
         dataType: "TEXT",
         success: function (response) {
@@ -264,7 +264,7 @@ function add_vm(count = null, name, id, cloneId = '') {
 }
 
 
-function add_estmt(type ,cloneId = '') {
+function add_estmt(type, cloneId = '') {
     let count_of = 1;
     var count_of_est = parseInt($('#count_of_est').val()) + 1;
     $('#count_of_est').val(count_of_est);
@@ -276,7 +276,7 @@ function add_estmt(type ,cloneId = '') {
         data: {
             name: count_of_est,
             id: count_id,
-            cloneId : cloneId
+            cloneId: cloneId
         },
         dataType: "TEXT",
         success: function (response) {
@@ -387,7 +387,7 @@ function mode() {
         $('aside').addClass('sidebar-dark-primary')
 
         $('body, .Main').attr('style', "background:rgb(48 64 81);")
-        $('div, select, input, label,table tr td, table tr th ,p,span').removeClass('light');   
+        $('div, select, input, label,table tr td, table tr th ,p,span').removeClass('light');
         $('div, select, input,  label, table, table tr td, table tr th ,span, p').addClass('dark');
         $('body').append("<style class = 'st_dark'>  ::placeholder{ color: #eee;} </style>")
         // $('.full table tr th').attr('style','background: rgb(90 159 187)')
@@ -629,14 +629,14 @@ function convertTablesToExcel(tables, type, sheetNames, FileName) {
 
     workbook.xlsx.writeBuffer().then(function (buffer) {
         let blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        saveAs(blob, 'ESDS Estimate - '+FileName+'.xlsx');
+        saveAs(blob, 'ESDS Estimate - ' + FileName + '.xlsx');
     });
 }
 
 
 
 
-function AJAX(Data){
+function AJAX(Data) {
     $.ajax({
         url: "../model/modelRateCard.php",
         type: "POST",
@@ -645,8 +645,31 @@ function AJAX(Data){
         success: function (response) {
             console.log(response)
         },
-        complete:function(){
+        complete: function () {
             window.location.reload();
         }
     })
+}
+
+
+
+function INR(number) {
+    let decimal = (number - Math.floor(number)).toString();
+    let money = Math.floor(number);
+    let length = money.toString().length;
+    let delimiter = '';
+    money = money.toString().split('').reverse().join('');
+    for (let i = 0; i < length; i++) {
+        if ((i === 3 || (i > 3 && (i - 1) % 2 === 0)) && i !== length) {
+            delimiter += ',';
+        }
+        delimiter += money[i];
+    }
+    let result = delimiter.split('').reverse().join('');
+    decimal = decimal.replace(/0\./i, ".");
+    decimal = decimal.substring(0, 3);
+    if (decimal !== '0') {
+        result = result + decimal;
+    }
+    return "₹ " + result;
 }

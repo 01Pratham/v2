@@ -51,7 +51,7 @@ $MothlyTotal = array();
                     ?>
 
                         <button class="btn btn-outline-danger btn-lg mx-1 save" id="update"><i class="fas fa-refresh pr-2"></i> Update</button>
-                        <a class="btn btn-outline-info btn-lg mx-1" id="push" href="discounting.php?id=<?= $_SESSION['edit_id'] ?>"><i class="fa fa-calculator pr-2" aria-hidden="true"> Discounting</i></a>
+                        <a class="btn btn-outline-info btn-lg mx-1" id="push" target="_blank" href="discounting.php?id=<?= $_SESSION['edit_id'] ?>"><i class="fa fa-calculator pr-2" aria-hidden="true"> Discounting</i></a>
                     <?php
                     } else { ?>
                         <button class="btn btn-outline-danger btn-lg mx-1 save" id="save"><i class="fas fa-save pr-2"></i> Save</button>

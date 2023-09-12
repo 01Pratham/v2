@@ -753,7 +753,7 @@ HSM -  $Devices[4]'  ></i>";
         if (empty($period[$j])) {
             $period[$j] = 1;
         }
-
+        $DiscountingId = "OTC";
         tblRow('Services', 'One Time Infrastructure Setup', '', '', "", 1);
         $Class = "Managed_{$j}";
 
@@ -902,30 +902,29 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
                 Total: "<?= $_Prices[$j]['MonthlyTotal'] ?>",
                 data: "<?= base64_encode(json_encode($Products[$j])) ?>"
             };
-            DiscountingAjax($obj);
+            DiscountingAjax($obj , <?=$j?>);
         })
 
 
 
 
-        var Infrastructure = {};
-        var Managed = {};
-        var i = 0;
+        var Infrastructure = 0;
+        var Managed = 0;
         $(".Managed_<?= $j ?> , .Infrastructure_<?= $j ?>").each(function() {
             if ($(this).hasClass("Infrastructure_<?= $j ?>") && $(this).hasClass("mrc_<?= $j ?>")) {
                 let val = $(this).html().replace(/₹ |,/g, '');
-                Infrastructure[i] = parseFloat(val);
-                i++;
+                Infrastructure = Infrastructure + parseFloat(val);
             } else if ($(this).hasClass("Managed_<?= $j ?>") && $(this).hasClass("mrc_<?= $j ?>")) {
                 let val = $(this).html().replace(/₹ |,/g, '');
-                Managed[i] = parseFloat(val);
-                i++;
+                Managed = Managed + parseFloat(val);
             }
         })
 
-        CurrencyFormat();
-
-        
+        $("#infraTotal_<?= $j ?>").html(INR(Infrastructure));
+        $("#MngTotal_<?= $j ?>").html(INR(Managed));
+        $("#total_monthly_<?= $j ?>").html(INR(Infrastructure + Managed));
+        $("#MonthlyTotal_<?= $j ?>").html(INR((Infrastructure + Managed) * parseInt($("#Months_<?= $j ?>").val())));
+        $("#final_otc_<?= $j ?> , #otc<?= $j ?>").html(INR(((Infrastructure + Managed) * 12) * 0.05));
     </script>
 <?php
     $I_M[$j] = $Infrastructure;
@@ -951,7 +950,7 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
                                             INR(0);
                                         }
                                         ?></td>
-        <td class="mrc_<?= $j ?> unshareable <?= $Class ?>">
+        <td class="MRC mrc_<?= $j ?> unshareable <?= $Class ?>">
             <?php
             try {
                 INR($MRC);
@@ -1007,28 +1006,7 @@ function PriceOs($SW, $Feild)
 
 
 <script>
-    function CurrencyFormat() {
-            $.ajax({
-                url: "../controller/Currency_Format.php",
-                type: "POST",
-                dataType: "TEXT",
-                data: {
-                    action: "CurrencyFormat",
-                    months: $("#Months_<?= $j ?>").val(),
-                    arr1: JSON.stringify(Infrastructure),
-                    arr2: JSON.stringify(Managed),
-                },
-                success: function(response) {
-                    let Data = JSON.parse(response);
-                    $("#infraTotal_<?= $j ?>").html(Data.infra);
-                    $("#MngTotal_<?= $j ?>").html(Data.mng);
-                    $("#total_monthly_<?= $j ?>").html(Data.Total);
-                    $("#MonthlyTotal_<?= $j ?>").html(Data.MonthlyTotal);
-                    $("#final_otc_<?= $j ?> , #otc<?= $j ?>").html(Data.Otc);
-                }
-            })
-        }
-    function DiscountingAjax(DATA) {
+    function DiscountingAjax(DATA, j) {
         $.ajax({
             type: "post", //http method
             url: "../controller/discounting.php",
@@ -1037,9 +1015,34 @@ function PriceOs($SW, $Feild)
             success: function(res) {
                 let Json = JSON.parse(res);
                 Object.keys(Json).forEach(key => {
-                    // console.log(key, Json[key]);
                     $("#" + key).html(Json[key]);
+                    let MRC = $("#" + key).parent().find(".MRC").html().replace(/₹ |,/g, '');
+                    let DiscountedPrice = parseFloat(Json[key].replace(/₹ |,/g, ''));
+                    let DiscountedPercentage = (MRC != 0) ? (100 - ((DiscountedPrice / MRC) * 100)).toFixed(2) : 0;
+                    $("#" + key).parent().find(".discount").html(DiscountedPercentage + " % ")
                 });
+
+                var Infrastructure = 0;
+                var Managed = 0;
+                $(".Managed_"+j+" , .Infrastructure_"+j+"").each(function() {
+                    if ($(this).hasClass("Infrastructure_"+j+"") && $(this).hasClass("DiscountedMrc")) {
+                        if($(this).prop("id") == "OTC"){
+                        }else{
+                            let val = $(this).html().replace(/₹ |,/g, '');
+                            // console.log(parseFloat(val))
+                            Infrastructure = Infrastructure + parseFloat(val);
+                        }
+                    } else if ($(this).hasClass("Managed_"+j+"") && $(this).hasClass("DiscountedMrc")) {
+                        let val = $(this).html().replace(/₹ |,/g, '');
+                        Managed = Managed + parseFloat(val);
+                    }
+                })
+
+                $("#DiscInfra_"+j+"").html(INR(Infrastructure));
+                $("#DiscMng_"+j+"").html(INR(Managed));
+                $("#DiscTotal_"+j+"").html(INR(Infrastructure + Managed));
+                $("#MonthlyDiscounted_"+j+"").html(INR((Infrastructure + Managed) * parseInt($("#Months_"+j+"").val())));
+                // $("#final_otc_"+j+" , #otc"+j+"").html(INR(((Infrastructure + Managed) * 12) * 0.05));
             }
         })
     }
