@@ -104,7 +104,6 @@ if (isset($_GET['type'])) {
         }
       })
     })
-
   </script>
 
 <?php

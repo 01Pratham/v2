@@ -508,7 +508,7 @@ HSM -  $Devices[4]'  ></i>";
             $replication_mgmt = 0;
         }
         if (isset($osmgmt[$j]) && !empty($os[$j])) {
-            foreach ($os as $i => $val) {
+            foreach ($os[$j] as $i => $val) {
                 if (preg_match('/Windows/', $os[$j][$i])) {
                     $os_mgmt_name[] = 'Windows';
                     $os_mgmt_qty['Windows'][] = $vmqty[$j][$i];
