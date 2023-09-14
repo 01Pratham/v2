@@ -117,8 +117,8 @@ $db_cal = array(
   'MY SQL Enterprise' => 4,
   'Postgre SQL Enterprise' => 1,
   'Postgre SQL Community' => NULL,
-  'Oracle SQL Standerd' => 8,
-  'Oracle SQL Enterprise' => 8,
+  'Oracle Database Standard' => 8,
+  'Oracle Database Enterprise' => 8,
   'Mongo DB Community' => NULL,
   'Maria DB Community' => NULL
 );

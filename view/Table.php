@@ -123,10 +123,10 @@ foreach ($estmtname as $j => $_Key) {
                 if ($db_data[$i] == 'Postgre SQL Community') {
                     tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['post_com'], " Lic.");
                 }
-                if ($db_data[$i] == 'Oracle SQL Standard') {
+                if ($db_data[$i] == 'Oracle Database Standard') {
                     tblRow("Database", $db_data[$i], get_DB($db_data[$i], 8), $product_prices['orc_std'], " Lic.");
                 }
-                if ($db_data[$i] == 'Oracle SQL Enterprise') {
+                if ($db_data[$i] == 'Oracle Database Enterprise') {
                     tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), $product_prices['orc_ent'], " Lic.");
                 }
                 if ($db_data[$i] == 'Mongo DB Community') {
@@ -513,7 +513,6 @@ HSM -  $Devices[4]'  ></i>";
                     $os_mgmt_name[] = 'Windows';
                     $os_mgmt_qty['Windows'][] = $vmqty[$j][$i];
                     $mgmtINT['Windows'] = 'win_os_mg';
-                    // echo $vmqty[ $j ][ $i ];
                 }
                 if (preg_match('/RHEL/', $os[$j][$i])) {
                     $os_mgmt_name[] = 'RHEL';
