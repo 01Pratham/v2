@@ -18,21 +18,18 @@ function get_OS($sw_name, $core_devide = 1, $price = 1, $Data = 'Price')
           array_pop($core_data);
         }
         $final_qty[$i] = ($core_data[$i] * $vmqty_data[$i]) / $core_devide;
-      }
-      else {
+      } else {
         $final_qty[$i] = $vmqty_data[$i];
         // echo ($vmqty_data[$i])."\n";
       }
-    } 
+    }
   }
   if ($Data == "SKU") {
     $value = $final_qty;
   } else {
     $value = intval(array_sum($final_qty)) * intval($price);
   }
-  // print_r(array_keys($final_qty));
   return $value;
-  // print_r($vcore_data);
 }
 
 
@@ -43,7 +40,7 @@ function get_DB($sw_name, $core_devide = 1, $price = 1, $Data = 'price')
   $core_data = array();
   $vmqty_data = array();
   foreach ($vmqty[$j] as $i => $value) {
-    if($db[$j][$i] == $sw_name){
+    if ($db[$j][$i] == $sw_name) {
       $core_data[$i] = $vcore_data[$i];
       $vmqty_data[$i] = $vmqty[$j][$i];
       if (preg_match('/MS SQL/', $sw_name)) {
@@ -54,8 +51,7 @@ function get_DB($sw_name, $core_devide = 1, $price = 1, $Data = 'price')
           $vmqty_data[$i] = $vmqty[$j][$i] / 2;
         }
         $final_qty[$i] = (intval($core_data[$i]) * intval($vmqty_data[$i])) / $core_devide;
-      }
-      else if (preg_match("/Community/", $sw_name)) {
+      } else if (preg_match("/Community/", $sw_name)) {
         $final_qty[$i] = intval($vmqty_data[$i]);
       } else {
         $final_qty[$i] = ($core_data[$i] * $vmqty_data[$i]) / $core_devide;
@@ -70,8 +66,8 @@ function get_DB($sw_name, $core_devide = 1, $price = 1, $Data = 'price')
   return $value;
 }
 
-function get_Price($prod, $act = "price"){
-
+function get_Price($prod, $act = "price")
+{
   global $con, $_POST;
   $query = mysqli_query($con, "SELECT * FROM `price_list` WHERE `product` = '{$prod}'");
   $val = mysqli_fetch_assoc($query);
@@ -83,7 +79,8 @@ function get_Price($prod, $act = "price"){
   }
 }
 
-function get_strg($unit, $price = 1, $qty = 1){
+function get_strg($unit, $price = 1, $qty = 1)
+{
   if ($unit == "TB") {
     return (floatval($qty) * 1024) * $price;
   } else {
@@ -91,7 +88,8 @@ function get_strg($unit, $price = 1, $qty = 1){
   }
 }
 
-function strg_iops($unit, $iops){
+function strg_iops($unit, $iops)
+{
   if ($unit == 'GB') {
     return "Storage Space with " . ($iops / 1000) . " IOPS";
   } else {
@@ -100,10 +98,10 @@ function strg_iops($unit, $iops){
 }
 
 
-function ManagedServices($service, $service_qty){
+function ManagedServices($service, $service_qty)
+{
   if (isset($service)) {
     if (!empty($service_qty)) {
-
     }
   }
 }
@@ -164,8 +162,10 @@ if (!function_exists('SkuList')) {
   }
 }
 
-if (!function_exists('GroupPrice')) {
-  function GroupPrice(){
+if (!function_exists('GroupPrice')) 
+{
+  function GroupPrice()
+  {
     include 'constants.php';
     require '../model/database.php';
     global $vmname, $j, $i, $db_cal, $vCore, $vRam, $vDisk, $vmqty;

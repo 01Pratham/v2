@@ -48,10 +48,10 @@ if (!function_exists('create_opt')) {
     function create_opt($category)
     {
         global $con;
-        $query = mysqli_query($con, "SELECT * FROM `price_list` WHERE sec_category = '{$category}'");
+        $query = mysqli_query($con, "SELECT DISTINCT `product` , `prod_int` FROM `price_list` WHERE `sec_category` = '{$category}'");
         while ($product = mysqli_fetch_assoc($query)) {
             // echo $product['product'];
-            echo "<option value = '{$product['product']}'>{$product['product']}</option>";
+            echo "<option value = '{$product['prod_int']}'>{$product['product']}</option>";
         }
     }
 }

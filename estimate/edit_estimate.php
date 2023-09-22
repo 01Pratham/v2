@@ -18,7 +18,7 @@ if (isset($_GET['type'])) {
             <?php
             $p = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `id` = '{$_SESSION['edit_id']}' "));
             if ($p['pot_id'] != $_POST['pot_id']) {
-              echo "<input type = 'hidden' name = 'old_pot' value = '{$p['pot_id']}' >";
+              echo "<input type = 'hidden' name = 'old_pot' value = '{$p['pot_id']}'>";
             }
           } else { ?>
 
@@ -32,11 +32,9 @@ if (isset($_GET['type'])) {
 
         <div class="mytabs my-2" id="myTab">
           <input type="hidden" name="count_of_est" id="count_of_est" value=1>
-
           <?php
           require '../view/DC_DR.php';
           require '../view/Colocation.php';
-
           $getTypeQuot = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_quot_type` WHERE `id` = '{$_GET['type']}'"));
           $getTypeQuot['template_name'](1, 1);
           ?>
@@ -51,7 +49,6 @@ if (isset($_GET['type'])) {
         </div>
         <?php
         $potQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `pot_id` = '{$_GET['pot_id']}' AND `emp_code` = '{$_SESSION['emp_code']}'"));
-        // print_r($potQuery);
         if (!isset($_GET['edit_id']) && empty($potQuery['id'])) { ?>
           <div class="except sub-button shadow  btn btn-outline-success action" id="save">
             <i class="except icons fa fa-save"></i>
@@ -108,5 +105,4 @@ if (isset($_GET['type'])) {
 
 <?php
 }
-
 ?>
