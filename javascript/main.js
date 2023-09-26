@@ -72,11 +72,11 @@ function mySeries(name = '', id = '', cloneId = '', count = '',) {
     });
 }
 
-$(document).ready(function () {
-    if ($('#series_1').val() === "flexi") {
-        mySeries(1, 1);
-    }
-});
+// $(document).ready(function () {
+//     if ($('#series_1').val() === "flexi") {
+//         mySeries(1, 1);
+//     }
+// });
 
 $(document).on("keydown", "form", function (event) {
     return event.key != "Enter";
@@ -149,6 +149,10 @@ function validate_input(check_class) {
         }
     })
 }
+
+$("input[type=number]").on("mousewheel",function(e){
+    $(this).blur();
+})
 
 // $('.strg-select').on('change', function () {
 //     if ($(this).val()==='GB') {

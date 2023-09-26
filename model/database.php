@@ -70,12 +70,32 @@ if (!function_exists("UserRole")) {
         global $con;
         $get_user_role = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `login_master` WHERE `employee_code` = '{$_SESSION['emp_code']}'"));
         $get_user_permissions = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `role_permissions` WHERE `role_id` = '{$get_user_role['user_role']}'"));
-        $arr = explode(",",$get_user_permissions["permission_id"]);
-        foreach ($arr as $k => $v){
-            if($v == $Permission){
+        $arr = explode(",", $get_user_permissions["permission_id"]);
+        foreach ($arr as $k => $v) {
+            if ($v == $Permission) {
                 return true;
                 break;
             }
         }
+    }
+}
+
+$dbQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `price_list` WHERE `primary_category` = 'software' AND `sec_category` = 'db'");
+while ($arr = mysqli_fetch_assoc($dbQuery)) {
+    $dbArr[] = $arr['prod_int'];
+}
+
+
+$osQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `price_list` WHERE `primary_category` = 'software' AND `sec_category` = 'os'");
+while ($arr = mysqli_fetch_assoc($osQuery)) {
+    $osArr[] = $arr['prod_int'];
+}
+
+
+if(!function_exists("getProdName")){
+    function getProdName($int){
+        global $con;
+        $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT DISTINCT `product` FROM `price_list` WHERE `prod_int` = '{$int}'"));
+        return $query['product'];
     }
 }

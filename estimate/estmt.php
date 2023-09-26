@@ -113,7 +113,13 @@
         CreateNew();
         require('edit_estimate.php');
         if ($Editable['count_of_est'] > 1) {
-            echo "<script>add_estmt()</script>";
+            for ($count = 1; $count < $Editable['count_of_est']; $count++){
+                echo "<script>add_estmt()</script>";
+                if($count == ($Editable['count_of_est'] - 1)){
+                    $EstmtDone = true;
+                    // echo "<script>console.log('estmt success')</script>";
+                }
+            }
         }
         if (isset($_GET['edit_id']) && isset($_GET['next'])) {
             echo "<script> 

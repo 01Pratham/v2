@@ -25,6 +25,7 @@ $EstmDATA = $_SESSION['post_data'];
     $cpu = $EstmDATA['vcpu'];
     $ram = $EstmDATA['ram'];
     $disk = $EstmDATA['inst_disk'];
+    $diskType = $EstmDATA['vmDiskIOPS'];
 
     $vmname = $EstmDATA['vmname'];
     $back_soft = $EstmDATA['backup_soft'];

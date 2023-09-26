@@ -1,6 +1,10 @@
 <?php
+
 $Sku_Data = array();
 require_once "../controller/calculations.php";
+echo "<pre>";
+print_r($dbArr);
+echo "</pre>";
 
 foreach ($estmtname as $j => $_Key) {
     $no = 0;
@@ -21,7 +25,7 @@ foreach ($estmtname as $j => $_Key) {
         </tr>
         <?php
         $Class = 'Infrastructure';
-        if (!empty($series[$j][0])) {
+        if (!empty($vmqty[$j][0])) {
             $no + 1;
             $a = 'A.' . $no . ' +';
 
@@ -31,7 +35,7 @@ foreach ($estmtname as $j => $_Key) {
             $vcore_data = array();
             foreach ($vmqty[$j] as $i => $val) {
                 $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
-                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk - 1000 IOPS -  {$disk[$j][$i]} GB";
+                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk - {$diskType[$j][$i]} IOPS/GB -  {$disk[$j][$i]} GB";
                 // $price = ($instance[$j][$i] == 'Flexi') ?
                 //     (($product_prices['cpu'] * intval($cpu[$j][$i])) +
                 //         ($product_prices['ram'] * intval($ram[$j][$i])) +
@@ -39,8 +43,8 @@ foreach ($estmtname as $j => $_Key) {
                 //     : $cost_rows['price'];
 
                 $price = (($product_prices['cpu'] * intval($cpu[$j][$i])) +
-                        ($product_prices['ram'] * intval($ram[$j][$i])) +
-                        ($product_prices['iops_1'] * intval($disk[$j][$i])));
+                    ($product_prices['ram'] * intval($ram[$j][$i])) +
+                    ($product_prices['iops_1'] * intval($disk[$j][$i])));
 
                 $vCore[$j][$i] = $cpu[$j][$i];
                 $vRam[$j][$i] = $ram[$j][$i];
@@ -53,7 +57,7 @@ foreach ($estmtname as $j => $_Key) {
                 }
                 $Service = !empty($vmname[$j][$i]) ? ($vmname[$j][$i]) : ('Virtual Machine') . ' - ' . $region[$j][$i] . ' - ' . $sector[$j][$i] . ' ' . $state[$j][$i];
 
-                $ProdName = $instance[$j][$i] . ' : ' . $compute[$j][$i] . ' | OS : ' . $os[$j][$i] . ' | DB : ' . $db[$j][$i];
+                $ProdName =$compute[$j][$i] . ' | OS : ' . getProdName($os[$j][$i]) . ' | DB : ' . getProdName($db[$j][$i]);
 
                 tblRow($Service, $ProdName, $vmqty[$j][$i], $price);
 
@@ -62,7 +66,7 @@ foreach ($estmtname as $j => $_Key) {
             }
         }
 
-        if (!empty($series[$j][0]) || !empty($agenttype[$j]) || isset($drm_tool[$j])) {
+        if (!empty($vmqty[$j][0]) || !empty($agenttype[$j]) || isset($drm_tool[$j])) {
             $b = 'A.' . $no = $no + 1;
             $b .= ' +';
             tblHead("Software Licenses");
@@ -71,73 +75,86 @@ foreach ($estmtname as $j => $_Key) {
             $db_data = (!empty($db[$j])) ? array_values(array_unique($db[$j])) : null;
             foreach ($vmqty[$j] as $i => $val) {
 
-                if ($os_data[$i] == 'Windows Standard Edition') {
-                    // echo array_search($os,$EstmDATA);
-                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i], 2), $product_prices['win_se'], "Lic.");
+                foreach ($osArr as $k => $int) {
+                    if ($os_data[$i] == $int) {
+                        $cal = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_calculation` WHERE `product_int` = '{$os_data[$i]}'"));
+                        list($variableName, $value) = explode(' = ', $cal['calculation']);
+                        $$variableName = $value;
+                        tblRow("Database", getProdName($os_data[$i]), get_os($os_data[$i], $core_devide), $product_prices[$int], " Lic.");
+                    }
                 }
 
-                if ($os_data[$i] == 'Windows Datacenter Edition') {
-                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i], 2), $product_prices['win_dc'], "Lic.");
-                }
+                // if ($os_data[$i] == 'Windows Standard Edition') {
+                //     // echo array_search($os,$EstmDATA);
+                //     tblRow("Operating System", $os_data[$i], get_OS($sw_name = $os_data[$i], 2), $product_prices['win_se'], "Lic.");
+                // }
 
-                if ($os_data[$i] == 'Linux : RHEL') {
-                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), $product_prices['rhel'], "Lic.");
-                }
+                // if ($os_data[$i] == 'Windows Datacenter Edition') {
+                //     tblRow("Operating System", $os_data[$i], get_OS($os_data[$i], 2), $product_prices['win_dc'], "Lic.");
+                // }
 
-                if ($os_data[$i] == 'Linux : UBUNTU') {
-                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), 0, "Lic.");
-                }
+                // if ($os_data[$i] == 'Linux : RHEL') {
+                //     tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), $product_prices['rhel'], "Lic.");
+                // }
 
-                if ($os_data[$i] == 'Linux : CENTOS') {
-                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), 0, "Lic.");
-                }
+                // if ($os_data[$i] == 'Linux : UBUNTU') {
+                //     tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), 0, "Lic.");
+                // }
 
-                if ($os_data[$i] == 'Linux : SUSE') {
-                    tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), $product_prices['suse'], "Lic.");
-                }
-                
+                // if ($os_data[$i] == 'Linux : CENTOS') {
+                //     tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), 0, "Lic.");
+                // }
+
+                // if ($os_data[$i] == 'Linux : SUSE') {
+                //     tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), $product_prices['suse'], "Lic.");
+                // }
             }
 
             foreach ($vmqty[$j] as $i => $val) {
-                if ($db_data[$i] == 'MS SQL Standard') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), $product_prices['ms_std'], " Lic.");
+                foreach ($dbArr as $k => $int) {
+                    if ($db_data[$i] == $int) {
+                        $cal = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_calculation` WHERE `product_int` = '{$db_data[$i]}'"));
+                        list($variableName, $value) = explode(' = ', $cal['calculation']);
+                        $$variableName = $value;
+                        tblRow("Database", getProdName($db_data[$i]), get_DB($db_data[$i], $core_devide), $product_prices['ms_std'], " Lic.");
+                    }
                 }
-                if ($db_data[$i] == 'MS SQL Enterprise') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), $product_prices['ms_ent'], " Lic.");
-                }
-                if ($db_data[$i] == 'MS SQL WEB') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), $product_prices['ms_web'], " Lic.");
-                }
-                if ($db_data[$i] == 'MY SQL Community') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['my_com'], " Lic.");
-                }
-                if ($db_data[$i] == 'MY SQL Standard') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 4), $product_prices['my_std'], " Lic.");
-                }
-                if ($db_data[$i] == 'MY SQL Enterprise') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 4), $product_prices['my_ent'], " Lic.");
-                }
-                if ($db_data[$i] == 'Postgre SQL Enterprise') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), $product_prices['post_ent'], " Lic.");
-                }
-                if ($db_data[$i] == 'Postgre SQL Community') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['post_com'], " Lic.");
-                }
-                if ($db_data[$i] == 'Oracle Database Standard') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 8), $product_prices['orc_std'], " Lic.");
-                }
-                if ($db_data[$i] == 'Oracle Database Enterprise') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), $product_prices['orc_ent'], " Lic.");
-                }
-                if ($db_data[$i] == 'Mongo DB Community') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['mong_com'], " Lic.");
-                }
-                if ($db_data[$i] == 'Maria DB Community') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['mar_com'], " Lic.");
-                }
-                if ($db_data[$i] == 'Other') {
-                    tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['mar_com'], " Lic.");
-                }
+                // if ($db_data[$i] == 'MS SQL Enterprise') {
+                //     tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), $product_prices['ms_ent'], " Lic.");
+                // }
+                // if ($db_data[$i] == 'MS SQL WEB') {
+                //     tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), $product_prices['ms_web'], " Lic.");
+                // }
+                // if ($db_data[$i] == 'MY SQL Community') {
+                //     tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['my_com'], " Lic.");
+                // }
+                // if ($db_data[$i] == 'MY SQL Standard') {
+                //     tblRow("Database", $db_data[$i], get_DB($db_data[$i], 4), $product_prices['my_std'], " Lic.");
+                // }
+                // if ($db_data[$i] == 'MY SQL Enterprise') {
+                //     tblRow("Database", $db_data[$i], get_DB($db_data[$i], 4), $product_prices['my_ent'], " Lic.");
+                // }
+                // if ($db_data[$i] == 'Postgre SQL Enterprise') {
+                //     tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), $product_prices['post_ent'], " Lic.");
+                // }
+                // if ($db_data[$i] == 'Postgre SQL Community') {
+                //     tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['post_com'], " Lic.");
+                // }
+                // if ($db_data[$i] == 'Oracle Database Standard') {
+                //     tblRow("Database", $db_data[$i], get_DB($db_data[$i], 8), $product_prices['orc_std'], " Lic.");
+                // }
+                // if ($db_data[$i] == 'Oracle Database Enterprise') {
+                //     tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), $product_prices['orc_ent'], " Lic.");
+                // }
+                // if ($db_data[$i] == 'Mongo DB Community') {
+                //     tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['mong_com'], " Lic.");
+                // }
+                // if ($db_data[$i] == 'Maria DB Community') {
+                //     tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['mar_com'], " Lic.");
+                // }
+                // if ($db_data[$i] == 'Other') {
+                //     tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['mar_com'], " Lic.");
+                // }
             }
             $Sku_Data[$estmtname[$j]] = SkuList();
 
@@ -173,35 +190,35 @@ foreach ($estmtname as $j => $_Key) {
 
             if (isset($iops03[$j])) {
                 tblRow("Additional Storage", strg_iops($strgunit03[$j], 300), $iops03qty[$j], get_strg($strgunit03[$j], $product_prices['iops_03']), $strgunit03[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit03[$j], 300)] = get_strg($strgunit03[$j], $product_prices['iops_03'])*$iops03qty[$j];
+                $Infrastructure['Storage Solution'][strg_iops($strgunit03[$j], 300)] = get_strg($strgunit03[$j], $product_prices['iops_03']) * $iops03qty[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_03']] = ($strgunit03[$j] == 'TB') ? intval($iops03qty[$j]) * 1024 : intval($iops03qty[$j]);
             }
             if (isset($iops1[$j])) {
                 tblRow("Additional Storage", strg_iops($strgunit1[$j], 1000), $iops1qty[$j], get_strg($strgunit1[$j], $product_prices['iops_1']), $strgunit1[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit1[$j], 1000)] = get_strg($strgunit1[$j], $product_prices['iops_1'])*$iops1qty[$j];
+                $Infrastructure['Storage Solution'][strg_iops($strgunit1[$j], 1000)] = get_strg($strgunit1[$j], $product_prices['iops_1']) * $iops1qty[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_1']] = ($strgunit1[$j] == 'TB') ? intval($iops1qty[$j]) * 1024 : intval($iops1qty[$j]);
             }
 
             if (isset($iops3[$j])) {
                 tblRow("Additional Storage", strg_iops($strgunit3[$j], 3000), $iops3qty[$j], get_strg($strgunit3[$j], $product_prices['iops_3']), $strgunit3[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit3[$j], 3000)] = get_strg($strgunit3[$j], $product_prices['iops_3'])*$iops3qty[$j];
+                $Infrastructure['Storage Solution'][strg_iops($strgunit3[$j], 3000)] = get_strg($strgunit3[$j], $product_prices['iops_3']) * $iops3qty[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_3']] = ($strgunit3[$j] == 'TB') ? intval($iops3qty[$j]) * 1024 : intval($iops3qty[$j]);
             }
 
             if (isset($iops5[$j])) {
                 tblRow("Additional Storage", strg_iops($strgunit5[$j], 5000), $iops5qty[$j], get_strg($strgunit5[$j], $product_prices['iops_5']), $strgunit5[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit5[$j], 5000)] = get_strg($strgunit5[$j], $product_prices['iops_5'])*$iops5qty[$j];
+                $Infrastructure['Storage Solution'][strg_iops($strgunit5[$j], 5000)] = get_strg($strgunit5[$j], $product_prices['iops_5']) * $iops5qty[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_5']] = ($strgunit5[$j] == 'TB') ? intval($iops5qty[$j]) * 1024 : intval($iops5qty[$j]);
             }
 
             if (isset($iops8[$j])) {
                 tblRow("Additional Storage", strg_iops($strgunit8[$j], 8000), $iops8qty[$j], get_strg($strgunit8[$j], $product_prices['iops_8']), $strgunit8[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit8[$j], 8000)] = get_strg($strgunit8[$j], $product_prices['iops_8'])*$iops8qty[$j];
+                $Infrastructure['Storage Solution'][strg_iops($strgunit8[$j], 8000)] = get_strg($strgunit8[$j], $product_prices['iops_8']) * $iops8qty[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_8']] = ($strgunit8[$j] == 'TB') ? intval($iops8qty[$j]) * 1024 : intval($iops8qty[$j]);
             }
             if (isset($iops10[$j])) {
                 tblRow("Additional Storage", strg_iops($strgunit10[$j], 10000), $iops10qty[$j], get_strg($strgunit10[$j], $product_prices['iops_10']), $strgunit10[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit10[$j], 10000)] = get_strg($strgunit10[$j], $product_prices['iops_10'])*$iops10qty[$j];
+                $Infrastructure['Storage Solution'][strg_iops($strgunit10[$j], 10000)] = get_strg($strgunit10[$j], $product_prices['iops_10']) * $iops10qty[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_10']] = ($strgunit10[$j] == 'TB') ? intval($iops10qty[$j]) * 1024 : intval($iops10qty[$j]);
             }
 
@@ -509,36 +526,46 @@ HSM -  $Devices[4]'  ></i>";
         }
         if (isset($osmgmt[$j]) && !empty($os[$j])) {
             foreach ($os[$j] as $i => $val) {
-                if (preg_match('/Windows/', $os[$j][$i])) {
-                    $os_mgmt_name[] = 'Windows';
-                    $os_mgmt_qty['Windows'][] = $vmqty[$j][$i];
-                    $mgmtINT['Windows'] = 'win_os_mg';
-                }
-                if (preg_match('/RHEL/', $os[$j][$i])) {
-                    $os_mgmt_name[] = 'RHEL';
-                    $os_mgmt_qty['RHEL'][] = $vmqty[$j][$i];
-                    $mgmtINT['RHEL'] = 'rhel_os_mg';
-                }
-                if (preg_match('/SUSE/', $os[$j][$i])) {
-                    $os_mgmt_name[] = 'SUSE';
-                    $os_mgmt_qty['SUSE'][] = $vmqty[$j][$i];
-                    $mgmtINT['SUSE'] = 'suse_os_mg';
-                }
-                if (preg_match('/UBUNTU/', $os[$j][$i])) {
-                    $os_mgmt_name[] = 'UBUNTU';
-                    $os_mgmt_qty['UBUNTU'][] = $vmqty[$j][$i];
-                    $mgmtINT['UBUNTU'] = 'ubuntu_os_mg';
-                }
-                if (preg_match('/CENTOS/', $os[$j][$i])) {
-                    $os_mgmt_name[] = 'CENTOS';
-                    $os_mgmt_qty['CENTOS'][] = $vmqty[$j][$i];
-                    $mgmtINT['CENTOS'] = 'centos_os_mg';
+                foreach ($osArr as $k => $int) {
+                    if ($os[$j][$i] == $int) {
+                        $str = explode("_",$os[$j][$i]);
+                        $osInt[] = $str[0];
+                        $os_mgmt_name[] = getProdName($int); 
+                        $os_mgmt_qty[$str[0]][] = $vmqty[$j][$i];
+                        $mgmtINT[$str[0]] = $str[0].'_mgmt';
+                        // if (preg_match('/Windows/', $os[$j][$i])) {
+                        //     $os_mgmt_name[] = 'Windows';
+                        //     $os_mgmt_qty['Windows'][] = $vmqty[$j][$i];
+                        //     $mgmtINT['Windows'] = 'win_os_mg';
+                        // }
+                        // if (preg_match('/RHEL/', $os[$j][$i])) {
+                        //     $os_mgmt_name[] = 'RHEL';
+                        //     $os_mgmt_qty['RHEL'][] = $vmqty[$j][$i];
+                        //     $mgmtINT['RHEL'] = 'rhel_os_mg';
+                        // }
+                        // if (preg_match('/SUSE/', $os[$j][$i])) {
+                        //     $os_mgmt_name[] = 'SUSE';
+                        //     $os_mgmt_qty['SUSE'][] = $vmqty[$j][$i];
+                        //     $mgmtINT['SUSE'] = 'suse_os_mg';
+                        // }
+                        // if (preg_match('/UBUNTU/', $os[$j][$i])) {
+                        //     $os_mgmt_name[] = 'UBUNTU';
+                        //     $os_mgmt_qty['UBUNTU'][] = $vmqty[$j][$i];
+                        //     $mgmtINT['UBUNTU'] = 'ubuntu_os_mg';
+                        // }
+                        // if (preg_match('/CENTOS/', $os[$j][$i])) {
+                        //     $os_mgmt_name[] = 'CENTOS';
+                        //     $os_mgmt_qty['CENTOS'][] = $vmqty[$j][$i];
+                        //     $mgmtINT['CENTOS'] = 'centos_os_mg';
+                        // }
+                    }
                 }
             }
-            $os_mgmt_data = (!empty($os_mgmt_name)) ? array_values(array_unique($os_mgmt_name)) : null;
+            $os_mgmt_data = (!empty($osInt)) ? array_values(array_unique($osInt)) : null;
         }
 
         if (isset($dbmgmt[$j]) && !empty($db[$j])) {
+
             foreach ($db[$j] as $i => $val) {
                 if (preg_match('/MS SQL/', $db[$j][$i])) {
                     $db_mgmt_name[] = 'MS SQL';
@@ -673,7 +700,9 @@ HSM -  $Devices[4]'  ></i>";
 
         if (isset($osmgmt[$j]) && !empty($os_mgmt_name)) {
             for ($i = 0; $i < count($os_mgmt_data); $i++) {
-                tblRow("Services", $os_mgmt_data[$i] . ' OS Managed Services', array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $product_prices[$mgmtINT[$os_mgmt_data[$i]]]);
+                echo $mgmtINT[$os_mgmt_data[$i]];
+
+                tblRow("Services", getProdName($mgmtINT[$os_mgmt_data[$i]]), array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $product_prices[$mgmtINT[$os_mgmt_data[$i]]]);
                 $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$mgmtINT[$os_mgmt_data[$i]]]] = array_sum($os_mgmt_qty[$os_mgmt_data[$i]]);
             }
         }
@@ -726,8 +755,8 @@ Web App Firewall - $emagicqty[2]
 VM Quantity - $emagicqty[3]
 Cross Connect & Port Termination - $emagicqty[4] 
 Bandwidth Monitoring - $emagicqty[5] '></i>";
-$name = 'eMagic Monitoring ' . $emagic_type[$j];
-            tblRow("Services", $name , array_sum($emagicqty), $product_prices['emagic']);
+            $name = 'eMagic Monitoring ' . $emagic_type[$j];
+            tblRow("Services", $name, array_sum($emagicqty), $product_prices['emagic']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['emagic']] = array_sum($emagicqty);
         }
         ?>
@@ -790,10 +819,11 @@ $name = 'eMagic Monitoring ' . $emagic_type[$j];
 <?php
     $I_M[$j] = $Infrastructure;
     $I_M[$j]['Managed Services'] = $managed_services;
-    
-    $I_M[$j]['MonthlyTotal'] = $MothlyTotal[$j];
-    echo "<pre>";print_r($I_M);echo "</pre>";    
 
+    $I_M[$j]['MonthlyTotal'] = $MothlyTotal[$j];
+    echo "<pre>";
+    print_r($I_M);
+    echo "</pre>";
 }
 
 
@@ -810,7 +840,7 @@ function tblRow($Service, $Product, $Quantity, $Price, $Unit = "NO", $OTC = '')
         <td class='cost unshareable'><?php INR(intval($Price)); ?></td>
         <td class='discount unshareable' id='disc'></td>
         <td class="mrc_<?= $j ?> unshareable"><?php INR(intval($Price) * floatval($Quantity)); ?></td>
-        <td class='unshareable' id='otc'><?php (!empty($OTC))? INR($OTC) : '' ?></td>
+        <td class='unshareable' id='otc'><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>
     </tr>
 <?php
 }

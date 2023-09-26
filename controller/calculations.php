@@ -43,7 +43,7 @@ function get_DB($sw_name, $core_devide = 1, $price = 1, $Data = 'price')
     if ($db[$j][$i] == $sw_name) {
       $core_data[$i] = $vcore_data[$i];
       $vmqty_data[$i] = $vmqty[$j][$i];
-      if (preg_match('/MS SQL/', $sw_name)) {
+      if (preg_match('/ms/', $sw_name)) {
         $state_data[$i] = $state[$j][$i];
         if ($state_data[$i] == "Passive") {
           $core_data[$i] = 0;

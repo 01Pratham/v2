@@ -7,7 +7,7 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
     $SESSION['post_data'] = $_POST;
     // require "colocation.php";
     require "../model/editable.php";
-    global $Editable, $con;
+    global $Editable, $con, $EstmtDone;
     // print_r($Editable);  
 ?>
 
@@ -34,8 +34,22 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
                 <h6 class="OnInput">Your Estimate</h6>
             </label>
             <span class="float-right">
+                <select name="region[<?= $name ?>]" id="region_<?= $id ?>" class="border-0 text-primary">
+                    <option value="<?= $Editable['region'][$name] ?>" hidden><?= $Editable['region'][$name] ?></option>
+                    <?php
+                    $reg = mysqli_query($con, 'SELECT * FROM `tbl_region`');
+                    while ($reg_row = mysqli_fetch_array($reg)) {
+                        if ($reg_row["id"] == 0) {
+                        } else {
+                    ?>
+                            <option value="<?= $reg_row["region"] ?>"><?= $reg_row["region"] ?></option>
+                    <?php
+                        }
+                    }
+                    ?>
+                </select>
                 <select name="EstType[<?= $name ?>]" id="EstType_<?= $id ?>" class="border-0 text-primary">
-                    <option value="<?=$Editable['EstType'][$name]?>" hidden>DC</option>
+                    <option value="<?= $Editable['EstType'][$name] ?>" hidden><?= $Editable['EstType'][$name] ?></option>
                     <option value="DC">DC</option>
                     <option value="DR">DR</option>
                 </select>
@@ -56,7 +70,7 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
                         <input type="text" class="form-control EstmtName" id="estmtname_<?= $id ?>" placeholder="Your Estimate" name="estmtname[<?= $name ?>]" required value="<?= $Editable["estmtname"][$name] ?>">
                     </div>
                     <div class="col-md-3 input-group ">
-                        <input type="number" min=0 class="form-control small col-8 text-sm-left" id="period_<?= $id ?>" placeholder="Contract Period" min=1 name="period[<?= $name ?>]" required value="<?= $Editable['period'][$name] ?>" aria-describedby="PeriodUnit_<?= $id ?>" style = "font-size:15">
+                        <input type="number" min=0 class="form-control small col-8 text-sm-left" id="period_<?= $id ?>" placeholder="Contract Period" min=1 name="period[<?= $name ?>]" required value="<?= $Editable['period'][$name] ?>" aria-describedby="PeriodUnit_<?= $id ?>" style="font-size:15">
                         <span class="input-group-text form-control col-4 bg-light" id="PeriodUnit_<?= $id ?>">Months</span>
                     </div>
                 </div>
@@ -69,16 +83,14 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
                     ?>
                 </div>
 
-                <?php 
+                <?php
                 require 'Components/Storage.php';
                 require 'Components/Backup.php';
                 require 'Components/Network.php';
                 require 'Components/Security.php';
                 require 'Components/ManagedServices.php';
                 require 'Components/DRServices.php';
-            
                 ?>
-                
             </div>
         </div>
 
@@ -95,14 +107,21 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
             add_vm("Null", name, <?= $id ?>);
         })
         <?php
+
         if ($Editable['vmname'][$name] != null) {
             if (count($Editable['vmname'][$name]) > 1) {
                 for ($i = 1; $i < count($Editable['vmname'][$name]); $i++) {
-                    echo "add_vm({$i} , {$name},{$id},);";
+                    echo "add_vm({$i} , {$name},{$id},);\n  ";
                 }
             }
         }
         ?>
+
+        if ($("#count_of_est").val() == <?= $Editable['count_of_est'] ?> &&
+            $("#count_of_vm_<?= $Editable['count_of_est'] ?>").val() == <?= $Editable["count_of_vm"][$Editable['count_of_est']] ?>) {
+            console.log("Estmt DONE");
+        }
+
         $('#checkHead_<?= $id ?>').on('input', function() {
             if ($("#estmt_collapse_<?= $id ?>").hasClass('show')) {
                 $("#estmt_collapse_<?= $id ?>").removeClass('show')
@@ -173,10 +192,10 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
         $('#EstType_<?= $id ?>').on("change", function() {
             // console.log($(this).val())
             if ($(this).val() == "DR") {
-                $('.DR_<?=$name?>').removeClass('d-none');
+                $('.DR_<?= $name ?>').removeClass('d-none');
                 // console.log("DR")
             } else {
-                $('.DR_<?=$name?>').addClass('d-none');
+                $('.DR_<?= $name ?>').addClass('d-none');
             }
         })
 
@@ -187,7 +206,7 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
 
         if ($('#hsm_type_<?= $id ?>').val() === "Dedicated HSM") {
             $('#hsm_type_<?= $id ?>').parent().find('.hide span').html("Keys");
-        } else if($('#hsm_type_<?= $id ?>').val() === "Shared HSM"){
+        } else if ($('#hsm_type_<?= $id ?>').val() === "Shared HSM") {
             $('#hsm_type_<?= $id ?>').parent().find('.hide span').html("Devices");
         }
         $('#hsm_type_<?= $id ?>').on('change', function() {
@@ -198,8 +217,8 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
             }
         })
 
-        $(document).ready(function(){
-            $('.Checked').each(function(){
+        $(document).ready(function() {
+            $('.Checked').each(function() {
                 $(this).click();
             })
             $('.replink').addClass('d-none');
