@@ -3,7 +3,7 @@
 $Sku_Data = array();
 require_once "../controller/calculations.php";
 echo "<pre>";
-print_r($dbArr);
+print_r($strgArr);
 echo "</pre>";
 
 foreach ($estmtname as $j => $_Key) {
@@ -34,7 +34,7 @@ foreach ($estmtname as $j => $_Key) {
             $vm_total = array();
             $vcore_data = array();
             foreach ($vmqty[$j] as $i => $val) {
-                $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
+                // $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
                 $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk - {$diskType[$j][$i]} IOPS/GB -  {$disk[$j][$i]} GB";
                 // $price = ($instance[$j][$i] == 'Flexi') ?
                 //     (($product_prices['cpu'] * intval($cpu[$j][$i])) +
@@ -42,9 +42,9 @@ foreach ($estmtname as $j => $_Key) {
                 //         ($product_prices['iops_1'] * intval($disk[$j][$i])))
                 //     : $cost_rows['price'];
 
-                $price = (($product_prices['cpu'] * intval($cpu[$j][$i])) +
-                    ($product_prices['ram'] * intval($ram[$j][$i])) +
-                    ($product_prices['iops_1'] * intval($disk[$j][$i])));
+                $price = (($product_prices['vcpu_static'] * intval($cpu[$j][$i])) +
+                    ($product_prices['vram_static'] * intval($ram[$j][$i])) +
+                    ($product_prices[$diskType[$j][$i]] * intval($disk[$j][$i])));
 
                 $vCore[$j][$i] = $cpu[$j][$i];
                 $vRam[$j][$i] = $ram[$j][$i];
@@ -57,7 +57,7 @@ foreach ($estmtname as $j => $_Key) {
                 }
                 $Service = !empty($vmname[$j][$i]) ? ($vmname[$j][$i]) : ('Virtual Machine') . ' - ' . $region[$j][$i] . ' - ' . $sector[$j][$i] . ' ' . $state[$j][$i];
 
-                $ProdName =$compute[$j][$i] . ' | OS : ' . getProdName($os[$j][$i]) . ' | DB : ' . getProdName($db[$j][$i]);
+                $ProdName = $compute[$j][$i] . ' | OS : ' . getProdName($os[$j][$i]) . ' | DB : ' . getProdName($db[$j][$i]);
 
                 tblRow($Service, $ProdName, $vmqty[$j][$i], $price);
 
@@ -188,42 +188,64 @@ foreach ($estmtname as $j => $_Key) {
             $c .= ' +';
             tblHead("Storage and Backup Services");
 
-            if (isset($iops03[$j])) {
-                tblRow("Additional Storage", strg_iops($strgunit03[$j], 300), $iops03qty[$j], get_strg($strgunit03[$j], $product_prices['iops_03']), $strgunit03[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit03[$j], 300)] = get_strg($strgunit03[$j], $product_prices['iops_03']) * $iops03qty[$j];
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_03']] = ($strgunit03[$j] == 'TB') ? intval($iops03qty[$j]) * 1024 : intval($iops03qty[$j]);
-            }
-            if (isset($iops1[$j])) {
-                tblRow("Additional Storage", strg_iops($strgunit1[$j], 1000), $iops1qty[$j], get_strg($strgunit1[$j], $product_prices['iops_1']), $strgunit1[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit1[$j], 1000)] = get_strg($strgunit1[$j], $product_prices['iops_1']) * $iops1qty[$j];
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_1']] = ($strgunit1[$j] == 'TB') ? intval($iops1qty[$j]) * 1024 : intval($iops1qty[$j]);
-            }
+            // if (isset($iops03[$j])) {
+            //     tblRow("Additional Storage", strg_iops($strgunit03[$j], 300), $iops03qty[$j], get_strg($strgunit03[$j], $product_prices['iops_03']), $strgunit03[$j]);
+            //     $Infrastructure['Storage Solution'][strg_iops($strgunit03[$j], 300)] = get_strg($strgunit03[$j], $product_prices['iops_03']) * $iops03qty[$j];
+            //     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_03']] = ($strgunit03[$j] == 'TB') ? intval($iops03qty[$j]) * 1024 : intval($iops03qty[$j]);
+            // }
+            // if (isset($iops1[$j])) {
+            //     tblRow("Additional Storage", strg_iops($strgunit1[$j], 1000), $iops1qty[$j], get_strg($strgunit1[$j], $product_prices['iops_1']), $strgunit1[$j]);
+            //     $Infrastructure['Storage Solution'][strg_iops($strgunit1[$j], 1000)] = get_strg($strgunit1[$j], $product_prices['iops_1']) * $iops1qty[$j];
+            //     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_1']] = ($strgunit1[$j] == 'TB') ? intval($iops1qty[$j]) * 1024 : intval($iops1qty[$j]);
+            // }
 
-            if (isset($iops3[$j])) {
-                tblRow("Additional Storage", strg_iops($strgunit3[$j], 3000), $iops3qty[$j], get_strg($strgunit3[$j], $product_prices['iops_3']), $strgunit3[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit3[$j], 3000)] = get_strg($strgunit3[$j], $product_prices['iops_3']) * $iops3qty[$j];
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_3']] = ($strgunit3[$j] == 'TB') ? intval($iops3qty[$j]) * 1024 : intval($iops3qty[$j]);
-            }
+            // if (isset($iops3[$j])) {
+            //     tblRow("Additional Storage", strg_iops($strgunit3[$j], 3000), $iops3qty[$j], get_strg($strgunit3[$j], $product_prices['iops_3']), $strgunit3[$j]);
+            //     $Infrastructure['Storage Solution'][strg_iops($strgunit3[$j], 3000)] = get_strg($strgunit3[$j], $product_prices['iops_3']) * $iops3qty[$j];
+            //     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_3']] = ($strgunit3[$j] == 'TB') ? intval($iops3qty[$j]) * 1024 : intval($iops3qty[$j]);
+            // }
 
-            if (isset($iops5[$j])) {
-                tblRow("Additional Storage", strg_iops($strgunit5[$j], 5000), $iops5qty[$j], get_strg($strgunit5[$j], $product_prices['iops_5']), $strgunit5[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit5[$j], 5000)] = get_strg($strgunit5[$j], $product_prices['iops_5']) * $iops5qty[$j];
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_5']] = ($strgunit5[$j] == 'TB') ? intval($iops5qty[$j]) * 1024 : intval($iops5qty[$j]);
-            }
+            // if (isset($iops5[$j])) {
+            //     tblRow("Additional Storage", strg_iops($strgunit5[$j], 5000), $iops5qty[$j], get_strg($strgunit5[$j], $product_prices['iops_5']), $strgunit5[$j]);
+            //     $Infrastructure['Storage Solution'][strg_iops($strgunit5[$j], 5000)] = get_strg($strgunit5[$j], $product_prices['iops_5']) * $iops5qty[$j];
+            //     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_5']] = ($strgunit5[$j] == 'TB') ? intval($iops5qty[$j]) * 1024 : intval($iops5qty[$j]);
+            // }
 
-            if (isset($iops8[$j])) {
-                tblRow("Additional Storage", strg_iops($strgunit8[$j], 8000), $iops8qty[$j], get_strg($strgunit8[$j], $product_prices['iops_8']), $strgunit8[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit8[$j], 8000)] = get_strg($strgunit8[$j], $product_prices['iops_8']) * $iops8qty[$j];
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_8']] = ($strgunit8[$j] == 'TB') ? intval($iops8qty[$j]) * 1024 : intval($iops8qty[$j]);
-            }
-            if (isset($iops10[$j])) {
-                tblRow("Additional Storage", strg_iops($strgunit10[$j], 10000), $iops10qty[$j], get_strg($strgunit10[$j], $product_prices['iops_10']), $strgunit10[$j]);
-                $Infrastructure['Storage Solution'][strg_iops($strgunit10[$j], 10000)] = get_strg($strgunit10[$j], $product_prices['iops_10']) * $iops10qty[$j];
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_10']] = ($strgunit10[$j] == 'TB') ? intval($iops10qty[$j]) * 1024 : intval($iops10qty[$j]);
+            // if (isset($iops8[$j])) {
+            //     tblRow("Additional Storage", strg_iops($strgunit8[$j], 8000), $iops8qty[$j], get_strg($strgunit8[$j], $product_prices['iops_8']), $strgunit8[$j]);
+            //     $Infrastructure['Storage Solution'][strg_iops($strgunit8[$j], 8000)] = get_strg($strgunit8[$j], $product_prices['iops_8']) * $iops8qty[$j];
+            //     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_8']] = ($strgunit8[$j] == 'TB') ? intval($iops8qty[$j]) * 1024 : intval($iops8qty[$j]);
+            // }
+            // if (isset($iops10[$j])) {
+            //     tblRow("Additional Storage", strg_iops($strgunit10[$j], 10000), $iops10qty[$j], get_strg($strgunit10[$j], $product_prices['iops_10']), $strgunit10[$j]);
+            //     $Infrastructure['Storage Solution'][strg_iops($strgunit10[$j], 10000)] = get_strg($strgunit10[$j], $product_prices['iops_10']) * $iops10qty[$j];
+            //     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_10']] = ($strgunit10[$j] == 'TB') ? intval($iops10qty[$j]) * 1024 : intval($iops10qty[$j]);
+            // }
+
+            foreach ($strgArr as $int => $strgName) {
+                if (isset($EstmDATA[$int])) {
+                    tblRow(
+                        "Additional Storage",
+
+                        $strgName,
+
+                        intval($EstmDATA[$int."_qty"])[$j],
+
+                        get_strg(
+                            $EstmDATA[$int."_unit"][$j],
+                            $product_prices[$int]
+                        ),
+
+                        $EstmDATA[$int."_unit"][$j],
+                    );
+
+                    $Infrastructure['Storage Solution'][$int] = get_strg($EstmDATA[$int."_unit"][$j], $product_prices[$int]) * intval($EstmDATA[$int."_qty"])[$j];
+                    $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku[$int]] = ($EstmDATA[$int."_unit"][$j] == 'TB') ? intval(intval($EstmDATA[$int."_qty"])[$j]) * 1024 : intval(intval($EstmDATA[$int."_qty"])[$j]);
+                }
             }
 
             if (!empty($backupstrg[$j])) {
-                tblRow("Backup Storage", 'Backup Space', $backupstrg[$j], get_strg($backupunit[$j], $product_prices['backup_gb']), $backupunit[$j]);
+                tblRow("Backup Storage", 'Backup Space', $backupstrg[$j], get_strg('GB', $product_prices[$backupunit[$j]]), "GB");
                 $Infrastructure['Storage Solution']['Backup Space'] = get_strg($backupunit[$j], $product_prices['backup_gb']) * $backupstrg[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['backup_gb']] = ($backupunit[$j] == 'TB') ? intval($backupstrg[$j]) * 1024 : intval($backupstrg[$j]);
             }
@@ -528,11 +550,11 @@ HSM -  $Devices[4]'  ></i>";
             foreach ($os[$j] as $i => $val) {
                 foreach ($osArr as $k => $int) {
                     if ($os[$j][$i] == $int) {
-                        $str = explode("_",$os[$j][$i]);
+                        $str = explode("_", $os[$j][$i]);
                         $osInt[] = $str[0];
-                        $os_mgmt_name[] = getProdName($int); 
+                        $os_mgmt_name[] = getProdName($int);
                         $os_mgmt_qty[$str[0]][] = $vmqty[$j][$i];
-                        $mgmtINT[$str[0]] = $str[0].'_mgmt';
+                        $osmgmtINT[$str[0]] = $str[0] . '_mgmt';
                         // if (preg_match('/Windows/', $os[$j][$i])) {
                         //     $os_mgmt_name[] = 'Windows';
                         //     $os_mgmt_qty['Windows'][] = $vmqty[$j][$i];
@@ -567,50 +589,58 @@ HSM -  $Devices[4]'  ></i>";
         if (isset($dbmgmt[$j]) && !empty($db[$j])) {
 
             foreach ($db[$j] as $i => $val) {
-                if (preg_match('/MS SQL/', $db[$j][$i])) {
-                    $db_mgmt_name[] = 'MS SQL';
-                    $db_mgmt_qty['MS SQL'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
-                    $mgmtINT['MS SQL'] = 'ms_db_mg';
+                foreach ($dbArr as $k => $int) {
+                    if ($db[$j][$i] == $int) {
+                        $str = explode("_", $db[$j][$i]);
+                        $dbInt[] = $str[0];
+                        $db_mgmt_name[] = getProdName($int);
+                        $db_mgmt_qty[$str[0]][] = $vmqty[$j][$i];
+                        $dbmgmtINT[$str[0]] = $str[0] . '_db_mgmt';
+                    }
                 }
-                if (preg_match('/MY SQL/', $db[$j][$i])) {
-                    $db_mgmt_name[] = 'MY SQL';
-                    $db_mgmt_qty['MY SQL'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
-                    $mgmtINT['MY SQL'] = 'my_db_mg';
-                }
-                if (preg_match('/Postgre/', $db[$j][$i])) {
-                    $db_mgmt_name[] = 'Postgre';
-                    $db_mgmt_qty['Postgre'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
-                    $mgmtINT['Postgre'] = 'pg_db_mg';
-                }
-                if (preg_match('/Oracle/', $db[$j][$i])) {
-                    $db_mgmt_name['Oracle'] = 'Oracle';
-                    $db_mgmt_qty['Oracle'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
-                    $mgmtINT['Oracle'] = 'orc_db_mg';
-                }
-                if (preg_match('/Mongo/', $db[$j][$i])) {
-                    $db_mgmt_name['Mongo'] = 'Mongo';
-                    $db_mgmt_qty['Mongo'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
-                    $mgmtINT['Mongo'] = 'mong_db_mg';
-                }
-                if (preg_match('/Maria/', $db[$j][$i])) {
-                    $db_mgmt_name['Maria'] = 'Maria';
-                    $db_mgmt_qty['Maria'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
-                    $mgmtINT['Maria'] = 'mar_db_mg';
+                // if (preg_match('/MS SQL/', $db[$j][$i])) {
+                //     $db_mgmt_name[] = 'MS SQL';
+                //     $db_mgmt_qty['MS SQL'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
+                //     $mgmtINT['MS SQL'] = 'ms_db_mg';
+                // }
+                // if (preg_match('/MY SQL/', $db[$j][$i])) {
+                //     $db_mgmt_name[] = 'MY SQL';
+                //     $db_mgmt_qty['MY SQL'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
+                //     $mgmtINT['MY SQL'] = 'my_db_mg';
+                // }
+                // if (preg_match('/Postgre/', $db[$j][$i])) {
+                //     $db_mgmt_name[] = 'Postgre';
+                //     $db_mgmt_qty['Postgre'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
+                //     $mgmtINT['Postgre'] = 'pg_db_mg';
+                // }
+                // if (preg_match('/Oracle/', $db[$j][$i])) {
+                //     $db_mgmt_name['Oracle'] = 'Oracle';
+                //     $db_mgmt_qty['Oracle'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
+                //     $mgmtINT['Oracle'] = 'orc_db_mg';
+                // }
+                // if (preg_match('/Mongo/', $db[$j][$i])) {
+                //     $db_mgmt_name['Mongo'] = 'Mongo';
+                //     $db_mgmt_qty['Mongo'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
+                //     $mgmtINT['Mongo'] = 'mong_db_mg';
+                // }
+                // if (preg_match('/Maria/', $db[$j][$i])) {
+                //     $db_mgmt_name['Maria'] = 'Maria';
+                //     $db_mgmt_qty['Maria'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
+                //     $mgmtINT['Maria'] = 'mar_db_mg';
+                // }
+            }
+            $db_mgmt_data = (!empty($dbInt)) ? array_values(array_unique($dbInt)) : null;
+        }
+        $strgmgmtqty = array();
+        if (isset($strgmgmt[$j])) {
+            foreach ($strgArr as $int => $strgName) {
+                if (isset($EstmDATA[$int])) {
+                    ($EstmDATA[$int."_unit"] == "GB")? array_push($strgmgmtqty, intval($EstmDATA[$int."_qty"])): array_push($strgmgmtqty, intval($EstmDATA[$int."_qty"]) * 1024);
                 }
             }
-            $db_mgmt_data = (!empty($db_mgmt_name)) ? array_values(array_unique($db_mgmt_name)) : null;
-        }
-        if (isset($strgmgmt[$j])) {
-            $strgmgmtqty = array(
-                ($strgunit03[$j] == 'TB') ? intval($iops03qty[$j]) * 1024 : intval($iops03qty[$j]),
-                ($strgunit1[$j] == 'TB') ? intval($iops1qty[$j]) * 1024 : intval($iops1qty[$j]),
-                ($strgunit3[$j] == 'TB') ? intval($iops3qty[$j]) * 1024 : intval($iops3qty[$j]),
-                ($strgunit5[$j] == 'TB') ? intval($iops5qty[$j]) * 1024 : intval($iops5qty[$j]),
-                ($strgunit8[$j] == 'TB') ? intval($iops8qty[$j]) * 1024 : intval($iops8qty[$j]),
-                ($strgunit10[$j] == 'TB') ? intval($iops10qty[$j]) * 1024 : intval($iops10qty[$j])
-            );
+
         } else {
-            $strgmgmtqty = array();
+            
         }
 
         if (isset($backup_mgmt[$j]) && !empty($backupstrg[$j])) {
@@ -661,7 +691,7 @@ HSM -  $Devices[4]'  ></i>";
                 $i < count($os_mgmt_data);
                 $i++
             ) {
-                $managed_services[$mgmtINT[$os_mgmt_data[$i]]] = array_sum($os_mgmt_qty[$os_mgmt_data[$i]]) * intval($product_prices[$mgmtINT[$os_mgmt_data[$i]]]);
+                $managed_services[$osmgmtINT[$os_mgmt_data[$i]]] = array_sum($os_mgmt_qty[$os_mgmt_data[$i]]) * intval($product_prices[$osmgmtINT[$os_mgmt_data[$i]]]);
             }
         }
         if (isset($dbmgmt[$j]) && !empty($db_mgmt_name)) {
@@ -670,7 +700,7 @@ HSM -  $Devices[4]'  ></i>";
                 $i < count($db_mgmt_data);
                 $i++
             ) {
-                $managed_services[$mgmtINT[$db_mgmt_data[$i]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]) * intval($product_prices[$mgmtINT[$db_mgmt_data[$i]]]);
+                $managed_services[$dbmgmtINT[$db_mgmt_data[$i]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]) * intval($product_prices[$dbmgmtINT[$db_mgmt_data[$i]]]);
             }
         }
 
@@ -700,22 +730,22 @@ HSM -  $Devices[4]'  ></i>";
 
         if (isset($osmgmt[$j]) && !empty($os_mgmt_name)) {
             for ($i = 0; $i < count($os_mgmt_data); $i++) {
-                echo $mgmtINT[$os_mgmt_data[$i]];
+                // echo $mgmtINT[$os_mgmt_data[$i]];
 
-                tblRow("Services", getProdName($mgmtINT[$os_mgmt_data[$i]]), array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $product_prices[$mgmtINT[$os_mgmt_data[$i]]]);
-                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$mgmtINT[$os_mgmt_data[$i]]]] = array_sum($os_mgmt_qty[$os_mgmt_data[$i]]);
+                tblRow("Services", getProdName($osmgmtINT[$os_mgmt_data[$i]]), array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $product_prices[$osmgmtINT[$os_mgmt_data[$i]]]);
+                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$osmgmtINT[$os_mgmt_data[$i]]]] = array_sum($os_mgmt_qty[$os_mgmt_data[$i]]);
             }
         }
         if (isset($dbmgmt[$j]) && !empty($db_mgmt_data)) {
             for ($i = 0; $i < count($db_mgmt_data); $i++) {
-                $name = $db_mgmt_data[$i] . ' Database Managed Services (Up to 100 GB)';
-                tblRow("Service", $name, array_sum($db_mgmt_qty[$db_mgmt_data[$i]]), $product_prices[$mgmtINT[$db_mgmt_data[$i]]]);
-                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$mgmtINT[$db_mgmt_data[$i]]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]);
-                $managed_services[$mgmtINT[$db_mgmt_data[$i]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]) * intval($product_prices[$mgmtINT[$db_mgmt_data[$i]]]);
+                print_r($dbmgmtINT);
+                tblRow("Services", getProdName($dbmgmtINT[$db_mgmt_data[$i]]), array_sum($db_mgmt_qty[$db_mgmt_data[$i]]), $product_prices[$dbmgmtINT[$db_mgmt_data[$i]]]);
+                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$dbmgmtINT[$db_mgmt_data[$i]]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]);
+                $managed_services[$dbmgmtINT[$db_mgmt_data[$i]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]) * intval($product_prices[$dbmgmtINT[$db_mgmt_data[$i]]]);
             }
         }
         if (isset($strgmgmt[$j])) {
-            tblRow("Service", "Storage Management Per TB'", floor(array_sum($strgmgmtqty) / 1024), $product_prices['st_mg']);
+            tblRow("Service", "Storage Management Per TB", floor(array_sum($strgmgmtqty) / 1024), $product_prices['st_mg']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['st_mg']] = floor(array_sum($strgmgmtqty) / 1024);
         }
         if (isset($backup_mgmt[$j])) {
@@ -821,9 +851,6 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
     $I_M[$j]['Managed Services'] = $managed_services;
 
     $I_M[$j]['MonthlyTotal'] = $MothlyTotal[$j];
-    echo "<pre>";
-    print_r($I_M);
-    echo "</pre>";
 }
 
 

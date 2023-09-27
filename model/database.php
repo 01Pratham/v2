@@ -91,6 +91,14 @@ while ($arr = mysqli_fetch_assoc($osQuery)) {
     $osArr[] = $arr['prod_int'];
 }
 
+$strgQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `price_list` WHERE `primary_category` = 'storage'");
+while ($arr = mysqli_fetch_assoc($strgQuery)) {
+    if(preg_match("/Backup|Archiv|Tape|Fire/",$arr['product'])){}
+    else{
+        $strgArr[$arr["prod_int"]] = $arr['product'];
+    }
+}
+
 
 if(!function_exists("getProdName")){
     function getProdName($int){

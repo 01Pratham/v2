@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 22, 2023 at 03:28 PM
+-- Generation Time: Sep 27, 2023 at 03:34 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -280,18 +280,18 @@ INSERT INTO `price_list` (`id`, `sku_code`, `region`, `primary_category`, `sec_c
 (64, '0000000000000000', 0, 'storage', 'offline_backup', 'tl', 'Tape Library'),
 (65, '0000000000000000', 0, 'storage', 'offline_backup', 'tc', 'Tape Cartridge'),
 (66, '0000000000000000', 0, 'storage', 'offline_backup', 'fc', 'Fireproof Cabinate'),
-(67, 'ICSRNKDWGS000000', 1, 'sec', 'ssl_cerificate', 'domain_wild_ssl', 'Domain SSL Wild Card  '),
-(68, 'ICSRMUDWGS000000', 2, 'sec', 'ssl_cerificate', 'domain_wild_ssl', 'Domain SSL Wild Card  '),
-(69, 'ICSRBNDWGS000000', 3, 'sec', 'ssl_cerificate', 'domain_wild_ssl', 'Domain SSL Wild Card  '),
+(67, 'ICSRNKDWGS000000', 1, 'sec', 'ssl_certificate', 'domain_wild_ssl', 'Domain SSL Wild Card  '),
+(68, 'ICSRMUDWGS000000', 2, 'sec', 'ssl_certificate', 'domain_wild_ssl', 'Domain SSL Wild Card  '),
+(69, 'ICSRBNDWGS000000', 3, 'sec', 'ssl_certificate', 'domain_wild_ssl', 'Domain SSL Wild Card  '),
 (70, 'MSEGNKFWVT000000', 1, 'mng', 'firewall_mgmt', 'vfirewall_mgmt', 'Virtual Firewall External - Managed Services '),
 (71, 'MSEGMUFWVT000000', 2, 'mng', 'firewall_mgmt', 'vfirewall_mgmt', 'Virtual Firewall External - Managed Services  '),
 (72, 'MSEGBNFWVT000000', 3, 'mng', 'firewall_mgmt', 'vfirewall_mgmt', 'Virtual Firewall External - Managed Services '),
 (73, 'MSEGNKFWPF000000', 1, 'mng', 'firewall_mgmt', 'pfirewall_mgmt', 'Physical Firewall - Managed Services  '),
 (74, 'MSEGMUFWPF000000', 2, 'mng', 'firewall_mgmt', 'pfirewall_mgmt', 'Physical Firewall - Managed Services   '),
 (75, 'MSEGBNFWPF000000', 3, 'mng', 'firewall_mgmt', 'pfirewall_mgmt', 'Physical Firewall - Managed Services  '),
-(76, 'ICSRNKAWGS000000', 1, 'sec', 'ssl_cerificate', 'alpha_wild_ssl', 'Alpha SSL Wild Card  '),
-(77, 'ICSRMUAWGS000000', 2, 'sec', 'ssl_cerificate', 'alpha_wild_ssl', 'Alpha SSL Wild Card  '),
-(78, 'ICSRBNAWGS000000', 3, 'sec', 'ssl_cerificate', 'alpha_wild_ssl', 'Alpha SSL Wild Card  '),
+(76, 'ICSRNKAWGS000000', 1, 'sec', 'ssl_certificate', 'alpha_wild_ssl', 'Alpha SSL Wild Card  '),
+(77, 'ICSRMUAWGS000000', 2, 'sec', 'ssl_certificate', 'alpha_wild_ssl', 'Alpha SSL Wild Card  '),
+(78, 'ICSRBNAWGS000000', 3, 'sec', 'ssl_certificate', 'alpha_wild_ssl', 'Alpha SSL Wild Card  '),
 (79, 'ICVUNKFN1G000000', 1, 'sec', 'utm', 'forti_vutm_1g', 'Fortinet  - Virtual UTM- 1 Gpbs'),
 (80, 'ICVUMUFN1G000000', 2, 'sec', 'utm', 'forti_vutm_1g', 'Fortinet  - Virtual UTM- 1 Gpbs'),
 (81, 'ICVUBNFN1G000000', 3, 'sec', 'utm', 'forti_vutm_1g', 'Fortinet  - Virtual UTM- 1 Gpbs'),
@@ -328,36 +328,36 @@ INSERT INTO `price_list` (`id`, `sku_code`, `region`, `primary_category`, `sec_c
 (112, 'ICVUNKC12G000000', 1, 'sec', 'utm', 'clii_vutm_2g', 'Client Specific - Virtual UTM- 2 Gpbs'),
 (113, 'ICVUMUC12G000000', 2, 'sec', 'utm', 'clii_vutm_2g', 'Client Specific - Virtual UTM- 2 Gpbs'),
 (114, 'ICVUBNC12G000000', 3, 'sec', 'utm', 'clii_vutm_2g', 'Client Specific - Virtual UTM- 2 Gpbs'),
-(115, 'ICSRNKOLGS000000', 1, 'sec', 'ssl_cerificate', 'org_wild_ssl', 'Organizational SSL Wild Card  '),
-(116, 'ICSRMUOLGS000000', 2, 'sec', 'ssl_cerificate', 'org_wild_ssl', 'Organizational SSL Wild Card  '),
-(117, 'ICSRBNOLGS000000', 3, 'sec', 'ssl_cerificate', 'org_wild_ssl', 'Organizational SSL Wild Card  '),
+(115, 'ICSRNKOLGS000000', 1, 'sec', 'ssl_certificate', 'org_wild_ssl', 'Organizational SSL Wild Card  '),
+(116, 'ICSRMUOLGS000000', 2, 'sec', 'ssl_certificate', 'org_wild_ssl', 'Organizational SSL Wild Card  '),
+(117, 'ICSRBNOLGS000000', 3, 'sec', 'ssl_certificate', 'org_wild_ssl', 'Organizational SSL Wild Card  '),
 (118, 'ICVTNKTS3S000000', 1, 'sec', 'vtm_scan', 'vtm_scan_30', 'VTMScan -30Scan'),
 (119, 'ICVTMUTS3S000000', 2, 'sec', 'vtm_scan', 'vtm_scan_30', 'VTMScan -30Scan'),
 (120, 'ICVTBNTS3S000000', 3, 'sec', 'vtm_scan', 'vtm_scan_30', 'VTMScan -30Scan'),
 (121, 'ICVTNKTS6S000000', 1, 'sec', 'vtm_scan', 'vtm_scan_60', 'VTMScan - 60Scan'),
 (122, 'ICVTMUTS6S000000', 2, 'sec', 'vtm_scan', 'vtm_scan_60', 'VTMScan - 60Scan'),
 (123, 'ICVTBNTS6S000000', 3, 'sec', 'vtm_scan', 'vtm_scan_60', 'VTMScan - 60Scan'),
-(124, 'ICSRNKDRGS000000', 1, 'sec', 'ssl_cerificate', 'domain_ssl', 'Domain SSL  '),
-(125, 'ICSRMUDRGS000000', 2, 'sec', 'ssl_cerificate', 'domain_ssl', 'Domain SSL  '),
-(126, 'ICSRBNDRGS000000', 3, 'sec', 'ssl_cerificate', 'domain_ssl', 'Domain SSL  '),
+(124, 'ICSRNKDRGS000000', 1, 'sec', 'ssl_certificate', 'domain_ssl', 'Domain SSL  '),
+(125, 'ICSRMUDRGS000000', 2, 'sec', 'ssl_certificate', 'domain_ssl', 'Domain SSL  '),
+(126, 'ICSRBNDRGS000000', 3, 'sec', 'ssl_certificate', 'domain_ssl', 'Domain SSL  '),
 (127, 'ICVTNKTS1S000000', 1, 'sec', 'vtm_scan', 'vtm_scan_1', 'VTMScan- 1Scan'),
 (128, 'ICVTMUTS1S000000', 2, 'sec', 'vtm_scan', 'vtm_scan_1', 'VTMScan- 1Scan'),
 (129, 'ICVTBNTS1S000000', 3, 'sec', 'vtm_scan', 'vtm_scan_1', 'VTMScan- 1Scan'),
 (130, 'ICVTNKTS4S000000', 1, 'sec', 'vtm_scan', 'vtm_scan_4', 'VTMScan 4Scan'),
 (131, 'ICVTMUTS4S000000', 2, 'sec', 'vtm_scan', 'vtm_scan_4', 'VTMScan 4Scan'),
 (132, 'ICVTBNTS4S000000', 3, 'sec', 'vtm_scan', 'vtm_scan_4', 'VTMScan 4Scan'),
-(133, 'ICSRNKALGS000000', 1, 'sec', 'ssl_cerificate', 'alpha_ssl', 'Alpha SSL  '),
-(134, 'ICSRMUALGS000000', 2, 'sec', 'ssl_cerificate', 'alpha_ssl', 'Alpha SSL  '),
-(135, 'ICSRBNALGS000000', 3, 'sec', 'ssl_cerificate', 'alpha_ssl', 'Alpha SSL  '),
+(133, 'ICSRNKALGS000000', 1, 'sec', 'ssl_certificate', 'alpha_ssl', 'Alpha SSL  '),
+(134, 'ICSRMUALGS000000', 2, 'sec', 'ssl_certificate', 'alpha_ssl', 'Alpha SSL  '),
+(135, 'ICSRBNALGS000000', 3, 'sec', 'ssl_certificate', 'alpha_ssl', 'Alpha SSL  '),
 (136, 'MSEGNKFWUM000000', 1, 'mng', 'firewall_mgmt', 'utm_mgmt', 'vUTM Firewall - Managed Services '),
 (137, 'MSEGMUFWUM000000', 2, 'mng', 'firewall_mgmt', 'utm_mgmt', 'vUTM Firewall - Managed Services  '),
 (138, 'MSEGBNFWUM000000', 3, 'mng', 'firewall_mgmt', 'utm_mgmt', 'vUTM Firewall - Managed Services '),
-(139, 'ICSRNKOZGS000000', 1, 'sec', 'ssl_cerificate', 'org_ssl', 'Organizational SSL  '),
-(140, 'ICSRMUOZGS000000', 2, 'sec', 'ssl_cerificate', 'org_ssl', 'Organizational SSL  '),
-(141, 'ICSRBNOZGS000000', 3, 'sec', 'ssl_cerificate', 'org_ssl', 'Organizational SSL  '),
-(142, 'ICSRNKXVGS000000', 1, 'sec', 'ssl_cerificate', 'ext_ssl', 'Extended SSL - SSL-Internal Security '),
-(143, 'ICSRMUXVGS000000', 2, 'sec', 'ssl_cerificate', 'ext_ssl', 'Extended SSL - SSL-Internal Security '),
-(144, 'ICSRBNXVGS000000', 3, 'sec', 'ssl_cerificate', 'ext_ssl', 'Extended SSL - SSL-Internal Security '),
+(139, 'ICSRNKOZGS000000', 1, 'sec', 'ssl_certificate', 'org_ssl', 'Organizational SSL  '),
+(140, 'ICSRMUOZGS000000', 2, 'sec', 'ssl_certificate', 'org_ssl', 'Organizational SSL  '),
+(141, 'ICSRBNOZGS000000', 3, 'sec', 'ssl_certificate', 'org_ssl', 'Organizational SSL  '),
+(142, 'ICSRNKXVGS000000', 1, 'sec', 'ssl_certificate', 'ext_ssl', 'Extended SSL - SSL-Internal Security '),
+(143, 'ICSRMUXVGS000000', 2, 'sec', 'ssl_certificate', 'ext_ssl', 'Extended SSL - SSL-Internal Security '),
+(144, 'ICSRBNXVGS000000', 3, 'sec', 'ssl_certificate', 'ext_ssl', 'Extended SSL - SSL-Internal Security '),
 (145, 'ICPUNKFN1G000000', 1, 'sec', 'utm', 'forti_putm_1g', 'Fortinet  - Physical UTM- 1 Gpbs'),
 (146, 'ICPUMUFN1G000000', 2, 'sec', 'utm', 'forti_putm_1g', 'Fortinet  - Physical UTM- 1 Gpbs'),
 (147, 'ICPUBNFN1G000000', 3, 'sec', 'utm', 'forti_putm_1g', 'Fortinet  - Physical UTM- 1 Gpbs'),
@@ -418,39 +418,39 @@ INSERT INTO `price_list` (`id`, `sku_code`, `region`, `primary_category`, `sec_c
 (202, 'CCSTNKBSI8000000', 1, 'storage', 'backup', 'backup_gb_8', 'Backup Storage  - Per GB 8 IOPS'),
 (203, 'CCSTMUBSI8000000', 2, 'storage', 'backup', 'backup_gb_8', 'Backup Storage  - Per GB 8 IOPS'),
 (204, 'CCSTBNBSI8000000', 3, 'storage', 'backup', 'backup_gb_8', 'Backup Storage  - Per GB 8 IOPS'),
-(205, 'MSDMNKMG00000000', 1, 'mng', 'db_mgmt', 'mong_db_mg', 'MongoDB Database Managed Services (Up to 100 GB) '),
-(206, 'MSDMMUMG00000000', 2, 'mng', 'db_mgmt', 'mong_db_mg', 'MongoDB Database Managed Services (Up to 100 GB)  '),
-(207, 'MSDMBNMG00000000', 3, 'mng', 'db_mgmt', 'mong_db_mg', 'MongoDB Database Managed Services (Up to 100 GB) '),
-(208, 'MSDMNKOA00000000', 1, 'mng', 'db_mgmt', 'orc_db_mg', 'Oracle Database Managed Services (Up to 100 GB)  '),
-(209, 'MSDMMUOA00000000', 2, 'mng', 'db_mgmt', 'orc_db_mg', 'Oracle Database Managed Services (Up to 100 GB)   '),
-(210, 'MSDMBNOA00000000', 3, 'mng', 'db_mgmt', 'orc_db_mg', 'Oracle Database Managed Services (Up to 100 GB)  '),
-(211, 'MSDMNKSD00000000', 1, 'mng', 'db_mgmt', 'syb_db_mg', 'Sybase Database Managed Services(Up to 100 GB)  '),
-(212, 'MSDMMUSD00000000', 2, 'mng', 'db_mgmt', 'syb_db_mg', 'Sybase Database Managed Services(Up to 100 GB)   '),
-(213, 'MSDMBNSD00000000', 3, 'mng', 'db_mgmt', 'syb_db_mg', 'Sybase Database Managed Services(Up to 100 GB)  '),
+(205, 'MSDMNKMG00000000', 1, 'mng', 'db_mgmt', 'mong_db_mgmt', 'MongoDB Database Managed Services (Up to 100 GB) '),
+(206, 'MSDMMUMG00000000', 2, 'mng', 'db_mgmt', 'mong_db_mgmt', 'MongoDB Database Managed Services (Up to 100 GB)  '),
+(207, 'MSDMBNMG00000000', 3, 'mng', 'db_mgmt', 'mong_db_mgmt', 'MongoDB Database Managed Services (Up to 100 GB) '),
+(208, 'MSDMNKOA00000000', 1, 'mng', 'db_mgmt', 'orc_db_mgmt', 'Oracle Database Managed Services (Up to 100 GB)  '),
+(209, 'MSDMMUOA00000000', 2, 'mng', 'db_mgmt', 'orc_db_mgmt', 'Oracle Database Managed Services (Up to 100 GB)   '),
+(210, 'MSDMBNOA00000000', 3, 'mng', 'db_mgmt', 'orc_db_mgmt', 'Oracle Database Managed Services (Up to 100 GB)  '),
+(211, 'MSDMNKSD00000000', 1, 'mng', 'db_mgmt', 'syb_db_mgmt', 'Sybase Database Managed Services(Up to 100 GB)  '),
+(212, 'MSDMMUSD00000000', 2, 'mng', 'db_mgmt', 'syb_db_mgmt', 'Sybase Database Managed Services(Up to 100 GB)   '),
+(213, 'MSDMBNSD00000000', 3, 'mng', 'db_mgmt', 'syb_db_mgmt', 'Sybase Database Managed Services(Up to 100 GB)  '),
 (214, 'MSOGNKDD00000000', 1, 'mng', 'dr_mng', 'dr_drill', 'DR Drill (Per Application) '),
 (215, 'MSOGMUDD00000000', 2, 'mng', 'dr_mng', 'dr_drill', 'DR Drill (Per Application)  '),
 (216, 'MSOGBNDD00000000', 3, 'mng', 'dr_mng', 'dr_drill', 'DR Drill (Per Application) '),
 (217, 'MSOGNKRA00000000', 1, 'mng', 'dr_mng', 'rep_mgmt', 'Replication Mng - Managed Services  '),
 (218, 'MSOGMURA00000000', 2, 'mng', 'dr_mng', 'rep_mgmt', 'Replication Mng - Managed Services   '),
 (219, 'MSOGBNRA00000000', 3, 'mng', 'dr_mng', 'rep_mgmt', 'Replication Mng - Managed Services  '),
-(220, 'MSDMNKMQ00000000', 1, 'mng', 'db_mgmt', 'ms_db_mg', 'MSSQL Database Managed Services (Up to 100 GB) '),
-(221, 'MSDMMUMQ00000000', 2, 'mng', 'db_mgmt', 'ms_db_mg', 'MSSQL Database Managed Services (Up to 100 GB)  '),
-(222, 'MSDMBNMQ00000000', 3, 'mng', 'db_mgmt', 'ms_db_mg', 'MSSQL Database Managed Services (Up to 100 GB) '),
-(223, 'MSDMNKMY00000000', 1, 'mng', 'db_mgmt', 'my_db_mg', 'MYSQL Database  Managed Services (Up to 100 GB)  '),
-(224, 'MSDMMUMY00000000', 2, 'mng', 'db_mgmt', 'my_db_mg', 'MYSQL Database  Managed Services (Up to 100 GB)   '),
-(225, 'MSDMBNMY00000000', 3, 'mng', 'db_mgmt', 'my_db_mg', 'MYSQL Database  Managed Services (Up to 100 GB)  '),
-(226, 'MSDMNKPS00000000', 1, 'mng', 'db_mgmt', 'pg_db_mg', 'PostgresSQL Database Managed Services (Up to 100 GB) '),
-(227, 'MSDMMUPS00000000', 2, 'mng', 'db_mgmt', 'pg_db_mg', 'PostgresSQL Database Managed Services (Up to 100 GB)  '),
-(228, 'MSDMBNPS00000000', 3, 'mng', 'db_mgmt', 'pg_db_mg', 'PostgresSQL Database Managed Services (Up to 100 GB) '),
-(229, 'CCVRNKAT00000000', 1, 'compute', 'vRAM', 'vram_elastic', 'vRAM Static- Compute '),
-(230, 'CCVRMUAT00000000', 2, 'compute', 'vRAM', 'vram_elastic', 'vRAM Static- Compute '),
-(231, 'CCVRBNAT00000000', 3, 'compute', 'vRAM', 'vram_elastic', 'vRAM Static- Compute '),
+(220, 'MSDMNKMQ00000000', 1, 'mng', 'db_mgmt', 'ms_db_mgmt', 'MSSQL Database Managed Services (Up to 100 GB) '),
+(221, 'MSDMMUMQ00000000', 2, 'mng', 'db_mgmt', 'ms_db_mgmt', 'MSSQL Database Managed Services (Up to 100 GB)  '),
+(222, 'MSDMBNMQ00000000', 3, 'mng', 'db_mgmt', 'ms_db_mgmt', 'MSSQL Database Managed Services (Up to 100 GB) '),
+(223, 'MSDMNKMY00000000', 1, 'mng', 'db_mgmt', 'my_db_mgmt', 'MYSQL Database  Managed Services (Up to 100 GB)  '),
+(224, 'MSDMMUMY00000000', 2, 'mng', 'db_mgmt', 'my_db_mgmt', 'MYSQL Database  Managed Services (Up to 100 GB)   '),
+(225, 'MSDMBNMY00000000', 3, 'mng', 'db_mgmt', 'my_db_mgmt', 'MYSQL Database  Managed Services (Up to 100 GB)  '),
+(226, 'MSDMNKPS00000000', 1, 'mng', 'db_mgmt', 'pg_db_mgmt', 'PostgresSQL Database Managed Services (Up to 100 GB) '),
+(227, 'MSDMMUPS00000000', 2, 'mng', 'db_mgmt', 'pg_db_mgmt', 'PostgresSQL Database Managed Services (Up to 100 GB)  '),
+(228, 'MSDMBNPS00000000', 3, 'mng', 'db_mgmt', 'pg_db_mgmt', 'PostgresSQL Database Managed Services (Up to 100 GB) '),
+(229, 'CCVRNKAT00000000', 1, 'compute', 'vRAM', 'vram_static', 'vRAM Static- Compute '),
+(230, 'CCVRMUAT00000000', 2, 'compute', 'vRAM', 'vram_static', 'vRAM Static- Compute '),
+(231, 'CCVRBNAT00000000', 3, 'compute', 'vRAM', 'vram_static', 'vRAM Static- Compute '),
 (232, 'CCVCNKVE00000000', 1, 'compute', 'vCPU', 'vcpu_elastic', 'vCPU Elastic Cloud - Compute '),
 (233, 'CCVCMUVE00000000', 2, 'compute', 'vCPU', 'vcpu_elastic', 'vCPU Elastic Cloud - Compute '),
 (234, 'CCVCBNVE00000000', 3, 'compute', 'vCPU', 'vcpu_elastic', 'vCPU Elastic Cloud - Compute '),
-(235, 'CCVRNKRL00000000', 1, 'compute', 'vRAM', 'vram_static', 'vRAM Elastic Cloud- Compute '),
-(236, 'CCVRMURL00000000', 2, 'compute', 'vRAM', 'vram_static', 'vRAM Elastic Cloud- Compute '),
-(237, 'CCVRBNRL00000000', 3, 'compute', 'vRAM', 'vram_static', 'vRAM Elastic Cloud- Compute '),
+(235, 'CCVRNKRL00000000', 1, 'compute', 'vRAM', 'vram_elastic', 'vRAM Elastic Cloud- Compute '),
+(236, 'CCVRMURL00000000', 2, 'compute', 'vRAM', 'vram_elastic', 'vRAM Elastic Cloud- Compute '),
+(237, 'CCVRBNRL00000000', 3, 'compute', 'vRAM', 'vram_elastic', 'vRAM Elastic Cloud- Compute '),
 (238, 'CCVCNKVS00000000', 1, 'compute', 'vCPU', 'vcpu_static', 'vCPU Static Cloud- Compute '),
 (239, 'CCVCMUVS00000000', 2, 'compute', 'vCPU', 'vcpu_static', 'vCPU Static Cloud- Compute '),
 (240, 'CCVCBNVS00000000', 3, 'compute', 'vCPU', 'vcpu_static', 'vCPU Static Cloud- Compute '),
@@ -747,9 +747,9 @@ INSERT INTO `price_list` (`id`, `sku_code`, `region`, `primary_category`, `sec_c
 (531, 'MSOYBNUB00000000', 3, 'mng', 'os_mgmt', 'ubuntu_mgmt', 'UBUNTU Operating System Managed Services'),
 (532, 'MSNMNKLMPB000000', 1, 'mng', 'lb_mgmt', 'phy_lb_mgmt', 'Physical Load Balancer Management'),
 (533, 'MSNMMULMPB000000', 2, 'mng', 'lb_mgmt', 'phy_lb_mgmt', 'Physical Load Balancer Management '),
-(534, 'MSNMBNLMPB000000', 3, 'mng', 'lb_mgmt', 'phy_lb_mgmt', 'Physical Load Balancer Management'),
-(535, 'ESAVNKBATM000000', 1, 'sec', 'av', 'tm_av_basic', 'Trend Micro - Basic Antivirus ');
+(534, 'MSNMBNLMPB000000', 3, 'mng', 'lb_mgmt', 'phy_lb_mgmt', 'Physical Load Balancer Management');
 INSERT INTO `price_list` (`id`, `sku_code`, `region`, `primary_category`, `sec_category`, `prod_int`, `product`) VALUES
+(535, 'ESAVNKBATM000000', 1, 'sec', 'av', 'tm_av_basic', 'Trend Micro - Basic Antivirus '),
 (536, 'ESAVMUBATM000000', 2, 'sec', 'av', 'tm_av_basic', 'Trend Micro - Basic Antivirus '),
 (537, 'ESAVBNBATM000000', 3, 'sec', 'av', 'tm_av_basic', 'Trend Micro - Basic Antivirus '),
 (538, 'ESAVNKBAMA000000', 1, 'sec', 'av', 'mc_av_basic', 'McAfee - Basic Antivirus '),
@@ -829,7 +829,14 @@ INSERT INTO `price_list` (`id`, `sku_code`, `region`, `primary_category`, `sec_c
 (612, 'CNIPBNPPI4000000', 3, 'net', 'ip', 'ipv4', 'IPv4- Public IP  '),
 (613, 'CNIPNKPPI6000000', 1, 'net', 'ip', 'ipv6', 'IPv6 - Public IP  '),
 (614, 'CNIPMUPPI6000000', 2, 'net', 'ip', 'ipv6', 'IPv6 - Public IP  '),
-(615, 'CNIPBNPPI6000000', 3, 'net', 'ip', 'ipv6', 'IPv6 - Public IP  ');
+(615, 'CNIPBNPPI6000000', 3, 'net', 'ip', 'ipv6', 'IPv6 - Public IP  '),
+(616, 'CCSTNKBT15000000', 1, 'storage', 'block_storage', 'block_15', 'Block Storage 15 IOPS per GB '),
+(617, 'CCSTNKBTP2000000', 1, 'storage', 'block_storage', 'block_20', 'Block Storage 20 IOPS per GB '),
+(618, 'CCSTNKBT25000000', 1, 'storage', 'block_storage', 'block_25', 'Block Storage 25 IOPS per GB '),
+(619, 'CCSTNKBTP3000000', 1, 'storage', 'block_storage', 'block_30', 'Block Storage 30 IOPS per GB '),
+(620, 'CCSTNKBTP4000000', 1, 'storage', 'block_storage', 'block_40', 'Block Storage 40 IOPS per GB '),
+(621, 'CCSTNKBTP5000000', 1, 'storage', 'block_storage', 'block_50', 'Block Storage 50 IOPS per GB '),
+(622, 'CCSTNKBTH1000000', 1, 'storage', 'block_storage', 'block_100', 'Block Storage 100 IOPS per GB ');
 
 -- --------------------------------------------------------
 
@@ -1039,7 +1046,7 @@ INSERT INTO `rate_card_prices` (`id`, `rate_card_id`, `prod_id`, `price`, `input
 (184, 1, 184, 900, 1500, 300, '2023-09-20 14:03:28', 'True'),
 (185, 1, 185, 900, 1500, 300, '2023-09-20 14:03:28', 'True'),
 (186, 1, 186, 900, 1500, 300, '2023-09-20 14:03:28', 'True'),
-(187, 1, 187, 1, 2, 0.4, '2023-09-20 14:03:28', 'True'),
+(187, 1, 187, 2, 2, 0.4, '2023-09-20 14:03:28', 'True'),
 (188, 1, 188, 1, 2, 0.4, '2023-09-20 14:03:28', 'True'),
 (189, 1, 189, 1, 2, 0.4, '2023-09-20 14:03:28', 'True'),
 (190, 1, 190, 7, 12, 2.4, '2023-09-20 14:03:28', 'True'),
@@ -1467,30 +1474,14 @@ INSERT INTO `rate_card_prices` (`id`, `rate_card_id`, `prod_id`, `price`, `input
 (612, 1, 612, 600, 1000, 200, '2023-09-20 14:03:28', 'True'),
 (613, 1, 613, 600, 1000, 200, '2023-09-20 14:03:28', 'True'),
 (614, 1, 614, 600, 1000, 200, '2023-09-20 14:03:28', 'True'),
-(615, 1, 615, 600, 1000, 200, '2023-09-20 14:03:28', 'True');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `region`
---
-
-CREATE TABLE `region` (
-  `id` int(11) NOT NULL,
-  `region` varchar(20) NOT NULL,
-  `abbrivation` varchar(3) NOT NULL,
-  `is_active` enum('True','Flase') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `region`
---
-
-INSERT INTO `region` (`id`, `region`, `abbrivation`, `is_active`) VALUES
-(0, 'All', 'ALL', 'True'),
-(1, 'Nashik', 'NSK', 'True'),
-(2, 'Mumbai', 'MUM', 'True'),
-(3, 'Bangalore', 'BAN', 'True');
+(615, 1, 615, 600, 1000, 200, '2023-09-20 14:03:28', 'True'),
+(616, 1, 622, 100, 95, 1.736, '2023-09-20 14:03:28', 'True'),
+(617, 1, 621, 51, 45, 1.168, '2023-09-20 14:03:28', 'True'),
+(618, 1, 620, 41, 35, 3.096, '2023-09-20 14:03:28', 'True'),
+(619, 1, 619, 31, 25, 5.024, '2023-09-20 14:03:28', 'True'),
+(620, 1, 618, 26, 20, 5.984, '2023-09-20 14:03:28', 'True'),
+(621, 1, 617, 21, 15, 1.952, '2023-09-20 14:03:28', 'True'),
+(622, 1, 616, 16, 10, 2.912, '2023-09-20 14:03:28', 'True');
 
 -- --------------------------------------------------------
 
@@ -1542,9 +1533,16 @@ INSERT INTO `role_permissions` (`id`, `role_id`, `permission_id`) VALUES
 
 CREATE TABLE `tbl_calculation` (
   `id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `calcultion` int(11) NOT NULL
+  `product_int` varchar(30) NOT NULL,
+  `calculation` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_calculation`
+--
+
+INSERT INTO `tbl_calculation` (`id`, `product_int`, `calculation`) VALUES
+(1, 'ms_std', 'core_devide = 2');
 
 -- --------------------------------------------------------
 
@@ -1847,6 +1845,29 @@ INSERT INTO `tbl_rate_cards` (`id`, `rate_card_name`, `created_by`, `created_dat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_region`
+--
+
+CREATE TABLE `tbl_region` (
+  `id` int(11) NOT NULL,
+  `region` varchar(20) NOT NULL,
+  `abbrivation` varchar(3) NOT NULL,
+  `is_active` enum('True','Flase') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tbl_region`
+--
+
+INSERT INTO `tbl_region` (`id`, `region`, `abbrivation`, `is_active`) VALUES
+(0, 'All', 'ALL', 'True'),
+(1, 'Nashik', 'NSK', 'True'),
+(2, 'Mumbai', 'MUM', 'True'),
+(3, 'Bangalore', 'BAN', 'True');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_saved_estimates`
 --
 
@@ -1895,7 +1916,8 @@ INSERT INTO `tbl_saved_estimates` (`id`, `emp_code`, `pot_id`, `project_name`, `
 (23, 3094, 8615, 'Testing Configurator', '2', 3094, 3094, '2023-08-14', '2023-08-14 09:38:51', 1, 111632, '{\"quot_type\":\"DC - DR\",\"price_list\":\"1\",\"pot_id\":\"8688\",\"project_name\":\"DMIC Noida\",\"version\":\"  \",\"count_of_est\":\"1\",\"EstType\":{\"1\":\"DC\"},\"estmtname\":{\"1\":\"DMIC Noida\"},\"period\":{\"1\":\"43\"},\"count_of_vm\":{\"1\":\"22\"},\"vmname\":{\"1\":[\"Variable Message Sign\",\"CCTV Surveillance\",\"ICCC\",\"ICCC\",\"ICCC\",\"ICCC\",\"EMS\",\"EMS\",\"AV\",\"Software Modules & ESB\",\"Software Modules & ESB\",\"Software Modules & ESB\",\"GIS\",\"GIS\",\"GIS\",\"E-LMS\",\"E-LMS\",\"E-LMS\",\"Others\",\"Others\",\"Others\"]},\"region\":{\"1\":[\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\"]},\"sector\":{\"1\":[\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\"]},\"os\":{\"1\":[\"Windows Standard Edition\",\"Linux : UBUNTU\",\"Windows Standard Edition\",\"Linux : UBUNTU\",\"Linux : UBUNTU\",\"Linux : UBUNTU\",\"\",\"Linux : UBUNTU\",\"Windows Standard Edition\",\"Linux : UBUNTU\",\"Linux : UBUNTU\",\"Linux : UBUNTU\",\"Windows Standard Edition\",\"Windows Standard Edition\",\"Windows Standard Edition\",\"Linux : UBUNTU\",\"Linux : UBUNTU\",\"Linux : UBUNTU\",\"Linux : UBUNTU\",\"Linux : UBUNTU\",\"Windows Standard Edition\"]},\"database\":{\"1\":[\"MY SQL Community\",\"NA\",\"\",\"NA\",\"NA\",\"NA\",\"\",\"MY SQL Community\",\"MY SQL Community\",\"NA\",\"Postgre SQL Community\",\"NA\",\"NA\",\"Postgre SQL Community\",\"NA\",\"\",\"MY SQL Community\",\"\",\"NA\",\"MY SQL Community\",\"NA\"]},\"series\":{\"1\":[\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\",\"Flexible Compute\"]},\"vcpu\":{\"1\":[\"8\",\"4\",\"16\",\"16\",\"12\",\"16\",\"8\",\"16\",\"8\",\"16\",\"16\",\"8\",\"16\",\"16\",\"16\",\"4\",\"4\",\"2\",\"16\",\"16\",\"16\"]},\"ram\":{\"1\":[\"16\",\"16\",\"64\",\"128\",\"128\",\"96\",\"64\",\"96\",\"24\",\"32\",\"32\",\"16\",\"64\",\"64\",\"64\",\"16\",\"16\",\"8\",\"64\",\"64\",\"64\"]},\"inst_disk\":{\"1\":[\"205\",\"410\",\"1229\",\"1229\",\"1229\",\"1229\",\"103\",\"103\",\"308\",\"410\",\"410\",\"410\",\"308\",\"308\",\"308\",\"205\",\"103\",\"205\",\"308\",\"308\",\"308\"]},\"instance\":{\"1\":[\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\",\"Flexi\"]},\"vmqty\":{\"1\":[\"2\",\"02\",\"2\",\"2\",\"5\",\"1\",\"3\",\"2\",\"2\",\"3\",\"02\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"04\",\"02\",\"02\"]},\"state\":{\"1\":[\"Active-Active\",\"Active-Active\",\"Active-Active\",\"Active-Active\",\"Active-Active\",\"Active\",\"Active-Passive\",\"Active-Active\",\"Active-Active\",\"Active-Active\",\"Active-Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active-Active\",\"Active-Active\",\"Active-Active\"]},\"publicipversion\":{\"1\":[\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\"]},\"ip_public\":{\"1\":[\"on\"]},\"public_ipqty\":{\"1\":[\"20\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"virus_type\":{\"1\":[\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\"]},\"03strgunit\":{\"1\":\"TB\"},\"03iops\":{\"1\":\"on\"},\"03iopsqty\":{\"1\":\"186\"},\"1strgunit\":{\"1\":\"TB\"},\"1iopsqty\":{\"1\":\"\"},\"3strgunit\":{\"1\":\"TB\"},\"3iopsqty\":{\"1\":\"\"},\"5strgunit\":{\"1\":\"TB\"},\"5iopsqty\":{\"1\":\"\"},\"8strgunit\":{\"1\":\"TB\"},\"8iopsqty\":{\"1\":\"\"},\"10strgunit\":{\"1\":\"TB\"},\"10iopsqty\":{\"1\":\"\"},\"backup_strg\":{\"1\":\"5\"},\"backup_unit\":{\"1\":\"TB\"},\"age_qty_type\":{\"1\":\"\"},\"ageqty\":{\"1\":\"\"},\"arc_strg\":{\"1\":\"\"},\"archival_unit\":{\"1\":\"TB\"},\"tlqty\":{\"1\":\"\"},\"tcqty\":{\"1\":\"\"},\"fcqty\":{\"1\":\"\"},\"bandwidthType\":{\"1\":\"Speed Based Internet Bandwidth\"},\"bandwidth\":{\"1\":\"200\"},\"load_balancer\":{\"1\":\"\"},\"lbqty\":{\"1\":\"2\"},\"ccptqty\":{\"1\":\"2\"},\"sslvpnqty\":{\"1\":\"\"},\"ipsecqty\":{\"1\":\"\"},\"efv_throughput\":{\"1\":\"Fortinet- External vFirewall : 1GBPS\"},\"extfirewall\":{\"1\":\"on\"},\"extfvqty\":{\"1\":\"2\"},\"ifv_throughput\":{\"1\":\"Fortinet- Internal vFirewall : 1GBPS\"},\"intfirewall\":{\"1\":\"on\"},\"intfvqty\":{\"1\":\"2\"},\"utm\":{\"1\":\"on\"},\"ddos_throughput\":{\"1\":\"DDoS Mitigation - 1Gbps\"},\"ddos\":{\"1\":\"on\"},\"waf_type\":{\"1\":\"eNlight : Web App Firewall\"},\"waf\":{\"1\":\"on\"},\"wafqty\":{\"1\":\"2\"},\"ssl\":{\"1\":\"Organisational Wildcard SSL Certificate\"},\"ssl-check\":{\"1\":\"on\"},\"sslqty\":{\"1\":\"01\"},\"siem_name\":{\"1\":\"SECEON SIEM\"},\"siem\":{\"1\":\"on\"},\"pimqty\":{\"1\":\"\"},\"vtm\":{\"1\":\"on\"},\"vtmqty\":{\"1\":\"4 scans per month\"},\"vapt_type\":{\"1\":\"CERTIN- VAPT Audit\"},\"vapt\":{\"1\":\"on\"},\"vaptqty\":{\"1\":\"02\"},\"vapt_frequency\":{\"1\":\"Yearly\"},\"hsm_type\":{\"1\":\"\"},\"hsmqty\":{\"1\":\"\"},\"tfaqty\":{\"1\":\"\"},\"iam\":{\"1\":\"on\"},\"iamqty\":{\"1\":\"30\"},\"dlpqty\":{\"1\":\"\"},\"edrqty\":{\"1\":\"\"},\"damqty\":{\"1\":\"\"},\"sorqty\":{\"1\":\"\"},\"osmgmt\":{\"1\":\"on\"},\"dbmgmt\":{\"1\":\"on\"},\"strgmgmt\":{\"1\":\"on\"},\"backmgmt\":{\"1\":\"on\"},\"lb_mgmt\":{\"1\":\"on\"},\"fv_mgmt\":{\"1\":\"on\"},\"wafmgmt\":{\"1\":\"on\"},\"emagic_type\":{\"1\":\"Basic\"},\"emagic\":{\"1\":\"on\"},\"drillqty\":{\"1\":\"\"},\"rep_link_type\":{\"1\":\"\"},\"rep_link_qty\":{\"1\":\"\"},\"proceed\":\"\"}', ''),
 (24, 3094, 1234, 'egrrrhthtr', '1', 3094, 3094, '2023-08-31', '2023-08-31 09:05:28', 0, 0, '{\"quot_type\":\"1\",\"price_list\":\"1\",\"pot_id\":\"1234\",\"project_name\":\"egrrrhthtr\",\"version\":\"  \",\"count_of_est\":\"1\",\"EstType\":{\"1\":\"\"},\"estmtname\":{\"1\":\"BOM DC\"},\"period\":{\"1\":\"\"},\"count_of_vm\":{\"1\":\"1\"},\"vmname\":{\"1\":[\"fefefe\"]},\"region\":{\"1\":[\"Bangalore\"]},\"sector\":{\"1\":[\"SAP\"]},\"os\":{\"1\":[\"\"]},\"database\":{\"1\":[\"\"]},\"series\":{\"1\":[\"\"]},\"instance\":{\"1\":[\"\"]},\"vmqty\":{\"1\":[\"0\"]},\"state\":{\"1\":[\"Standalone\"]},\"publicipversion\":{\"1\":[\"Public IPv6\"]},\"public_ipqty\":{\"1\":[\"\"]},\"virus_type\":{\"1\":[\"\"]},\"03strgunit\":{\"1\":\"TB\"},\"03iopsqty\":{\"1\":\"\"},\"1strgunit\":{\"1\":\"TB\"},\"1iopsqty\":{\"1\":\"\"},\"3strgunit\":{\"1\":\"TB\"},\"3iopsqty\":{\"1\":\"\"},\"5strgunit\":{\"1\":\"TB\"},\"5iopsqty\":{\"1\":\"\"},\"8strgunit\":{\"1\":\"TB\"},\"8iopsqty\":{\"1\":\"\"},\"10strgunit\":{\"1\":\"TB\"},\"10iopsqty\":{\"1\":\"\"},\"backup_strg\":{\"1\":\"\"},\"backup_unit\":{\"1\":\"TB\"},\"age_qty_type\":{\"1\":\"\"},\"ageqty\":{\"1\":\"\"},\"arc_strg\":{\"1\":\"\"},\"archival_unit\":{\"1\":\"TB\"},\"tape_lib\":{\"1\":\"on\"},\"tlqty\":{\"1\":\"\"},\"tcqty\":{\"1\":\"\"},\"fcqty\":{\"1\":\"\"},\"bandwidthType\":{\"1\":\"Speed Based Internet Bandwidth\"},\"bandwidth\":{\"1\":\"\"},\"load_balancer\":{\"1\":\"\"},\"lbqty\":{\"1\":\"\"},\"ccptqty\":{\"1\":\"\"},\"sslvpnqty\":{\"1\":\"\"},\"ipsecqty\":{\"1\":\"\"},\"rep_link_qty\":{\"1\":\"\"},\"efv_throughput\":{\"1\":\"\"},\"extfvqty\":{\"1\":\"\"},\"ifv_throughput\":{\"1\":\"\"},\"intfvqty\":{\"1\":\"\"},\"ddos_throughput\":{\"1\":\"\"},\"waf_type\":{\"1\":\"\"},\"wafqty\":{\"1\":\"\"},\"ssl\":{\"1\":\"\"},\"sslqty\":{\"1\":\"\"},\"siem_name\":{\"1\":\"\"},\"pimqty\":{\"1\":\"\"},\"vtmqty\":{\"1\":\"\"},\"vapt_type\":{\"1\":\"\"},\"vaptqty\":{\"1\":\"\"},\"vapt_frequency\":{\"1\":\"Quarterly\"},\"hsm_type\":{\"1\":\"\"},\"hsm\":{\"1\":\"on\"},\"hsmqty\":{\"1\":\"\"},\"tfaqty\":{\"1\":\"\"},\"iamqty\":{\"1\":\"\"},\"dlpqty\":{\"1\":\"\"},\"edrqty\":{\"1\":\"\"},\"damqty\":{\"1\":\"\"},\"sorqty\":{\"1\":\"\"},\"emagic_type\":{\"1\":\"Basic\"},\"emagic\":{\"1\":\"on\"},\"drillqty\":{\"1\":\"\"},\"rep_link_type\":{\"1\":\"\"}}', ''),
 (25, 9999, 6669, 'PGCIL', '1', 9999, 9999, '2023-09-04', '2023-09-08 13:14:27', 2, 18340294, '{\"quot_type\":\"1\",\"price_list\":\"1\",\"pot_id\":\"6669\",\"project_name\":\"PGCIL\",\"old_pot\":\"6669\",\"version\":\" 1 \",\"count_of_est\":\"2\",\"EstType\":{\"1\":\"\",\"2\":\"\"},\"estmtname\":{\"1\":\"T1-T2 Months\",\"2\":\"T3-T6 Months\"},\"period\":{\"1\":\"2\",\"2\":\"4\"},\"count_of_vm\":{\"1\":\"5\",\"2\":\"18\"},\"vmname\":{\"1\":[\"App Server\",\"Main Database\",\"Kafka\",\"Master and Meter data DB (live data for 3 years)\",\"Application, Web, Integration services\"],\"2\":[\"Integration services\",\"Scheduler\",\"App Server (VEE, web, exeption)\",\"Master and Meter data DB (live data for 3 years)\",\"App Server\",\"Master and Meter data DB (live data for 3 years)\",\"Communication Servers P2P (PushPull)\",\"Communication Servers RF (PushPull)\",\"SLA Monitoring\",\"InfluxDB\",\"RabbitMQ\",\"Web and Integration Services\",\"App Services\",\"Main Database\",\"Kafka cluster (distributed among DC & DR Location)\",\"Application, Web, Integration services\",\"Main Database\",\"Kafka\"]},\"region\":{\"1\":[\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\"],\"2\":[\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\",\"Nashik\"]},\"sector\":{\"1\":[\"Government\",\"Government\",\"Government\",\"Government\",\"Government\"],\"2\":[\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\",\"Government\"]},\"os\":{\"1\":[\"Windows Standard Edition\",\"Windows Standard Edition\",\"Linux : UBUNTU\",\"Windows Standard Edition\",\"Windows Standard Edition\"],\"2\":[\"Windows Standard Edition\",\"Windows Standard Edition\",\"Windows Standard Edition\",\"Windows Standard Edition\",\"Windows Standard Edition\",\"Windows Standard Edition\",\"Windows Standard Edition\",\"Windows Standard Edition\",\"Windows Standard Edition\",\"Linux : UBUNTU\",\"Linux : UBUNTU\",\"Windows Standard Edition\",\"Windows Standard Edition\",\"Windows Standard Edition\",\"Linux : UBUNTU\",\"Windows Standard Edition\",\"Windows Standard Edition\",\"Linux : UBUNTU\"]},\"database\":{\"1\":[\"NA\",\"MS SQL Standard\",\"NA\",\"MS SQL Standard\",\"NA\"],\"2\":[\"NA\",\"NA\",\"NA\",\"MS SQL Standard\",\"NA\",\"MS SQL Standard\",\"NA\",\"NA\",\"NA\",\"NA\",\"NA\",\"NA\",\"NA\",\"MS SQL Standard\",\"NA\",\"NA\",\"MS SQL Standard\",\"NA\"]},\"series\":{\"1\":[\"All\",\"All\",\"All\",\"All\",\"All\"],\"2\":[\"All\",\"All\",\"All\",\"All\",\"All\",\"All\",\"All\",\"All\",\"All\",\"All\",\"All\",\"All\",\"All\",\"All\",\"All\",\"All\",\"All\",\"All\"]},\"instance\":{\"1\":[\"M7\",\"S11\",\"S3\",\"S11\",\"M7\"],\"2\":[\"M6\",\"M6\",\"M8\",\"L8\",\"M7\",\"S11\",\"S4\",\"S4\",\"M7\",\"S3\",\"S3\",\"S10\",\"S4\",\"L4\",\"S3\",\"M7\",\"S11\",\"S3\"]},\"vcpu\":{\"1\":[\"12\",\"8\",\"4\",\"8\",\"12\"],\"2\":[\"12\",\"12\",\"12\",\"32\",\"12\",\"8\",\"4\",\"4\",\"12\",\"4\",\"4\",\"8\",\"4\",\"16\",\"4\",\"12\",\"8\",\"\"]},\"ram\":{\"1\":[\"32\",\"32\",\"8\",\"32\",\"32\"],\"2\":[\"16\",\"16\",\"48\",\"128\",\"32\",\"32\",\"16\",\"16\",\"32\",\"8\",\"8\",\"16\",\"16\",\"128\",\"8\",\"32\",\"32\",\"\"]},\"inst_disk\":{\"1\":[\"100\",\"100\",\"100\",\"100\",\"100\"],\"2\":[\"100\",\"100\",\"100\",\"100\",\"100\",\"100\",\"100\",\"100\",\"100\",\"100\",\"100\",\"100\",\"100\",\"100\",\"100\",\"100\",\"100\",\"\"]},\"vmqty\":{\"1\":[\"01\",\"02\",\"01\",\"02\",\"01\"],\"2\":[\"02\",\"02\",\"04\",\"02\",\"01\",\"02\",\"05\",\"03\",\"02\",\"02\",\"02\",\"04\",\"04\",\"2\",\"04\",\"01\",\"2\",\"1\"]},\"state\":{\"1\":[\"Active\",\"Active\",\"Active\",\"Active\",\"Active\"],\"2\":[\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\",\"Active\"]},\"publicipversion\":{\"1\":[\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\"],\"2\":[\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\",\"Public IPv6\"]},\"ip_public\":{\"1\":[\"on\"],\"2\":[\"on\"]},\"public_ipqty\":{\"1\":[\"9\",\"\",\"\",\"\",\"\"],\"2\":[\"9\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"]},\"virus_type\":{\"1\":[\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\"],\"2\":[\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\",\"Anti-Virus + HIPS\"]},\"03strgunit\":{\"1\":\"TB\",\"2\":\"TB\"},\"03iopsqty\":{\"1\":\"2.7\",\"2\":\"27.4\"},\"1strgunit\":{\"1\":\"TB\",\"2\":\"TB\"},\"1iopsqty\":{\"1\":\"\",\"2\":\"\"},\"3strgunit\":{\"1\":\"TB\",\"2\":\"TB\"},\"3iopsqty\":{\"1\":\"\",\"2\":\"\"},\"5strgunit\":{\"1\":\"TB\",\"2\":\"TB\"},\"5iopsqty\":{\"1\":\"\",\"2\":\"\"},\"8strgunit\":{\"1\":\"TB\",\"2\":\"TB\"},\"8iopsqty\":{\"1\":\"\",\"2\":\"\"},\"10strgunit\":{\"1\":\"TB\",\"2\":\"TB\"},\"10iopsqty\":{\"1\":\"\",\"2\":\"\"},\"backup_strg\":{\"1\":\"0.8\",\"2\":\"3\"},\"backup_unit\":{\"1\":\"TB\",\"2\":\"TB\"},\"age_qty_type\":{\"1\":\"\",\"2\":\"\"},\"ageqty\":{\"1\":\"\",\"2\":\"\"},\"arc_strg\":{\"1\":\"\",\"2\":\"\"},\"archival_unit\":{\"1\":\"TB\",\"2\":\"TB\"},\"tlqty\":{\"1\":\"\",\"2\":\"\"},\"tcqty\":{\"1\":\"\",\"2\":\"\"},\"fcqty\":{\"1\":\"\",\"2\":\"\"},\"bandwidthType\":{\"1\":\"Speed Based Internet Bandwidth\",\"2\":\"Speed Based Internet Bandwidth\"},\"bandwidth\":{\"1\":\"50\",\"2\":\"50\"},\"load_balancer\":{\"1\":\"Load Balancer : HA Proxy\",\"2\":\"Load Balancer : HA Proxy\"},\"lbqty\":{\"1\":\"2\",\"2\":\"2\"},\"ccptqty\":{\"1\":\"2\",\"2\":\"2\"},\"sslvpnqty\":{\"1\":\"\",\"2\":\"\"},\"ipsecqty\":{\"1\":\"\",\"2\":\"\"},\"rep_link_qty\":{\"1\":\"\",\"2\":\"\"},\"efv_throughput\":{\"1\":\"Fortinet- External vFirewall : 1GBPS\",\"2\":\"Fortinet- External vFirewall : 1GBPS\"},\"extfvqty\":{\"1\":\"0\",\"2\":\"2\"},\"ifv_throughput\":{\"1\":\"Fortinet- Internal vFirewall : 1GBPS\",\"2\":\"Fortinet- Internal vFirewall : 1GBPS\"},\"intfvqty\":{\"1\":\"0\",\"2\":\"2\"},\"utm\":{\"1\":\"on\",\"2\":\"on\"},\"ddos_throughput\":{\"1\":\"DDoS Mitigation - 1Gbps\",\"2\":\"DDoS Mitigation - 1Gbps\"},\"waf_type\":{\"1\":\"eNlight : Web App Firewall\",\"2\":\"eNlight : Web App Firewall\"},\"wafqty\":{\"1\":\"0\",\"2\":\"2\"},\"ssl\":{\"1\":\"Domain WildCard SSL Certificate\",\"2\":\"Domain WildCard SSL Certificate\"},\"sslqty\":{\"1\":\"0\",\"2\":\"1\"},\"siem_name\":{\"1\":\"SECEON SIEM\",\"2\":\"SECEON SIEM\"},\"pimqty\":{\"1\":\"\",\"2\":\"\"},\"vtmqty\":{\"1\":\"4 scans per month\",\"2\":\"4 scans per month\"},\"vapt_type\":{\"1\":\"CERTIN- VAPT Audit\",\"2\":\"CERTIN- VAPT Audit\"},\"vaptqty\":{\"1\":\"0\",\"2\":\"2\"},\"vapt_frequency\":{\"1\":\"Year\",\"2\":\"Year\"},\"hsm_type\":{\"1\":\"\",\"2\":\"\"},\"hsmqty\":{\"1\":\"\",\"2\":\"\"},\"tfaqty\":{\"1\":\"\",\"2\":\"\"},\"iamqty\":{\"1\":\"0\",\"2\":\"50\"},\"dlpqty\":{\"1\":\"\",\"2\":\"\"},\"edrqty\":{\"1\":\"\",\"2\":\"\"},\"damqty\":{\"1\":\"\",\"2\":\"\"},\"sorqty\":{\"1\":\"\",\"2\":\"\"},\"osmgmt\":{\"1\":\"on\",\"2\":\"on\"},\"dbmgmt\":{\"1\":\"on\",\"2\":\"on\"},\"strgmgmt\":{\"1\":\"on\",\"2\":\"on\"},\"backmgmt\":{\"1\":\"on\",\"2\":\"on\"},\"lb_mgmt\":{\"1\":\"on\",\"2\":\"on\"},\"fv_mgmt\":{\"1\":\"on\",\"2\":\"on\"},\"wafmgmt\":{\"1\":\"on\",\"2\":\"on\"},\"emagic_type\":{\"1\":\"Basic\",\"2\":\"Basic\"},\"emagic\":{\"1\":\"on\",\"2\":\"on\"},\"drillqty\":{\"1\":\"\",\"2\":\"\"},\"rep_link_type\":{\"1\":\"\",\"2\":\"\"},\"03iops\":{\"2\":\"on\"},\"extfirewall\":{\"2\":\"on\"},\"intfirewall\":{\"2\":\"on\"},\"ddos\":{\"2\":\"on\"},\"waf\":{\"2\":\"on\"},\"ssl-check\":{\"2\":\"on\"},\"siem\":{\"2\":\"on\"},\"vtm\":{\"2\":\"on\"},\"vapt\":{\"2\":\"on\"},\"iam\":{\"2\":\"on\"},\"proceed\":\"\"}', '{\"1\":{\"VM0\":{\"Windows Standard Edition\":3120,\"App Server\":3600},\"VM1\":{\"MS SQL Standard\":135200,\"Windows Standard Edition\":4160,\"Main Database\":6600},\"VM2\":{\"Linux : UBUNTU\":0,\"Kafka\":1200},\"VM3\":{\"MS SQL Standard\":135200,\"Windows Standard Edition\":4160,\"Master and Meter data DB (live data for 3 years)\":6600},\"VM4\":{\"Windows Standard Edition\":3120,\"Application, Web, Integration services\":3600},\"Storage Solution\":{\"Backup Space\":3276.8},\"Network Solution\":{\"ip\":9000,\"bandwidth\":25000,\"ccpt\":4200,\"lb\":9600},\"Security Solution\":{\"av\":8400},\"Managed Services\":{\"st_mg\":3000,\"back_mg\":2100,\"rep_mgmt\":0,\"dr_drill\":0,\"lb_mgmt\":3000,\"fw_mgmt\":0,\"waf_mgmt\":0,\"emagic\":3600,\"win_os_mg\":3000,\"ubuntu_os_mg\":1500,\"ms_db_mg\":22000},\"MonthlyTotal\":404236.8},\"2\":{\"VM0\":{\"Windows Standard Edition\":6240,\"Integration services\":4800},\"VM1\":{\"Windows Standard Edition\":6240,\"Scheduler\":4800},\"VM2\":{\"Windows Standard Edition\":12480,\"App Server (VEE, web, exeption)\":19200},\"VM3\":{\"MS SQL Standard\":540800,\"Windows Standard Edition\":16640,\"Master and Meter data DB (live data for 3 years)\":24600},\"VM4\":{\"Windows Standard Edition\":3120,\"App Server\":3600},\"VM5\":{\"MS SQL Standard\":135200,\"Windows Standard Edition\":4160,\"Master and Meter data DB (live data for 3 years)\":6600},\"VM6\":{\"Windows Standard Edition\":5200,\"Communication Servers P2P (PushPull)\":9000},\"VM7\":{\"Windows Standard Edition\":3120,\"Communication Servers RF (PushPull)\":5400},\"VM8\":{\"Windows Standard Edition\":6240,\"SLA Monitoring\":7200},\"VM9\":{\"Linux : UBUNTU\":0,\"InfluxDB\":2400},\"VM10\":{\"Linux : UBUNTU\":0,\"RabbitMQ\":2400},\"VM11\":{\"Windows Standard Edition\":8320,\"Web and Integration Services\":8400},\"VM12\":{\"Windows Standard Edition\":4160,\"App Services\":7200},\"VM13\":{\"MS SQL Standard\":270400,\"Windows Standard Edition\":8320,\"Main Database\":22200},\"VM14\":{\"Linux : UBUNTU\":0,\"Kafka cluster (distributed among DC & DR Location)\":4800},\"VM15\":{\"Windows Standard Edition\":3120,\"Application, Web, Integration services\":3600},\"VM16\":{\"MS SQL Standard\":135200,\"Windows Standard Edition\":4160,\"Main Database\":6600},\"VM17\":{\"Linux : UBUNTU\":0,\"Kafka\":0},\"Storage Solution\":{\"Storage Space with 300 IOPS\":56115.2,\"Backup Space\":12288},\"Network Solution\":{\"ip\":9000,\"bandwidth\":25000,\"ccpt\":4200,\"lb\":9600},\"Security Solution\":{\"av\":54000,\"efw\":33350,\"ifw\":33350,\"ddos\":14583,\"waf\":21000,\"ssl\":2249,\"siem\":63600,\"vtm\":\"800\",\"vapt\":63600,\"iam\":2500000},\"Managed Services\":{\"st_mg\":40500,\"back_mg\":13500,\"rep_mgmt\":0,\"dr_drill\":0,\"lb_mgmt\":3000,\"fw_mgmt\":8000,\"waf_mgmt\":3000,\"emagic\":16800,\"win_os_mg\":12000,\"ubuntu_os_mg\":1500,\"ms_db_mg\":66000},\"MonthlyTotal\":4382955.2}}'),
-(26, 9999, 2345, 'ghjjrtuuy', '1', 9999, 9999, '2023-09-21', '2023-09-22 07:34:40', 0, 0, '{\"quot_type\":\"1\",\"price_list\":\"1\",\"pot_id\":\"2345\",\"project_name\":\"ghjjrtuuy\",\"old_pot\":\"2345\",\"version\":\" 1 \",\"count_of_est\":\"1\",\"EstType\":{\"1\":\"\"},\"estmtname\":{\"1\":\"\"},\"period\":{\"1\":\"\"},\"count_of_vm\":{\"1\":\"1\"},\"vmname\":{\"1\":[\"\"]},\"region\":{\"1\":[\"\"]},\"sector\":{\"1\":[\"\"]},\"os\":{\"1\":[\"\"]},\"database\":{\"1\":[\"\"]},\"series\":{\"1\":[\"\"]},\"instance\":{\"1\":[\"\"]},\"vmqty\":{\"1\":[\"0\"]},\"state\":{\"1\":[\"Standalone\"]},\"publicipversion\":{\"1\":[\"Public IPv6\"]},\"public_ipqty\":{\"1\":[\"\"]},\"virus_type\":{\"1\":[\"\"]},\"obj_03_unit\":{\"1\":\"TB\"},\"obj_03\":{\"1\":\"on\"},\"obj_03_qty\":{\"1\":\"7\"},\"obj_10_unit\":{\"1\":\"TB\"},\"obj_10\":{\"1\":\"on\"},\"obj_10_qty\":{\"1\":\"7\"},\"obj_1_unit\":{\"1\":\"GB\"},\"obj_1_qty\":{\"1\":\"\"},\"obj_3_unit\":{\"1\":\"GB\"},\"obj_3_qty\":{\"1\":\"\"},\"obj_5_unit\":{\"1\":\"GB\"},\"obj_5_qty\":{\"1\":\"\"},\"obj_8_unit\":{\"1\":\"GB\"},\"obj_8_qty\":{\"1\":\"\"},\"block_03_unit\":{\"1\":\"GB\"},\"block_03_qty\":{\"1\":\"\"},\"block_10_unit\":{\"1\":\"GB\"},\"block_10\":{\"1\":\"on\"},\"block_10_qty\":{\"1\":\"7\"},\"block_1_unit\":{\"1\":\"GB\"},\"block_1_qty\":{\"1\":\"\"},\"block_3_unit\":{\"1\":\"GB\"},\"block_3_qty\":{\"1\":\"\"},\"block_5_unit\":{\"1\":\"GB\"},\"block_5\":{\"1\":\"on\"},\"block_5_qty\":{\"1\":\"4\"},\"block_8_unit\":{\"1\":\"GB\"},\"block_8_qty\":{\"1\":\"\"},\"file_03_unit\":{\"1\":\"GB\"},\"file_03_qty\":{\"1\":\"\"},\"file_10_unit\":{\"1\":\"GB\"},\"file_10_qty\":{\"1\":\"\"},\"file_1_unit\":{\"1\":\"GB\"},\"file_1_qty\":{\"1\":\"\"},\"file_3_unit\":{\"1\":\"GB\"},\"file_3_qty\":{\"1\":\"\"},\"file_5_unit\":{\"1\":\"GB\"},\"file_5_qty\":{\"1\":\"\"},\"file_8_unit\":{\"1\":\"GB\"},\"file_8_qty\":{\"1\":\"\"},\"backup_strg\":{\"1\":\"\"},\"backup_unit\":{\"1\":\"TB\"},\"age_qty_type\":{\"1\":\"\"},\"ageqty\":{\"1\":\"\"},\"arc_strg\":{\"1\":\"\"},\"archival_unit\":{\"1\":\"TB\"},\"tlqty\":{\"1\":\"\"},\"tcqty\":{\"1\":\"\"},\"fcqty\":{\"1\":\"\"},\"bandwidthType\":{\"1\":\"Speed Based Internet Bandwidth\"},\"bandwidth\":{\"1\":\"\"},\"load_balancer\":{\"1\":\"\"},\"lbqty\":{\"1\":\"\"},\"ccptqty\":{\"1\":\"\"},\"sslvpnqty\":{\"1\":\"\"},\"ipsecqty\":{\"1\":\"\"},\"rep_link_qty\":{\"1\":\"\"},\"ssl_cerificate_select\":{\"1\":\"\"},\"ssl_cerificate_qty\":{\"1\":\"\"},\"utm_select\":{\"1\":\"juni_vutm_1g\"},\"utm_qty\":{\"1\":\"\"},\"vtm_scan_select\":{\"1\":\"vtm_scan_60\"},\"vtm_scan_check\":{\"1\":\"on\"},\"vtm_scan_qty\":{\"1\":\"20\"},\"siem_select\":{\"1\":\"\"},\"siem_qty\":{\"1\":\"\"},\"vapt_select\":{\"1\":\"\"},\"vapt_qty\":{\"1\":\"\"},\"ddos_select\":{\"1\":\"\"},\"ddos_qty\":{\"1\":\"\"},\"soar_select\":{\"1\":\"\"},\"soar_check\":{\"1\":\"on\"},\"soar_qty\":{\"1\":\"\"},\"waf_select\":{\"1\":\"other_ vwaf_2gbps\"},\"waf_qty\":{\"1\":\"\"},\"ifw_select\":{\"1\":\"ifw_fortinet_2gbps\"},\"ifw_qty\":{\"1\":\"\"},\"efw_select\":{\"1\":\"efw_check_1gbps\"},\"efw_check\":{\"1\":\"on\"},\"efw_qty\":{\"1\":\"99\"},\"hsm_select\":{\"1\":\"\"},\"hsm_check\":{\"1\":\"on\"},\"hsm_qty\":{\"1\":\"1344\"},\"dlp_select\":{\"1\":\"\"},\"dlp_qty\":{\"1\":\"\"},\"pim_select\":{\"1\":\"\"},\"pim_qty\":{\"1\":\"\"},\"iam_select\":{\"1\":\"\"},\"iam_qty\":{\"1\":\"\"},\"edr_select\":{\"1\":\"\"},\"edr_qty\":{\"1\":\"\"},\"dam_select\":{\"1\":\"\"},\"dam_qty\":{\"1\":\"\"},\"mfa_select\":{\"1\":\"\"},\"mfa_qty\":{\"1\":\"\"},\"av_select\":{\"1\":\"\"},\"av_check\":{\"1\":\"on\"},\"av_qty\":{\"1\":\"123\"},\"emagic_type\":{\"1\":\"Basic\"},\"emagic\":{\"1\":\"on\"},\"drillqty\":{\"1\":\"\"},\"rep_link_type\":{\"1\":\"\"}}', '');
+(26, 9999, 2345, 'ghjjrtuuy', '1', 9999, 9999, '2023-09-21', '2023-09-22 07:34:40', 0, 0, '{\"quot_type\":\"1\",\"price_list\":\"1\",\"pot_id\":\"2345\",\"project_name\":\"ghjjrtuuy\",\"old_pot\":\"2345\",\"version\":\" 1 \",\"count_of_est\":\"1\",\"EstType\":{\"1\":\"\"},\"estmtname\":{\"1\":\"\"},\"period\":{\"1\":\"\"},\"count_of_vm\":{\"1\":\"1\"},\"vmname\":{\"1\":[\"\"]},\"region\":{\"1\":[\"\"]},\"sector\":{\"1\":[\"\"]},\"os\":{\"1\":[\"\"]},\"database\":{\"1\":[\"\"]},\"series\":{\"1\":[\"\"]},\"instance\":{\"1\":[\"\"]},\"vmqty\":{\"1\":[\"0\"]},\"state\":{\"1\":[\"Standalone\"]},\"publicipversion\":{\"1\":[\"Public IPv6\"]},\"public_ipqty\":{\"1\":[\"\"]},\"virus_type\":{\"1\":[\"\"]},\"obj_03_unit\":{\"1\":\"TB\"},\"obj_03\":{\"1\":\"on\"},\"obj_03_qty\":{\"1\":\"7\"},\"obj_10_unit\":{\"1\":\"TB\"},\"obj_10\":{\"1\":\"on\"},\"obj_10_qty\":{\"1\":\"7\"},\"obj_1_unit\":{\"1\":\"GB\"},\"obj_1_qty\":{\"1\":\"\"},\"obj_3_unit\":{\"1\":\"GB\"},\"obj_3_qty\":{\"1\":\"\"},\"obj_5_unit\":{\"1\":\"GB\"},\"obj_5_qty\":{\"1\":\"\"},\"obj_8_unit\":{\"1\":\"GB\"},\"obj_8_qty\":{\"1\":\"\"},\"block_03_unit\":{\"1\":\"GB\"},\"block_03_qty\":{\"1\":\"\"},\"block_10_unit\":{\"1\":\"GB\"},\"block_10\":{\"1\":\"on\"},\"block_10_qty\":{\"1\":\"7\"},\"block_1_unit\":{\"1\":\"GB\"},\"block_1_qty\":{\"1\":\"\"},\"block_3_unit\":{\"1\":\"GB\"},\"block_3_qty\":{\"1\":\"\"},\"block_5_unit\":{\"1\":\"GB\"},\"block_5\":{\"1\":\"on\"},\"block_5_qty\":{\"1\":\"4\"},\"block_8_unit\":{\"1\":\"GB\"},\"block_8_qty\":{\"1\":\"\"},\"file_03_unit\":{\"1\":\"GB\"},\"file_03_qty\":{\"1\":\"\"},\"file_10_unit\":{\"1\":\"GB\"},\"file_10_qty\":{\"1\":\"\"},\"file_1_unit\":{\"1\":\"GB\"},\"file_1_qty\":{\"1\":\"\"},\"file_3_unit\":{\"1\":\"GB\"},\"file_3_qty\":{\"1\":\"\"},\"file_5_unit\":{\"1\":\"GB\"},\"file_5_qty\":{\"1\":\"\"},\"file_8_unit\":{\"1\":\"GB\"},\"file_8_qty\":{\"1\":\"\"},\"backup_strg\":{\"1\":\"\"},\"backup_unit\":{\"1\":\"TB\"},\"age_qty_type\":{\"1\":\"\"},\"ageqty\":{\"1\":\"\"},\"arc_strg\":{\"1\":\"\"},\"archival_unit\":{\"1\":\"TB\"},\"tlqty\":{\"1\":\"\"},\"tcqty\":{\"1\":\"\"},\"fcqty\":{\"1\":\"\"},\"bandwidthType\":{\"1\":\"Speed Based Internet Bandwidth\"},\"bandwidth\":{\"1\":\"\"},\"load_balancer\":{\"1\":\"\"},\"lbqty\":{\"1\":\"\"},\"ccptqty\":{\"1\":\"\"},\"sslvpnqty\":{\"1\":\"\"},\"ipsecqty\":{\"1\":\"\"},\"rep_link_qty\":{\"1\":\"\"},\"ssl_cerificate_select\":{\"1\":\"\"},\"ssl_cerificate_qty\":{\"1\":\"\"},\"utm_select\":{\"1\":\"juni_vutm_1g\"},\"utm_qty\":{\"1\":\"\"},\"vtm_scan_select\":{\"1\":\"vtm_scan_60\"},\"vtm_scan_check\":{\"1\":\"on\"},\"vtm_scan_qty\":{\"1\":\"20\"},\"siem_select\":{\"1\":\"\"},\"siem_qty\":{\"1\":\"\"},\"vapt_select\":{\"1\":\"\"},\"vapt_qty\":{\"1\":\"\"},\"ddos_select\":{\"1\":\"\"},\"ddos_qty\":{\"1\":\"\"},\"soar_select\":{\"1\":\"\"},\"soar_check\":{\"1\":\"on\"},\"soar_qty\":{\"1\":\"\"},\"waf_select\":{\"1\":\"other_ vwaf_2gbps\"},\"waf_qty\":{\"1\":\"\"},\"ifw_select\":{\"1\":\"ifw_fortinet_2gbps\"},\"ifw_qty\":{\"1\":\"\"},\"efw_select\":{\"1\":\"efw_check_1gbps\"},\"efw_check\":{\"1\":\"on\"},\"efw_qty\":{\"1\":\"99\"},\"hsm_select\":{\"1\":\"\"},\"hsm_check\":{\"1\":\"on\"},\"hsm_qty\":{\"1\":\"1344\"},\"dlp_select\":{\"1\":\"\"},\"dlp_qty\":{\"1\":\"\"},\"pim_select\":{\"1\":\"\"},\"pim_qty\":{\"1\":\"\"},\"iam_select\":{\"1\":\"\"},\"iam_qty\":{\"1\":\"\"},\"edr_select\":{\"1\":\"\"},\"edr_qty\":{\"1\":\"\"},\"dam_select\":{\"1\":\"\"},\"dam_qty\":{\"1\":\"\"},\"mfa_select\":{\"1\":\"\"},\"mfa_qty\":{\"1\":\"\"},\"av_select\":{\"1\":\"\"},\"av_check\":{\"1\":\"on\"},\"av_qty\":{\"1\":\"123\"},\"emagic_type\":{\"1\":\"Basic\"},\"emagic\":{\"1\":\"on\"},\"drillqty\":{\"1\":\"\"},\"rep_link_type\":{\"1\":\"\"}}', ''),
+(27, 9999, 1234, 'xdfcgvhbjnkm', '1', 0, 9999, '2023-09-25', '2023-09-26 08:58:46', 2, 0, '{\"quot_type\":\"1\",\"price_list\":\"1\",\"pot_id\":\"1234\",\"project_name\":\"xdfcgvhbjnkm\",\"old_pot\":\"1234\",\"version\":\" 1 \",\"count_of_est\":\"2\",\"region\":{\"1\":\"Nashik\",\"2\":\"\"},\"EstType\":{\"1\":\"DC\",\"2\":\"\"},\"estmtname\":{\"1\":\"dwdwd\",\"2\":\"\"},\"period\":{\"1\":\"2\",\"2\":\"\"},\"count_of_vm\":{\"1\":\"2\",\"2\":\"2\"},\"vmname\":{\"1\":[\"Application Server\",\"\"],\"2\":[\"\",\"\"]},\"vcpu\":{\"1\":[\"12\",\"1\"],\"2\":[\"1\",\"1\"]},\"ram\":{\"1\":[\"12\",\"2\"],\"2\":[\"2\",\"2\"]},\"vmDiskIOPS\":{\"1\":[\"0.3 IOPS/GB\",\"0.3 IOPS/GB\"],\"2\":[\"0.3 IOPS/GB\",\"0.3 IOPS/GB\"]},\"inst_disk\":{\"1\":[\"100\",\"100\"],\"2\":[\"100\",\"100\"]},\"state\":{\"1\":[\"Standalone\",\"Standalone\"],\"2\":[\"Standalone\",\"Standalone\"]},\"os\":{\"1\":[\"win_se\",\"\"],\"2\":[\"\",\"\"]},\"database\":{\"1\":[\"ms_std\",\"\"],\"2\":[\"\",\"\"]},\"vmqty\":{\"1\":[\"2\",\"0\"],\"2\":[\"0\",\"0\"]},\"virus_type\":{\"1\":[\"Anti-Virus\",\"\"],\"2\":[\"\",\"\"]},\"obj_03_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"obj_03_qty\":{\"1\":\"2\",\"2\":\"\"},\"obj_10_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"obj_10_qty\":{\"1\":\"2\",\"2\":\"\"},\"obj_1_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"obj_1_qty\":{\"1\":\"2\",\"2\":\"\"},\"obj_3_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"obj_3_qty\":{\"1\":\"2\",\"2\":\"\"},\"obj_5_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"obj_5_qty\":{\"1\":\"2\",\"2\":\"\"},\"obj_8_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"obj_8_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_03_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_03_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_10_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_10_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_1_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_1_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_3_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_3_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_5_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_5_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_8_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_8_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_15_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_15_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_20_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_20_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_25_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_25_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_30_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_30_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_40_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_40_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_50_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_50_qty\":{\"1\":\"2\",\"2\":\"\"},\"block_100_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"block_100_qty\":{\"1\":\"2\",\"2\":\"\"},\"file_03_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"file_03_qty\":{\"1\":\"2\",\"2\":\"\"},\"file_10_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"file_10_qty\":{\"1\":\"2\",\"2\":\"\"},\"file_1_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"file_1_qty\":{\"1\":\"2\",\"2\":\"\"},\"file_3_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"file_3_qty\":{\"1\":\"2\",\"2\":\"\"},\"file_5_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"file_5_qty\":{\"1\":\"2\",\"2\":\"\"},\"file_8_unit\":{\"1\":\"GB\",\"2\":\"GB\"},\"file_8_qty\":{\"1\":\"2\",\"2\":\"\"},\"backup_strg\":{\"1\":\"2\",\"2\":\"\"},\"backup_unit\":{\"1\":\"TB\",\"2\":\"TB\"},\"age_qty_type\":{\"1\":\"\",\"2\":\"\"},\"ageqty\":{\"1\":\"2\",\"2\":\"\"},\"arc_strg\":{\"1\":\"2\",\"2\":\"\"},\"archival_unit\":{\"1\":\"TB\",\"2\":\"TB\"},\"tlqty\":{\"1\":\"0\",\"2\":\"\"},\"tcqty\":{\"1\":\"0\",\"2\":\"\"},\"fcqty\":{\"1\":\"0\",\"2\":\"\"},\"bandwidthType\":{\"1\":\"Speed Based Internet Bandwidth\",\"2\":\"Speed Based Internet Bandwidth\"},\"bandwidth\":{\"1\":\"2\",\"2\":\"\"},\"load_balancer\":{\"1\":\"\",\"2\":\"\"},\"lbqty\":{\"1\":\"2\",\"2\":\"\"},\"ccptqty\":{\"1\":\"2\",\"2\":\"\"},\"sslvpnqty\":{\"1\":\"2\",\"2\":\"\"},\"ipsecqty\":{\"1\":\"2\",\"2\":\"\"},\"rep_link_qty\":{\"1\":\"\",\"2\":\"\"},\"efv_throughput\":{\"1\":\"efw_check_2gbps\",\"2\":\"\"},\"extfvqty\":{\"1\":\"0\",\"2\":\"\"},\"ifv_throughput\":{\"1\":\"ifw_check_2gbps\",\"2\":\"\"},\"intfvqty\":{\"1\":\"0\",\"2\":\"\"},\"utm\":{\"1\":\"on\"},\"ddos_throughput\":{\"1\":\"ddos_1gbps\",\"2\":\"\"},\"waf_type\":{\"1\":\"fortinet _ vwaf_1gbps\",\"2\":\"\"},\"wafqty\":{\"1\":\"0\",\"2\":\"\"},\"ssl\":{\"1\":\"\",\"2\":\"\"},\"sslqty\":{\"1\":\"0\",\"2\":\"\"},\"siem_name\":{\"1\":\"logrythm_siem\",\"2\":\"\"},\"pimqty\":{\"1\":\"0\",\"2\":\"\"},\"vtmqty\":{\"1\":\"\",\"2\":\"\"},\"vapt_type\":{\"1\":\"cert_vapt\",\"2\":\"\"},\"vaptqty\":{\"1\":\"0\",\"2\":\"\"},\"vapt_frequency\":{\"1\":\"Quarterly\",\"2\":\"Quarterly\"},\"hsm_type\":{\"1\":\"dedicate_hsm\",\"2\":\"\"},\"hsmqty\":{\"1\":\"0\",\"2\":\"\"},\"tfaqty\":{\"1\":\"0\",\"2\":\"\"},\"iamqty\":{\"1\":\"0\",\"2\":\"\"},\"dlpqty\":{\"1\":\"0\",\"2\":\"\"},\"edrqty\":{\"1\":\"0\",\"2\":\"\"},\"damqty\":{\"1\":\"0\",\"2\":\"\"},\"sorqty\":{\"1\":\"0\",\"2\":\"\"},\"osmgmt\":{\"1\":\"on\"},\"dbmgmt\":{\"1\":\"on\"},\"strgmgmt\":{\"1\":\"on\"},\"backmgmt\":{\"1\":\"on\"},\"lb_mgmt\":{\"1\":\"on\"},\"fv_mgmt\":{\"1\":\"on\"},\"wafmgmt\":{\"1\":\"on\"},\"emagic_type\":{\"1\":\"Basic\",\"2\":\"Basic\"},\"emagic\":{\"1\":\"on\",\"2\":\"on\"},\"drillqty\":{\"1\":\"2\",\"2\":\"\"},\"rep_link_type\":{\"1\":\"\",\"2\":\"\"}}', '');
 
 -- --------------------------------------------------------
 
@@ -2127,7 +2149,141 @@ INSERT INTO `visitor_activity_logs` (`id`, `user_ip_address`, `emp_code`, `uname
 (186, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=26&next&pot_id=2345&project_name=ghjjrtuuy&list=1&type=1edit_id=26&next&pot_id=2345&project_name=ghjjrtuuy&list=1&type=1', '2023-09-22 13:04:13'),
 (187, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=26&next&pot_id=2345&project_name=ghjjrtuuy&list=1&type=1edit_id=26&next&pot_id=2345&project_name=ghjjrtuuy&list=1&type=1', '2023-09-22 13:04:46'),
 (188, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=26&next&pot_id=2345&project_name=ghjjrtuuy&list=1&type=1edit_id=26&next&pot_id=2345&project_name=ghjjrtuuy&list=1&type=1', '2023-09-22 13:05:47'),
-(189, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=26&next&pot_id=2345&project_name=ghjjrtuuy&list=1&type=1edit_id=26&next&pot_id=2345&project_name=ghjjrtuuy&list=1&type=1', '2023-09-22 15:55:31');
+(189, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=26&next&pot_id=2345&project_name=ghjjrtuuy&list=1&type=1edit_id=26&next&pot_id=2345&project_name=ghjjrtuuy&list=1&type=1', '2023-09-22 15:55:31'),
+(190, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php', '2023-09-25 09:41:55'),
+(191, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?allall', '2023-09-25 09:51:13'),
+(192, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?allall', '2023-09-25 09:51:17'),
+(193, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=25edit_id=25', '2023-09-25 09:51:27'),
+(194, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php', '2023-09-25 09:51:33'),
+(195, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?create_newcreate_new', '2023-09-25 09:51:39'),
+(196, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-25 09:51:52'),
+(197, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-25 12:01:00'),
+(198, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php', '2023-09-25 14:47:12'),
+(199, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?allall', '2023-09-25 14:47:18'),
+(200, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27edit_id=27', '2023-09-25 14:47:26'),
+(201, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-25 14:47:34'),
+(202, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-25 15:02:14'),
+(203, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 10:45:41'),
+(204, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 10:59:45'),
+(205, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:01:58'),
+(206, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:09:58'),
+(207, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:16:55'),
+(208, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:22:30'),
+(209, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:28:12'),
+(210, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:29:21'),
+(211, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:30:14'),
+(212, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:31:16'),
+(213, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:33:02'),
+(214, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:34:27'),
+(215, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:35:49'),
+(216, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:36:53'),
+(217, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:38:06'),
+(218, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:38:32'),
+(219, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:39:41'),
+(220, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:40:07'),
+(221, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:41:45'),
+(222, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:42:59'),
+(223, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:45:03'),
+(224, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:45:27'),
+(225, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:48:43'),
+(226, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:49:25'),
+(227, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:51:32'),
+(228, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:52:23'),
+(229, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:53:01'),
+(230, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:54:01'),
+(231, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:55:50'),
+(232, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:56:21'),
+(233, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:57:01'),
+(234, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:58:06'),
+(235, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:58:56'),
+(236, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 11:59:40'),
+(237, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:10:48'),
+(238, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:16:30'),
+(239, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:19:19'),
+(240, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:20:01'),
+(241, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:21:26'),
+(242, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:22:06'),
+(243, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:22:46'),
+(244, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:23:09'),
+(245, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:26:11'),
+(246, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:26:26');
+INSERT INTO `visitor_activity_logs` (`id`, `user_ip_address`, `emp_code`, `uname`, `page_url`, `created_on`) VALUES
+(247, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:27:42'),
+(248, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:30:24'),
+(249, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:32:26'),
+(250, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:43:18'),
+(251, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:52:57'),
+(252, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:54:26'),
+(253, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:57:42'),
+(254, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:58:52'),
+(255, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 12:59:31'),
+(256, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 13:00:09'),
+(257, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 13:01:28'),
+(258, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?allall', '2023-09-26 13:02:37'),
+(259, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27edit_id=27', '2023-09-26 13:02:45'),
+(260, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 13:02:53'),
+(261, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 13:03:22'),
+(262, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 13:04:19'),
+(263, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 13:10:03'),
+(264, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 13:10:29'),
+(265, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 13:10:40'),
+(266, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 13:12:07'),
+(267, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 14:19:38'),
+(268, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 14:27:49'),
+(269, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 14:28:54'),
+(270, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php', '2023-09-26 14:29:16'),
+(271, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?allall', '2023-09-26 14:29:30'),
+(272, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27edit_id=27', '2023-09-26 14:29:40'),
+(273, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 14:29:49'),
+(274, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 14:30:40'),
+(275, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 14:31:34'),
+(276, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 14:38:35'),
+(277, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 14:40:48'),
+(278, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 14:43:03'),
+(279, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 14:44:40'),
+(280, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 14:46:39'),
+(281, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:01:29'),
+(282, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:03:08'),
+(283, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:05:51'),
+(284, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:06:43'),
+(285, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:12:45'),
+(286, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:17:09'),
+(287, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:18:12'),
+(288, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:18:40'),
+(289, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:20:05'),
+(290, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:20:29'),
+(291, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:25:43'),
+(292, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:30:57'),
+(293, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:36:36'),
+(294, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:42:54'),
+(295, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:47:58'),
+(296, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:48:44'),
+(297, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:52:09'),
+(298, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 15:53:30'),
+(299, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 16:02:41'),
+(300, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 16:48:06'),
+(301, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 16:48:45'),
+(302, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-26 17:35:28'),
+(303, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-27 10:49:13'),
+(304, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-27 10:49:28'),
+(305, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-27 10:50:47'),
+(306, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-27 10:51:23'),
+(307, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-27 10:52:10'),
+(308, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?allall', '2023-09-27 10:53:20'),
+(309, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27edit_id=27', '2023-09-27 10:53:27'),
+(310, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-27 10:53:42'),
+(311, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-27 11:01:04'),
+(312, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-27 11:01:42'),
+(313, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-27 11:02:11'),
+(314, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-27 11:05:02'),
+(315, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-27 11:16:17'),
+(316, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?allall', '2023-09-27 18:59:22'),
+(317, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?allall', '2023-09-27 18:59:33'),
+(318, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27edit_id=27', '2023-09-27 19:02:08'),
+(319, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php', '2023-09-27 19:02:23'),
+(320, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?allall', '2023-09-27 19:02:29'),
+(321, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27edit_id=27', '2023-09-27 19:02:36'),
+(322, '::1', 9999, 'admin', 'http://localhost/configurator/v2/estimate/index.php?edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1edit_id=27&next&pot_id=1234&project_name=xdfcgvhbjnkm&list=1&type=1', '2023-09-27 19:02:50');
 
 --
 -- Indexes for dumped tables
@@ -2153,7 +2309,8 @@ ALTER TABLE `permission_master`
 ALTER TABLE `price_list`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
-  ADD KEY `fkc_region_id` (`region`);
+  ADD KEY `fkc_region_id` (`region`),
+  ADD KEY `prod_int` (`prod_int`);
 
 --
 -- Indexes for table `rate_card_prices`
@@ -2163,12 +2320,6 @@ ALTER TABLE `rate_card_prices`
   ADD UNIQUE KEY `id` (`id`),
   ADD KEY `rate_card_fkc` (`rate_card_id`),
   ADD KEY `product_fkc` (`prod_id`);
-
---
--- Indexes for table `region`
---
-ALTER TABLE `region`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `role_master`
@@ -2189,7 +2340,7 @@ ALTER TABLE `role_permissions`
 --
 ALTER TABLE `tbl_calculation`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fkc_pod_id` (`product_id`);
+  ADD KEY `fkc_prod_cal` (`product_int`);
 
 --
 -- Indexes for table `tbl_pack`
@@ -2208,6 +2359,12 @@ ALTER TABLE `tbl_quot_type`
 -- Indexes for table `tbl_rate_cards`
 --
 ALTER TABLE `tbl_rate_cards`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_region`
+--
+ALTER TABLE `tbl_region`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -2249,13 +2406,7 @@ ALTER TABLE `permission_master`
 -- AUTO_INCREMENT for table `rate_card_prices`
 --
 ALTER TABLE `rate_card_prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=616;
-
---
--- AUTO_INCREMENT for table `region`
---
-ALTER TABLE `region`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=623;
 
 --
 -- AUTO_INCREMENT for table `role_master`
@@ -2273,7 +2424,7 @@ ALTER TABLE `role_permissions`
 -- AUTO_INCREMENT for table `tbl_calculation`
 --
 ALTER TABLE `tbl_calculation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_pack`
@@ -2294,10 +2445,16 @@ ALTER TABLE `tbl_rate_cards`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `tbl_region`
+--
+ALTER TABLE `tbl_region`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `tbl_saved_estimates`
 --
 ALTER TABLE `tbl_saved_estimates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `tbl_sector`
@@ -2309,7 +2466,7 @@ ALTER TABLE `tbl_sector`
 -- AUTO_INCREMENT for table `visitor_activity_logs`
 --
 ALTER TABLE `visitor_activity_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=323;
 
 --
 -- Constraints for dumped tables
@@ -2325,7 +2482,7 @@ ALTER TABLE `login_master`
 -- Constraints for table `price_list`
 --
 ALTER TABLE `price_list`
-  ADD CONSTRAINT `fkc_region_id` FOREIGN KEY (`region`) REFERENCES `region` (`id`);
+  ADD CONSTRAINT `fkc_region_id` FOREIGN KEY (`region`) REFERENCES `tbl_region` (`id`);
 
 --
 -- Constraints for table `rate_card_prices`
@@ -2338,6 +2495,12 @@ ALTER TABLE `rate_card_prices`
 --
 ALTER TABLE `role_permissions`
   ADD CONSTRAINT `role_permissions_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role_master` (`id`);
+
+--
+-- Constraints for table `tbl_calculation`
+--
+ALTER TABLE `tbl_calculation`
+  ADD CONSTRAINT `fkc_prod_cal` FOREIGN KEY (`product_int`) REFERENCES `price_list` (`prod_int`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -90,8 +90,8 @@ function get_strg($unit, $price = 1, $qty = 1)
 
 function strg_iops($unit, $iops)
 {
-  if ($unit == 'GB') {
-    return "Storage Space with " . ($iops / 1000) . " IOPS";
+  if ($unit == 'TB') {
+    return "Storage Space with " . ($iops * 1000) . " IOPS";
   } else {
     return "Storage Space with " . ($iops) . " IOPS";
   }

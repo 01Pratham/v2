@@ -43,12 +43,7 @@ $EstmDATA = $_SESSION['post_data'];
     $state = $EstmDATA["state"];
     $av_type = $EstmDATA["virus_type"];
     
-    $iops03 = $EstmDATA['03iops'];
-    $iops1 = $EstmDATA['1iops'];
-    $iops3 = $EstmDATA['3iops'];
-    $iops5 = $EstmDATA['5iops'];
-    $iops8 = $EstmDATA['8iops'];
-    $iops10 = $EstmDATA['10iops'];
+
 
     $strgunit03 = $EstmDATA['03strgunit'];
     $strgunit1 = $EstmDATA['1strgunit'];

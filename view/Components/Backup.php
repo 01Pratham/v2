@@ -8,14 +8,21 @@
         <div class="form-group col-md-3">
             <h6><small>Backup Storage :</small></h6>
             <div class="form-group row">
-                <div class=" col-sm-8 " style="padding-right: 0px;">
+                <div class=" col-sm-6 " style="padding-right: 0px;">
                     <input type="number" step="0.1" min=0 class="form-control small border-right-0 rounded-0" id="backup_strg_<?= $id ?>" placeholder="Quantity" value="<?= $Editable['backup_strg'][$name] ?>" name="backup_strg[<?= $name ?>]">
                 </div>
-                <div class="form-group col-sm-4" style="padding-left: 0px;">
-                    <select name='backup_unit[<?= $name ?>]' id='backupunit_<?= $id ?>' class='rounded-0 border-left-0 form-control'>
+                <div class="form-group col-sm-6" style="padding-left: 0px;">
+                    <select name='backup_unit[<?= $name ?>]' id='backupunit_<?= $id ?>' class='rounded-0 text-sm border-left-0 form-control'>
                         <option class="editable" value="<?= $Editable['backupunit'][$name] ?>" hidden><?= $Editable['backupunit'][$name] ?></option>
-                        <option value='TB'>TB</option>
-                        <option value='GB'> GB </option>
+                        <?php
+                                
+                                echo '<option class="editable" value = "' . $Editable["backupunit"][$name] . '">' . preg_replace("/obj_/",'',$Editable["backupunit"][$name] ) . '</option>';
+                                $strQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `price_list` WHERE `sec_category` = 'backup'");
+                                while ($strg = mysqli_fetch_assoc($strQuery)) {
+                                    $iops = preg_replace("/Backup Storage  - Per GB /", '', $strg['product']) . "/GB";
+                                    echo '<option value = "' .$iops. '">' . $iops . '</option>';
+                                }
+                                ?>
                     </select>
                 </div>
             </div>

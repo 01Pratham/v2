@@ -27,7 +27,7 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
                     })
                 </script>
             <?php
-            }
+            } 
             ?>
             <input type="checkbox" id="checkHead_<?= $id ?>" class="head-btn d-none">
             <label class="text-left text-primary pt-3" for="checkHead_<?= $id ?>" id="estmtHead_<?= $id ?>" style="z-index: 1;">
@@ -35,7 +35,7 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
             </label>
             <span class="float-right">
                 <select name="region[<?= $name ?>]" id="region_<?= $id ?>" class="border-0 text-primary">
-                    <option value="<?= $Editable['region'][$name] ?>" hidden><?= $Editable['region'][$name] ?></option>
+                    <option class="editable" value="<?= $Editable['region'][$name] ?>" hidden><?= $Editable['region'][$name] ?></option>
                     <?php
                     $reg = mysqli_query($con, 'SELECT * FROM `tbl_region`');
                     while ($reg_row = mysqli_fetch_array($reg)) {
@@ -49,7 +49,7 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
                     ?>
                 </select>
                 <select name="EstType[<?= $name ?>]" id="EstType_<?= $id ?>" class="border-0 text-primary">
-                    <option value="<?= $Editable['EstType'][$name] ?>" hidden><?= $Editable['EstType'][$name] ?></option>
+                    <option class="editable" value="<?= $Editable['EstType'][$name] ?>" hidden><?= $Editable['EstType'][$name] ?></option>
                     <option value="DC">DC</option>
                     <option value="DR">DR</option>
                 </select>

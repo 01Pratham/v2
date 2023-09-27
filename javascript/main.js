@@ -299,7 +299,7 @@ $(document).ready(function () {
     }
 
     if (width <= 576) {
-        console.log(width)
+        // console.log(width)
         if ($('.nav-item').hasClass('d-none')) {
             // console.log(width)
             $('.nav-item').removeClass('d-none');
