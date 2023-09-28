@@ -112,9 +112,9 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
                 <select name="virus_type[<?= $name ?>][]" id="virus_type_<?= $id ?>" class="form-control">
                     <option class="editable" value="<?= $Editable['virus_type'][$name][$count] ?>" hidden><?= ($Editable['virus_type'][$name][$count]) ?></option>
                     <option value="">Select Antivirus</option>
-                    <option value="Anti-Virus">Anti-Virus</option>
-                    <option value="Anti-Virus + HIPS">Anti-Virus + HIPS</option>
-                    <?php // create_opt('av') 
+                    
+                    <?php  
+                        create_opt('av')
                     ?>
                 </select>
             </div>

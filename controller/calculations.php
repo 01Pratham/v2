@@ -69,7 +69,7 @@ function get_DB($sw_name, $core_devide = 1, $price = 1, $Data = 'price')
 function get_Price($prod, $act = "price")
 {
   global $con, $_POST;
-  $query = mysqli_query($con, "SELECT * FROM `price_list` WHERE `product` = '{$prod}'");
+  $query = mysqli_query($con, "SELECT * FROM `price_list` WHERE `prod_int` = '{$prod}'");
   $val = mysqli_fetch_assoc($query);
   if ($act == "price") {
     $price = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$_POST['price_list']}' AND `prod_id` = '{$val['id']}' "));
