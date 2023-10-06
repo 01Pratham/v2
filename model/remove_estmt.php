@@ -3,7 +3,7 @@ session_start();
 require("database.php");
 
 if ($_POST['action'] == 'Delete') {
-  mysqli_query($con, "DELETE FROM `tbl_saved_estimates` WHERE id = {$_POST['post_data']}");
+  mysqli_query($con, "DELETE FROM `tbl_saved_estimates` WHERE `id` = {$_POST['post_data']}");
 }
 
 function saveEstmt()
@@ -19,7 +19,6 @@ function saveEstmt()
   $date->setTimezone(new DateTimeZone("Asia/Kolkata"));
   $time = $date->format('Y-m-d H:i:sa');
   $date = $date->format('Y-m-d');
-
   $data = $_POST['data'];
   $prices = $_POST['priceData'];
 

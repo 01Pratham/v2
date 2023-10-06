@@ -1,7 +1,7 @@
 <!-- <span class="loader except" ></span> -->
 <div class="except content-wrapper Main bg-transparent" >
     <?php
-//  print_r($_SERVER);
+//  print_r($Editable['count_of_est'] > 1);
 
     if (empty($_SERVER['QUERY_STRING'])) {
         unset($_SESSION['post_data']);
@@ -98,9 +98,11 @@
         echo "<script>$('#dashboard').remove()</script>";
         exit();
     } elseif (isset($_GET['edit_id'])) {
+        
         unset($_SESSION['post_data']);
         $_SESSION['edit_id'] = $_GET['edit_id'];
         require "../model/editable.php";
+        // print_r($Editable['count_of_est']);
         echo "
         <script>
             $('#dashboard').remove()
@@ -112,15 +114,6 @@
         require('../view/create_new.php');
         CreateNew();
         require('edit_estimate.php');
-        if ($Editable['count_of_est'] > 1) {
-            for ($count = 1; $count < $Editable['count_of_est']; $count++){
-                echo "<script>add_estmt()</script>";
-                if($count == ($Editable['count_of_est'] - 1)){
-                    $EstmtDone = true;
-                    // echo "<script>console.log('estmt success')</script>";
-                }
-            }
-        }
         if (isset($_GET['edit_id']) && isset($_GET['next'])) {
             echo "<script> 
                 $('.Create').remove(); 
@@ -130,6 +123,16 @@
             </script>";
             // require('edit_estimate.php');
         }
+        // if($Editable['count_of_est'] > 1) {
+        //     for ($count = 1; $count < $Editable['count_of_est']; $count++){
+        //         echo "<script>add_estmt()</script>";
+        //         if($count == ($Editable['count_of_est'] - 1)){
+        //             $EstmtDone = true;
+        //             // echo "<script>console.log('estmt success')</script>";
+        //         }
+        //     }
+        // }
+        
     } elseif (!isset($_GET['edit_id']) && isset($_GET['next'])) {
 
         echo "<script>

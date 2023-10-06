@@ -1,10 +1,10 @@
 <?php 
 // session_start();
-include '../model/database.php';
+require '../model/database.php';
 // print_r($_SESSION);
 // require 'database.php';
 
-if(isset($_SESSION['edit_id'])) {
+if(isset($_SESSION['edit_id'])||$_GET['edit_id']) {
   $query = mysqli_query($con, "SELECT * FROM  `tbl_saved_estimates` WHERE `id` = '{$_SESSION['edit_id']}'");
   $data_query = mysqli_fetch_assoc($query);
   if(!empty($data_query['id'])){

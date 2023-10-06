@@ -99,6 +99,19 @@ while ($arr = mysqli_fetch_assoc($strgQuery)) {
     }
 }
 
+$secQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` FROM `price_list` WHERE `primary_category` = 'sec'");
+while ($arr = mysqli_fetch_assoc($secQuery)) {
+    // echo "SELECT DISTINCT `prod_int`, `product` FROM `price_list` WHERE `sec_category` = '{$arr['sec_category']}'";
+
+    $prodQuer = mysqli_query($con, "SELECT DISTINCT `prod_int`, `product` FROM `price_list` WHERE `sec_category` = '{$arr['sec_category']}'");
+    while($prod = mysqli_fetch_assoc($prodQuer)){
+        if($arr['sec_category'] == "av"){}else{
+            $secArr[$arr['sec_category']][$prod["prod_int"]] = $prod['product'];
+        }
+    }    
+    
+}
+
 
 if(!function_exists("getProdName")){
     function getProdName($int){

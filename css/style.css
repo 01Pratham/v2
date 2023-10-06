@@ -301,7 +301,6 @@ table th {
   transform: translate(-50%, -50%);
 }
 
-
 .ToogleSwitch {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -336,68 +335,41 @@ table th {
 }
 
 
-
-.loader {
-  width: 48px;
-  height: 48px;
-  display: inline-block;
-  position: fixed;
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%,-50%);
-  transform: rotate(45deg);
-  z-index : 1555;
-}
-.loader::before {
-  content: '';  
-  box-sizing: border-box;
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  left: 0;
-  top: -24px;
-  animation: animloader 4s ease infinite;
-}
-.loader::after {
-  content: '';  
-  box-sizing: border-box;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 24px;
-  height: 24px;
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-  animation: animloader2 2s ease infinite;
-}
-
 @keyframes animloader {
   0% {
-    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
+    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0),
+      24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
   }
   12% {
-    box-shadow: 0 24px white, 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
+    box-shadow: 0 24px white, 24px 24px rgba(255, 255, 255, 0),
+      24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
   }
   25% {
-    box-shadow: 0 24px white, 24px 24px white, 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
+    box-shadow: 0 24px white, 24px 24px white, 24px 48px rgba(255, 255, 255, 0),
+      0px 48px rgba(255, 255, 255, 0);
   }
   37% {
-    box-shadow: 0 24px white, 24px 24px white, 24px 48px white, 0px 48px rgba(255, 255, 255, 0);
+    box-shadow: 0 24px white, 24px 24px white, 24px 48px white,
+      0px 48px rgba(255, 255, 255, 0);
   }
   50% {
     box-shadow: 0 24px white, 24px 24px white, 24px 48px white, 0px 48px white;
   }
   62% {
-    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px white, 24px 48px white, 0px 48px white;
+    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px white, 24px 48px white,
+      0px 48px white;
   }
   75% {
-    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px white, 0px 48px white;
+    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0),
+      24px 48px white, 0px 48px white;
   }
   87% {
-    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px white;
+    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0),
+      24px 48px rgba(255, 255, 255, 0), 0px 48px white;
   }
   100% {
-    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0), 24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
+    box-shadow: 0 24px rgba(255, 255, 255, 0), 24px 24px rgba(255, 255, 255, 0),
+      24px 48px rgba(255, 255, 255, 0), 0px 48px rgba(255, 255, 255, 0);
   }
 }
 
@@ -418,4 +390,35 @@ table th {
     transform: translate(0, 0) rotateX(0) rotateY(360deg);
   }
 }
-    
+
+.mytabs .fullScreen  .Loader {
+  webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-size: 16px;
+  font-weight: 400;
+  /* line-height: 1.5; */
+  font-family: "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  color: #4c4c51;
+  box-sizing: inherit;
+  background-image: url(../asset/calc.gif);
+  height: 170px;
+  width: 140px;
+  left: 50%;
+  z-index: 1024;
+  transform: translate(-50%, -50%);
+  position: fixed;
+  top: 50%;
+}
+
+.mytabs .fullScreen {
+  background: grey;
+  /* height: 100vh; */
+  /* width: 66.7%; */
+  z-index: 1023;
+  position: fixed;
+  /* top: 0;
+  left:0; */
+  overflow-y: hidden; 
+}

@@ -7,8 +7,8 @@
     <?php
     $StrgQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` FROM `price_list` WHERE `primary_category` = 'storage'");
     while ($strg = mysqli_fetch_assoc($StrgQuery)) {
-        if (preg_match("/archiv|backup|offline/", $strg['sec_category'])) {} 
-        else {
+        if (preg_match("/archiv|backup|offline/", $strg['sec_category'])) {
+        } else {
             $CategoryName =  preg_replace('/_/', ' ', $strg['sec_category']);
             $new_name = ucwords($CategoryName);
     ?>
@@ -19,8 +19,6 @@
                 <?php
                 $query = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `price_list` WHERE `sec_category` = '{$strg['sec_category']}'");
                 while ($types = mysqli_fetch_assoc($query)) {
-
-                
                     $IopsUnit = preg_replace("/$new_name|IOPS per GB| /", '', $types['product'])
                 ?>
                     <div class="form-switch form-group form-check col-md-2">
@@ -36,7 +34,8 @@
                 <?php } ?>
 
             </div>
-    <?php }
+    <?php
+        }
     }
     ?>
 </div>

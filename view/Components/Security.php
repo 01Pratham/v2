@@ -25,14 +25,10 @@
                 }
                 $catNames = ucwords($catNames);
             }
-        // echo $catNames;
             $prods = mysqli_query($con, "SELECT DISTINCT `product` , `prod_int` FROM `price_list` WHERE `sec_category` = '{$secProds['sec_category']}'");
             while ($allProds = mysqli_fetch_assoc($prods)) {
                 $opts[$secProds['sec_category']][$allProds['prod_int']] = $allProds['product'];
             }
-
-            // echo count($opts[$secProds['sec_category']][]);
-            // echo $secProds['sec_category'];
         ?>
             <div class="form-group col-md-4 row my-3">
                 <select name="<?= $secProds['sec_category'] . "_select[" . $name . "]" ?>" id="<?= $secProds['sec_category'] . "_select_" . $id ?>" class="border-0 " style="width: 70%;">
@@ -49,6 +45,7 @@
                     } else {
                         echo "<option value='' hidden>{$opts[$secProds['sec_category']][$secProds['sec_category']]} </option>";
                     }
+                    
                     ?>
                 </select>
                 <input type="checkbox" name="<?= $secProds['sec_category'] . "_check[" . $name . "]" ?>" id="<?= $secProds['sec_category'] . "_check_" . $id ?>" class="check sec-check <?= ($Editable[$secProds['sec_category'] . "_check"][$name] == "on") ? "Checked" : "" ?>">

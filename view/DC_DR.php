@@ -110,17 +110,19 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
 
         if ($Editable['vmname'][$name] != null) {
             if (count($Editable['vmname'][$name]) > 1) {
-                for ($i = 1; $i < count($Editable['vmname'][$name]); $i++) {
-                    echo "add_vm({$i} , {$name},{$id},);\n  ";
+                for ($i = 1; $i < $Editable['count_of_vm'][$name]; $i++) {
+                    if ($i == ($Editable['count_of_vm'][$name]-1) && $_POST['lastEst'] == "true") {
+                        echo "add_vm({$i} , {$name},{$id}, '', true);\n  ";
+                    }else{
+
+                        echo "add_vm({$i} , {$name},{$id},);\n  ";
+                    }
                 }
             }
         }
         ?>
 
-        if ($("#count_of_est").val() == <?= $Editable['count_of_est'] ?> &&
-            $("#count_of_vm_<?= $Editable['count_of_est'] ?>").val() == <?= $Editable["count_of_vm"][$Editable['count_of_est']] ?>) {
-            console.log("Estmt DONE");
-        }
+       
 
         $('#checkHead_<?= $id ?>').on('input', function() {
             if ($("#estmt_collapse_<?= $id ?>").hasClass('show')) {
@@ -190,10 +192,8 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
         })
 
         $('#EstType_<?= $id ?>').on("change", function() {
-            // console.log($(this).val())
             if ($(this).val() == "DR") {
                 $('.DR_<?= $name ?>').removeClass('d-none');
-                // console.log("DR")
             } else {
                 $('.DR_<?= $name ?>').addClass('d-none');
             }

@@ -3,10 +3,13 @@ if (isset($_GET['type'])) {
   include '../view/content-header.php';
   contentHeader('Estimate');
   // print_r($Editable);
+
+
 ?>
 
   <div class="content Main">
     <div class="container mt-2 Main">
+
       <form action="final_quotation.php" class="form1" id="form1" method="post">
 
         <div hidden>
@@ -20,7 +23,8 @@ if (isset($_GET['type'])) {
             if ($p['pot_id'] != $_POST['pot_id']) {
               echo "<input type = 'hidden' name = 'old_pot' value = '{$p['pot_id']}'>";
             }
-          } else { ?>
+          } 
+          else{ ?>
 
             <input type="hidden" name="quot_type" value="<?= $Editable['quot_type'] ?>">
             <input type="hidden" name="price_list" value="<?= $Editable['price_list'] ?>">
@@ -30,10 +34,12 @@ if (isset($_GET['type'])) {
           <input type="hidden" name="version" value=" <?php echo $data_query['version'] ?> ">
         </div>
 
-        <div class="mytabs my-2" id="myTab">
+        <div class="mytabs my-2 accent-blue" id="myTab">
+          
           <input type="hidden" name="count_of_est" id="count_of_est" value=1>
           <?php
           require '../view/DC_DR.php';
+          // require '../view/Loader.php';
           require '../view/Colocation.php';
           $getTypeQuot = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_quot_type` WHERE `id` = '{$_GET['type']}'"));
           $getTypeQuot['template_name'](1, 1);
@@ -101,6 +107,20 @@ if (isset($_GET['type'])) {
         }
       })
     })
+
+    <?php
+
+    if ($Editable['count_of_est'] > 1) {
+      for ($count = 1; $count < $Editable['count_of_est']; $count++) {
+        if ($count == ($Editable['count_of_est'] - 1)) {
+          $EstmtDone = true;
+          echo "add_estmt('',true)";
+        } else {
+          echo "add_estmt()";
+        }
+      }
+    }
+    ?>
   </script>
 
 <?php

@@ -42,10 +42,8 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
                     <div class="col-4 input-group">
                         <span class="input-group-text form-control col-5 p-0 bg-white border-0 " id="inst_disk_<?= $id ?>">
                             <select name="vmDiskIOPS[<?= $name ?>][]" id="disk_<?= $id ?>" class="form-control p-0 text-sm ">
-
                                 <?php
-                                
-                                echo '<option class="editable" value = "' . $Editable["vmDiskIOPS"][$name][$count] . '">' . preg_replace("/obj_/",'',$Editable["vmDiskIOPS"][$name][$count] ) . '</option>';
+                                echo '<option class="editable" value = "' . $Editable["vmDiskIOPS"][$name][$count] . '">' . preg_replace("/obj_/",'',$Editable["vmDiskIOPS"][$name][$count] ). " IOPS/GB" . '</option>';
                                 $strQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `price_list` WHERE `sec_category` = 'object_storage'");
                                 while ($strg = mysqli_fetch_assoc($strQuery)) {
                                     $iops = preg_replace("/Object Storage | IOPS per GB/", '', $strg['product']) . " IOPS/GB";
@@ -163,6 +161,9 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
 
         <?php
         }
+        if($_POST['lastVM'] == "true"){
+            echo "console.log('Last')";
+        }
         ?>
     </script>
 
@@ -170,3 +171,6 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
 
 <?php }
 ?>
+
+
+

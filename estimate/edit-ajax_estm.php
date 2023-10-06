@@ -7,6 +7,7 @@ if (isset($_POST['name'])) {
     require '../model/editable.php';
     $id = $_POST['id'];
     $name = $_POST['name'];
+    // echo;
 
     DC_DR($name, $id, 'ajax', $cloneId);
     echo "

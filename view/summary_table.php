@@ -14,9 +14,9 @@
             <th style="background: rgba(198,224,180,1)">Total Cost</th>
             <th style="background: rgba(198,224,180,1)">One Time Service Pay</th>
         </tr>
-        <?php
-        for ($i = 1; $i <= count($estmtname); $i++) {
-        ?>
+    <?php
+        foreach ($estmtname as $i => $v ) {
+    ?>
             <tr>
                 <td>ESDS' eNlight Cloud Hosting Services - <?= $estmtname[$i] ?></td>
                 <td><?= INR(array_sum($total[$i])); ?></td>
@@ -101,12 +101,7 @@
             </td>
         </tr>
     </tbody>
-
-
 </table>
-
-
-
 
 <script>
     function inputLines(textArea, lineID) {
@@ -133,7 +128,6 @@
                     $(lineID).append("<tr hidden class = 'line '><td class = 'noBorder' > " + line + " </td></tr>")
                 })
             }
-
         })
     }
 

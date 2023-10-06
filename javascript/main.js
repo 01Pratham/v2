@@ -240,7 +240,7 @@ function remove_arrow() {
     });
 }
 
-function add_vm(count = null, name, id, cloneId = '') {
+function add_vm(count = null, name, id, cloneId = '',lastVM = false) {
     // console.log($('.add_btn').prop("id"));
     var count_of_vm = parseInt($('#count_of_vm_' + name).val()) + 1;
     $('#count_of_vm_' + name).val(count_of_vm);
@@ -257,7 +257,8 @@ function add_vm(count = null, name, id, cloneId = '') {
             "reg_val": region_val,
             "sect_val": sector_val,
             "count": count,
-            "cloneId": cloneId
+            "cloneId": cloneId,
+            "lastVM" : lastVM
         },
         dataType: "TEXT",
         success: function (response) {
@@ -268,7 +269,7 @@ function add_vm(count = null, name, id, cloneId = '') {
 }
 
 
-function add_estmt(type, cloneId = '') {
+function add_estmt(cloneId = '',lastEst = false) {
     let count_of = 1;
     var count_of_est = parseInt($('#count_of_est').val()) + 1;
     $('#count_of_est').val(count_of_est);
@@ -280,7 +281,8 @@ function add_estmt(type, cloneId = '') {
         data: {
             name: count_of_est,
             id: count_id,
-            cloneId: cloneId
+            cloneId: cloneId,
+            lastEst : lastEst
         },
         dataType: "TEXT",
         success: function (response) {
@@ -495,7 +497,6 @@ function convertTablesToExcel(tables, type, sheetNames, FileName) {
         let keySheet = 'sheet' + p
         let worksheet = workbook.addWorksheet(sheetNames[keySheet]);
         let orderNo = worksheet.orderNo;
-        // console.log(workbook)
         let startRow = 1;
         let endRow = 100;
         let startCol = 1;

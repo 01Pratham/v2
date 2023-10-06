@@ -20,7 +20,7 @@
                                 $strQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `price_list` WHERE `sec_category` = 'backup'");
                                 while ($strg = mysqli_fetch_assoc($strQuery)) {
                                     $iops = preg_replace("/Backup Storage  - Per GB /", '', $strg['product']) . "/GB";
-                                    echo '<option value = "' .$iops. '">' . $iops . '</option>';
+                                    echo '<option value = "' .$strg['prod_int']. '">' . $iops . '</option>';
                                 }
                                 ?>
                     </select>

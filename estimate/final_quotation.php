@@ -5,6 +5,7 @@ if (!isset($_SESSION['emp_code'])) {
     exit();
 }
 $_SESSION['post_data'] = $_POST;
+
 $ProjectTotal = array();
 $MothlyTotal = array();
 ?>
@@ -28,9 +29,11 @@ $MothlyTotal = array();
 <body class="sidebar-mini layout-fixed sidebar-collapse" data-new-gr-c-s-check-loaded="14.1111.0" data-gr-ext-installed style="height: auto; overflow-x: hidden;">
     <?php
     require "../view/includes/nav.php";
+    
     ?>
     <div class="content-wrapper except bg-transparent">
         <?php
+        // echo "<pre>"; print_r($_POST); echo "</pre>";
         require '../view/content-header.php';
         contentHeader('Quotation');
         ?>
@@ -39,7 +42,7 @@ $MothlyTotal = array();
                 <div class="errors except container" style="max-width: 2020px; margin: auto; "> </div>
                 <?php
                 require '../view/Table.php';
-                require '../view/summary_table.php'
+                require '../view/summary_table.php';
                 ?>
                 <div class="container except d-flex justify-content-center mt-3 py-3">
                     <button class="btn btn-outline-success btn-lg mx-1 export" id="export"><i class="fa fa-file-excel-o pr-2"></i> Export</button>
