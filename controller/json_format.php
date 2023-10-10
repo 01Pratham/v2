@@ -6,7 +6,7 @@ function json_template($arr,    $total)
     $template = array(
         "opportunity_id" => ($_POST['pot_id'][0] == 0 )? $_POST['pot_id'] : '0' . $_POST['pot_id'],
         "quotation_id" => '',
-        "price_list" => $_POST['price_list'],
+        "product_list" => $_POST['product_list'],
         "user_id" => $_SESSION['crmId'],
         "phase_name" => array()
     );

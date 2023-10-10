@@ -56,9 +56,8 @@
         </div>
         <div class="form-group col-md-4 row my-3">
             <select name="emagic_type[<?= $name ?>]" id="emagic_type_<?= $id ?>" class="border-0 " style="width: 70%;">
-                <option class="editable" value="<?= $Editable['emagic_type'][$name] ?>" hidden><?= $Editable['emagic_type'][$name] ?> Monitoring Tool</option>
-                <option value="Basic">Basic Monitoring Tool</option>
-                <option value="Advanced">Advanced Monitoring Tool</option>
+                <option <?= ($Editable['emagic_type'][$name] == "Basic")?"selected":'' ?> value="Basic">Basic Monitoring Tool</option>
+                <option <?= ($Editable['emagic_type'][$name] == "Advanced")?"selected":'' ?> value="Advanced">Advanced Monitoring Tool</option>
             </select>
             <input type="checkbox" name="emagic[<?= $name ?>]" id="emagic_<?= $id ?>" class="check" checked>
             <!-- <input type="number" min = 0  class="hide form-control"> -->

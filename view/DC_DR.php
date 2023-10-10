@@ -27,7 +27,7 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
                     })
                 </script>
             <?php
-            } 
+            }
             ?>
             <input type="checkbox" id="checkHead_<?= $id ?>" class="head-btn d-none">
             <label class="text-left text-primary pt-3" for="checkHead_<?= $id ?>" id="estmtHead_<?= $id ?>" style="z-index: 1;">
@@ -35,23 +35,23 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
             </label>
             <span class="float-right">
                 <select name="region[<?= $name ?>]" id="region_<?= $id ?>" class="border-0 text-primary">
-                    <option class="editable" value="<?= $Editable['region'][$name] ?>" hidden><?= $Editable['region'][$name] ?></option>
                     <?php
-                    $reg = mysqli_query($con, 'SELECT * FROM `tbl_region`');
+                    $reg = mysqli_query($con, "SELECT * FROM `tbl_region`");
                     while ($reg_row = mysqli_fetch_array($reg)) {
                         if ($reg_row["id"] == 0) {
                         } else {
-                    ?>
-                            <option value="<?= $reg_row["region"] ?>"><?= $reg_row["region"] ?></option>
-                    <?php
+                            if ($Editable['region'][$name] == $reg_row["region"]) {
+                                echo  "<option selected  value = '{$reg_row['region']}' >{$reg_row['region']}</option>";
+                            } else {
+                                echo  "<option value = '{$reg_row['region']}' >{$reg_row['region']} </option>";
+                            }
                         }
                     }
                     ?>
                 </select>
                 <select name="EstType[<?= $name ?>]" id="EstType_<?= $id ?>" class="border-0 text-primary">
-                    <option class="editable" value="<?= $Editable['EstType'][$name] ?>" hidden><?= $Editable['EstType'][$name] ?></option>
-                    <option value="DC">DC</option>
-                    <option value="DR">DR</option>
+                    <option <?= ($Editable['EstType'][$name] == "DC") ? "selected" : '' ?> value="DC">DC</option>
+                    <option <?= ($Editable['EstType'][$name] == "DR") ? "selected" : '' ?> value="DR">DR</option>
                 </select>
                 <i class="fa fa-copy except text-primary  pt-2 m-1" title="Copy Estimate" style="z-index: 1; cursor: pointer;" id="coptI_<?= $id ?>">
                     <input class="add-estmt btn btn-link except m-0 p-0" type="button" role="button" id="clone-est_<?= $id ?>" style="z-index: 5; font-size: 20px;">
@@ -99,6 +99,8 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
     <script src="../javascript/jquery-3.6.4.js"></script>
 
     <script>
+        get_default();
+
         changeOnInput('#estmtHead_<?= $id ?> .OnInput', '#estmtname_<?= $id ?>', 'Your Estimate')
 
         $('#add-vm_<?= $name ?>').click(function() {
@@ -111,9 +113,9 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
         if ($Editable['vmname'][$name] != null) {
             if (count($Editable['vmname'][$name]) > 1) {
                 for ($i = 1; $i < $Editable['count_of_vm'][$name]; $i++) {
-                    if ($i == ($Editable['count_of_vm'][$name]-1) && $_POST['lastEst'] == "true") {
+                    if ($i == ($Editable['count_of_vm'][$name] - 1) && $_POST['lastEst'] == "true") {
                         echo "add_vm({$i} , {$name},{$id}, '', true);\n  ";
-                    }else{
+                    } else {
 
                         echo "add_vm({$i} , {$name},{$id},);\n  ";
                     }
@@ -122,7 +124,7 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
         }
         ?>
 
-       
+
 
         $('#checkHead_<?= $id ?>').on('input', function() {
             if ($("#estmt_collapse_<?= $id ?>").hasClass('show')) {
@@ -168,19 +170,20 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
         $(document).ready(function() {
             $('.mytabs').find('.strg-select').each(function() {
                 // console.log($(this));
-                if ($(this).val() === 'GB') {
+                if ($(this).val() == 'TB') {
                     $(this).parent().find('.lblIops').each(function() {
                         let lbl_val = $(this).prop('id');
-                        $(this).html(lbl_val);
+                        lbl_val = lbl_val * 1000;
+                        $(this).html((lbl_val));
                     })
                 }
                 $(this).on("change", function() {
-                    if ($(this).val() === 'GB') {
+                    if ($(this).val() == 'GB') {
                         $(this).parent().find('.lblIops').each(function() {
                             let lbl_val = $(this).prop('id');
                             $(this).html(lbl_val);
                         })
-                    } else if ($(this).val() === 'TB') {
+                    } else if ($(this).val() == 'TB') {
                         $(this).parent().find('.lblIops').each(function() {
                             let lbl_val = $(this).prop('id');
                             lbl_val = lbl_val * 1000;
@@ -219,8 +222,19 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
 
         $(document).ready(function() {
             $('.Checked').each(function() {
-                $(this).click();
+                $(this).attr("checked", "true")
+                $(this).parent().find('input[type="number"]').attr('required', 'true')
+                let id = $(this).parent().find('select').prop('id');
+                if ($("#" + id + " option").length > 1) {
+                    if ($("#" + id).val() === '') {
+                        // console.log($("#" + id + " option").length);
+                        $("#" + id).attr('required', 'true');
+                    }
+                } else {
+                    // console.log(id)
+                }
             })
+            // validate_input('.Checked');
             $('.replink').addClass('d-none');
         })
     </script>

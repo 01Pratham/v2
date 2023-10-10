@@ -13,14 +13,15 @@
                 </div>
                 <div class="form-group col-sm-6" style="padding-left: 0px;">
                     <select name='backup_unit[<?= $name ?>]' id='backupunit_<?= $id ?>' class='rounded-0 text-sm border-left-0 form-control'>
-                        <option class="editable" value="<?= $Editable['backupunit'][$name] ?>" hidden><?= $Editable['backupunit'][$name] ?></option>
                         <?php
-                                
-                                echo '<option class="editable" value = "' . $Editable["backupunit"][$name] . '">' . preg_replace("/obj_/",'',$Editable["backupunit"][$name] ) . '</option>';
-                                $strQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `price_list` WHERE `sec_category` = 'backup'");
+                                $strQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `product_list` WHERE `sec_category` = 'backup'");
                                 while ($strg = mysqli_fetch_assoc($strQuery)) {
                                     $iops = preg_replace("/Backup Storage  - Per GB /", '', $strg['product']) . "/GB";
-                                    echo '<option value = "' .$strg['prod_int']. '">' . $iops . '</option>';
+                                    if($strg['prod_int'] == $Editable["backup_unit"][$name]){
+                                        echo '<option selected value = "' .$strg['prod_int']. '">' . $iops . '</option>';
+                                    }else{
+                                        echo '<option value = "' .$strg['prod_int']. '">' . $iops . '</option>';
+                                    }
                                 }
                                 ?>
                     </select>
@@ -31,11 +32,10 @@
             <h6><small> Backup Agent :</small></h6>
             <div class="row px-2">
                 <select name="age_qty_type[<?= $name ?>]" id="age-type_<?= $id ?>" class="form-control">
-                    <option class="editable" value="<?= $Editable['age_qty_type'][$name] ?>" hidden><?= $Editable['age_qty_type'][$name] ?></option>
                     <option value="">Select Agent</option>
-                    <option value="All VM">All VM</option>
-                    <option value="DB VM">DB VM</option>
-                    <option value="Customized">Customized</option>
+                    <option <?= ($Editable['age_qty_type'][$name] == "All VM")?"selected":'' ?> value="All VM">All VM</option>
+                    <option <?= ($Editable['age_qty_type'][$name] == "DB VM")?"selected":'' ?>  value="DB VM">DB VM</option>
+                    <option <?= ($Editable['age_qty_type'][$name] == "Customized")?"selected":'' ?>  value="Customized">Customized</option>
                 </select>
                 <input type='number' min=0 name='ageqty[<?= $name ?>]' value="<?= $Editable['ageqty'][$name] ?>" placeholder='Quantity' id='ageqty_<?= $id ?>' min="0" class="agent-qty form-control col-md-6" style="display : none">
             </div>
@@ -50,9 +50,8 @@
                 </div>
                 <div class="form-group col-sm-4 pl-0">
                     <select name='archival_unit[<?= $name ?>]' id='arc_strgunit_<?= $id ?>' class='rounded-0 border-left-0 form-control'>
-                        <option class="editable" value="<?= $Editable['archival_unit'][$name] ?>" hidden><?= $Editable['archival_unit'][$name] ?></option>
-                        <option value='TB'>TB</option>
-                        <option value='GB'> GB </option>
+                        <option <?= ($Editable['archival_unit'][$name] == "TB")?"selected":'' ?>  value='TB'>TB</option>
+                        <option <?= ($Editable['archival_unit'][$name] == "GB")?"selected":'' ?> value='GB'> GB </option>
                     </select>
                 </div>
             </div>

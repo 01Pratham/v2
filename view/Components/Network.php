@@ -19,9 +19,9 @@
         </div>
         <div class="form-group col-md-3">
             <select name="load_balancer[<?= $name ?>]" id="lb_<?= $id ?>" class="border-0 small" style="width: 100%;">
-                <option class="editable" value="<?= $Editable['load_balancer'][$name] ?>" hidden><?= $Editable['load_balancer'][$name] ?></option>
+                <!-- <option class="editable" value="<?= $Editable['load_balancer'][$name] ?>" hidden><?= $Editable['load_balancer'][$name] ?></option> -->
                 <option value="">Load Balancer</option>
-                <?php create_opt('lb') ?>
+                <?php create_opt('lb', $Editable['load_balancer'][$name] ) ?>
             </select>
             <input type="number" min=0 name="lbqty[<?= $name ?>]" id="lbqty_<?= $id ?>" class="form-control my-1" placeholder="Quantity" value="<?= $Editable['lbqty'][$name] ?>">
         </div>

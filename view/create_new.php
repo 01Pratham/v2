@@ -32,17 +32,20 @@ function CreateNew()
                 </div>
                 <div class="except px-2 col-md-6  py-4">
                     <label for="pice_list" class="form-label">Price List</label>
-                    <select class="form-control" name="price_list" id="pice_list"
+                    <select class="form-control" name="product_list" id="pice_list"
                         style="border: none; border-bottom: 1px solid ; border-radius:0;">
                         <?php
-                        $list = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_rate_cards` WHERE `id` ='{$Editable['price_list']}' "));
-                        echo "<option value='{$list["id"]}' class='editable' hidden>{$list["rate_card_name"]}</option>'";
+                        $list = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_rate_cards` WHERE `id` ='{$Editable['product_list']}' "));
 
                         $p_query = mysqli_query($con, "SELECT * FROM `tbl_rate_cards`");
                         while ($pricing_list = mysqli_fetch_array($p_query)) {
+                            if ($pricing_list["id"] == $Editable['product_list']){
+                                echo "<option selected value='{$pricing_list['id']}'> {$pricing_list['rate_card_name']} </option>";
+                            }else{
+                                echo "<option value='{$pricing_list['id']}'> {$pricing_list['rate_card_name']} </option>";
+                            }
                             ?>
-                            <option value="<?= $pricing_list["id"] ?>"><?= $pricing_list["rate_card_name"] ?>
-                            </option>
+                            
                         <?php } ?>
                     </select>
                 </div>
@@ -51,15 +54,13 @@ function CreateNew()
                     <select class="form-control" name="quot_type" id="type_est"
                         style="border: none; border-bottom: 1px solid ; border-radius:0;">
                         <?php
-                        if(!empty($Editable['quot_type'])){
-                            $quer = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_quot_type` WHERE `id` = '{$Editable['quot_type']}' "));
-                            echo "<option value='{$quer['id']}' class='editable' hidden>{$quer['template_name']}</option>";
-                        }
                         $quotQuery = mysqli_query($con, "SELECT * FROM `tbl_quot_type` WHERE `is_active` = 'True'");
                         while ($type = mysqli_fetch_assoc($quotQuery)) {
-                            ?>
-                            <option value="<?= $type['id'] ?>"><?= $type['template_name'] ?></option>
-                            <?php
+                            if($Editable['quot_type'] == $type['id']){
+                                echo "<option value='{$type['id']}' selected  >{$type['template_name'] }</option>";
+                            }else{
+                                echo "<option value='{$type['id']}' >{$type['template_name'] }</option>";
+                            }
                         }
                         ?>
                     </select>

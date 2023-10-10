@@ -536,9 +536,9 @@ foreach ($estmtname as $j => $_Key) {
             //                 $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku['sor']] = $sorqty[$j];
             //             }
 
-            // $SecQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` FROM `price_list` WHERE `primary_category` = 'sec';");
+            // $SecQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` FROM `product_list` WHERE `primary_category` = 'sec';");
             // while ($Categ = mysqli_fetch_assoc($SecQuery)){
-            //     $prodQuery = mysqli_query($con, "SELECT DISTINCT `prod_int`,`product` FROM `price_list` WHERE `sec_category` = '{$Categ['sec_category']}'");
+            //     $prodQuery = mysqli_query($con, "SELECT DISTINCT `prod_int`,`product` FROM `product_list` WHERE `sec_category` = '{$Categ['sec_category']}'");
             //     while($prod = mysqli_fetch_assoc($prodQuery)){
             //         print_r($prod);
             //         if(isset($EstmDATA[$Categ['sec_category']."_check"][$j])){

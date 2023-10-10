@@ -101,56 +101,50 @@ function change_mgmt(elem, mng_elem, func) {
 function validate_input(check_class) {
     $(check_class).on('input', function () {
         if ($(this).prop('checked')) {
-            $(this).parent().find('input[type="number"]').each(function () {
-                $(this).attr('required', 'true');
-            })
-            $(this).parent().find('select').each(function () {
-                let id = $(this).prop('id');
-                if ($("#" + id + " option").length > 1) {
-                    if ($(this).val() === '') {
-                        $(this).attr('required', 'true');
-                    }
+            $(this).parent().find('input[type="number"]').attr('required', 'true')
+            let id = $(this).parent().find('select').prop('id');
+            if ($("#" + id + " option").length > 1) {
+                if ($("#" + id).val() === '') {
+                    $("#" + id).attr('required', 'true');
                 }
-            })
+            }
         }
         else {
-            $(this).parent().find('input[type="number"]').each(function () {
-                $(this).val(0);
-                $(this).removeAttr('required');
-            })
-            $(this).parent().find('select').each(function () {
-                $(this).removeAttr('required');
-            })
+            $(this).parent().find('input[type="number"]').val(0).removeAttr('required');
+            $(this).parent().find('select').removeAttr('required');
         }
     })
-    $(document).ready(function () {
-        if ($(this).prop('checked')) {
-            $(this).parent().find('input[type="number"]').each(function () {
-                $(this).attr('required', 'true');
-            })
-            $(this).parent().find('select').each(function () {
-                let id = $(this).prop('id');
-                if ($("#" + id + " option").length > 1) {
-                    if ($(this).val() === '') {
-                        console.log(id);
-                        $(this).attr('required', 'true');
-                    }
-                }
-            })
-        }
-        else {
-            $(this).parent().find('input[type="number"]').each(function () {
-                $(this).val(0);
-                $(this).removeAttr('required');
-            })
-            $(this).parent().find('select').each(function () {
-                $(this).removeAttr('required');
-            })
-        }
-    })
+    // $(document).ready(function () {
+    //     $("input[type=checkbox]").each(function () {
+
+    //         if ($(this).prop('checked')) {
+    //             $(this).parent().find('input[type="number"]').each(function () {
+    //                 $(this).attr('required', 'true');
+    //             })
+    //             $(this).parent().find('select').each(function () {
+    //                 let id = $(this).prop('id');
+    //                 if ($("#" + id + " option").length > 1) {
+    //                     if ($(this).val() === '') {
+    //                         // console.log(id);
+    //                         $(this).attr('required', 'true');
+    //                     }
+    //                 }
+    //             })
+    //         }
+    //         else {
+    //             $(this).parent().find('input[type="number"]').each(function () {
+    //                 $(this).val(0);
+    //                 $(this).removeAttr('required');
+    //             })
+    //             $(this).parent().find('select').each(function () {
+    //                 $(this).removeAttr('required');
+    //             })
+    //         }
+    //     })
+    // })
 }
 
-$("input[type=number]").on("mousewheel",function(e){
+$("input[type=number]").on("mousewheel", function (e) {
     $(this).blur();
 })
 
@@ -235,12 +229,21 @@ function remove_arrow() {
     $('.form-group').find('select').each(function () {
         var name = "#" + $(this).prop('id') + " option";
         if ($(name).length < 2) {
-            $(this).addClass('remove_arrow');
+            $(this).addClass('remove_arrow ');
         }
     });
 }
 
-function add_vm(count = null, name, id, cloneId = '',lastVM = false) {
+$(".remove_arrow").each(function(){
+    $(this).click(function(event){
+        event.preventDefault();
+        // console.log(event)
+        
+    })
+    $(this).attr("disabled","true").css("opacity" , "1")
+})
+
+function add_vm(count = null, name, id, cloneId = '', lastVM = false) {
     // console.log($('.add_btn').prop("id"));
     var count_of_vm = parseInt($('#count_of_vm_' + name).val()) + 1;
     $('#count_of_vm_' + name).val(count_of_vm);
@@ -258,7 +261,7 @@ function add_vm(count = null, name, id, cloneId = '',lastVM = false) {
             "sect_val": sector_val,
             "count": count,
             "cloneId": cloneId,
-            "lastVM" : lastVM
+            "lastVM": lastVM
         },
         dataType: "TEXT",
         success: function (response) {
@@ -269,7 +272,7 @@ function add_vm(count = null, name, id, cloneId = '',lastVM = false) {
 }
 
 
-function add_estmt(cloneId = '',lastEst = false) {
+function add_estmt(cloneId = '', lastEst = false) {
     let count_of = 1;
     var count_of_est = parseInt($('#count_of_est').val()) + 1;
     $('#count_of_est').val(count_of_est);
@@ -282,7 +285,7 @@ function add_estmt(cloneId = '',lastEst = false) {
             name: count_of_est,
             id: count_id,
             cloneId: cloneId,
-            lastEst : lastEst
+            lastEst: lastEst
         },
         dataType: "TEXT",
         success: function (response) {

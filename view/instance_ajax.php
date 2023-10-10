@@ -26,9 +26,13 @@ if (!isset($_POST['action'])) {
             <option class="editable" value="<?= $Editable['instance'][$name][$count] ?>" hidden><?= $inst['pack'] ?></option>
             <option value="" hidden>Select Instance</option>
             <?php
-            while ($rows = mysqli_fetch_array($res2)) { ?>
-                <option value='<?= $rows['sr_no']; ?>'> <?= $rows['pack']; ?> </option>
-            <?php  } ?>
+            while ($rows = mysqli_fetch_array($res2)) {
+                if ($rows == $Editable['instance'][$name][$count]) {
+                    echo "<option selected value='{$rows['sr_no']}'>{$rows['pack']}</option>";
+                } else {
+                    echo "<option value='{$rows['sr_no']}'>{$rows['pack']}</option>";
+                }
+            } ?>
         </select>
 
         <div id="inst_vals_<?= $id ?>">
@@ -67,7 +71,7 @@ if (!isset($_POST['action'])) {
                 })
             }
 
-            
+
             var loader = "stop"
             <?php
             if (!empty($cloneId)) {

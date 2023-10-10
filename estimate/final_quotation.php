@@ -33,7 +33,7 @@ $MothlyTotal = array();
     ?>
     <div class="content-wrapper except bg-transparent">
         <?php
-        // echo "<pre>"; print_r($_POST); echo "</pre>";
+        echo "<pre>"; print_r($_POST); echo "</pre>"; exit();
         require '../view/content-header.php';
         contentHeader('Quotation');
         ?>

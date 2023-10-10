@@ -71,7 +71,7 @@ if (isset($_POST['action']) && $_POST['action'] == "Discount") {
 function Product($SKU)
 {
     global $con;
-    $getProdId = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `price_list` WHERE `sku_code` = '{$SKU}'"));
+    $getProdId = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `product_list` WHERE `sku_code` = '{$SKU}'"));
     $getPrices = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `prod_id` = '{$getProdId['id']}'"));
 
     return $getPrices;

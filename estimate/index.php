@@ -34,7 +34,8 @@ if (isset($_SESSION['uname'])) {
     require 'estmt.php';
 
     require "../view/includes/footer.php";
-} else {
+} 
+else {
     header('Location: ../login.php');
 }
 
@@ -42,7 +43,6 @@ if (isset($_SESSION['uname'])) {
     ?>
 
     <script>
-        get_default();
 
 
         // $(document).ajaxStop(function() {

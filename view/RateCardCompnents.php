@@ -51,7 +51,7 @@ if (isset($_GET['rateCardId'])) {
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $productPricesQuery = mysqli_query($con, "SELECT * FROM `price_list` ORDER BY `price_list`.`product` ASC");
+                                    $productPricesQuery = mysqli_query($con, "SELECT * FROM `product_list` ORDER BY `product_list`.`product` ASC");
                                     while ($product = mysqli_fetch_assoc($productPricesQuery)) {
                                         $productRateQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$id}' AND `prod_id` = '{$product['id']}'"));
                                         // echo $productRateQuery['id'];

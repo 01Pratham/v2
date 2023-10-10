@@ -13,7 +13,7 @@
             "efw" => "External Firewall",
             "mfa" => "Multi Factor Authentication"
         );
-        $secQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` FROM `price_list` WHERE `primary_category` = 'sec'");
+        $secQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` FROM `product_list` WHERE `primary_category` = 'sec'");
         while ($secProds = mysqli_fetch_assoc($secQuery)) {
             if ($fullNames[$secProds['sec_category']]) {
                 $catNames = $fullNames[$secProds['sec_category']];
@@ -26,7 +26,7 @@
                 $catNames = ucwords($catNames);
             }
 
-            $prods = mysqli_query($con, "SELECT DISTINCT `product` , `prod_int` FROM `price_list` WHERE `sec_category` = '{$secProds['sec_category']}'");
+            $prods = mysqli_query($con, "SELECT DISTINCT `product` , `prod_int` FROM `product_list` WHERE `sec_category` = '{$secProds['sec_category']}'");
             while ($allProds = mysqli_fetch_assoc($prods)) {
                 $opts[$secProds['sec_category']][$allProds['prod_int']] = $allProds['product'];
             }
@@ -37,7 +37,7 @@
             <div class="form-group col-md-4 row my-3">
                 <select name="<?= $secProds['sec_category'] . "_select[" . $name . "]" ?>" id="<?= $secProds['sec_category'] . "_select_" . $id ?>" class="border-0 " style="width: 70%;">
                     <?php
-                    $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `price_list` WHERE `prod_int` = '{$Editable[$secProds['sec_category'] . "_select"][$name]}'"))
+                    $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `product_list` WHERE `prod_int` = '{$Editable[$secProds['sec_category'] . "_select"][$name]}'"))
                     ?>
                     <option class="editable" value="<?= $query['prod_int'] ?>" hidden><?= $query['product'] ?></option>
                     <?php

@@ -45,12 +45,12 @@ $EstmDATA = $_SESSION['post_data'];
     
 
 
-    $strgunit03 = $EstmDATA['03strgunit'];
-    $strgunit1 = $EstmDATA['1strgunit'];
-    $strgunit3 = $EstmDATA['3strgunit'];
-    $strgunit5 = $EstmDATA['5strgunit'];
-    $strgunit8 = $EstmDATA['8strgunit'];
-    $strgunit10 = $EstmDATA['10strgunit'];
+    // $strgunit03 = $EstmDATA['03strgunit'];
+    // $strgunit1 = $EstmDATA['1strgunit'];
+    // $strgunit3 = $EstmDATA['3strgunit'];
+    // $strgunit5 = $EstmDATA['5strgunit'];
+    // $strgunit8 = $EstmDATA['8strgunit'];
+    // $strgunit10 = $EstmDATA['10strgunit'];
 
     $agenttype = $EstmDATA['age_qty_type'];
     $backupstrg = $EstmDATA['backup_strg'];
@@ -74,55 +74,55 @@ $EstmDATA = $_SESSION['post_data'];
 
     $ccptqty = $EstmDATA['ccptqty'];
     
-    $utm = $EstmDATA['utm'];
+    // $utm = $EstmDATA['utm'];
     
-    $ext_firewall = $EstmDATA['extfirewall'];
-    $efv_throughput = $EstmDATA['efv_throughput'];
+    // $ext_firewall = $EstmDATA['extfirewall'];
+    // $efv_throughput = $EstmDATA['efv_throughput'];
 
-    $int_fv = $EstmDATA['intfirewall'];
-    $ifv_throughput = $EstmDATA['ifv_throughput'];
+    // $int_fv = $EstmDATA['intfirewall'];
+    // $ifv_throughput = $EstmDATA['ifv_throughput'];
 
-    $ddos = $EstmDATA['ddos'];
-    $ddos_throughput = $EstmDATA['ddos_throughput'];
+    // $ddos = $EstmDATA['ddos'];
+    // $ddos_throughput = $EstmDATA['ddos_throughput'];
 
-    $waf = $EstmDATA['waf'];
-    $waf_name = $EstmDATA['waf_type'];
+    // $waf = $EstmDATA['waf'];
+    // $waf_name = $EstmDATA['waf_type'];
 
-    $tfa = $EstmDATA['tfa'];
-    $arc_strg = $EstmDATA["arc_strg"];
-    $archival_unit = $EstmDATA["archival_unit"];
+    // $tfa = $EstmDATA['tfa'];
+    // $arc_strg = $EstmDATA["arc_strg"];
+    // $archival_unit = $EstmDATA["archival_unit"];
 
-    $ssl = $EstmDATA['ssl'];
-    $sslcert = $EstmDATA['ssl-check'];
+    // $ssl = $EstmDATA['ssl'];
+    // $sslcert = $EstmDATA['ssl-check'];
 
-    $hsmtype = $EstmDATA['hsm_type'];
+    // $hsmtype = $EstmDATA['hsm_type'];
 
-    $siem = $EstmDATA['siem'];
-    $siem_name = $EstmDATA['siem_name'];
+    // $siem = $EstmDATA['siem'];
+    // $siem_name = $EstmDATA['siem_name'];
 
-    $pim = $EstmDATA['pim'];
+    // $pim = $EstmDATA['pim'];
 
-    $vtm = $EstmDATA['vtm'];
+    // $vtm = $EstmDATA['vtm'];
 
-    $vapt = $EstmDATA['vapt'];
-    $vapt_type = $EstmDATA['vapt_type'];
-    $vapt_frequency = $EstmDATA['vapt_frequency'];
+    // $vapt = $EstmDATA['vapt'];
+    // $vapt_type = $EstmDATA['vapt_type'];
+    // $vapt_frequency = $EstmDATA['vapt_frequency'];
 
-    $dlp = $EstmDATA['dlp'];
-    $dlpqty = $EstmDATA['dlpqty'];
+    // $dlp = $EstmDATA['dlp'];
+    // $dlpqty = $EstmDATA['dlpqty'];
 
-    $edr = $EstmDATA['edr'];
-    $edrqty = $EstmDATA['edrqty'];
+    // $edr = $EstmDATA['edr'];
+    // $edrqty = $EstmDATA['edrqty'];
 
-    $dam = $EstmDATA['dam'];
-    $damqty = $EstmDATA['damqty'];
+    // $dam = $EstmDATA['dam'];
+    // $damqty = $EstmDATA['damqty'];
 
-    $sor = $EstmDATA['sor'];
-    $sorqty = $EstmDATA['sorqty'];
+    // $sor = $EstmDATA['sor'];
+    // $sorqty = $EstmDATA['sorqty'];
 
-    $hsm = $EstmDATA['hsm'];
+    // $hsm = $EstmDATA['hsm'];
 
-    $iam = $EstmDATA['iam'];
+    // $iam = $EstmDATA['iam'];
 
 
     $osmgmt = $EstmDATA['osmgmt'];

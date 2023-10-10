@@ -23,10 +23,10 @@ if (isset($_POST['buffer'])) {
     echo $_POST['buffer'];
 }
 
-$exe_query = mysqli_query($con, 'SELECT * FROM `price_list`');
+$exe_query = mysqli_query($con, 'SELECT * FROM `product_list`');
 
 while ($price_tbl = mysqli_fetch_assoc($exe_query)) {
-    $price_query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$EstmDATA['price_list']}' AND `prod_id` = '{$price_tbl['id']}'"));
+    $price_query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$EstmDATA['product_list']}' AND `prod_id` = '{$price_tbl['id']}'"));
     $product_prices[$price_tbl['prod_int']] = intval($price_query['price']);
     $prod_cat[$price_tbl['prod_int']] = $price_tbl['sec_category'];
     $product_sku[$price_tbl['prod_int']] = $price_tbl['sku_code'];
@@ -45,13 +45,17 @@ if (!function_exists('employee')) {
 }
 
 if (!function_exists('create_opt')) {
-    function create_opt($category)
+    function create_opt($category , $savedVal = "")
     {
         global $con;
-        $query = mysqli_query($con, "SELECT DISTINCT `product` , `prod_int` FROM `price_list` WHERE `sec_category` = '{$category}'");
+        $query = mysqli_query($con, "SELECT DISTINCT `product` , `prod_int` FROM `product_list` WHERE `sec_category` = '{$category}'");
         while ($product = mysqli_fetch_assoc($query)) {
             // echo $product['product'];
-            echo "<option value = '{$product['prod_int']}'>{$product['product']}</option>";
+            if($savedVal == $product['prod_int']){
+                echo "<option selected value  = '{$product['prod_int']}'>{$product['product']}</option>";
+            }else{
+                echo "<option value  = '{$product['prod_int']}'>{$product['product']}</option>";
+            }
         }
     }
 }
@@ -59,7 +63,7 @@ if (!function_exists('GetVal')) {
     function GetVal($id)
     {
         global $con;
-        $quer = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `price_list` WHERE `id` = '{$id}'"));
+        $quer = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `product_list` WHERE `id` = '{$id}'"));
         return $quer;
     }
 }
@@ -80,18 +84,18 @@ if (!function_exists("UserRole")) {
     }
 }
 
-$dbQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `price_list` WHERE `primary_category` = 'software' AND `sec_category` = 'db'");
+$dbQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `product_list` WHERE `primary_category` = 'software' AND `sec_category` = 'db'");
 while ($arr = mysqli_fetch_assoc($dbQuery)) {
     $dbArr[] = $arr['prod_int'];
 }
 
 
-$osQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `price_list` WHERE `primary_category` = 'software' AND `sec_category` = 'os'");
+$osQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `product_list` WHERE `primary_category` = 'software' AND `sec_category` = 'os'");
 while ($arr = mysqli_fetch_assoc($osQuery)) {
     $osArr[] = $arr['prod_int'];
 }
 
-$strgQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `price_list` WHERE `primary_category` = 'storage'");
+$strgQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `product_list` WHERE `primary_category` = 'storage'");
 while ($arr = mysqli_fetch_assoc($strgQuery)) {
     if(preg_match("/Backup|Archiv|Tape|Fire/",$arr['product'])){}
     else{
@@ -99,11 +103,11 @@ while ($arr = mysqli_fetch_assoc($strgQuery)) {
     }
 }
 
-$secQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` FROM `price_list` WHERE `primary_category` = 'sec'");
+$secQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` FROM `product_list` WHERE `primary_category` = 'sec'");
 while ($arr = mysqli_fetch_assoc($secQuery)) {
-    // echo "SELECT DISTINCT `prod_int`, `product` FROM `price_list` WHERE `sec_category` = '{$arr['sec_category']}'";
+    // echo "SELECT DISTINCT `prod_int`, `product` FROM `product_list` WHERE `sec_category` = '{$arr['sec_category']}'";
 
-    $prodQuer = mysqli_query($con, "SELECT DISTINCT `prod_int`, `product` FROM `price_list` WHERE `sec_category` = '{$arr['sec_category']}'");
+    $prodQuer = mysqli_query($con, "SELECT DISTINCT `prod_int`, `product` FROM `product_list` WHERE `sec_category` = '{$arr['sec_category']}'");
     while($prod = mysqli_fetch_assoc($prodQuer)){
         if($arr['sec_category'] == "av"){}else{
             $secArr[$arr['sec_category']][$prod["prod_int"]] = $prod['product'];
@@ -116,7 +120,7 @@ while ($arr = mysqli_fetch_assoc($secQuery)) {
 if(!function_exists("getProdName")){
     function getProdName($int){
         global $con;
-        $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT DISTINCT `product` FROM `price_list` WHERE `prod_int` = '{$int}'"));
+        $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT DISTINCT `product` FROM `product_list` WHERE `prod_int` = '{$int}'"));
         return $query['product'];
     }
 }

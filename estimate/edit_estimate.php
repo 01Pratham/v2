@@ -15,7 +15,7 @@ if (isset($_GET['type'])) {
         <div hidden>
           <?php if (isset($_GET['pot_id'])) { ?>
             <input type="hidden" name="quot_type" value="<?= $_GET['type'] ?>">
-            <input type="hidden" name="price_list" value="<?= $_GET['list'] ?>">
+            <input type="hidden" name="product_list" value="<?= $_GET['list'] ?>">
             <input type="hidden" name="pot_id" value="<?= $_GET['pot_id'] ?>">
             <input type="hidden" name="project_name" value="<?= $_GET['project_name'] ?>">
             <?php
@@ -27,7 +27,7 @@ if (isset($_GET['type'])) {
           else{ ?>
 
             <input type="hidden" name="quot_type" value="<?= $Editable['quot_type'] ?>">
-            <input type="hidden" name="price_list" value="<?= $Editable['price_list'] ?>">
+            <input type="hidden" name="product_list" value="<?= $Editable['product_list'] ?>">
             <input type="hidden" name="pot_id" value="<?= $Editable['pot_id'] ?>">
             <input type="hidden" name="project_name" value="<?= $Editable['project_name'] ?>">
           <?php } ?>
