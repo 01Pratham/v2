@@ -72,12 +72,6 @@ function mySeries(name = '', id = '', cloneId = '', count = '',) {
     });
 }
 
-// $(document).ready(function () {
-//     if ($('#series_1').val() === "flexi") {
-//         mySeries(1, 1);
-//     }
-// });
-
 $(document).on("keydown", "form", function (event) {
     return event.key != "Enter";
 });
@@ -114,95 +108,11 @@ function validate_input(check_class) {
             $(this).parent().find('select').removeAttr('required');
         }
     })
-    // $(document).ready(function () {
-    //     $("input[type=checkbox]").each(function () {
-
-    //         if ($(this).prop('checked')) {
-    //             $(this).parent().find('input[type="number"]').each(function () {
-    //                 $(this).attr('required', 'true');
-    //             })
-    //             $(this).parent().find('select').each(function () {
-    //                 let id = $(this).prop('id');
-    //                 if ($("#" + id + " option").length > 1) {
-    //                     if ($(this).val() === '') {
-    //                         // console.log(id);
-    //                         $(this).attr('required', 'true');
-    //                     }
-    //                 }
-    //             })
-    //         }
-    //         else {
-    //             $(this).parent().find('input[type="number"]').each(function () {
-    //                 $(this).val(0);
-    //                 $(this).removeAttr('required');
-    //             })
-    //             $(this).parent().find('select').each(function () {
-    //                 $(this).removeAttr('required');
-    //             })
-    //         }
-    //     })
-    // })
 }
 
 $("input[type=number]").on("mousewheel", function (e) {
     $(this).blur();
 })
-
-// $('.strg-select').on('change', function () {
-//     if ($(this).val()==='GB') {
-//         $(this).parent().find('lable').each(function () {
-
-//             lbl_val = parseInt($(this).html());
-//             // console.log(lbl_val)
-//             var new_val = lbl_val / 1000;
-//             if (isInt(new_val)) {
-//                 $(this).html(new_val + ' IOPS/ ');
-//             } else {
-//                 return false
-//             }
-//         })
-//     }
-//     if ($(this).val()==='TB') {
-//         $(this).parent().find('lable').each(function () {
-//             lbl_val2 = parseInt($(this).html());
-//             if (lbl_val2 < 1000) {
-//                 new_val = lbl_val2 * 1000;
-//                 $(this).html(new_val + ' IOPS/ ');
-//             }
-//         })
-//     }
-//     console.log($(this))
-// })
-
-
-// $(document).ready(function () {
-//     $('.mytabs').find('.strg-select').each(function () {
-//         // console.log($(this));
-//         if ($(this).val() === 'TB') {
-//             $(this).parent().find('.lblIops').each(function () {
-//                 let lbl_val = $(this).prop('id');
-//                 lbl_val = lbl_val * 1000;
-//                 $(this).html((lbl_val));
-//             })
-//         }
-//         $(this).on("change", function () {
-//             if ($(this).val() === 'GB') {
-//                 $(this).parent().find('.lblIops').each(function () {
-//                     let lbl_val = $(this).prop('id');
-//                     $(this).val(lbl_val);
-//                 })
-//             }
-//             else if ($(this).val() === 'TB') {
-//                 $(this).parent().find('.lblIops').each(function () {
-//                     let lbl_val = $(this).prop('id');
-//                     lbl_val = lbl_val * 1000;
-//                     $(this).html((lbl_val));
-//                 })
-//             }
-//         })
-//     })
-// })
-
 
 $('.net-drop').on('change', function () {
 
@@ -234,13 +144,13 @@ function remove_arrow() {
     });
 }
 
-$(".remove_arrow").each(function(){
-    $(this).click(function(event){
+$(".remove_arrow").each(function () {
+    $(this).click(function (event) {
         event.preventDefault();
         // console.log(event)
-        
+
     })
-    $(this).attr("disabled","true").css("opacity" , "1")
+    $(this).attr("disabled", "true").css("opacity", "1")
 })
 
 function add_vm(count = null, name, id, cloneId = '', lastVM = false) {
@@ -389,23 +299,16 @@ function mode() {
     // console.log('hi')
 
     if ($('#mode').prop('checked')) {
-        $('nav').removeClass('navbar-light')
-        $('nav').addClass('navbar-dark');
+        $('nav').removeClass('navbar-light').addClass('navbar-dark')
 
-        $('aside').removeClass('sidebar-light-primary')
-        $('aside').addClass('sidebar-dark-primary')
+        $('aside').removeClass('sidebar-light-primary').addClass('sidebar-dark-primary')
 
         $('body, .Main').attr('style', "background:rgb(48 64 81);")
-        $('div, select, input, label,table tr td, table tr th ,p,span').removeClass('light');
-        $('div, select, input,  label, table, table tr td, table tr th ,span, p').addClass('dark');
+        $('div, select, input, label,table tr td, table tr th ,p,span').removeClass('light').addClass('dark');;
         $('body').append("<style class = 'st_dark'>  ::placeholder{ color: #eee;} </style>")
-        // $('.full table tr th').attr('style','background: rgb(90 159 187)')
-
-        // $('.tbl_tc th').attr('style', 'background: #343a40; border: hidden; color: #007dc5; font-weight: bold')
 
         if ($('section').hasClass('light')) {
-            $('section').removeClass('light');
-            $('section').addClass('dark')
+            $('section').removeClass('light').addClass('dark');
         }
 
         if ($('.except').hasClass('dark')) {
@@ -421,11 +324,8 @@ function mode() {
 
     }
     else {
-        $('nav').addClass('navbar-light')
-        $('nav').removeClass('navbar-dark');
-
-        $('aside').removeClass('sidebar-dark-primary')
-        $('aside').addClass('sidebar-light-primary')
+        $('nav').addClass('navbar-light').removeClass('navbar-dark')
+        $('aside').removeClass('sidebar-dark-primary').addClass('sidebar-light-primary')
 
         $('body,.Main').attr('style', "background:#f4f6f9; ")
 
@@ -434,10 +334,7 @@ function mode() {
         $('body').append("<style class = 'st_light'>  ::placeholder{ color: #grey;} </style>")
 
 
-        $('div, select, input,  label,table tr td, table tr th ,span, p').removeClass('dark');
-        $('div, select, input,  label,table tr td, table tr th ,p,span ').addClass('light');
-        // $('.full table tr th').attr('style','background: rgb(199, 239, 255)')
-        // $('.tbl_tc th, .tbl_tc tr').attr('style', 'background: white; border: hidden; color: #007dc5; font-weight: bold;')
+        $('div, select, input,  label,table tr td, table tr th ,span, p').removeClass('dark').addClass('light');
 
         if ($(".mytabs,.Main").hasClass('light')) {
             $(".mytabs,.Main").removeClass('light')

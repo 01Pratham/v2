@@ -30,8 +30,8 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
                 <h6><small>Instance :</small></h6>
                 <div class="row flexComp">
                     <div class="col-4 input-group">
-                        <span class="input-group-text form-control col-5 bg-transparent border-right-0 text-sm" id="vcpu_<?= $id ?>">vCPU </span>
-                        <span class="input-group-text form-control col-1 bg-transparent border-right-0 border-left-0 text-sm" id="vcpu_<?= $id ?>"> : </span>
+                        <span class="input-group-text form-control col-5 bg-transparent border-right-0 text-sm" id="vcpu_lbl_<?= $id ?>">vCPU </span>
+                        <span class="input-group-text form-control col-1 bg-transparent border-right-0 border-left-0 text-sm" id="vcpu_lbl_<?= $id ?>"> : </span>
                         <input type="number" class="form-control small col-6 text-sm-left border-left-0" id="vcpu_<?= $id ?>" min=0 placeholder="Quantity" value="<?= !empty($Editable['vcpu'][$name][$count]) ? $Editable['vcpu'][$name][$count] : 1 ?>" name="vcpu[<?= $name ?>][]">
                     </div>
                     <div class="col-4 input-group">
@@ -91,15 +91,17 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
                     <option value="" hidden>Select OS</option>
                     <?php create_opt('os', $Editable['os'][$name][$count]) ?>
                 </select>
+                <input type="hidden" id = "osLic_<?=$id ?>">
             </div>
             <div class="form-group col-md-3 px-2">
                 <h6><small>Database :</small></h6>
                 <select name="database[<?= $name ?>][]" id="db_<?= $id ?>" class="form-control">
                     <option value="" hidden>Select DB</option>
                     <option value="NA">NA</option>
-                    <?php create_opt('db', $Editable['database'][$name][$count]) ?>
+                        <?php create_opt('db', $Editable['database'][$name][$count]) ?>
                     <option value="Other" contenteditable="true">Other</option>
                 </select>
+                <input type="hidden" id = "osLic_<?=$id ?>" >
             </div>
             <div class="form-group col-md-3 px-2">
                 <h6><small>Quantity :</small></h6>
@@ -109,9 +111,8 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
                 <h6><small>Anti-Virus : </small></h6>
                 <select name="virus_type[<?= $name ?>][]" id="virus_type_<?= $id ?>" class="form-control">
                     <option value="">Select Antivirus</option>
-
                     <?php
-                    create_opt('av', $Editable['virus_type'][$name][$count]);
+                        create_opt('av', $Editable['virus_type'][$name][$count]);
                     ?>
                 </select>
             </div>
@@ -149,7 +150,6 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
                     }
                 }
             })
-            // mySeries(<?= $name . ',' . $id . " , " . $cloneId . " , " . $count ?>);
         <?php
         } else {
         ?>
@@ -161,12 +161,24 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
         <?php
         }
         if ($_POST['lastVM'] == "true") {
-            echo "console.log('Last')";
+            
         }
         ?>
+
+        $("#os_<?=$id?> , #vcpu_<?= $id ?>").on("input", function(){
+            if($("#os_<?=$id?>").val().search(/win/g) == 0){
+                let cpu = parseInt($("#vcpu_<?= $id ?>").val());
+                let qty = parseInt($("#vmqty_<?= $id ?>").val());
+                $("#osLic_<?=$id ?>").val((cpu * qty)/2);
+                console.log((cpu*qty)/2);
+            }else{
+                let qty = parseInt($("#vmqty_<?= $id ?>").val());
+                $("#osLic_<?=$id ?>").val(qty);
+            }
+        })
     </script>
 
-
+        
 
 <?php }
 ?>

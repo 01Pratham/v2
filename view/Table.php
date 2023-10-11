@@ -567,7 +567,6 @@ foreach ($estmtname as $j => $_Key) {
                     $Sku_Data[$estmtname[$j]]['Storage Solution'][$cat] = $EstmDATA[$cat . "_qty"][$j];
                 }
             }
-            // print_r($secArr);
         }
         $f = 'A.' . $no = $no + 1;
         tblHead("Managed Services");
