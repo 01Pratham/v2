@@ -10,12 +10,12 @@
             <select id="drm-select_<?= $id ?>" class="border-0 " style="width: 70%;">
                 <option value="">DRM tool</option>
             </select>
-            <input type="checkbox" name="drm[<?= $name ?>]" id="drm_<?= $id ?>"
+            <input type="checkbox" name="drm[<?= $name ?>]" id="drm_<?= $id ?>" 
                 class="check <?= ($Editable['drm'][$name] == "on") ? "Checked" : "" ?>">
             <!-- <input type="number" min = 0  id="drmqty_<?= $id ?>" name="drmqty[<?= $name ?>]" class="hide form-control"> -->
         </div>
         <div class="form-group col-md-4 row my-3">
-            <select id="dr_drill-select_<?= $id ?>" class="border-0 " style="width: 70%;">
+            <select id="dr_drill-select_<?= $id ?>" class="border-0     " style="width: 70%;">
                 <option value="">DR Drill</option>
             </select>
             <input type="checkbox" name="dr_drill[<?= $name ?>]" id="dr_drill_<?= $id ?>"
@@ -24,7 +24,7 @@
                 value="<?= $Editable['drillqty'][$name] ?>" style="width: 75%" placeholder="Frequency">
         </div>
         <div class="form-group col-md-4 row my-3">
-            <select name="rep_link_type[<?= $name ?>]" id="rep_link_type-select_<?= $id ?>" class="border-0 "
+            <select name="rep_link_type[<?= $name ?>]" id="rep_link_type-select_<?= $id ?>" class="border-0"
                 style="width: 70%;">
                 <option class="editable" value="<?= $Editable['rep_link_type'][$name] ?>" hidden><?= $Editable['rep_link_type'][$name] ?></option>
                 <option value="">Replication Link</option>
