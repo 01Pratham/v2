@@ -1,11 +1,11 @@
 <?php
-require '../controller/constants.php';
 require '../model/database.php';
+require '../controller/constants.php';
 
 $Sku_Data = array();
 require_once "../controller/calculations.php";
 // echo "<pre>";
-// print_r($_Prices);
+// print_r($_Data);
 // echo "</pre>";
 foreach ($estmtname as $j => $_Key) {
     $no = 0;
@@ -35,7 +35,9 @@ foreach ($estmtname as $j => $_Key) {
             </th>
         </tr>
         <?php
-        if (!empty($series[$j][0])) {
+/* 
+$Class = 'Infrastructure';
+        if (!empty($vmqty[$j][0])) {
             $no + 1;
             $a = 'A.' . $no . ' +';
 
@@ -44,13 +46,17 @@ foreach ($estmtname as $j => $_Key) {
             $vm_total = array();
             $vcore_data = array();
             foreach ($vmqty[$j] as $i => $val) {
-                $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
-                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk - 1000 IOPS -  {$disk[$j][$i]} GB";
-                $price = ($instance[$j][$i] == 'Flexi') ?
-                    (($product_prices['cpu'] * intval($cpu[$j][$i])) +
-                        ($product_prices['ram'] * intval($ram[$j][$i])) +
-                        ($product_prices['iops_1'] * intval($disk[$j][$i])))
-                    : $cost_rows['price'];
+                // $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
+                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk - {$diskType[$j][$i]} IOPS/GB -  {$disk[$j][$i]} GB";
+                // $price = ($instance[$j][$i] == 'Flexi') ?
+                //     (($product_prices['cpu'] * intval($cpu[$j][$i])) +
+                //         ($product_prices['ram'] * intval($ram[$j][$i])) +
+                //         ($product_prices['iops_1'] * intval($disk[$j][$i])))
+                //     : $cost_rows['price'];
+
+                $price = (($product_prices['vcpu_static'] * intval($cpu[$j][$i])) +
+                    ($product_prices['vram_static'] * intval($ram[$j][$i])) +
+                    ($product_prices[$diskType[$j][$i]] * intval($disk[$j][$i])));
 
                 $vCore[$j][$i] = $cpu[$j][$i];
                 $vRam[$j][$i] = $ram[$j][$i];
@@ -61,10 +67,57 @@ foreach ($estmtname as $j => $_Key) {
                     $av = true;
                 } else {
                 }
-
                 $Service = !empty($vmname[$j][$i]) ? ($vmname[$j][$i]) : ('Virtual Machine') . ' - ' . $region[$j][$i] . ' - ' . $sector[$j][$i] . ' ' . $state[$j][$i];
 
-                $ProdName = $instance[$j][$i] . ' : ' . $compute[$j][$i] . ' | OS : ' . $os[$j][$i] . ' | DB : ' . $db[$j][$i];
+                $ProdName = $compute[$j][$i] . ' | OS : ' . getProdName($os[$j][$i]) . ' | DB : ' . getProdName($db[$j][$i]);
+
+                tblRow($Service, $ProdName, $vmqty[$j][$i], $price);
+
+                $Infrastructure['VM' . $i] = GroupPrice()['VM' . $i];
+                $Infrastructure['VM' . $i][$vmname[$j][$i]] = intval($vmqty[$j][$i]) * $price;
+            }
+        }
+
+*/
+
+
+
+$Class = 'Infrastructure';
+if (!empty($vmqty[$j][0])) {
+    $no + 1;
+    $a = 'A.' . $no . ' +';
+
+    tblHead('eNlight Cloud Hosting');
+
+    $vm_total = array();
+    $vcore_data = array();
+    foreach ($vmqty[$j] as $i => $val) {
+                // $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
+                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk - 1000 IOPS -  {$disk[$j][$i]} GB";
+                // $price = ($instance[$j][$i] == 'Flexi') ?
+                //     (($product_prices['cpu'] * intval($cpu[$j][$i])) +
+                //         ($product_prices['ram'] * intval($ram[$j][$i])) +
+                //         ($product_prices['iops_1'] * intval($disk[$j][$i])))
+                //     : $cost_rows['price'];
+
+                $price = (($product_prices['vcpu_static'] * intval($cpu[$j][$i])) +
+                ($product_prices['vram_static'] * intval($ram[$j][$i])) +
+                ($product_prices[$diskType[$j][$i]] * intval($disk[$j][$i])));
+
+
+                $vCore[$j][$i] = $cpu[$j][$i];
+                $vRam[$j][$i] = $ram[$j][$i];
+                $vDisk[$j][$i] = $disk[$j][$i];
+
+                array_push($vcore_data, $vCore[$j][$i]);
+                if (!empty($av_type[$j][$i])) {
+                    $av = true;
+                } else {
+                }
+                $Service = !empty($vmname[$j][$i]) ? ($vmname[$j][$i]) : ('Virtual Machine') . ' - ' . $region[$j][$i] . ' - ' . $sector[$j][$i] . ' ' . $state[$j][$i];
+
+                $ProdName = $compute[$j][$i] . ' | OS : ' . getProdName($os[$j][$i]) . ' | DB : ' . getProdName($db[$j][$i]);
+
                 $DiscountingId = "VM{$i}_{$j}";
                 $arr = tblRow($Service, $ProdName, $vmqty[$j][$i], $_Prices[$j]["VM{$i}"][$vmname[$j][$i]]);
                 // echo $product_prices['cpu'];
@@ -523,12 +576,7 @@ foreach ($estmtname as $j => $_Key) {
                         intval($lbqty[$j]),
                         ($hsm[$j] && $hsmtype[$j] == 'Dedicated HSM') ? intval($hsmqty[$j]) : (0)
                     );
-                $info = "<i class='fa fa-info-circle  float-right' title='
-VM Quantity -  $siemqty[0]  
-Internal & External Firewall -  $siemqty[1]  
-Web App Firewall -  $siemqty[2]  
-Load Balancer -  $siemqty[3]  
-HSM -  $siemqty[4]'  ></i>";
+
                 $Products[$j][$DiscountingId] = tblRow("Services", "SIEM ", array_sum($siemqty), $_Prices[$j]['Security Solution']['siem']);
                 $Infrastructure['Security Solution']['siem'] = array_sum($siemqty) * get_Price($siem_name[$j]);
                 $Sku_Data[$estmtname[$j]]['Security Solution'][get_Price($siem_name[$j], 'sku_code')] = array_sum($siemqty);
@@ -559,14 +607,6 @@ HSM -  $siemqty[4]'  ></i>";
                         intval($lbqty[$j]),
                         (isset($hsm[$j]) && $hsmtype[$j] == 'Dedicated HSM') ? intval($hsmqty[$j]) : 0
                     );
-
-                $info = "<i class='fa fa-info-circle  float-right' title='
-VM Quantity -  $Devices[0]  
-Internal & External Firewall -  $Devices[1]  
-Web App Firewall -  $Devices[2]  
-Load Balancer -  $Devices[3]  
-HSM -  $Devices[4]'  ></i>";
-
                 $vaptName = $vapt_type[$j] . ' ' . $vapt_frequency[$j] . ' ' . $vaptqty[$j];
                 $Products[$j][$DiscountingId] = tblRow("Services", $vaptName, array_sum($Devices), $_Prices[$j]['Security Solution']['vapt']);
                 $Infrastructure['Security Solution']['vapt'] = array_sum($Devices) * get_Price($vapt_type[$j]);
@@ -826,13 +866,6 @@ HSM -  $Devices[4]'  ></i>";
         if (isset($EstmDATA['emagic'][$j])) {
             $SKU = $product_sku['emagic'];
             $DiscountingId = "emagic_{$j}";
-            $info = "<i class='fa fa-info-circle  float-right' title='
-Load Balancer - $emagicqty[0]
-Internal & External Firewall - $emagicqty[1]
-Web App Firewall - $emagicqty[2]
-VM Quantity - $emagicqty[3]
-Cross Connect & Port Termination - $emagicqty[4] 
-Bandwidth Monitoring - $emagicqty[5] '></i>";
             $name = 'eMagic Monitoring ' . $emagic_type[$j];
             $Products[$j][$DiscountingId] = tblRow("Services", $name, array_sum($emagicqty), $_Prices[$j]['Managed Services']['emagic']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['emagic']] = array_sum($emagicqty);
@@ -902,7 +935,7 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
                 Total: "<?= $_Prices[$j]['MonthlyTotal'] ?>",
                 data: "<?= base64_encode(json_encode($Products[$j])) ?>"
             };
-            DiscountingAjax($obj , <?=$j?>);
+            DiscountingAjax($obj, <?= $j ?>);
         })
 
 
@@ -935,12 +968,12 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
 
 function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
 {
-    global $j, $DiscountingId, $SKU, $info, $Class;
+    global $j, $DiscountingId, $SKU, $Class;
     // echo gettype($OTC);
 ?>
     <tr>
         <td><?php echo $Service; ?></td>
-        <td class='final'><?php echo $Product . $info; ?></td>
+        <td class='final'><?php echo $Product ?></td>
         <td class='qty'><?php echo $Quantity . " " . $Unit; ?></td>
         <td class='cost unshareable'><?php
                                         try {
@@ -1024,24 +1057,23 @@ function PriceOs($SW, $Feild)
 
                 var Infrastructure = 0;
                 var Managed = 0;
-                $(".Managed_"+j+" , .Infrastructure_"+j+"").each(function() {
-                    if ($(this).hasClass("Infrastructure_"+j+"") && $(this).hasClass("DiscountedMrc")) {
-                        if($(this).prop("id") == "OTC"){
-                        }else{
+                $(".Managed_" + j + " , .Infrastructure_" + j + "").each(function() {
+                    if ($(this).hasClass("Infrastructure_" + j + "") && $(this).hasClass("DiscountedMrc")) {
+                        if ($(this).prop("id") == "OTC") {} else {
                             let val = $(this).html().replace(/₹ |,/g, '');
                             // console.log(parseFloat(val))
                             Infrastructure = Infrastructure + parseFloat(val);
                         }
-                    } else if ($(this).hasClass("Managed_"+j+"") && $(this).hasClass("DiscountedMrc")) {
+                    } else if ($(this).hasClass("Managed_" + j + "") && $(this).hasClass("DiscountedMrc")) {
                         let val = $(this).html().replace(/₹ |,/g, '');
                         Managed = Managed + parseFloat(val);
                     }
                 })
 
-                $("#DiscInfra_"+j+"").html(INR(Infrastructure));
-                $("#DiscMng_"+j+"").html(INR(Managed));
-                $("#DiscTotal_"+j+"").html(INR(Infrastructure + Managed));
-                $("#MonthlyDiscounted_"+j+"").html(INR((Infrastructure + Managed) * parseInt($("#Months_"+j+"").val())));
+                $("#DiscInfra_" + j + "").html(INR(Infrastructure));
+                $("#DiscMng_" + j + "").html(INR(Managed));
+                $("#DiscTotal_" + j + "").html(INR(Infrastructure + Managed));
+                $("#MonthlyDiscounted_" + j + "").html(INR((Infrastructure + Managed) * parseInt($("#Months_" + j + "").val())));
                 // $("#final_otc_"+j+" , #otc"+j+"").html(INR(((Infrastructure + Managed) * 12) * 0.05));
             }
         })

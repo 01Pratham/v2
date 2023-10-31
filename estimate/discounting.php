@@ -46,6 +46,7 @@ if (isset($_GET['id'])) {
                                 require "../controller/constants.php";
                                 $_Prices = json_decode($Quer['prices'], true);
                                 $_Data = json_decode($Quer['data'], true);
+                                // echo "<pre>";print_r($_Data);echo "</pre>";
                                 $_SESSION['post_data'] = $_Data;
                                 require '../view/DiscountingTable.php';
                             }
