@@ -16,11 +16,13 @@ if (isset($_GET['id'])) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <?php
+        require '../controller/constants.php';
+
         require '../model/database.php';
         require '../controller/json_format.php';
         require '../controller/Currency_Format.php';
         require '../view/includes/header.php';
-
+    
         ?>
         <link rel="stylesheet" href="../css/submit.css">
     </head>
@@ -46,12 +48,28 @@ if (isset($_GET['id'])) {
                                 require "../controller/constants.php";
                                 $_Prices = json_decode($Quer['prices'], true);
                                 $_Data = json_decode($Quer['data'], true);
-                                // echo "<pre>";print_r($_Data);echo "</pre>";
                                 $_SESSION['post_data'] = $_Data;
                                 require '../view/DiscountingTable.php';
                             }
                         }
                         ?>
+                        <div class="container except d-flex justify-content-center mt-3 py-3">
+                            <button class="btn btn-outline-success btn-lg mx-1 export" id="export"><i class="fa fa-file-excel-o pr-2"></i> Export</button>
+                            <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button>
+                            <button class="btn btn-outline-success btn-lg mx-1 export" id="exportShareable"><i class="fa fa-file-excel-o pr-2"></i> Export as Shareable</button>
+                            <?php
+                            $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `pot_id` = '{$_GET['id']}' AND emp_code = '{$_SESSION['emp_code']}'"));
+                            if (!empty($query['id'])) {
+                            ?>
+
+                                <button class="btn btn-outline-danger btn-lg mx-1 save" id="update"><i class="fas fa-refresh pr-2"></i> Update</button>
+                                <a class="btn btn-outline-info btn-lg mx-1" id="push" target="_blank" href="discounting.php?id=<?= $_SESSION['edit_id'] ?>"><i class="fa fa-calculator pr-2" aria-hidden="true"> Discounting</i></a>
+                            <?php
+                            } else { ?>
+                                <button class="btn btn-outline-danger btn-lg mx-1 save" id="save"><i class="fas fa-save pr-2"></i> Save</button>
+                            <?php } ?>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,7 +121,7 @@ if (isset($_GET['id'])) {
                                 var val = 0;
                                 $(this).html(0)
                             } else {
-                                var val = $(this).html()/100;
+                                var val = $(this).html() / 100;
                             }
                             var unit = $(this).parent().find('.qty').html();
                             var cost = $(this).parent().find('.cost').html();

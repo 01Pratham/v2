@@ -201,6 +201,13 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
                 $('.DR_<?= $name ?>').addClass('d-none');
             }
         })
+        $(document).ready(function(){
+            if ($("#EstType_<?= $id ?>").val() == "DR") {
+                $('.DR_<?= $name ?>').removeClass('d-none');
+            } else {
+                $('.DR_<?= $name ?>').addClass('d-none');
+            }
+        })
 
         $('#clone-est_<?= $id ?>').click(function() {
             add_estmt('clone', <?= $id ?>);

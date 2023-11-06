@@ -28,14 +28,14 @@
                 style="width: 70%;">
                 <option class="editable" value="<?= $Editable['rep_link_type'][$name] ?>" hidden><?= $Editable['rep_link_type'][$name] ?></option>
                 <option value="">Replication Link</option>
-                <?php create_opt('link') ?>
+                <?php create_opt('link', $Editable['rep_link_type'][$name]) ?>
             </select>
             <input type="checkbox" name="rep_link[<?= $name ?>]" id="rep_link_<?= $id ?>"
                 class="check <?= ($Editable['rep_link'][$name] == "on") ? "Checked" : "" ?>">
             <!-- <input type="number" min=0 id="rep_link_qty_<?= $id ?>" name="rep_link_qty[<?= $name ?>]" class="hide form-control" value="<?= $Editable['rep_link_type'][$name] ?>" style="width: 75%" placeholder="Mbps"> -->
             <div class="input-group hide" style="width: 75%">
                 <input type="number" min=0 id="rep_link_qty_<?= $id ?>" name="rep_link_qty[<?= $name ?>]"
-                    class="form-control  my-1" value="<?= $Editable['rep_link_type'][$name] ?>"
+                    class="form-control  my-1" value="<?= $Editable['rep_link_qty'][$name] ?>"
                     aria-describedby="inputGroupPrepend">
                 <span class="input-group-text py-0 form-control my-1 bg-light col-3"
                     id="ReplUnit_<?= $id ?>">Mbps</span>

@@ -99,7 +99,8 @@ $MothlyTotal = array();
                     }
                 })
             }
-        <?php }
+        <?php 
+        }
         ?>
         $(document).ready(function() {
             $.ajax({
@@ -146,7 +147,7 @@ $MothlyTotal = array();
                 data: {
                     'action': $(this).prop("id"),
                     'emp_id': <?= $_SESSION['emp_code'] ?>,
-                    'data': '<?= json_encode($_POST) ?>',
+                    'data': '<?= json_encode($EstmDATA) ?>',
                     'priceData': '<?= json_encode($I_M) ?>',
                     'total': '<?= array_sum($ProjectTotal) ?>',
                     'pot_id': '<?= $_POST['pot_id'] ?>',

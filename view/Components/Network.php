@@ -11,7 +11,6 @@
                 <option value="Speed Based Internet Bandwidth">Speed Based Internet Bandwidth</option>
                 <option value="Volume Based Internet Bandwidth">Volume Based Internet Bandwidth</option>
             </select>
-            <!-- <input type="number" min=0 name="bandwidth[<?= $name ?>]" id="bandwidth_<?= $id ?>" class="form-control my-1" placeholder="Mbps" value="<?= $Editable['bandwidth'][$name] ?>"> -->
             <div class="input-group">
                 <input type="number" min=0 name="bandwidth[<?= $name ?>]" id="bandwidth_<?= $id ?>" class="form-control my-1" placeholder="" value="<?= $Editable['bandwidth'][$name] ?>" aria-describedby="inputGroupPrepend">
                 <span class="input-group-text py-0 form-control my-1 col-3 bg-light" id="BandwidthUnit_<?= $id ?>">Mbps</span>
@@ -19,9 +18,8 @@
         </div>
         <div class="form-group col-md-3">
             <select name="load_balancer[<?= $name ?>]" id="lb_<?= $id ?>" class="border-0 small" style="width: 100%;">
-                <!-- <option class="editable" value="<?= $Editable['load_balancer'][$name] ?>" hidden><?= $Editable['load_balancer'][$name] ?></option> -->
                 <option value="">Load Balancer</option>
-                <?php create_opt('lb', $Editable['load_balancer'][$name] ) ?>
+                <?php create_opt('lb', $Editable['load_balancer'][$name]) ?>
             </select>
             <input type="number" min=0 name="lbqty[<?= $name ?>]" id="lbqty_<?= $id ?>" class="form-control my-1" placeholder="Quantity" value="<?= $Editable['lbqty'][$name] ?>">
         </div>
@@ -46,9 +44,8 @@
         </div>
         <div class="form-group col-md-3 replink">
             <h6><small>Replication Link</small></h6>
-            <!-- <input type="number" min=0 name="rep_link[<?= $name ?>]" id="rep_link_<?= $id ?>" class="form-control" placeholder="Quantity" value="<?= $Editable['rep_link'][$name] ?>"> -->
             <div class="input-group">
-                <input type="number" min=0 name="rep_link_qty[<?= $name ?>]" id="rep_link_qty_<?= $id ?>" class="form-control my-1" placeholder="" value="<?= $Editable['rep_link'][$name] ?>" aria-describedby="inputGroupPrepend">
+                <input type="number" min=0 name="rep_link_qty[<?= $name ?>]" id="rep_link_qty_<?= $id ?>" class="form-control my-1" placeholder="" value="<?= $Editable['rep_link_qty'][$name] ?>" aria-describedby="inputGroupPrepend">
                 <span class="input-group-text py-0 form-control my-1 col-3 bg-light" id="rep_linkUnit_<?= $id ?>">Mbps</span>
             </div>
         </div>

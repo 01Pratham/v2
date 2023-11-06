@@ -107,18 +107,18 @@ function ManagedServices($service, $service_qty)
 }
 
 $db_cal = array(
-  'MS SQL Enterprise' => 2,
-  'MS SQL WEB' => 2,
-  'MS SQL Standard' => 2,
-  'MY SQL Community' => NULL,
-  'MY SQL Standard' => 4,
-  'MY SQL Enterprise' => 4,
-  'Postgre SQL Enterprise' => 1,
-  'Postgre SQL Community' => NULL,
-  'Oracle Database Standard' => 8,
-  'Oracle Database Enterprise' => 8,
-  'Mongo DB Community' => NULL,
-  'Maria DB Community' => NULL
+  'ms_ent' => 2,
+  'ms_web' => 2,
+  'ms_std' => 2,
+  'my_com' => NULL,
+  'my_std' => 4,
+  'my_ent' => 4,
+  'post_ent' => 1,
+  'post_com' => NULL,
+  'orc_std' => 8,
+  'orc_ent' => 8,
+  'mong_com' => NULL,
+  'mar_com' => NULL
 );
 
 
@@ -166,27 +166,29 @@ if (!function_exists('GroupPrice'))
 {
   function GroupPrice()
   {
-    include 'constants.php';
+    // require '../controller/constants.php';
     require '../model/database.php';
-    global $vmname, $j, $i, $db_cal, $vCore, $vRam, $vDisk, $vmqty;
+    global $vmname, $j, $i, $db_cal, $vCore, $vRam, $vDisk, $vmqty,$os, $db, $product_prices;
     $PriceData = array();
     $Infrastructure['VM' . $i][$vmname[$j][$i]] = intval($vmqty[$j][$i]) * $price;
     foreach ($prod_cat as $int => $cat) {
       foreach ($products as $new_int => $product) {
+        // echo $new_int;
         if ($new_int == $int) {
           if ($cat == "os") {
-            if ($os[$j][$i] == $product) {
-              $PriceData["VM" . $i][$product] = get_OS($os[$j][$i], 2, $product_prices[$int], "SKU")[$i] * $product_prices[$int];
+            if ($os[$j][$i] == $new_int) {
+              $PriceData["VM" . $i]["os"] = get_OS($os[$j][$i], 2, $product_prices[$new_int], "SKU")[$i] * $product_prices[$new_int];
+              // print_r($product_prices[$new_int]);
             }
           }
           if ($cat == 'db') {
-            if ($db[$j][$i] == $product) {
-              $PriceData["VM" . $i][$product] = get_DB($db[$j][$i], $db_cal[$db[$j][$i]], $product_prices[$int], "SKU")[$i] * $product_prices[$int];
+            if ($db[$j][$i] == $new_int) {
+              $PriceData["VM" . $i]["db"] = get_DB($db[$j][$i], $db_cal[$db[$j][$i]], $product_prices[$new_int], "SKU")[$i] * $product_prices[$new_int];
             }
           }
         }
       }
     }
-    return $PriceData;
+     return $PriceData;
   }
 }
