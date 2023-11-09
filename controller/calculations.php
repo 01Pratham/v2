@@ -125,34 +125,28 @@ $db_cal = array(
 if (!function_exists('SkuList')) {
   function SkuList()
   {
-    include 'constants.php';
+    // include 'constants.php';
     require '../model/database.php';
-    global $vmname, $j, $product_sku, $db_cal, $vCore, $vRam, $vDisk, $vmqty;
+    global $vmname, $j, $product_sku, $db_cal, $vCore, $vRam, $vDisk, $vmqty, $diskType, $os, $db, $region;
+    // $product_prices = priceTbl($region[$j])["product_prices"];
+    $prod_cat = priceTbl($region[$j])["prod_cat"];
     $Sku_Data = array();
     foreach ($vmname[$j] as $i => $nameVal) {
       $Sku_Data["VM" . $i]['Group_Name'] = $vmname[$j][$i];
-      if ($series[$j][$i] == "Flexible Compute") {
-        $Sku_Data["VM" . $i][$product_sku['cpu']] = $cpu[$j][$i];
-        $Sku_Data["VM" . $i][$product_sku['ram']] = $ram[$j][$i];
-        $Sku_Data["VM" . $i][$product_sku['iops_1']] = $disk[$j][$i];
-      } else {
-        $Sku_Data["VM" . $i][$product_sku['cpu']] = $vCore[$j][$i];
-        $Sku_Data["VM" . $i][$product_sku['ram']] = $vRam[$j][$i];
-        $Sku_Data["VM" . $i][$product_sku['iops_1']] = $vDisk[$j][$i];
-      }
+
+      $Sku_Data["VM" . $i][$product_sku['vcpu_static']] = $vCore[$j][$i];
+      $Sku_Data["VM" . $i][$product_sku['vram_static']] = $vRam[$j][$i];
+      $Sku_Data["VM" . $i][$product_sku[$diskType[$j][$i]]] = $vDisk[$j][$i];
+
       foreach ($prod_cat as $int => $cat) {
-        foreach ($products as $new_int => $product) {
-          if ($new_int == $int) {
-            if ($cat == "os") {
-              if ($os[$j][$i] == $product) {
-                $Sku_Data["VM" . $i][$product_sku[$int]] = get_OS($os[$j][$i], 2, '', 'SKU')[$i];
-              }
-            }
-            if ($cat == 'db') {
-              if ($db[$j][$i] == $product) {
-                $Sku_Data["VM" . $i][$product_sku[$int]] = get_DB($db[$j][$i], $db_cal[$db[$j][$i]], '', 'SKU')[$i];
-              }
-            }
+        if ($cat == "os") {
+          if ($os[$j][$i] == $int) {
+            $Sku_Data["VM" . $i][$product_sku[$int]] = get_OS($os[$j][$i], 2, '', 'SKU')[$i];
+          }
+        }
+        if ($cat == 'db') {
+          if ($db[$j][$i] == $int) {
+            $Sku_Data["VM" . $i][$product_sku[$int]] = get_DB($db[$j][$i], $db_cal[$db[$j][$i]], '', 'SKU')[$i];
           }
         }
       }
@@ -162,13 +156,16 @@ if (!function_exists('SkuList')) {
   }
 }
 
-if (!function_exists('GroupPrice')) 
-{
+if (!function_exists('GroupPrice')) {
   function GroupPrice()
   {
     // require '../controller/constants.php';
     require '../model/database.php';
-    global $vmname, $j, $i, $db_cal, $vCore, $vRam, $vDisk, $vmqty,$os, $db, $product_prices;
+
+    global $vmname, $j, $i, $db_cal, $vCore, $vRam, $vDisk, $vmqty, $os, $db, $region;
+    $product_prices = priceTbl($region[$j])["product_prices"];
+    $prod_cat = priceTbl($region[$j])["prod_cat"];
+    $products = priceTbl($region[$j])["products"];
     $PriceData = array();
     $Infrastructure['VM' . $i][$vmname[$j][$i]] = intval($vmqty[$j][$i]) * $price;
     foreach ($prod_cat as $int => $cat) {
@@ -189,6 +186,6 @@ if (!function_exists('GroupPrice'))
         }
       }
     }
-     return $PriceData;
+    return $PriceData;
   }
 }

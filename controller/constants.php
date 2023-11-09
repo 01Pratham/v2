@@ -51,7 +51,7 @@ $EstmDATA = $_SESSION['post_data'];
     // $strgunit5 = $EstmDATA['5strgunit'];
     // $strgunit8 = $EstmDATA['8strgunit'];
     // $strgunit10 = $EstmDATA['10strgunit'];
-
+    $drm_type = $EstmDATA['drm_type'];
     $agenttype = $EstmDATA['age_qty_type'];
     $backupstrg = $EstmDATA['backup_strg'];
     $backupunit = $EstmDATA['backup_unit'];
@@ -134,7 +134,7 @@ $EstmDATA = $_SESSION['post_data'];
     $wafmgmt = $EstmDATA['wafmgmt'];
 
 
-    $drm_tool = $EstmDATA['drm_tool'];
+    $drm_tool = $EstmDATA['drm'];
     $dr_drill = $EstmDATA['dr_drill'];
     $drill_qty = $EstmDATA['drillqty'];
     $rep_link = $EstmDATA['rep_link'];

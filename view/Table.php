@@ -7,6 +7,9 @@ foreach ($estmtname as $j => $_Key) {
     $no = 0;
     $Infrastructure = array();
     $antiVirus = false;
+    $product_prices = priceTbl($region[$j])["product_prices"];
+    $product_sku = priceTbl($region[$j])["product_sku"];
+    // print_r($product_prices);
 ?>
     <table class='final-tbl table except' id="final-tbl<?= $j ?>">
         <tr hidden></tr>
@@ -62,7 +65,6 @@ foreach ($estmtname as $j => $_Key) {
                 $Infrastructure['VM' . $i][$vmname[$j][$i]] = intval($vmqty[$j][$i]) * $price;
             }
         }
-
         if (!empty($vmqty[$j][0]) || !empty($agenttype[$j]) || isset($drm_tool[$j])) {
             $b = 'A.' . $no = $no + 1;
             $b .= ' +';
@@ -158,7 +160,7 @@ foreach ($estmtname as $j => $_Key) {
             }
             $Sku_Data[$estmtname[$j]] = SkuList();
 
-            if (!empty($agenttype[$j])) {
+            if (!empty($agenttype[$j])) {  
                 if ($agenttype[$j] == 'All VM') {
                     $agentqty[$j] = $vmqty[$j];
                 } elseif ($agenttype[$j] == 'DB VM') {
@@ -171,16 +173,16 @@ foreach ($estmtname as $j => $_Key) {
                     $agentqty[$j][$i] = $EstmDATA['ageqty'][$j];
                 }
 
-                tblRow("Software", 'Backup Agent', array_sum($agentqty[$j]), $product_prices['backup_age']);
+                tblRow("Software", 'Backup Agent', array_sum($agentqty[$j]), $product_prices['veeam']);
 
-                $Infrastructure['Software']['Backup Agent'] = array_sum($agentqty[$j]) * $product_prices['backup_age'];
-                $Sku_Data[$estmtname[$j]]['Software'][$product_sku['backup_age']] = array_sum($agentqty[$j]);
+                $Infrastructure['Software']['Backup Agent'] = array_sum($agentqty[$j]) * $product_prices['veeam'];
+                $Sku_Data[$estmtname[$j]]['Software'][$product_sku['veeam']] = array_sum($agentqty[$j]);
             }
             if (isset($drm_tool[$j])) {
                 $drm_tool_qty = (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0;
-                tblRow("Software", 'DRM Tool', $drm_tool_qty, $product_prices['drm_tool']);
-                $Infrastructure['Software']['DRM Tool'] = $drm_tool_qty * $product_prices['drm_tool'];
-                $Sku_Data[$estmtname[$j]]['Software'][$product_sku['drm_tool']] = $drm_tool_qty;
+                tblRow("Software", 'DRM Tool', $drm_tool_qty, $product_prices[$drm_type[$j]]);
+                $Infrastructure['Software']['DRM Tool'] = $drm_tool_qty * $product_prices[$drm_type[$j]];
+                $Sku_Data[$estmtname[$j]]['Software'][$product_sku[$drm_type[$j]]] = $drm_tool_qty;
             }
         }
         if (isset($iops1[$j]) || isset($iops3[$j]) || isset($iops5[$j]) || isset($iops8[$j]) || isset($iops10[$j]) || !empty($backupstrg[$j]) || isset($tape_lib[$j]) || isset($tape_cart[$j]) || isset($fire_cab[$j])) {
@@ -928,7 +930,7 @@ function tblHead($Service)
 <?php
 }
 
-echo "<pre>";
-print_r($I_M);
-echo "</pre>";
+// echo "<pre>";
+// print_r($I_M);
+// echo "</pre>";
 ?>

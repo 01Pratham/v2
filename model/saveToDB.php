@@ -21,6 +21,7 @@ function saveEstmt()
   $date = $date->format('Y-m-d');
   $data = $_POST['data'];
   $prices = $_POST['priceData'];
+  $discountedData = $_POST["discountedData"];
 
   global $con;
 
@@ -69,7 +70,7 @@ function saveEstmt()
     `contract_period`, 
     `total_upfront`, 
     `data`, 
-      `prices`)  
+      `prices`)   
       VALUES (
     '{$_POST['emp_id']}',
     '{$_POST['pot_id']}',
@@ -78,7 +79,7 @@ function saveEstmt()
     '{$_SESSION['emp_code']}',
     '{$_SESSION['emp_code']}',
     '{$date}',
-    '{$time}',
+    '{$time}',2
     '{$_POST['period']}',
     '{$_POST['total']}' , 
     '{$data}',
@@ -86,38 +87,39 @@ function saveEstmt()
     );
   } elseif ($_POST['action'] == 'update') {
     $Total = (isset($_POST['total'])) ? "`total_upfront`='{$_POST['total']}' ," : ('');
+    $discountedData = (isset($_POST['discountedData']))?"`discountdata` = '{$_POST['discountedData']}' ,": ("");
+    $discounted_upfront = (isset($_POST['discounted_upfront']))?"`discounted_upfront` = '{$_POST['discounted_upfront']}' ":('');
+    $data = (isset($_POST['data']))? "`data` = '{$_POST['data']}' ,":("") ;
+    $priceData = (isset($_POST['priceData']))? "`prices` = '{$_POST['priceData']}' ,":("") ;
+    $total = (isset($_POST['total']))? "`total_upfront` = '{$_POST['total']}' ":("") ;
+    $pot_id = (isset($_POST['pot_id']))? "`pot_id` = '{$_POST['pot_id']}' ,":("") ;
+    $project_name = (isset($_POST['project_name']))? "`project_name` = '{$_POST['project_name']}' ,":("") ;
+    $period = (isset($_POST['period']))? "`contract_period` = '{$_POST['period']}' ,":("") ;
+    
+
     if (!empty($_POST['old_pot'])) {
       $version = 1;
     }
+
     $query = mysqli_query(
       $con,
-      "UPDATE `tbl_saved_estimates` SET 
+      "UPDATE `tbl_saved_estimates` SET
       {$Total}
-    `pot_id` = '{$_POST['pot_id']}', 
-    `version` = '{$version}',
-    `last_changed_by` = '{$_SESSION['emp_code']}',
-    `date_updated`='{$time}',
-    `contract_period`='{$_POST['period']}',
-    `data`='{$data}',
-    `prices`='{$prices}'
-    WHERE `id` = '{$_SESSION['edit_id']}' "
+      {$discountedData}
+      {$data}
+      {$priceData}
+      {$pot_id}
+      {$project_name}
+      {$period}
+      {$total}
+      {$discounted_upfront}
+      WHERE `id` = '{$_SESSION['edit_id']}' "
     );
   }
   if ($query) {
     echo "Data Stored Successfully";
   } else {
     echo "Error while storing DATA \n";
-
-    // echo
-    // "UPDATE `tbl_saved_estimates` SET 
-    // " . (isset($_POST['total'])) ? "`total_upfront`='{$_POST['total']}'" : ('') . "
-    // `pot_id` = '{$_POST['pot_id']}', 
-    // `version` = '{$version}',
-    // `last_changed_by` = '{$_SESSION['emp_code']}',
-    // `date_updated`='{$time}',
-    // `contract_period`='{$_POST['period']}',
-    // `data`='{$data}'
-    // WHERE `id` = '{$_SESSION['edit_id']}' ";
   }
 }
 saveEstmt();

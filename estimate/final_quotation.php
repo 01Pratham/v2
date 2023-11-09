@@ -63,7 +63,7 @@ $MothlyTotal = array();
                 </div>
                 <?php
                 $temp =  json_encode(json_template($Sku_Data, $I_M), JSON_PRETTY_PRINT);
-                // echo "<pre>";print_r($I_M);echo "</pre>";    
+                echo "<pre>";print_r($Sku_Data);echo "</pre>";    
                 ?>
             </div>
         </div>
@@ -91,8 +91,8 @@ $MothlyTotal = array();
                     url: "../controller/push.php",
                     dataType: "TEXT",
                     data: {
-                        action: 'push',
-                        data: '<?= base64_encode($temp) ?>'
+                        action : 'push',
+                        data : '<?= base64_encode($temp) ?>'
                     },
                     success: function(response) {
                         alert(response);
@@ -103,18 +103,18 @@ $MothlyTotal = array();
         }
         ?>
         $(document).ready(function() {
-            $.ajax({
-                type: "POST",
-                url: "../model/database.php",
-                dataType: "TEXT",
-                data: {
-                    type: "buffer",
-                    buffer: <?= array_sum($MothlyTotal) * 0.05 ?>
-                },
-                success: function(response) {
-                    // alert ("Contingency Buffer has been added into your quotation : " + response);
-                }
-            })
+            // $.ajax({
+            //     type: "POST",
+            //     url: "../model/database.php",
+            //     dataType: "TEXT",
+            //     data: {
+            //         type: "buffer",
+            //         buffer: <?= array_sum($MothlyTotal) * 0.05 ?>
+            //     },
+            //     success: function(response) {
+            //         // alert ("Contingency Buffer has been added into your quotation : " + response);
+            //     }
+            // })
         });
 
         let sheetNames = {
@@ -143,7 +143,7 @@ $MothlyTotal = array();
         $('.save').click(function() {
             $.ajax({
                 type: "POST",
-                url: '../model/remove_estmt.php',
+                url: '../model/saveToDB.php',
                 data: {
                     'action': $(this).prop("id"),
                     'emp_id': <?= $_SESSION['emp_code'] ?>,

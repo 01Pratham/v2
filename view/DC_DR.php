@@ -40,10 +40,10 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
                     while ($reg_row = mysqli_fetch_array($reg)) {
                         if ($reg_row["id"] == 0) {
                         } else {
-                            if ($Editable['region'][$name] == $reg_row["region"]) {
-                                echo  "<option selected  value = '{$reg_row['region']}' >{$reg_row['region']}</option>";
+                            if ($Editable['region'][$name] == $reg_row["id"]) {
+                                echo  "<option selected  value = '{$reg_row['id']}'>{$reg_row['region']}</option>";
                             } else {
-                                echo  "<option value = '{$reg_row['region']}' >{$reg_row['region']} </option>";
+                                echo  "<option value = '{$reg_row['id']}' >{$reg_row['region']} </option>";
                             }
                         }
                     }

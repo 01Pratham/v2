@@ -23,15 +23,22 @@ if (isset($_POST['buffer'])) {
     echo $_POST['buffer'];
 }
 
-$exe_query = mysqli_query($con, 'SELECT * FROM `product_list`');
 
-while ($price_tbl = mysqli_fetch_assoc($exe_query)) {
-    $price_query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$EstmDATA['product_list']}' AND `prod_id` = '{$price_tbl['id']}'"));
-    $product_prices[$price_tbl['prod_int']] = intval($price_query['price']);
-    $prod_cat[$price_tbl['prod_int']] = $price_tbl['sec_category'];
-    $product_sku[$price_tbl['prod_int']] = $price_tbl['sku_code'];
-    $products[$price_tbl['prod_int']] = $price_tbl['product'];
-    array_push($tbl, $price_tbl);
+if(!function_exists("priceTbl")){
+    function priceTbl($region){
+        global $EstmDATA,$con;
+        $exe_query = mysqli_query($con, "SELECT * FROM `product_list` WHERE `region` = '{$region}' OR  `region`  = '0'");
+        while ($price_tbl = mysqli_fetch_assoc($exe_query)) {
+            $price_query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$EstmDATA['product_list']}' AND `prod_id` = '{$price_tbl['id']}'"));
+            $product_prices[$price_tbl['prod_int']] = intval($price_query['price']);
+            $prod_cat[$price_tbl['prod_int']] = $price_tbl['sec_category'];
+            $product_sku[$price_tbl['prod_int']] = $price_tbl['sku_code'];
+            $products[$price_tbl['prod_int']] = $price_tbl['product'];
+            // array_push($tbl, $price_tbl);
+        }
+        return compact("product_prices","prod_cat","product_sku","products", "price_tbl");
+        // return $region;
+    }
 }
 // print_r( $prod_cat );
 

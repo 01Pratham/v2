@@ -7,6 +7,8 @@ if (isset($_GET['id'])) {
     }
     $ProjectTotal = array();
     $MothlyTotal = array();
+
+
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -22,7 +24,7 @@ if (isset($_GET['id'])) {
         require '../controller/json_format.php';
         require '../controller/Currency_Format.php';
         require '../view/includes/header.php';
-    
+
         ?>
         <link rel="stylesheet" href="../css/submit.css">
     </head>
@@ -49,26 +51,16 @@ if (isset($_GET['id'])) {
                                 $_Prices = json_decode($Quer['prices'], true);
                                 $_Data = json_decode($Quer['data'], true);
                                 $_SESSION['post_data'] = $_Data;
+                                $_DiscountedData = json_decode($Quer["discountdata"],true);
                                 require '../view/DiscountingTable.php';
                             }
                         }
                         ?>
                         <div class="container except d-flex justify-content-center mt-3 py-3">
                             <button class="btn btn-outline-success btn-lg mx-1 export" id="export"><i class="fa fa-file-excel-o pr-2"></i> Export</button>
-                            <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button>
+                            <!-- <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button> -->
                             <button class="btn btn-outline-success btn-lg mx-1 export" id="exportShareable"><i class="fa fa-file-excel-o pr-2"></i> Export as Shareable</button>
-                            <?php
-                            $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `pot_id` = '{$_GET['id']}' AND emp_code = '{$_SESSION['emp_code']}'"));
-                            if (!empty($query['id'])) {
-                            ?>
-
-                                <button class="btn btn-outline-danger btn-lg mx-1 save" id="update"><i class="fas fa-refresh pr-2"></i> Update</button>
-                                <a class="btn btn-outline-info btn-lg mx-1" id="push" target="_blank" href="discounting.php?id=<?= $_SESSION['edit_id'] ?>"><i class="fa fa-calculator pr-2" aria-hidden="true"> Discounting</i></a>
-                            <?php
-                            } else { ?>
-                                <button class="btn btn-outline-danger btn-lg mx-1 save" id="save"><i class="fas fa-save pr-2"></i> Save</button>
-                            <?php } ?>
-
+                            <button class="btn btn-outline-danger btn-lg mx-1 save" id="update" ><i class="fas fa-refresh pr-2"></i> Update</button>
                         </div>
                     </div>
                 </div>
@@ -76,7 +68,7 @@ if (isset($_GET['id'])) {
 
 
             <?php
-            require '../view/includes/footer.php';
+                require '../view/includes/footer.php';
             ?>
             <script src="../javascript/jquery-3.6.4.js"></script>
             <script src="https://unpkg.com/exceljs/dist/exceljs.min.js"></script>
@@ -86,11 +78,7 @@ if (isset($_GET['id'])) {
             <script>
                 $('.nav-link').removeClass('active')
                 $('#create').addClass('active');
-                <?php
-                if (UserRole($get_emp["user_role"]) == "User") { ?>
-                    $('#push').remove();
-                <?php }
-                ?>
+                
 
                 function Push() {
                     $.ajax({
@@ -99,6 +87,7 @@ if (isset($_GET['id'])) {
                         dataType: "TEXT",
                         data: {
                             action: 'push',
+
                         },
                         success: function(response) {
                             alert(response);
@@ -107,7 +96,7 @@ if (isset($_GET['id'])) {
                 }
                 <?php
                 if (UserRole("3")) { ?>
-                    $('.discount').attr('contentEditable', 'true')
+                    // $('.discount').attr('contentEditable', 'true')
                     var mrc = $('#vm-mrc').html();
                     $(".discount").keypress(function(e) {
                         var key = e.keyCode || e.charCode;
@@ -140,7 +129,6 @@ if (isset($_GET['id'])) {
                                     cost: cost
                                 },
                                 success: function(response) {
-                                    // console.log(response);
                                     mrc.html(response);
                                 }
                             })
@@ -179,15 +167,12 @@ if (isset($_GET['id'])) {
                 $('.save').click(function() {
                     $.ajax({
                         type: "POST",
-                        url: '../model/remove_estmt.php',
+                        url: '../model/saveToDB.php',
                         data: {
-                            'action': $(this).prop("id"),
+                            'action': "update",
                             'emp_id': <?= $_SESSION['emp_code'] ?>,
-                            'data': '<?= json_encode($EstmDATA) ?>',
-                            'total': '<?= array_sum($ProjectTotal) ?>',
-                            'pot_id': '<?= $EstmDATA['pot_id'] ?>',
-                            'project_name': '<?= $EstmDATA['project_name'] ?>',
-                            'period': <?= $period[1] ?>,
+                            "discountedData": JSON.stringify(DiscountedData),
+                            "discounted_upfront": ""
                         },
                         dataType: "TEXT",
                         success: function(response) {
@@ -206,14 +191,14 @@ if (isset($_GET['id'])) {
                         }
                     })
                 })
-                window.addEventListener('beforeunload',
-                    function(e) {
-                        let conf = confirm("Are You sure want to unsave this Estimate ? ");
-                        if (conf) {} else {
-                            e.preventDefault();
-                            e.returnValue = '';
-                        }
-                    });
+                // window.addEventListener('beforeunload',
+                //     function(e) {
+                //         let conf = confirm("Are You sure want to unsave this Estimate ? ");
+                //         if (conf) {} else {
+                //             e.preventDefault();
+                //             e.returnValue = '';
+                //         }
+                //     });
             </script>
         <?php } else {
             require "../view/PageNotFound.php";

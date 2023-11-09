@@ -66,7 +66,7 @@
                 if (action) {
                     $.ajax({
                         type: 'POST',
-                        url: '../model/remove_estmt.php',
+                        url: '../model/saveToDB.php',
                         data: {
                             'action': 'Delete',
                             'post_data': {$_GET['delete_id']}

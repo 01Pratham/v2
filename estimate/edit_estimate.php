@@ -84,7 +84,7 @@ if (isset($_GET['type'])) {
         data: $("#form1").serialize(),
         success: function(res) {
           $.ajax({
-            url: '../model/remove_estmt.php',
+            url: '../model/saveToDB.php',
             dataType: "TEXT",
             method: "post",
             data: {

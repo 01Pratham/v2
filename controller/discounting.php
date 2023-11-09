@@ -55,6 +55,7 @@ if (isset($_POST['action']) && $_POST['action'] == "Discount") {
             }
         }
     }
+
     foreach ($DiscountedMrcArr as $KEY => $VAL) {
         if (is_array($VAL)) {
             $DiscountedMrcArr[$KEY] = round(array_sum($VAL),2);
@@ -73,7 +74,6 @@ function Product($SKU)
     global $con;
     $getProdId = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `product_list` WHERE `sku_code` = '{$SKU}'"));
     $getPrices = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `prod_id` = '{$getProdId['id']}'"));
-
     return $getPrices;
 }
 
