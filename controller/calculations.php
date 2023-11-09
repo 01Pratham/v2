@@ -137,7 +137,7 @@ if (!function_exists('SkuList')) {
       $Sku_Data["VM" . $i][$product_sku['vcpu_static']] = $vCore[$j][$i];
       $Sku_Data["VM" . $i][$product_sku['vram_static']] = $vRam[$j][$i];
       $Sku_Data["VM" . $i][$product_sku[$diskType[$j][$i]]] = $vDisk[$j][$i];
-
+  
       foreach ($prod_cat as $int => $cat) {
         if ($cat == "os") {
           if ($os[$j][$i] == $int) {
