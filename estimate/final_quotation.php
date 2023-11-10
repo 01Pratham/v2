@@ -41,6 +41,12 @@ $MothlyTotal = array();
             <div class="container-fluid except full" style="zoom : 65%">
                 <div class="errors except container" style="max-width: 2020px; margin: auto; "> </div>
                 <?php
+                if(!empty($_SESSION['edit_id'])){
+                    $D = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `id` = '{$_SESSION['edit_id']}'"));
+                    if(!empty($D)){
+                        $_DiscountedData = json_decode($D['discountdata'], true);
+                    }
+                }
                 require '../view/Table.php';
                 require '../view/summary_table.php';
                 ?>

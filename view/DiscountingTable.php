@@ -267,7 +267,6 @@ foreach ($estmtname as $j => $_Key) {
                 $SKU = $product_sku['veeam'];
                 $DiscountingId = "backup_age_{$j}";
                 $Products[$j][$DiscountingId] = tblRow("Software", 'Backup Agent', array_sum($agentqty[$j]), $_Prices[$j]['Software']['veeam']);
-
                 $Sku_Data[$estmtname[$j]]['Software'][$product_sku['veeam']] = array_sum($agentqty[$j]);
             }
             if (isset($drm_tool[$j])) {
@@ -287,8 +286,6 @@ foreach ($estmtname as $j => $_Key) {
             if (isset($EstmDATA[$int])) {
                 $SKU = $product_sku[$int];
                 $DiscountingId = $int . "_" . $j;
-
-
                 $Products[$j][$DiscountingId] = tblRow(
                     "Additional Storage",
 
@@ -535,6 +532,14 @@ foreach ($estmtname as $j => $_Key) {
         $e = 'A.' . $no = $no + 1;
         tblHead('Security Solution');
 
+        if (!empty($newAV)) {
+            $DiscountingId = "av_{$j}";
+            $SKU = $product_sku[$newAV];
+            $Products[$j][$DiscountingId] = tblRow('Services', getProdName($newAV), array_sum($av_count), $_Prices[$j]["Security Solution"]["av"]);
+            $Infrastructure['Security Solution']['av'] = $product_prices[$newAV];
+            $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku[$newAV]] = array_sum($av_count);
+        }
+
         $totalFirewalls = array();
         foreach ($secArr as $cat => $prod) {
 
@@ -552,9 +557,6 @@ foreach ($estmtname as $j => $_Key) {
 
                     $_Prices[$j]["Security Solution"][$cat]
                 );
-                // echo "<pre>";
-                // print_r($_Prices[$j]["Security Solution"]);
-
                 if (preg_match("/fw/", $cat)) {
                     if (isset($EstmDATA[$cat . "_check"])) {
                         $totalFirewalls[$cat] =   $EstmDATA[$cat . "_qty"][$j];
@@ -937,7 +939,7 @@ foreach ($estmtname as $j => $_Key) {
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['virt_lb_mgmt']] = $lbmgmtqty;
         }
         if (isset($fvmgmt[$j])) {
-            $name = ((isset($utm[$j])) ? 'vUTM ' : '') . "FireWall Management";
+            $name = (isset($EstmDATA["utm_check"][$j]) ? 'vUTM ' : '') . "Firewall Management";
             $INT = (isset($utm[$j])) ? 'utm_mgmt' : 'vfirewall_mgmt';
             $SKU = $product_sku[$INT];
             $DiscountingId = "{$INT}_{$j}";
