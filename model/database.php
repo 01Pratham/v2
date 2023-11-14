@@ -2,9 +2,10 @@
 error_reporting(E_ERROR | E_PARSE);
 
 $HostName = 'localhost';
-$UserName = 'idxesdsd_cal';
-$Password = 'v2BFvmbge2P+#C';
-// $Password = '';
+// $UserName = 'idxesdsd_cal';
+$UserName = 'root';
+// $Password = 'v2BFvmbge2P+#C';
+$Password = '';
 $DataBase = 'idxesdsd_cal_v2';
 
 $con = mysqli_connect($HostName, $UserName, $Password, $DataBase)  or die('Database Error : Connection Lost');

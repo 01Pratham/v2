@@ -127,7 +127,7 @@ if (!function_exists('SkuList')) {
   {
     // include 'constants.php';
     require '../model/database.php';
-    global $vmname, $j, $product_sku, $db_cal, $vCore, $vRam, $vDisk, $vmqty, $diskType, $os, $db, $region;
+    global $vmname, $j, $product_sku, $db_cal, $vCore, $vRam, $vDisk, $vmqty, $diskType, $os, $db, $region, $product_prices,$_DiscountedData;
     // $product_prices = priceTbl($region[$j])["product_prices"];
     $prod_cat = priceTbl($region[$j])["prod_cat"];
     $Sku_Data = array();
@@ -141,12 +141,20 @@ if (!function_exists('SkuList')) {
       foreach ($prod_cat as $int => $cat) {
         if ($cat == "os") {
           if ($os[$j][$i] == $int) {
-            $Sku_Data["VM" . $i][$product_sku[$int]] = get_OS($os[$j][$i], 2, '', 'SKU')[$i];
+            $DiscountingId = "{$int}_{$j}";
+            $Sku_Data["VM" . $i][$product_sku[$int]] = [
+              "qty" => get_OS($os[$j][$i], 2, '', 'SKU')[$i],
+              "discount" => GetDiscountedPercentage(get_OS($os[$j][$i], 2, '', 'SKU')[$i], $product_prices[$os[$j][$i]]) 
+            ];
           }
         }
         if ($cat == 'db') {
           if ($db[$j][$i] == $int) {
-            $Sku_Data["VM" . $i][$product_sku[$int]] = get_DB($db[$j][$i], $db_cal[$db[$j][$i]], '', 'SKU')[$i];
+            $DiscountingId = "{$int}_{$j}";
+            $Sku_Data["VM" . $i][$product_sku[$int]] = [
+              "qty" => get_DB($db[$j][$i], $db_cal[$db[$j][$i]], '', 'SKU')[$i],
+              "discount" => GetDiscountedPercentage(get_DB($db[$j][$i], $db_cal[$db[$j][$i]], '', 'SKU')[$i], $product_prices[$db[$j][$i]]) 
+            ];
           }
         }
       }
