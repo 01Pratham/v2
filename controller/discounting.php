@@ -39,7 +39,7 @@ if (isset($_POST['action']) && $_POST['action'] == "Discount") {
         if (is_array($Arr)) {
             foreach ($Arr as $Key => $Val) {
                 if (is_array($Val)) {
-                    $DiscountedMrcArr[$Index][] = (
+                    $DiscountedMrcArr[$Index][$Val["product"]] = (
                         (floatval($Val["MRC"]) * floatval($Arr["QTY"])) - 
                             (((floatval(Product($Val['SKU'])["discountable_price"]) * floatval($Arr["QTY"])) * 
                                 floatval($Val["Quantity"])) * 
@@ -58,7 +58,10 @@ if (isset($_POST['action']) && $_POST['action'] == "Discount") {
 
     foreach ($DiscountedMrcArr as $KEY => $VAL) {
         if (is_array($VAL)) {
-            $DiscountedMrcArr[$KEY] = round(array_sum($VAL),2);
+            // $DiscountedMrcArr[$KEY] = round(array_sum($VAL),2);
+            foreach($VAL as  $_k => $_v){
+                $DiscountedMrcArr[$KEY][$_k] = round($_v,2);
+            }
         } elseif ($VAL < 0) {
             $DiscountedMrcArr[$KEY] = 0;
         }else{

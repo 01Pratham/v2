@@ -1,10 +1,12 @@
 <?php
+$URL = "https://swayatta.esds.co.in:31199/mobile_crm/opportunity/create_quotation.php";
+$URL = "http://115.124.127.130/~crmesdsdev/mobile_crm/opportunity/create_quotation.php";
 
 if (isset($_POST['action']) && $_POST['action'] == 'push') {
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'https://swayatta.esds.co.in:31199/mobile_crm/opportunity/create_quotation.php',
+        CURLOPT_URL => $URL,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -23,7 +25,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'push') {
     curl_close($curl);
     $arrResp = json_decode($response,true);
     
-    echo $arrResp['result']['message'];
+    print_r($response);
 
 }
 ?>

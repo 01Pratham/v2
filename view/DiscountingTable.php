@@ -1070,14 +1070,25 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
         <td class='discount unshareable' id='disc'>
             <?php
             if ($MRC != 0 ) {
-                echo round(100 - (($_DiscountedData[$j]["Data"][$DiscountingId] / $MRC) * 100), 2) . " %";
+                if(is_array($_DiscountedData[$j]["Data"][$DiscountingId])){
+                    echo round(100 - ((array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100), 2) . " %";
+                }else{
+                    echo round(100 - (($_DiscountedData[$j]["Data"][$DiscountingId] / $MRC) * 100), 2) . " %";
+                }
             } else {
                 echo 0 . "%";
             }
             // echo $_DiscountedData[$j]["Data"][$DiscountingId];
             ?>
         </td>
-        <td class='DiscountedMrc unshareable <?= $Class ?>' id="<?= $DiscountingId ?>"><?php INR($_DiscountedData[$j]["Data"][$DiscountingId]); ?></td>
+        <td class='DiscountedMrc unshareable <?= $Class ?>' id="<?= $DiscountingId ?>"><?php 
+                        if(is_array($_DiscountedData[$j]["Data"][$DiscountingId])){
+                            INR(array_sum($_DiscountedData[$j]["Data"][$DiscountingId]));
+                        }else{
+                            INR($_DiscountedData[$j]["Data"][$DiscountingId]);
+                        }
+        
+         ?></td>
         <td class='unshareable' <?= (!empty($OTC)) ? "id='otc{$j}'" : '' ?>><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>
     </tr>
 <?php
@@ -1129,12 +1140,25 @@ function PriceOs($SW, $Feild)
         let DiscountedInfra = 0,
             DiscountedMng = 0,
             DiscountedMRC = 0,
-            DiscountedTotal = 0;
+            DiscountedTotal = 0,
+            discountPercentage = 0;
+
         // console.log(res);
         Object.keys(object.Obj).forEach(function(key) {
-            $("#" + key).html(INR(object.Obj[key]));
+
             let MRC = $("#" + key).parent().find(".MRC").html().replace(/₹|,| /g, '');
-            discountPercentage = 100 - ((parseFloat(object.Obj[key]) / parseFloat(MRC)) * 100)
+            if(typeof object.Obj[key] === "object"){
+                let vmMRC = 0;
+                Object.keys(object.Obj[key]).forEach((item)=>{ 
+                    vmMRC += object.Obj[key][item];
+                })
+                $("#" + key).html(INR(vmMRC));
+                discountPercentage = 100 - ((parseFloat(vmMRC) / parseFloat(MRC)) * 100);
+
+                }else{
+                $("#" + key).html(INR(object.Obj[key]));
+                discountPercentage = 100 - ((parseFloat(object.Obj[key]) / parseFloat(MRC)) * 100)
+            }
             if (isNaN(discountPercentage)) {
                 $("#" + key).parent().find(".discount").html("0 %");
             } else {
@@ -1186,6 +1210,7 @@ function PriceOs($SW, $Feild)
                     "j": j,
                     "DATA": DATA
                 });
+                // console.log(Obj)
             }
         })
 

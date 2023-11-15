@@ -9,7 +9,8 @@
         <div class="form-group col-md-4 row my-3">
             <select id="drm-select_<?= $id ?>" class="border-0 " style="width: 70%;" name = "drm_type[<?=$name?>]">
                 <option value="">DRM tool</option>
-                <?php create_opt("drm") ?>
+                <?php create_opt("drm", $Editable["drm_type"][$name]) ?>
+                
             </select>
             <input type="checkbox" name="drm[<?= $name ?>]" id="drm_<?= $id ?>" 
                 class="check <?= ($Editable['drm'][$name] == "on") ? "Checked" : "" ?>">

@@ -1055,13 +1055,24 @@ function tblRow($Service, $Product, $Quantity, $Price, $Unit = "NO", $OTC = '')
             <?php
             $percentage = 0;
             try {
-                $percentage = 100 - ((floatval($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100);
+                if(is_array($_DiscountedData[$j]["Data"][$DiscountingId])){
+                    $percentage = 100 - ((floatval(array_sum($_DiscountedData[$j]["Data"][$DiscountingId])) / $MRC) * 100);
+                }else{
+                    $percentage = 100 - ((floatval($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100);
+                }
             } catch (DivisionByZeroError $e) {
                 echo "0";
             }
             echo round($percentage, 2);
             ?> %</td>
-        <td class='discountPrice unshareable' id='discPrice'><?php INR(!empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? $_DiscountedData[$j]["Data"][$DiscountingId] : 0) ?></td>
+        <td class='discountPrice unshareable' id='discPrice'><?php 
+                        if(is_array($_DiscountedData[$j]["Data"][$DiscountingId])){
+                            INR(!empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) : 0);
+                        }else{
+                            INR(!empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? ($_DiscountedData[$j]["Data"][$DiscountingId]) : 0);
+                        }
+        
+        ?></td>
         <td class='unshareable' id='otc'><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>
     </tr>
 <?php
@@ -1094,16 +1105,20 @@ function tblHead($Service)
 
 
 
-function GetDiscountedPercentage(int $Quantity, int $Price)
-{
-    global $_DiscountedData, $j, $DiscountingId;
-    $MRC = $Quantity * $Price;
-    $percentage = 0;
-    try {
-        $percentage = 100 - ((floatval($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100);
-    } catch (DivisionByZeroError $e) {
-        $percentage =  0;
-    }
-    return round($percentage, 2);
-}
+// function GetDiscountedPercentage(int $Quantity, int $Price, $ID = "")
+// {
+//     global $_DiscountedData, $j, $DiscountingId;
+//     ($ID != "") ? $DiscountingId = $ID : '';
+
+//     $MRC = $Quantity * $Price;
+//     $percentage = 0;
+//     try {
+//         $percentage = 100 - ((floatval($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100);
+//     } catch (DivisionByZeroError $e) {
+//         $percentage =  0;
+//     }
+//     return round($percentage, 2);
+//     // return $DiscountingId;
+
+// }
 ?>

@@ -69,7 +69,7 @@ $MothlyTotal = array();
                 </div>
                 <?php
                 $temp =  json_encode(json_template($Sku_Data, $I_M), JSON_PRETTY_PRINT);
-                echo "<pre>";print_r($Sku_Data);echo "</pre>";    
+                // echo "<pre>";print_r($I_M);echo "</pre>";    
                 ?>
             </div>
         </div>
@@ -87,9 +87,7 @@ $MothlyTotal = array();
     <script>
         $('.nav-link').removeClass('active')
         $('#create').addClass('active');
-        <?php
-        if (!UserRole(2)) { ?>
-            $('#push').remove();
+
 
             function Push() {
                 $.ajax({
@@ -105,9 +103,6 @@ $MothlyTotal = array();
                     }
                 })
             }
-        <?php 
-        }
-        ?>
         $(document).ready(function() {
             // $.ajax({
             //     type: "POST",

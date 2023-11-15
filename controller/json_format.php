@@ -53,7 +53,7 @@ function json_template($arr,    $total)
                 if (is_array($v)) {
                      
                     $template['phase_name'][$pCount]["group_name"][$gCount]['quotation_group_name'] = (preg_match("/VM/",$gName[$Pname[$pCount]][$gCount])) ? $arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Group_Name'] : $gName[$Pname[$pCount]][$gCount];
-                    $template['phase_name'][$pCount]["group_name"][$gCount]['group_otp_price'] = (((array_sum($total[$p][$gName[$Pname[$pCount]][$gCount]]))*12)*0.05);
+                    $template['phase_name'][$pCount]["group_name"][$gCount]['group_otp_price'] = 1;
                     $template['phase_name'][$pCount]["group_name"][$gCount]['group_recurring_price'] = (array_sum($total[$p][$gName[$Pname[$pCount]][$gCount]]));
                     $template['phase_name'][$pCount]["group_name"][$gCount]['group_quantity'] = ($arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Quantity'])?$arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Quantity'] :1 ;
 
@@ -69,7 +69,9 @@ function json_template($arr,    $total)
                                 if(empty($_v)){
                                     // continue;
                                 }else{
-                                    $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_quantity'] = intval($_v);
+                                    $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_quantity'] = floatval($_v["qty"]);  
+                                    $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_price'] = $total[$p][$gName[$Pname[$pCount]][$gCount]];
+                                    $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_discount'] = floatval($_v["discount"]);
                                 }
                             }
                         }else{

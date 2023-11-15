@@ -134,26 +134,33 @@ if (!function_exists('SkuList')) {
     foreach ($vmname[$j] as $i => $nameVal) {
       $Sku_Data["VM" . $i]['Group_Name'] = $vmname[$j][$i];
 
-      $Sku_Data["VM" . $i][$product_sku['vcpu_static']] = $vCore[$j][$i];
-      $Sku_Data["VM" . $i][$product_sku['vram_static']] = $vRam[$j][$i];
-      $Sku_Data["VM" . $i][$product_sku[$diskType[$j][$i]]] = $vDisk[$j][$i];
+      $Sku_Data["VM" . $i][$product_sku['vcpu_static']] = [
+        "qty" => $vCore[$j][$i],
+        "discount" => GetDiscountedPercentage(($vCore[$j][$i] * $vmqty[$j][$i]), $product_prices["vcpu_static"]  , "{$i}VM_{$j}__CPU")
+      ];
+      $Sku_Data["VM" . $i][$product_sku['vram_static']] = [
+        "qty" => $vRam[$j][$i],
+        "discount" => GetDiscountedPercentage(($vRam[$j][$i] * $vmqty[$j][$i]), $product_prices["vram_static"] , "{$i}VM_{$j}__RAM")
+      ];
+      $Sku_Data["VM" . $i][$product_sku[$diskType[$j][$i]]] = [
+        "qty" => $vDisk[$j][$i],
+        "discount" => GetDiscountedPercentage(($vDisk[$j][$i] * $vmqty[$j][$i]), $product_prices[$diskType[$j][$i]] , "{$i}VM_{$j}__Disk")
+      ];
   
       foreach ($prod_cat as $int => $cat) {
         if ($cat == "os") {
           if ($os[$j][$i] == $int) {
-            $DiscountingId = "{$int}_{$j}";
             $Sku_Data["VM" . $i][$product_sku[$int]] = [
               "qty" => get_OS($os[$j][$i], 2, '', 'SKU')[$i],
-              "discount" => GetDiscountedPercentage(get_OS($os[$j][$i], 2, '', 'SKU')[$i], $product_prices[$os[$j][$i]]) 
+              "discount" => GetDiscountedPercentage(get_OS($os[$j][$i], 2, '', 'SKU')[$i], $product_prices[$os[$j][$i]] , "{$int}_{$j}") 
             ];
           }
         }
         if ($cat == 'db') {
           if ($db[$j][$i] == $int) {
-            $DiscountingId = "{$int}_{$j}";
             $Sku_Data["VM" . $i][$product_sku[$int]] = [
               "qty" => get_DB($db[$j][$i], $db_cal[$db[$j][$i]], '', 'SKU')[$i],
-              "discount" => GetDiscountedPercentage(get_DB($db[$j][$i], $db_cal[$db[$j][$i]], '', 'SKU')[$i], $product_prices[$db[$j][$i]]) 
+              "discount" => GetDiscountedPercentage(get_DB($db[$j][$i], $db_cal[$db[$j][$i]], '', 'SKU')[$i], $product_prices[$db[$j][$i]] , "{$int}_{$j}") 
             ];
           }
         }
@@ -196,4 +203,32 @@ if (!function_exists('GroupPrice')) {
     }
     return $PriceData;
   }
+}
+
+
+
+
+
+function GetDiscountedPercentage(int $Quantity, int $Price, $ID = "")
+{
+    global $_DiscountedData, $j, $DiscountingId;
+    ($ID != "" &&  !preg_match("/VM_{$j}__|CPU|RAM|Disk/", $ID)) ? $DiscountingId = $ID : '';
+
+    $MRC = $Quantity * $Price;
+    $percentage = 0;
+    try {
+        if(preg_match("/VM_{$j}__/", $ID)){
+          $i = preg_replace("/VM_{$j}__|CPU|RAM|Disk/", "", $ID);
+          $D = preg_replace("/{$i}VM_{$j}__/", "", $ID);
+          $percentage = (100 - ((floatval($_DiscountedData[$j]["Data"]["VM{$i}_{$j}"][$D]) / $MRC) * 100));
+          // $percentage = $MRC;
+        }else{
+          $percentage = 100 - ((floatval($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100);
+        }
+    } catch (DivisionByZeroError $e) {
+        $percentage =  0;
+    }
+    return round($percentage, 2);
+
+
 }

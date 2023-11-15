@@ -96,6 +96,7 @@ if (isset($_GET['rateCardId'])) {
                                     <th><input type="checkbox" name="" id="" class="selectActionProds" oninput="$('.selectProds').each(function(){$(this).click()})"></th>
                                     <th>#</th>
                                     <th class="text-start">Product</th>
+                                    <th class="text-center">Region</th>
                                     <?=($_GET['rateCardId'] != "1") ? '<th class="text-center">General Price</th>' : '' ?>
                                     <th class="text-center">Configured Price</th>
                                     <th class="text-center">Is Active</th>
@@ -117,6 +118,10 @@ if (isset($_GET['rateCardId'])) {
                                         <td class="text-start">
                                             <?= GetVal($prods['prod_id'])['product'] ?>
                                         </td>
+                                        <td class="text-start">
+                                            <?= GetVal($prods['prod_id'])['region'] ?>
+                                        </td>
+
                                         <?php  
                                         if ($_GET['rateCardId'] != "1") {?> <td class='text-center'><?=INR($generalPrice['price'])?> </td> <?php }?>
                                         <td class="text-center Price" contenteditable="true" id="price_<?= $prods['id'] ?>">
