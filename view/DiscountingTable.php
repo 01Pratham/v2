@@ -61,7 +61,7 @@ foreach ($estmtname as $j => $_Key) {
             $vcore_data = array();
             foreach ($vmqty[$j] as $i => $val) {
                 // $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
-                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk - 1000 IOPS -  {$disk[$j][$i]} GB";
+                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk -".preg_replace("/Object Storage|IOPS per GB| /","",getProdName($diskType[$j][$i])) ." IOPS -  {$disk[$j][$i]} GB";
                 // $price = ($instance[$j][$i] == 'Flexi') ?
                 //     (($product_prices['cpu'] * intval($cpu[$j][$i])) +
                 //         ($product_prices['ram'] * intval($ram[$j][$i])) +

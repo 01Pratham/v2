@@ -69,7 +69,7 @@ $MothlyTotal = array();
                 </div>
                 <?php
                 $temp =  json_encode(json_template($Sku_Data, $I_M), JSON_PRETTY_PRINT);
-                // echo "<pre>";print_r($I_M);echo "</pre>";    
+                echo "<pre>";print_r($temp);echo "</pre>";    
                 ?>
             </div>
         </div>

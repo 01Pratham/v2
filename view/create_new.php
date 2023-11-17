@@ -76,7 +76,7 @@ function CreateNew()
         $("#Next-Btn").on("click", function () {
             if ($('#pot_id').val() == '' || $('#project_name').val() == '') {
                 $('.Errors').html('<div class="except alert alert-danger alert-dismissible fade show" role="alert"><strong>Error !</strong> Please Fill all the required Fields. <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span class = "except" aria-hidden="true">&times;</span></button></div>')
-            } else if ($('#pot_id').val().length < 4 || $('#pot_id').val().length >= 5) {
+            } else if ($('#pot_id').val().length < 5 || $('#pot_id').val().length >= 6) {
                 $('.Errors').html('<div class="except alert alert-warning alert-dismissible fade show" role="alert"><strong>Warning !</strong> Please Enter valid POT Id.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span class = "except" aria-hidden="true">&times;</span></button></div>')
             } else {
                 if ($('#type_est').val() == "phase" || $('#type_est').val() == "phase_dr") {

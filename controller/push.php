@@ -1,5 +1,5 @@
 <?php
-$URL = "https://swayatta.esds.co.in:31199/mobile_crm/opportunity/create_quotation.php";
+// $URL = "https://swayatta.esds.co.in:31199/mobile_crm/opportunity/create_quotation.php";
 $URL = "http://115.124.127.130/~crmesdsdev/mobile_crm/opportunity/create_quotation.php";
 
 if (isset($_POST['action']) && $_POST['action'] == 'push') {

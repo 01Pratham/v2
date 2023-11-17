@@ -45,7 +45,7 @@ foreach ($estmtname as $j => $_Key) {
             $vcore_data = array();
             foreach ($vmqty[$j] as $i => $val) {
                 // $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
-                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk - {$diskType[$j][$i]} IOPS/GB -  {$disk[$j][$i]} GB";
+                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk - ".preg_replace("/Object Storage|IOPS per GB| /","",getProdName($diskType[$j][$i])) ." IOPS/GB -  {$disk[$j][$i]} GB";
                 // $price = ($instance[$j][$i] == 'Flexi') ?
                 //     (($product_prices['cpu'] * intval($cpu[$j][$i])) +
                 //         ($product_prices['ram'] * intval($ram[$j][$i])) +
@@ -190,7 +190,7 @@ foreach ($estmtname as $j => $_Key) {
                 $Infrastructure['Software']['veeam'] = array_sum($agentqty[$j]) * $product_prices['veeam'];
                 $Sku_Data[$estmtname[$j]]['Software'][$product_sku['veeam']] = [
                     "qty" => array_sum($agentqty[$j]),
-                    "discount" => GetDiscountedPercentage(array_sum($agentqty[$j]) , $product_prices['veeam']) 
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage(array_sum($agentqty[$j]), $product_prices['veeam']):0
                 ];
             }
             if (isset($drm_tool[$j])) {
@@ -198,9 +198,9 @@ foreach ($estmtname as $j => $_Key) {
                 $DiscountingId = "drm_tool_{$j}";
                 $totalDisc[$Class][$DiscountingId] = tblRow("Software", 'DRM Tool', $drm_tool_qty, $product_prices[$drm_type[$j]]);
                 $Infrastructure['Software']['DRM Tool'] = $drm_tool_qty * $product_prices[$drm_type[$j]];
-                $Sku_Data[$estmtname[$j]]['Software'][$product_sku[$drm_type[$j]]] =[
+                $Sku_Data[$estmtname[$j]]['Software'][$product_sku[$drm_type[$j]]] = [
                     "qty" => $drm_tool_qty,
-                    "discount" => GetDiscountedPercentage($drm_tool_qty, $product_prices[$drm_type[$j]]) 
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($drm_tool_qty, $product_prices[$drm_type[$j]]):0
                 ];
             }
         }
@@ -262,9 +262,9 @@ foreach ($estmtname as $j => $_Key) {
                     );
 
                     $Infrastructure['Storage Solution'][$int] = get_strg($EstmDATA[$int . "_unit"][$j], $product_prices[$int]) * intval($EstmDATA[$int . "_qty"][$j]);
-                    $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku[$int]] =[
+                    $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku[$int]] = [
                         "qty" => ($EstmDATA[$int . "_unit"][$j] == 'TB') ? intval(intval($EstmDATA[$int . "_qty"][$j])) * 1024 : intval(intval($EstmDATA[$int . "_qty"][$j])),
-                        "discount" => GetDiscountedPercentage(intval($EstmDATA[$int . "_qty"][$j]),get_strg($EstmDATA[$int . "_unit"][$j],$product_prices[$int])) 
+                        "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage(intval($EstmDATA[$int . "_qty"][$j]), get_strg($EstmDATA[$int . "_unit"][$j], $product_prices[$int])):0
                     ];
                 }
             }
@@ -274,48 +274,48 @@ foreach ($estmtname as $j => $_Key) {
                 $DiscountingId = "backup_gb_{$j}";
                 $totalDisc[$Class][$DiscountingId] = tblRow("Backup Storage", getProdName($backupunit[$j]), $backupstrg[$j], get_strg('GB', $product_prices[$backupunit[$j]]), "GB");
                 $Infrastructure['Storage Solution']['Backup Space'] = get_strg('GB', $product_prices[$backupunit[$j]]) * $backupstrg[$j];
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['backup_gb']] =[
+                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['backup_gb']] = [
                     "qty" => ($backupunit[$j] == 'TB') ? intval($backupstrg[$j]) * 1024 : intval($backupstrg[$j]),
-                    "discount" => GetDiscountedPercentage($backupstrg[$j], get_strg('GB', $product_prices[$backupunit[$j]]))
-                ] ;
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($backupstrg[$j], get_strg('GB', $product_prices[$backupunit[$j]])):0
+                ];
             }
             if (!empty($arc_strg[$j])) {
                 $DiscountingId = "arc_strg_gb_{$j}";
                 $totalDisc[$Class][$DiscountingId] = tblRow("Archival Storage", 'Archival Space', $arc_strg[$j], get_strg($archival_unit[$j], $product_prices['arc_strg']), $archival_unit[$j]);
                 $Infrastructure['Storage Solution']['Archival Space'] = get_strg($archival_unit[$j], $product_prices['arc_strg'], $arc_strg[$j]);
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['arc_strg']] =[
+                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['arc_strg']] = [
                     "qty" => ($archival_unit[$j] == 'TB') ? intval($arc_strg[$j]) * 1024 : intval($arc_strg[$j]),
-                    "discount" => GetDiscountedPercentage($arc_strg[$j], get_strg($archival_unit[$j], $product_prices['arc_strg']))
-                ] ;
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($arc_strg[$j], get_strg($archival_unit[$j], $product_prices['arc_strg'])):0
+                ];
             }
             if (isset($tape_lib[$j])) {
                 $DiscountingId = "tl_{$j}";
                 $totalDisc[$Class][$DiscountingId] = tblRow('Offline Backup', 'Offline Backup Solution Tape Library', $tlqty[$j], $product_prices['tl']);
                 $Infrastructure['Storage Solution']['Offline Backup Solution Tape Library'] = intval($tlqty[$j]) * $product_prices['tl'];
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['tl']] =[
-                    "qty"=> $tlqty[$j],
-                    "discount" => GetDiscountedPercentage($tlqty[$j], $product_prices['tl'])
-                ];  
+                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['tl']] = [
+                    "qty" => $tlqty[$j],
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($tlqty[$j], $product_prices['tl']):0
+                ];
             }
 
             if (isset($tape_cart[$j])) {
                 $DiscountingId = "tc_{$j}";
                 $totalDisc[$Class][$DiscountingId] = tblRow('Offline Backup', 'Offline Backup Solution Tape Cartridge', $tcqty[$j], $product_prices['tc']);
                 $Infrastructure['Storage Solution']['Offline Backup Solution Tape Cartridge'] = intval($tcqty[$j]) * $product_prices['tc'];
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['tc']] =[
-                    "qty"=> $tcqty[$j],
-                    "discount" => GetDiscountedPercentage($tcqty[$j], $product_prices['tc'])
-                ];  
+                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['tc']] = [
+                    "qty" => $tcqty[$j],
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($tcqty[$j], $product_prices['tc']):0
+                ];
             }
 
             if (isset($fire_cab[$j])) {
                 $DiscountingId = "fc_{$j}";
                 $totalDisc[$Class][$DiscountingId] = tblRow('Offline Backup', 'Offline Backup Solution Fireproof cabinate', $fcqty[$j], $product_prices['fc']);
                 $Infrastructure['Storage Solution']['Offline Backup Solution Fireproof cabinate'] = intval($fcqty[$j]) * $product_prices['fc'];
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['fc']] =[
-                    "qty"=> $fcqty[$j],
-                    "discount" => GetDiscountedPercentage($fcqty[$j], $product_prices['fc'])
-                ];  
+                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['fc']] = [
+                    "qty" => $fcqty[$j],
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($fcqty[$j], $product_prices['fc']):0
+                ];
             }
         }
         if (isset($rack[$j]) || isset($rated[$j]) || isset($metered[$j]) || isset($cage[$j]) || isset($bio[$j]) || isset($pdu[$j]) || isset($cctv[$j])) {
@@ -385,7 +385,7 @@ foreach ($estmtname as $j => $_Key) {
                     $Infrastructure['Network Solution']['ip'] = array_sum($publicip_qty[$j]) * $product_prices['ip'];
                     $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['ip']] = [
                         "qty" => array_sum($publicip_qty[$j]),
-                        "discount" => GetDiscountedPercentage(array_sum($publicip_qty[$j]),$product_prices['ip'])
+                        "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage(array_sum($publicip_qty[$j]), $product_prices['ip']):0
                     ];
                 }
 
@@ -401,10 +401,10 @@ foreach ($estmtname as $j => $_Key) {
                 $DiscountingId = "{$bandInt}_{$j}";
                 $totalDisc[$Class][$DiscountingId] = tblRow('Services', $bandwidthType[$j], $bandwidth[$j], $product_prices[$bandInt], $bandUnit);
                 $Infrastructure['Network Solution']['bandwidth'] = intval($product_prices[$bandInt]) * intval($bandwidth[$j]);
-                $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku[$bandInt]] =[
+                $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku[$bandInt]] = [
                     "qty" => $bandwidth[$j],
-                    "discount" => GetDiscountedPercentage($bandwidth[$j], $product_prices[$bandInt])
-                ]; 
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($bandwidth[$j], $product_prices[$bandInt]):0
+                ];
             }
             if (!empty($ccptqty[$j])) {
                 $DiscountingId = "ccpt_{$j}";
@@ -412,8 +412,8 @@ foreach ($estmtname as $j => $_Key) {
                 $Infrastructure['Network Solution']['ccpt'] = intval($product_prices['cross_connect']) * intval($ccptqty[$j]);
                 $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['cross_connect']] = [
                     "qty" => $ccptqty[$j],
-                    "discount" => GetDiscountedPercentage($ccptqty[$j], $product_prices["cross_connect"])
-                ]; 
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($ccptqty[$j], $product_prices["cross_connect"]):0
+                ];
             }
 
             if (isset($rep_link[$j])) {
@@ -422,28 +422,28 @@ foreach ($estmtname as $j => $_Key) {
                 $Infrastructure['Network Solution']['rep_link'] = intval($rep_link_qty[$j]) * get_Price($rep_link_type[$j]);
                 $Sku_Data[$estmtname[$j]]['Network Solution']['CNPP000000000000'] = [
                     "qty" => $rep_link_qty[$j],
-                    "discount" => GetDiscountedPercentage($rep_link_qty[$j], get_Price($rep_link_type[$j]))
-                ]; 
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($rep_link_qty[$j], get_Price($rep_link_type[$j])):0
+                ];
             }
 
             if (!empty($ipsec[$j])) {
                 $DiscountingId = "ipsec_vpn_{$j}";
                 $totalDisc[$Class][$DiscountingId] = tblRow('Services', 'Virtual Private Network (VPN) : IPSEC', $ipsecqty[$j], $product_prices['ipsec_vpn']);
                 $Infrastructure['Network Solution']['ipsec_vpn'] = intval($ipsecqty[$j]) * $product_prices['ipsec_vpn'];
-                $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['ipsec_vpn']] =[
+                $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['ipsec_vpn']] = [
                     "qty" => $ipsecqty[$j],
-                    "discount" => GetDiscountedPercentage($ipsecqty[$j], $product_prices['ipsec_vpn'])
-                ];  
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($ipsecqty[$j], $product_prices['ipsec_vpn']):0
+                ];
             }
 
             if (!empty($sslvpn[$j])) {
                 $DiscountingId = "ssl_vpn_{$j}";
                 $totalDisc[$Class][$DiscountingId] = tblRow('Services', 'Virtual Private Network (VPN) : SSL', $sslvpnqty[$j], $product_prices['ssl_vpn']);
                 $Infrastructure['Network Solution']['sslvpn'] = intval($sslvpnqty[$j]) * $product_prices['ssl_vpn'];
-                $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['ssl_vpn']] =[
+                $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['ssl_vpn']] = [
                     "qty" => $sslvpnqty[$j],
-                    "discount" => GetDiscountedPercentage($sslvpnqty[$j], $product_prices['ssl_vpn'])
-                ]; 
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($sslvpnqty[$j], $product_prices['ssl_vpn']):0
+                ];
             }
 
             if (!empty($lb[$j])) {
@@ -452,8 +452,8 @@ foreach ($estmtname as $j => $_Key) {
                 $Infrastructure['Network Solution']['lb'] = get_Price($lb[$j]) * intval($lbqty[$j]);
                 $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku[$lb[$j]]] = [
                     "qty" => $lbqty[$j],
-                    "discount" => GetDiscountedPercentage($lbqty[$j], get_Price($lb[$j]))
-                ]; 
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($lbqty[$j], get_Price($lb[$j])):0
+                ];
             }
         }
 
@@ -478,10 +478,10 @@ foreach ($estmtname as $j => $_Key) {
             $DiscountingId = "av_{$j}";
             $totalDisc[$Class][$DiscountingId] = tblRow('Services', getProdName($newAV), array_sum($av_count), $product_prices[$newAV]);
             $Infrastructure['Security Solution']['av'] = $product_prices[$newAV] * array_sum($av_count);
-            $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku[$newAV]] =[
-                "qty" =>array_sum($av_count),
-                "discount" => GetDiscountedPercentage(array_sum($av_count), $product_prices[$newAV])
-            ]; 
+            $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku[$newAV]] = [
+                "qty" => array_sum($av_count),
+                "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage(array_sum($av_count), $product_prices[$newAV]):0
+            ];
         }
         //             if (isset($ext_firewall[$j])) {
         //                 $throughput = preg_split('/:/', $efv_throughput[$j]);
@@ -650,21 +650,35 @@ foreach ($estmtname as $j => $_Key) {
                 $Infrastructure['Security Solution'][$cat] = $product_prices[($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j]] * intval($EstmDATA[$cat . "_qty"][$j]);
                 $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku[($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j]]] = [
                     "qty" => $EstmDATA[$cat . "_qty"][$j],
-                    "discount" => GetDiscountedPercentage(intval($EstmDATA[$cat . "_qty"][$j]),$product_prices[($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j]]) 
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage(intval($EstmDATA[$cat . "_qty"][$j]), $product_prices[($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j]]):0
                 ];
-                
+
 
                 if (preg_match("/fw/", $cat)) {
                     if (isset($EstmDATA[$cat . "_check"])) {
                         $totalFirewalls[$cat] =   $EstmDATA[$cat . "_qty"][$j];
                     }
-                }   
+                }
             }
         }
         // print_r($totalFirewalls);
 
         $f = 'A.' . $no = $no + 1;
         tblHead("Managed Services");
+        $DiscountingId = "OTC";
+        // tblRow('Services', 'One Time Infrastructure Setup', '', '', "", 1);
+        ?>
+        <tr>
+            <td><?php echo "Service"; ?></td>
+            <td class='final'><?php echo 'One Time Infrastructure Setup' ?></td>
+            <td class='qty'></td>
+            <td class='cost unshareable'></td>
+            <td class="MRC mrc_<?= $j ?> unshareable"></td>
+            <td class='discount unshareable' id='disc'></td>
+            <td class='DiscountedMrc unshareable'></td>
+            <td class='unshareable' id="otc_<?= $j ?>"></td>
+        </tr>
+        <?php
         $Class = "Managed_{$j}";
 
         if (isset($rep_link_mgmt[$j])) {
@@ -862,10 +876,10 @@ foreach ($estmtname as $j => $_Key) {
 
                 $DiscountingId = $osmgmtINT[$os_mgmt_data[$i]] . "_$j";
                 $totalDisc[$Class][$DiscountingId] = tblRow("Services", getProdName($osmgmtINT[$os_mgmt_data[$i]]), array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $product_prices[$osmgmtINT[$os_mgmt_data[$i]]]);
-                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$osmgmtINT[$os_mgmt_data[$i]]]] =[
+                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$osmgmtINT[$os_mgmt_data[$i]]]] = [
                     "qty" => array_sum($os_mgmt_qty[$os_mgmt_data[$i]]),
-                    "discount" => GetDiscountedPercentage(array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $product_prices[$osmgmtINT[$os_mgmt_data[$i]]])
-                ]; 
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage(array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $product_prices[$osmgmtINT[$os_mgmt_data[$i]]]):0
+                ];
             }
         }
         if (isset($dbmgmt[$j]) && !empty($db_mgmt_data)) {
@@ -874,54 +888,53 @@ foreach ($estmtname as $j => $_Key) {
                 $DiscountingId = $dbmgmtINT[$db_mgmt_data[$i]] . "_$j";
                 $totalDisc[$Class][$DiscountingId] = tblRow("Services", getProdName($dbmgmtINT[$db_mgmt_data[$i]]), array_sum($db_mgmt_qty[$db_mgmt_data[$i]]), $product_prices[$dbmgmtINT[$db_mgmt_data[$i]]]);
                 $managed_services[$dbmgmtINT[$db_mgmt_data[$i]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]) * intval($product_prices[$dbmgmtINT[$db_mgmt_data[$i]]]);
-                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$dbmgmtINT[$db_mgmt_data[$i]]]] =[
+                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$dbmgmtINT[$db_mgmt_data[$i]]]] = [
                     "qty" => array_sum($db_mgmt_qty[$db_mgmt_data[$i]]),
-                    "discount" => GetDiscountedPercentage(array_sum($db_mgmt_qty[$db_mgmt_data[$i]]), $product_prices[$dbmgmtINT[$db_mgmt_data[$i]]])
+                    "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage(array_sum($db_mgmt_qty[$db_mgmt_data[$i]]), $product_prices[$dbmgmtINT[$db_mgmt_data[$i]]]):0
                 ];
             }
         }
         if (isset($strgmgmt[$j])) {
             $DiscountingId = "strg_mgmt_{$j}";
             $totalDisc[$Class][$DiscountingId] = tblRow("Service", "Storage Management Per TB", floor(array_sum($strgmgmtqty) / 1024), $product_prices['strg_mgmt']);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['strg_mgmt']] =[
+            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['strg_mgmt']] = [
                 "qty" =>  floor(array_sum($strgmgmtqty) / 1024),
-                "discount" => floor(array_sum($strgmgmtqty) / 1024), $product_prices['strg_mgmt']
+                "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage(floor(array_sum($strgmgmtqty) / 1024), $product_prices['strg_mgmt']) : 0
             ];
-            
         }
         if (isset($backup_mgmt[$j])) {
             $DiscountingId = "backup_mgmt_{$j}";
             $totalDisc[$Class][$DiscountingId] = tblRow("Service", 'Backup Management - per Instance', $backmgmtqty, $product_prices['backup_mgmt']);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['backup_mgmt']] =[
-                "qty"=> $backmgmtqty,
-                "discount" => GetDiscountedPercentage($backmgmtqty, $product_prices['backup_mgmt'])
-            ]; 
+            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['backup_mgmt']] = [
+                "qty" => $backmgmtqty,
+                "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($backmgmtqty, $product_prices['backup_mgmt']):0
+            ];
         }
         if (isset($rep_link_mgmt[$j])) {
             $DiscountingId = "rep_mgmt_{$j}";
             $totalDisc[$Class][$DiscountingId] = tblRow("Service", 'Replication Service Management', $replication_mgmt, $product_prices['rep_mgmt']);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['rep_mgmt']] =[
-                "qty"=> $replication_mgmt,
-                "discount" => GetDiscountedPercentage($replication_mgmt, $product_prices['rep_mgmt'])
-            ]; 
+            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['rep_mgmt']] = [
+                "qty" => $replication_mgmt,
+                "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($replication_mgmt, $product_prices['rep_mgmt']):0
+            ];
         }
 
         if (isset($dr_drill[$j])) {
             $DiscountingId = "dr_drill_{$j}";
             $totalDisc[$Class][$DiscountingId] = tblRow("Service", 'DR Drill Per Year', $drill_qty[$j], $product_prices['dr_drill']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['dr_drill']] = [
-                "qty"=> $drill_qty[$j],
-                "discount" => GetDiscountedPercentage($drill_qty[$j], $product_prices['dr_drill'])
+                "qty" => $drill_qty[$j],
+                "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($drill_qty[$j], $product_prices['dr_drill']):0
             ];
         }
 
         if (isset($lbmgmt[$j])) {
             $DiscountingId = "lb_mg_{$j}";
             $totalDisc[$Class][$DiscountingId] = tblRow("Service", 'Load Balancer Management', $lbmgmtqty, $product_prices['virt_lb_mgmt']);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['virt_lb_mgmt']] =[
-                "qty"=> $lbmgmtqty,
-                "discount" => GetDiscountedPercentage($lbmgmtqty, $product_prices['virt_lb_mgmt'])
-            ]; 
+            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['virt_lb_mgmt']] = [
+                "qty" => $lbmgmtqty,
+                "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($lbmgmtqty, $product_prices['virt_lb_mgmt']):0
+            ];
         }
         if (isset($fvmgmt[$j])) {
             $INT = (isset($utm[$j])) ? 'utm_mgmt' : 'vfirewall_mgmt';
@@ -932,7 +945,7 @@ foreach ($estmtname as $j => $_Key) {
             $totalDisc[$Class][$DiscountingId] = tblRow("Service", $name, $fvmgmtqty, $price);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['vfirewall_mgmt']] = [
                 "qty" => $fvmgmtqty,
-                "discount" => GetDiscountedPercentage( $fvmgmtqty, $price)
+                "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($fvmgmtqty, $price):0
             ];
         }
         if (isset($wafmgmt[$j])) {
@@ -941,7 +954,7 @@ foreach ($estmtname as $j => $_Key) {
             $totalDisc[$Class][$DiscountingId] = tblRow("Service", "Web Application Firewall Management", $wafmgmtqty, $product_prices['esds_waf_mgmt']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['esds_waf_mgmt']] = [
                 "qty" => $wafmgmtqty,
-                "discount" => GetDiscountedPercentage($wafmgmtqty, $product_prices['esds_waf_mgmt'])
+                "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($wafmgmtqty, $product_prices['esds_waf_mgmt']):0
             ];
         }
 
@@ -958,7 +971,7 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
             $totalDisc[$Class][$DiscountingId] = tblRow("Services", $name, array_sum($emagicqty), $product_prices['emagic']);
             $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['emagic']] = [
                 "qty" => array_sum($emagicqty),
-                "discount" => GetDiscountedPercentage(array_sum($emagicqty), $product_prices['emagic'])
+                "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage(array_sum($emagicqty), $product_prices['emagic']):0
             ];
         }
         ?>
@@ -983,7 +996,7 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
                     <?= $e . ' ' ?> ]</td>
                 <td class='colspan unshareable ' colspan='2'><?php INR(array_sum($newInfra));
                                                                 ?></td>
-                <td class='colspan unshareable ' colspan='2'><?php INR(array_sum($totalDisc["Infrastructure_{$j}"]));
+                <td class='colspan unshareable ' colspan='2'><?php if(!empty($_DiscountedData)){ INR(array_sum($totalDisc["Infrastructure_{$j}"])); } 
                                                                 ?></td>
             </tr>
         <?php }
@@ -995,7 +1008,7 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
             <td class='colspan final unshareable' colspan='3'> Managed Services [ <?= $f ?> ] </td>
             <td class='colspan unshareable' colspan='2'><?php INR(array_sum($managed_services));
                                                         ?></td>
-            <td class='colspan unshareable' colspan='2'><?php INR(array_sum($totalDisc["Managed_{$j}"]));
+            <td class='colspan unshareable' colspan='2'><?php if(!empty($_DiscountedData)){ INR(array_sum($totalDisc["Managed_{$j}"])); } 
                                                         ?></td>
         </tr>
 
@@ -1016,7 +1029,7 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
             <th class=' final colspan except unshareable' colspan='3' style='background-color: rgb(255, 207, 203);'> Total [ Monthly ]</th>
             <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 207, 203);' id='total_monthly'><?php INR(array_sum($total[$j]));
                                                                                                                                     $MothlyTotal[$j] = array_sum($total[$j]); ?></th>
-            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 207, 203);' id='total_monthly'><?php INR(array_sum($totalDisc["Infrastructure_{$j}"]) + array_sum($totalDisc["Managed_{$j}"])) ?></th>
+            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 207, 203);' id='total_monthly'><?php if(!empty($_DiscountedData)){ INR(array_sum($totalDisc["Infrastructure_{$j}"]) + array_sum($totalDisc["Managed_{$j}"])); }  ?></th>
         </tr>
         <tr>
             <th class=' final unshareable' style='background-color: rgb(255, 226, 182);'> </th>
@@ -1024,7 +1037,7 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
             <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);'><?php INR(array_sum($total[$j]) * intval($period[$j]));
                                                                                                                 array_push($ProjectTotal, array_sum($total[$j]) * intval($period[$j]));
                                                                                                                 ?></th>
-            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);'><?php INR((array_sum($totalDisc["Infrastructure_{$j}"]) + array_sum($totalDisc["Managed_{$j}"])) * $period[$j]) ?></th>
+            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);'><?php if(!empty($_DiscountedData)){ INR((array_sum($totalDisc["Infrastructure_{$j}"]) + array_sum($totalDisc["Managed_{$j}"])) * $period[$j]); } ?></th>
         </tr>
     </table>
 <?php
@@ -1053,31 +1066,36 @@ function tblRow($Service, $Product, $Quantity, $Price, $Unit = "NO", $OTC = '')
         <td class="mrc_<?= $j ?> unshareable"><?php INR($MRC); ?></td>
         <td class='discount unshareable' id='disc'>
             <?php
-            $percentage = 0;
-            try {
-                if(is_array($_DiscountedData[$j]["Data"][$DiscountingId])){
-                    $percentage = 100 - ((floatval(array_sum($_DiscountedData[$j]["Data"][$DiscountingId])) / $MRC) * 100);
-                }else{
-                    $percentage = 100 - ((floatval($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100);
+            if(!empty($_DiscountedData[$j]["Data"][$DiscountingId])){
+                $percentage = 0;
+                try {
+                    if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
+                        $percentage = 100 - ((floatval(array_sum($_DiscountedData[$j]["Data"][$DiscountingId])) / $MRC) * 100);
+                    } else {
+                        $percentage = 100 - ((floatval($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100);
+                    }
+                } catch (DivisionByZeroError $e) {
+                    echo "0";
                 }
-            } catch (DivisionByZeroError $e) {
-                echo "0";
-            }
-            echo round($percentage, 2);
-            ?> %</td>
-        <td class='discountPrice unshareable' id='discPrice'><?php 
-                        if(is_array($_DiscountedData[$j]["Data"][$DiscountingId])){
-                            INR(!empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) : 0);
-                        }else{
-                            INR(!empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? ($_DiscountedData[$j]["Data"][$DiscountingId]) : 0);
-                        }
-        
-        ?></td>
+    
+                echo round($percentage, 2)." %";
+            }else "";
+            ?></td>
+        <td class='discountPrice unshareable' id='discPrice'><?php
+            if(!empty($_DiscountedData[$j]["Data"][$DiscountingId])){
+
+                                                                if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
+                                                                    INR(!empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) : 0);
+                                                                } else {
+                                                                    INR(!empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? ($_DiscountedData[$j]["Data"][$DiscountingId]) : 0);
+                                                                }
+                                                            }else{ echo ""; }
+                                                                ?></td>
         <td class='unshareable' id='otc'><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>
     </tr>
 <?php
     // print_r($_DiscountedData[$j]);
-    return !empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? $_DiscountedData[$j]["Data"][$DiscountingId] : 0;
+    return !empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? (is_array($_DiscountedData[$j]["Data"][$DiscountingId]) ? array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) : $_DiscountedData[$j]["Data"][$DiscountingId]) : 0;
 }
 
 function tblHead($Service)

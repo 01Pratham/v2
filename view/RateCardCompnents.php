@@ -118,8 +118,8 @@ if (isset($_GET['rateCardId'])) {
                                         <td class="text-start">
                                             <?= GetVal($prods['prod_id'])['product'] ?>
                                         </td>
-                                        <td class="text-start">
-                                            <?= GetVal($prods['prod_id'])['region'] ?>
+                                        <td class="text-center">
+                                            <?= getRegion(GetVal($prods['prod_id'])['region']) ?>
                                         </td>
 
                                         <?php  
@@ -251,6 +251,14 @@ if (isset($_GET['rateCardId'])) {
 
 
 <?php
+}
+
+
+function getRegion($id){
+    global $con;
+    $Query = mysqli_query($con,"SELECT * FROM `tbl_region` WHERE `id` = '{$id}'");
+    $arr = mysqli_fetch_assoc($Query);
+    return $arr["region"];
 }
 
 ?>

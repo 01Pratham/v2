@@ -136,15 +136,15 @@ if (!function_exists('SkuList')) {
 
       $Sku_Data["VM" . $i][$product_sku['vcpu_static']] = [
         "qty" => $vCore[$j][$i],
-        "discount" => GetDiscountedPercentage(($vCore[$j][$i] * $vmqty[$j][$i]), $product_prices["vcpu_static"]  , "{$i}VM_{$j}__CPU")
+        "discount" => !empty($_DiscountedData)? GetDiscountedPercentage(($vCore[$j][$i] * $vmqty[$j][$i]), $product_prices["vcpu_static"]  , "{$i}VM_{$j}__CPU") :0 
       ];
       $Sku_Data["VM" . $i][$product_sku['vram_static']] = [
         "qty" => $vRam[$j][$i],
-        "discount" => GetDiscountedPercentage(($vRam[$j][$i] * $vmqty[$j][$i]), $product_prices["vram_static"] , "{$i}VM_{$j}__RAM")
+        "discount" => !empty($_DiscountedData)? GetDiscountedPercentage(($vRam[$j][$i] * $vmqty[$j][$i]), $product_prices["vram_static"] , "{$i}VM_{$j}__RAM") :0 
       ];
       $Sku_Data["VM" . $i][$product_sku[$diskType[$j][$i]]] = [
         "qty" => $vDisk[$j][$i],
-        "discount" => GetDiscountedPercentage(($vDisk[$j][$i] * $vmqty[$j][$i]), $product_prices[$diskType[$j][$i]] , "{$i}VM_{$j}__Disk")
+        "discount" => !empty($_DiscountedData)? GetDiscountedPercentage(($vDisk[$j][$i] * $vmqty[$j][$i]), $product_prices[$diskType[$j][$i]] , "{$i}VM_{$j}__Disk") :0 
       ];
   
       foreach ($prod_cat as $int => $cat) {
@@ -152,7 +152,7 @@ if (!function_exists('SkuList')) {
           if ($os[$j][$i] == $int) {
             $Sku_Data["VM" . $i][$product_sku[$int]] = [
               "qty" => get_OS($os[$j][$i], 2, '', 'SKU')[$i],
-              "discount" => GetDiscountedPercentage(get_OS($os[$j][$i], 2, '', 'SKU')[$i], $product_prices[$os[$j][$i]] , "{$int}_{$j}") 
+              "discount" => !empty($_DiscountedData)? GetDiscountedPercentage(get_OS($os[$j][$i], 2, '', 'SKU')[$i], $product_prices[$os[$j][$i]] , "{$int}_{$j}")  :0 
             ];
           }
         }
@@ -160,7 +160,7 @@ if (!function_exists('SkuList')) {
           if ($db[$j][$i] == $int) {
             $Sku_Data["VM" . $i][$product_sku[$int]] = [
               "qty" => get_DB($db[$j][$i], $db_cal[$db[$j][$i]], '', 'SKU')[$i],
-              "discount" => GetDiscountedPercentage(get_DB($db[$j][$i], $db_cal[$db[$j][$i]], '', 'SKU')[$i], $product_prices[$db[$j][$i]] , "{$int}_{$j}") 
+              "discount" => !empty($_DiscountedData)? GetDiscountedPercentage(get_DB($db[$j][$i], $db_cal[$db[$j][$i]], '', 'SKU')[$i], $product_prices[$db[$j][$i]] , "{$int}_{$j}")  :0 
             ];
           }
         }

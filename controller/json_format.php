@@ -4,7 +4,7 @@ function json_template($arr,    $total)
 {
     require '../controller/constants.php';
     $template = array(
-        "opportunity_id" => ($_POST['pot_id'][0] == 0 )? $_POST['pot_id'] : '0' . $_POST['pot_id'],
+        "opportunity_id" => (strlen($_POST['pot_id'])<5) ? "0".$_POST['pot_id'] : $_POST['pot_id'],
         "quotation_id" => '',
         "product_list" => $_POST['product_list'],
         "user_id" => $_SESSION['crmId'],
@@ -30,10 +30,7 @@ function json_template($arr,    $total)
             }
         }
         $j++;
-        
     }
-
-
     $p = 1;
     $pCount = 0;
     foreach ($arr as $key => $val) {
@@ -70,7 +67,7 @@ function json_template($arr,    $total)
                                     // continue;
                                 }else{
                                     $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_quantity'] = floatval($_v["qty"]);  
-                                    $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_price'] = $total[$p][$gName[$Pname[$pCount]][$gCount]];
+                                    $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_price'] = getPerUnitPriceFromRateCard($iName[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]][$iCount]);
                                     $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_discount'] = floatval($_v["discount"]);
                                 }
                             }
@@ -95,4 +92,13 @@ function json_template($arr,    $total)
     }
 
     return $template;
+}
+
+
+function getPerUnitPriceFromRateCard($SKU){
+    global $con;
+    $getProdId = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `product_list` WHERE `sku_code` = '{$SKU}' "));
+    $PriceQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `prod_id` = '{$getProdId['id']}'"));
+
+    return $PriceQuery["price"];
 }

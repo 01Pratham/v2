@@ -3,7 +3,7 @@ if (isset($_GET['type'])) {
   include '../view/content-header.php';
   contentHeader('Estimate');
   // print_r($Editable);
-
+  $_SESSION["rate_card_id"] = $_GET['list'];
 
 ?>
 

@@ -89,8 +89,8 @@ $EstmDATA = $_SESSION['post_data'];
     // $waf_name = $EstmDATA['waf_type'];
 
     // $tfa = $EstmDATA['tfa'];
-    // $arc_strg = $EstmDATA["arc_strg"];
-    // $archival_unit = $EstmDATA["archival_unit"];
+    $arc_strg = $EstmDATA["arc_strg"];
+    $archival_unit = $EstmDATA["archival_unit"];
 
     // $ssl = $EstmDATA['ssl'];
     // $sslcert = $EstmDATA['ssl-check'];
