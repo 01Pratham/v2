@@ -13,18 +13,9 @@
             "efw" => "External Firewall",
             "mfa" => "Multi Factor Authentication"
         );
-        $secQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` FROM `product_list` WHERE `primary_category` = 'sec'");
+        $secQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` , `default_name` FROM `product_list` WHERE `primary_category` = 'security'");
         while ($secProds = mysqli_fetch_assoc($secQuery)) {
-            if ($fullNames[$secProds['sec_category']]) {
-                $catNames = $fullNames[$secProds['sec_category']];
-                $catNames = ucwords($catNames);
-            } else {
-                $secCat = $secProds['sec_category'];
-                $newCat = preg_replace('/_/', ' ', $secCat);
-                if (strlen($newCat) < 5) {
-                }
-                $catNames = ucwords($catNames);
-            }
+           
 
             if ($secProds['sec_category'] == "av") {
             } else {
@@ -37,13 +28,9 @@
                 <div class="form-group col-md-4 row my-3">
                     <select name="<?= $secProds['sec_category'] . "_select[" . $name . "]" ?>" id="<?= $secProds['sec_category'] . "_select_" . $id ?>" class="border-0 " style="width: 70%;">
                         <?php
-                        // $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `product_list` WHERE `prod_int` = '{$Editable[$secProds['sec_category'] . "_select"][$name]}'"))
-                        ?>
-                        <!-- <option class="editable" value"  ?></option> -->
-                        <?php
                         if (count($opts[$secProds['sec_category']]) > 1) {
 
-                            echo "<option value='' > Select {$catNames}</option>";
+                            echo "<option value='' > Select {$secProds['default_name']}</option>";
                             foreach ($opts[$secProds['sec_category']] as $int => $prodName) {
                                 if ($int == $Editable[$secProds['sec_category'] . "_select"][$name]) {
                                     echo "<option value='{$int}' selected>$prodName</option>";
