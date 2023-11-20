@@ -7,12 +7,7 @@
     <div class="row">
         <?php
         $opts = array();
-        $fullNames = array(
-            'waf' => "Web App Firewall",
-            "ifw" => "Internal Firewall",
-            "efw" => "External Firewall",
-            "mfa" => "Multi Factor Authentication"
-        );
+        
         $secQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` , `default_name` FROM `product_list` WHERE `primary_category` = 'security'");
         while ($secProds = mysqli_fetch_assoc($secQuery)) {
            

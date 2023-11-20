@@ -4,7 +4,7 @@
 $Sku_Data = array();
 require_once "../controller/calculations.php";
 // echo "<pre>";
-// print_r($_Prices);
+// print_r($EstmDATA);
 // echo "</pre>";
 
 
@@ -40,9 +40,7 @@ foreach ($estmtname as $j => $_Key) {
                                     else{
                                         $(this).removeClass('border-danger');
                                         $('#perce_<?= $j ?>').removeAttr('disabled');
-                                    }" value="<?= floatval($_DiscountedData[$j]["percentage"]) * 100 ?>"
-                                    step="0.01"
-                                    >
+                                    }" value="<?= floatval($_DiscountedData[$j]["percentage"]) * 100 ?>" step="0.01">
                         <button class="input-group-text form-control bg-light col-2 p-0 d-flex justify-content-center " id="perce_<?= $j ?>" style="cursor : pointer"> % </button>
                     </div>
                 </div>
@@ -61,7 +59,7 @@ foreach ($estmtname as $j => $_Key) {
             $vcore_data = array();
             foreach ($vmqty[$j] as $i => $val) {
                 // $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
-                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk -".preg_replace("/Object Storage|IOPS per GB| /","",getProdName($diskType[$j][$i])) ." IOPS -  {$disk[$j][$i]} GB";
+                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk -" . preg_replace("/Object Storage|IOPS per GB| /", "", getProdName($diskType[$j][$i])) . " IOPS -  {$disk[$j][$i]} GB";
                 // $price = ($instance[$j][$i] == 'Flexi') ?
                 //     (($product_prices['cpu'] * intval($cpu[$j][$i])) +
                 //         ($product_prices['ram'] * intval($ram[$j][$i])) +
@@ -567,6 +565,7 @@ foreach ($estmtname as $j => $_Key) {
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$cat] = $EstmDATA[$cat . "_qty"][$j];
             }
         }
+        // echo $EstmDATA["siem_qty"][$j];
 
         // if (!empty($newAV)) {
         //     $SKU = "ESAVAHMA00000000";
@@ -1017,7 +1016,7 @@ foreach ($estmtname as $j => $_Key) {
         </tr>
     </table>
     <input type="hidden" name="" id="Months_<?= $j ?>" value="<?= $period[$j] ?>">
-    
+
     <script>
         $("#perce_<?= $j ?>").on("click", function() {
             $obj = {
@@ -1025,14 +1024,13 @@ foreach ($estmtname as $j => $_Key) {
                 discountVal: $("#DiscountPercetage_<?= $j ?>").val() / 100,
                 Total: "<?= $_Prices[$j]['MonthlyTotal'] ?>",
                 data: "<?= base64_encode(json_encode($Products[$j])) ?>",
-                regionId : "<?=$region[$j]?>"
+                regionId: "<?= $region[$j] ?>"
             };
             DiscountingAjax($obj, <?= $j ?>);
         })
-        $(document).ready(function(){
+        $(document).ready(function() {
             totalInfra(<?= $j ?>)
         })
-
     </script>
 <?php
     $I_M[$j] = $Infrastructure;
@@ -1061,34 +1059,40 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
                                         ?></td>
         <td class="MRC mrc_<?= $j ?> unshareable <?= $Class ?>">
             <?php
+
             try {
                 INR($MRC);
             } catch (TypeError $e) {
                 INR(0);
             }
+
             ?></td>
         <td class='discount unshareable' id='disc'>
             <?php
-            if ($MRC != 0 ) {
-                if(is_array($_DiscountedData[$j]["Data"][$DiscountingId])){
-                    echo round(100 - ((array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100), 2) . " %";
-                }else{
-                    echo round(100 - (($_DiscountedData[$j]["Data"][$DiscountingId] / $MRC) * 100), 2) . " %";
+            if (!empty($_DiscountedData)) {
+
+                if ($MRC != 0) {
+                    if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
+                        echo round(100 - ((array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100), 2) . " %";
+                    } else {
+                        echo round(100 - (($_DiscountedData[$j]["Data"][$DiscountingId] / $MRC) * 100), 2) . " %";
+                    }
+                } else {
+                    echo 0 . "%";
                 }
-            } else {
-                echo 0 . "%";
             }
             // echo $_DiscountedData[$j]["Data"][$DiscountingId];
             ?>
         </td>
-        <td class='DiscountedMrc unshareable <?= $Class ?>' id="<?= $DiscountingId ?>"><?php 
-                        if(is_array($_DiscountedData[$j]["Data"][$DiscountingId])){
-                            INR(array_sum($_DiscountedData[$j]["Data"][$DiscountingId]));
-                        }else{
-                            INR($_DiscountedData[$j]["Data"][$DiscountingId]);
-                        }
-        
-         ?></td>
+        <td class='DiscountedMrc unshareable <?= $Class ?>' id="<?= $DiscountingId ?>"><?php
+                                                                                        if (!empty($_DiscountedData)) {
+                                                                                            if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
+                                                                                                INR(array_sum($_DiscountedData[$j]["Data"][$DiscountingId]));
+                                                                                            } else {
+                                                                                                INR($_DiscountedData[$j]["Data"][$DiscountingId]);
+                                                                                            }
+                                                                                        }
+                                                                                        ?></td>
         <td class='unshareable' <?= (!empty($OTC)) ? "id='otc{$j}'" : '' ?>><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>
     </tr>
 <?php
@@ -1147,15 +1151,15 @@ function PriceOs($SW, $Feild)
         Object.keys(object.Obj).forEach(function(key) {
 
             let MRC = $("#" + key).parent().find(".MRC").html().replace(/₹|,| /g, '');
-            if(typeof object.Obj[key] === "object"){
+            if (typeof object.Obj[key] === "object") {
                 let vmMRC = 0;
-                Object.keys(object.Obj[key]).forEach((item)=>{ 
+                Object.keys(object.Obj[key]).forEach((item) => {
                     vmMRC += object.Obj[key][item];
                 })
                 $("#" + key).html(INR(vmMRC));
                 discountPercentage = 100 - ((parseFloat(vmMRC) / parseFloat(MRC)) * 100);
 
-                }else{
+            } else {
                 $("#" + key).html(INR(object.Obj[key]));
                 discountPercentage = 100 - ((parseFloat(object.Obj[key]) / parseFloat(MRC)) * 100)
             }
@@ -1165,8 +1169,15 @@ function PriceOs($SW, $Feild)
                 $("#" + key).parent().find(".discount").html(discountPercentage.toFixed(2) + " %");
             }
             if ($("#" + key).hasClass("Infrastructure_" + object.j)) {
-
-                DiscountedInfra += (isNaN(object.Obj[key])) ? 0 : (parseFloat(object.Obj[key]));
+                if (typeof object.Obj[key] === "object") {
+                    Object.keys(object.Obj[key]).forEach((item) => {
+                        DiscountedInfra += object.Obj[key][item];
+                    })
+                } else if (isNaN(object.Obj[key])) {
+                    DiscountedInfra += 0;
+                } else {
+                    DiscountedInfra += (parseFloat(object.Obj[key]));
+                }
             }
             if ($("#" + key).hasClass("Managed_" + object.j)) {
                 DiscountedMng += (isNaN(object.Obj[key])) ? 0 : (parseFloat(object.Obj[key]));
@@ -1186,15 +1197,17 @@ function PriceOs($SW, $Feild)
         $("#MonthlyDiscounted_" + object.j).data("value", DiscountedTotal);
     }
 
-    let DiscountedData = {
-        <?php
-        foreach ($estmtname as $j => $_Key) {
-            echo $j . " : {
+    <?php
+    echo "let DiscountedData = {";
+    foreach ($estmtname as $j => $_Key) {
+
+        echo $j . " : {
                 'percentage' : '',
                 'Data' : {} 
             },";
-        }
-        ?>}
+    }
+    echo "}";
+    ?>
 
 
     function DiscountingAjax(DATA, j) {

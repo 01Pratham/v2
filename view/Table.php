@@ -661,7 +661,7 @@ foreach ($estmtname as $j => $_Key) {
                 }
             }
         }
-        // print_r($totalFirewalls);
+        // print_r($EstmDATA);        
 
         $f = 'A.' . $no = $no + 1;
         tblHead("Managed Services");
@@ -867,8 +867,7 @@ foreach ($estmtname as $j => $_Key) {
         $push_total[$j]['infra'] = $newInfra;
         $push_total[$j]['service'] = $managed_services;
 
-        $totalDisc[$Class][$DiscountingId] = tblRow('Services', 'One Time Infrastructure Setup', '', '', "", (array_sum($total[$j]) * 12) * 0.05);
-
+       
 
         if (isset($osmgmt[$j]) && !empty($os_mgmt_name)) {
             for ($i = 0; $i < count($os_mgmt_data); $i++) {

@@ -19,6 +19,7 @@ $pack_query = 'Select Distinct pack from tbl_pack';
 $pack = mysqli_query($con, $pack_query);
 $product_prices = array();
 $tbl = array();
+$secArr = array();
 
 if (isset($_POST['buffer'])) {
     echo $_POST['buffer'];
@@ -111,7 +112,7 @@ while ($arr = mysqli_fetch_assoc($strgQuery)) {
     }
 }
 
-$secQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` FROM `product_list` WHERE `primary_category` = 'sec'");
+$secQuery = mysqli_query($con, "SELECT DISTINCT `sec_category` FROM `product_list` WHERE `primary_category` = 'security'");
 while ($arr = mysqli_fetch_assoc($secQuery)) {
     // echo "SELECT DISTINCT `prod_int`, `product` FROM `product_list` WHERE `sec_category` = '{$arr['sec_category']}'";
 
@@ -123,6 +124,8 @@ while ($arr = mysqli_fetch_assoc($secQuery)) {
     }    
     
 }
+
+// print_r($secArr);
 
 
 if(!function_exists("getProdName")){
