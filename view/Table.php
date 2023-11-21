@@ -9,7 +9,7 @@ foreach ($estmtname as $j => $_Key) {
     $antiVirus = false;
     $product_prices = priceTbl($region[$j])["product_prices"];
     $product_sku = priceTbl($region[$j])["product_sku"];
-    // print_r($product_prices);
+    // echo "<pre>";print_r($product_prices);echo "</pre>";
 ?>
     <table class='final-tbl table except' id="final-tbl<?= $j ?>">
         <tr hidden></tr>

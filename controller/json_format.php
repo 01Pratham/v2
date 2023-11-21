@@ -100,5 +100,5 @@ function getPerUnitPriceFromRateCard($SKU){
     $getProdId = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `product_list` WHERE `sku_code` = '{$SKU}' "));
     $PriceQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `prod_id` = '{$getProdId['id']}'"));
 
-    return $PriceQuery["price"];
+    return ($PriceQuery["price"] != null) ? $PriceQuery["price"] : "0";
 }

@@ -1,6 +1,12 @@
 <?php
 error_reporting(E_ERROR | E_PARSE);
-require "../model/connection.php";
+
+if (file_exists("../model/connection.php")) {
+    require "../model/connection.php";
+} else {
+    require "model/connection.php";
+}
+
 
 mysqli_set_charset($con, 'utf8');
 
@@ -17,20 +23,32 @@ if (isset($_POST['buffer'])) {
     echo $_POST['buffer'];
 }
 
-if(!function_exists("priceTbl")){
-    function priceTbl($region){
-        global $EstmDATA,$con;
-        $exe_query = mysqli_query($con, "SELECT * FROM `product_list` WHERE `region` = '{$region}' OR  `region`  = '0'");
+if (!function_exists("priceTbl")) {
+    function priceTbl($region)
+    {
+        global $EstmDATA, $con;
+        // $exe_query = mysqli_query($con, "SELECT * FROM `product_list` WHERE `region`  = 0 ");
+        $exe_query = mysqli_query($con, "SELECT * FROM `product_list` WHERE `region` = '{$region}'");
         while ($price_tbl = mysqli_fetch_assoc($exe_query)) {
             $price_query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$EstmDATA['product_list']}' AND `prod_id` = '{$price_tbl['id']}'"));
             $product_prices[$price_tbl['prod_int']] = intval($price_query['price']);
             $prod_cat[$price_tbl['prod_int']] = $price_tbl['sec_category'];
             $product_sku[$price_tbl['prod_int']] = $price_tbl['sku_code'];
             $products[$price_tbl['prod_int']] = $price_tbl['product'];
-            // array_push($tbl, $price_tbl);
+
+            // print_r($price_tbl);
         }
-        return compact("product_prices","prod_cat","product_sku","products", "price_tbl");
-        // return $region;
+        $exe_query = mysqli_query($con, "SELECT * FROM `product_list` WHERE `region`  = '0'");
+        while ($price_tbl = mysqli_fetch_assoc($exe_query)) {
+            $price_query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$EstmDATA['product_list']}' AND `prod_id` = '{$price_tbl['id']}'"));
+            $product_prices[$price_tbl['prod_int']] = intval($price_query['price']);
+            $prod_cat[$price_tbl['prod_int']] = $price_tbl['sec_category'];
+            $product_sku[$price_tbl['prod_int']] = $price_tbl['sku_code'];
+            $products[$price_tbl['prod_int']] = $price_tbl['product'];
+
+            // print_r($price_tbl);
+        }
+        return compact("product_prices", "prod_cat", "product_sku", "products", "price_tbl");
     }
 }
 // print_r( $prod_cat );
@@ -45,15 +63,15 @@ if (!function_exists('employee')) {
 }
 
 if (!function_exists('create_opt')) {
-    function create_opt($category , $savedVal = "")
+    function create_opt($category, $savedVal = "")
     {
         global $con;
         $query = mysqli_query($con, "SELECT DISTINCT `product` , `prod_int` FROM `product_list` WHERE `sec_category` = '{$category}'");
         while ($product = mysqli_fetch_assoc($query)) {
             // echo $product['product'];
-            if($savedVal == $product['prod_int']){
+            if ($savedVal == $product['prod_int']) {
                 echo "<option selected value  = '{$product['prod_int']}'>{$product['product']}</option>";
-            }else{
+            } else {
                 echo "<option value  = '{$product['prod_int']}'>{$product['product']}</option>";
             }
         }
@@ -97,8 +115,8 @@ while ($arr = mysqli_fetch_assoc($osQuery)) {
 
 $strgQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `product_list` WHERE `primary_category` = 'storage'");
 while ($arr = mysqli_fetch_assoc($strgQuery)) {
-    if(preg_match("/Backup|Archiv|Tape|Fire/",$arr['product'])){}
-    else{
+    if (preg_match("/Backup|Archiv|Tape|Fire/", $arr['product'])) {
+    } else {
         $strgArr[$arr["prod_int"]] = $arr['product'];
     }
 }
@@ -108,19 +126,20 @@ while ($arr = mysqli_fetch_assoc($secQuery)) {
     // echo "SELECT DISTINCT `prod_int`, `product` FROM `product_list` WHERE `sec_category` = '{$arr['sec_category']}'";
 
     $prodQuer = mysqli_query($con, "SELECT DISTINCT `prod_int`, `product` FROM `product_list` WHERE `sec_category` = '{$arr['sec_category']}'");
-    while($prod = mysqli_fetch_assoc($prodQuer)){
-        if($arr['sec_category'] == "av"){}else{
+    while ($prod = mysqli_fetch_assoc($prodQuer)) {
+        if ($arr['sec_category'] == "av") {
+        } else {
             $secArr[$arr['sec_category']][$prod["prod_int"]] = $prod['product'];
         }
-    }    
-    
+    }
 }
 
 // print_r($secArr);
 
 
-if(!function_exists("getProdName")){
-    function getProdName($int){
+if (!function_exists("getProdName")) {
+    function getProdName($int)
+    {
         global $con;
         $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT DISTINCT `product` FROM `product_list` WHERE `prod_int` = '{$int}'"));
         return $query['product'];
