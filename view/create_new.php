@@ -2,7 +2,7 @@
 function CreateNew()
 {
 
-    echo '<section class="Create">';
+    echo '<section class="Create except">';
     require_once '../model/editable.php';
     global $con, $Editable;
 

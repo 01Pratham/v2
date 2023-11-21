@@ -17,7 +17,6 @@ if (isset($_POST['buffer'])) {
     echo $_POST['buffer'];
 }
 
-
 if(!function_exists("priceTbl")){
     function priceTbl($region){
         global $EstmDATA,$con;
