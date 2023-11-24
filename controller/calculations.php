@@ -217,18 +217,19 @@ function GetDiscountedPercentage(int $Quantity, int $Price, $ID = "")
     $MRC = $Quantity * $Price;
     $percentage = 0;
     try {
-        if(preg_match("/VM_{$j}__/", $ID)){
-          $i = preg_replace("/VM_{$j}__|CPU|RAM|Disk/", "", $ID);
-          $D = preg_replace("/{$i}VM_{$j}__/", "", $ID);
-          $percentage = (100 - ((floatval($_DiscountedData[$j]["Data"]["VM{$i}_{$j}"][$D]) / $MRC) * 100));
-          // $percentage = $MRC;
-        }else{
-          $percentage = 100 - ((floatval($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100);
+        if($MRC != 0){
+            if(preg_match("/VM_{$j}__/", $ID)){
+              $i = preg_replace("/VM_{$j}__|CPU|RAM|Disk/", "", $ID);
+              $D = preg_replace("/{$i}VM_{$j}__/", "", $ID);
+              $percentage = (100 - ((floatval($_DiscountedData[$j]["Data"]["VM{$i}_{$j}"][$D]) / $MRC) * 100));
+              // $percentage = $MRC;
+            }else{
+              $percentage = (100 - ((floatval($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100));
+            }
         }
     } catch (DivisionByZeroError $e) {
         $percentage =  0;
     }
-    return round($percentage, 2);
-
-
+    
+    return strval(round($percentage, 2));
 }

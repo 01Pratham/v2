@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ERROR | E_PARSE);
+// error_reporting(E_ERROR | E_PARSE);
 // echo 'hi';
 session_start();
 $EstmDATA = $_SESSION['post_data'];

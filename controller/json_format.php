@@ -40,7 +40,7 @@ function json_template($arr,    $total)
             $template['phase_name'][$pCount]["phase_start_date"] = $date;
             $template['phase_name'][$pCount]["phase_tenure_month"] = $period[$p];
             $template['phase_name'][$pCount]["phase_total_recurring"] = (array_sum($newInfra[$p]));
-            $template['phase_name'][$pCount]["phase_total_otp"] = ((array_sum($newInfra[$p]) *12)* 0.05);
+            $template['phase_name'][$pCount]["phase_total_otp"] = number_format(((array_sum($newInfra[$p]) *12)* 0.05),2);
 
             $g = 1;
             $gCount = 0;
@@ -68,7 +68,7 @@ function json_template($arr,    $total)
                                 }else{
                                     $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_quantity'] = floatval($_v["qty"]);  
                                     $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_price'] = getPerUnitPriceFromRateCard($iName[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]][$iCount]);
-                                    $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_discount'] = floatval($_v["discount"]);
+                                    $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_discount'] = number_format(floatval($_v["discount"]) , 2);
                                 }
                             }
                         }else{

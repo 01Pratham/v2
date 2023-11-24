@@ -258,7 +258,7 @@ foreach ($estmtname as $j => $_Key) {
                             $product_prices[$int]
                         ),
 
-                        $EstmDATA[$int . "_unit"][$j],
+                        $EstmDATA[$int . "_unit"][$j]
                     );
 
                     $Infrastructure['Storage Solution'][$int] = get_strg($EstmDATA[$int . "_unit"][$j], $product_prices[$int]) * intval($EstmDATA[$int . "_qty"][$j]);
