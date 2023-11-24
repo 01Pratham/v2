@@ -25,7 +25,20 @@ if (isset($_POST['action']) && $_POST['action'] == 'push') {
     curl_close($curl);
     $arrResp = json_decode($response,true);
     
-    print_r($response);
 
+    $arr = json_decode($str, true);
+
+    if(!empty($arr) || $arr["result"]["status"]){
+        echo ($arr["result"]["message"]);
+    }else{
+        echo ("Error");
+    }
+
+
+    // print_r($response);
+
+}
+else{
+    echo "Error";
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-// error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ERROR | E_PARSE);
 
 if (file_exists("../model/connection.php")) {
     require "../model/connection.php";
