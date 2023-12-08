@@ -12,7 +12,7 @@ function get_OS($sw_name, $core_devide = 1, $price = 1, $Data = 'Price')
       if (empty($vmqty_data[$i])) {
         array_pop($vmqty_data);
       }
-      if (preg_match("/Windows/", $sw_name)) {
+      if (preg_match("/win/", $sw_name)) {
         $core_data[$i] = $vcore_data[$i];
         if (empty($core_data[$i])) {
           array_pop($core_data);

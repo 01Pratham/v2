@@ -9,7 +9,7 @@ foreach ($estmtname as $j => $_Key) {
     $antiVirus = false;
     $product_prices = priceTbl($region[$j])["product_prices"];
     $product_sku = priceTbl($region[$j])["product_sku"];
-    // echo "<pre>";print_r($product_prices);echo "</pre>";
+    // echo "<pre>";print_r($_POST);echo "</pre>";
 ?>
     <table class='final-tbl table except' id="final-tbl<?= $j ?>">
         <tr hidden></tr>
@@ -89,42 +89,19 @@ foreach ($estmtname as $j => $_Key) {
                     if ($os_data[$i] == $int) {
                         $DiscountingId = "{$int}_{$j}";
                         $cal = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_os_calculation` WHERE `product_int` = '{$os_data[$i]}'"));
-                        list($variableName, $value) = explode(' = ', $cal['calculation']);
+                        if(!empty($cal)){
+                            list($variableName, $value) = explode(' = ', $cal['calculation']);
+                        }else{
+                            $core_devide = '';
+                        }
                         $$variableName = $value;
                         $totalDisc[$Class][$DiscountingId] = tblRow("Database", getProdName($os_data[$i]), get_os($os_data[$i], $core_devide), $product_prices[$int], " Lic.");
                     }
                 }
-
-                // if ($os_data[$i] == 'Windows Standard Edition') {
-                //     // echo array_search($os,$EstmDATA);
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Operating System", $os_data[$i], get_OS($sw_name = $os_data[$i], 2), $product_prices['win_se'], "Lic.");
-                // }
-
-                // if ($os_data[$i] == 'Windows Datacenter Edition') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Operating System", $os_data[$i], get_OS($os_data[$i], 2), $product_prices['win_dc'], "Lic.");
-                // }
-
-                // if ($os_data[$i] == 'Linux : RHEL') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), $product_prices['rhel'], "Lic.");
-                // }
-
-                // if ($os_data[$i] == 'Linux : UBUNTU') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), 0, "Lic.");
-                // }
-
-                // if ($os_data[$i] == 'Linux : CENTOS') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), 0, "Lic.");
-                // }
-
-                // if ($os_data[$i] == 'Linux : SUSE') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), $product_prices['suse'], "Lic.");
-                // }
             }
 
             foreach ($vmqty[$j] as $i => $val) {
                 foreach ($dbArr as $k => $int) {
-                    // echo $product_prices[$int] . "\n";
-
                     if ($db_data[$i] == $int) {
                         $DiscountingId = "{$int}_{$j}";
                         $cal = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_os_calculation` WHERE `product_int` = '{$db_data[$i]}'"));
@@ -133,42 +110,6 @@ foreach ($estmtname as $j => $_Key) {
                         $totalDisc[$Class][$DiscountingId] = tblRow("Database", getProdName($db_data[$i]), get_DB($db_data[$i], $core_devide), $product_prices[$int], " Lic.");
                     }
                 }
-                // if ($db_data[$i] == 'MS SQL Enterprise') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), $product_prices['ms_ent'], " Lic.");
-                // }
-                // if ($db_data[$i] == 'MS SQL WEB') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), $product_prices['ms_web'], " Lic.");
-                // }
-                // if ($db_data[$i] == 'MY SQL Community') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['my_com'], " Lic.");
-                // }
-                // if ($db_data[$i] == 'MY SQL Standard') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 4), $product_prices['my_std'], " Lic.");
-                // }
-                // if ($db_data[$i] == 'MY SQL Enterprise') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 4), $product_prices['my_ent'], " Lic.");
-                // }
-                // if ($db_data[$i] == 'Postgre SQL Enterprise') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), $product_prices['post_ent'], " Lic.");
-                // }
-                // if ($db_data[$i] == 'Postgre SQL Community') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['post_com'], " Lic.");
-                // }
-                // if ($db_data[$i] == 'Oracle Database Standard') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 8), $product_prices['orc_std'], " Lic.");
-                // }
-                // if ($db_data[$i] == 'Oracle Database Enterprise') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), $product_prices['orc_ent'], " Lic.");
-                // }
-                // if ($db_data[$i] == 'Mongo DB Community') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['mong_com'], " Lic.");
-                // }
-                // if ($db_data[$i] == 'Maria DB Community') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['mar_com'], " Lic.");
-                // }
-                // if ($db_data[$i] == 'Other') {
-                //     $totalDisc[$Class][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i]), $product_prices['mar_com'], " Lic.");
-                // }
             }
             $Sku_Data[$estmtname[$j]] = SkuList();
 
@@ -204,7 +145,6 @@ foreach ($estmtname as $j => $_Key) {
                 ];
             }
         }
-        if (isset($iops1[$j]) || isset($iops3[$j]) || isset($iops5[$j]) || isset($iops8[$j]) || isset($iops10[$j]) || !empty($backupstrg[$j]) || isset($tape_lib[$j]) || isset($tape_cart[$j]) || isset($fire_cab[$j])) {
             $c = 'A.' . $no = $no + 1;
             $c .= ' +';
             tblHead("Storage and Backup Services");
@@ -256,7 +196,7 @@ foreach ($estmtname as $j => $_Key) {
                         get_strg(
                             $EstmDATA[$int . "_unit"][$j],
                             $product_prices[$int]
-                        ),
+                        ),  
 
                         $EstmDATA[$int . "_unit"][$j]
                     );
@@ -268,7 +208,6 @@ foreach ($estmtname as $j => $_Key) {
                     ];
                 }
             }
-
             if (!empty($backupstrg[$j])) {
                 // echo $backupunit[$j];
                 $DiscountingId = "backup_gb_{$j}";
@@ -317,7 +256,7 @@ foreach ($estmtname as $j => $_Key) {
                     "discount" =>(!empty($_DiscountedData))? GetDiscountedPercentage($fcqty[$j], $product_prices['fc']):0
                 ];
             }
-        }
+        
         if (isset($rack[$j]) || isset($rated[$j]) || isset($metered[$j]) || isset($cage[$j]) || isset($bio[$j]) || isset($pdu[$j]) || isset($cctv[$j])) {
             $c = 'A.' . $no = $no + 1;
             $c .= ' +';
@@ -1101,7 +1040,7 @@ function tblHead($Service)
 {
     global $no;
 ?>
-    <tr>
+    <tr >
         <th class='Head except' id='sr'><?php echo 'A.' . $no; ?></th>
         <th class='Head except' id='comp'><?= $Service ?></th>
         <th class='Head except' id='unit'>Unit</th>
