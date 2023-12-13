@@ -9,9 +9,9 @@ if (isset($_POST['action'])) {
     if ($action == "CreateRateCard") {
         $name = $_POST["rateCardName"];
         $empId = $_SESSION['emp_code'];
+        $type = $_POST["rateCardType"];
 
-
-        $query = mysqli_query($con, "INSERT INTO `tbl_rate_cards`(`rate_card_name`, `created_by`, `created_date`, `is_active`) VALUES('{$name}', '{$empId}' , '{$time}' , 'True') ");
+        $query = mysqli_query($con, "INSERT INTO `tbl_rate_cards`(`rate_card_name`, `card_type` ,`created_by`, `created_date`, `is_active`) VALUES('{$name}', '{$type}','{$empId}', '{$time}' , 'True') ");
         if ($query) {
             echo "Rate Card Created Successfully";
         } else {
@@ -77,5 +77,25 @@ if (isset($_POST['action'])) {
             }
         }
         print_r(array_unique($resp));
+    }
+
+
+    if($action == "Delete"){
+        $id = $_POST["id"];
+        $prodQ = mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$id}'");
+        if(!empty($prodQ)){
+            $delprodQ = mysqli_query($con, "DELETE FROM `rate_card_prices` WHERE `rate_card_id` = '{$id}'");
+            if($delprodQ){
+                $query = mysqli_query($con, "DELETE FROM `tbl_rate_cards` WHERE `id` = '{$id}'");
+                if($query){
+                    echo "Rate Card Deleted Successfully";
+                }
+            }
+        }else{
+            $query = mysqli_query($con, "DELETE FROM `tbl_rate_cards` WHERE `id` = '{$id}'");
+            if($query){
+                echo "Rate Card Deleted Successfully";
+            }
+        }
     }
 }

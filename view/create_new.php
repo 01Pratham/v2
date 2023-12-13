@@ -39,10 +39,14 @@ function CreateNew()
 
                         $p_query = mysqli_query($con, "SELECT * FROM `tbl_rate_cards`");
                         while ($pricing_list = mysqli_fetch_array($p_query)) {
+
                             if ($pricing_list["id"] == $Editable['product_list']){
                                 echo "<option selected value='{$pricing_list['id']}'> {$pricing_list['rate_card_name']} </option>";
                             }else{
                                 echo "<option value='{$pricing_list['id']}'> {$pricing_list['rate_card_name']} </option>";
+                            }
+                            if($rateCard['created_by'] != $_SESSION['emp_code'] && $rateCard["card_type"] == "Private"){
+                                continue;
                             }
                             ?>
                             

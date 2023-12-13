@@ -11,11 +11,7 @@ contentHeader("Rate Cards");
         </button>
     </div>
     <div class="form-group ml-auto">
-        <?php
-        if (UserRole(7)) { ?>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-m">Create Rate
-                Card</button>
-        <?php }  ?>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-m">Create Rate Card</button>
     </div>
     <div class="modal fade bd-example-modal-m except" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-m">
@@ -27,6 +23,18 @@ contentHeader("Rate Cards");
                     <div class="form-group mx-2">
                         <h6><small><span class="text-danger"> * </span>Rate Card Name : </small></h6>
                         <input type="text" class="form-control" id="rateCardName" required>
+                    </div>
+                    <div class="form-group mx-2">
+                        <select name="" id="cardType" class="form-control ">
+                            <option value="Private">Private</option>
+                            <?php
+                            if (UserRole(11)) {
+                            ?>
+                                <option value="Public">Public</option>
+                            <?php
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div class="form-group mx-2">
                         <input type="button" value="Submit" id="rateCardSubmit" class="btn btn-primary">
@@ -46,12 +54,13 @@ contentHeader("Rate Cards");
                     <table class="table mb-0 rounded-2">
                         <thead class="small text-uppercase bg-body text-muted">
                             <tr class="border-bottom">
-                                <th class="col-1">#</th>
+                                <th class="">#</th>
                                 <th class="col-2 text-center">Rate Card Name</th>
-                                <th class="col-1 text-center">Created By</th>
-                                <th class="col-2 text-center">Created Date</th>
-                                <th class="col-2 text-center">Is Active</th>
-                                <th class="col-2 text-center">Action</th>
+                                <th class="text-center">Created By</th>
+                                <th class=" text-center">Visibility</th>
+                                <th class=" text-center">Created Date</th>
+                                <th class=" text-center">Is Active</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,16 +68,32 @@ contentHeader("Rate Cards");
                             $rateCareQuery = mysqli_query($con, "SELECT * FROM `tbl_rate_cards`");
                             $i = 1;
                             while ($rateCard = mysqli_fetch_assoc($rateCareQuery)) {
+                                if ($rateCard['created_by'] != $_SESSION['emp_code'] && $rateCard["card_type"] == "Private") {
+                                    continue;
+                                }
                             ?>
                                 <tr class="border-bottom">
                                     <td class="col-1">
                                         <?= $i ?>
                                     </td>
                                     <td class="col-4 text-center">
-                                        <?= $rateCard['rate_card_name'] ?>
+                                        <a href="?rateCardId=<?= $rateCard['id'] ?>" class="text-dark"><?= $rateCard['rate_card_name'] ?></a>
+
                                     </td>
                                     <td class="col-2 text-center">
                                         <?= $rateCard['created_by'] ?>
+                                    </td>
+                                    <td class="col-2 text-center">
+                                        <?php
+                                        if (UserRole(10)) {
+                                        ?>
+                                            <select name="" id="UpdateCardType" class="form-control border-0">
+                                                <option <?= ($rateCard["card_type"] == "Private") ? "Selected" : '' ?> value="Private">Private</option>
+                                                <option <?= ($rateCard["card_type"] == "Public") ? "Selected" : '' ?> value="Public">Public</option>
+                                            </select>
+                                        <?php } else {
+                                            echo $rateCard["card_type"];
+                                        } ?>
                                     </td>
                                     <td class="col-3 text-center">
                                         <?= $rateCard['created_date'] ?>
@@ -80,8 +105,10 @@ contentHeader("Rate Cards");
                                             <span class="fa fa-bars" aria-hidden="true"></span>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end text-light" style="min-width: 8rem; z-index:1 ">
-                                            <a href="?rateCardId=<?= $rateCard['id'] ?>" class="dropdown-item"><i><?=(UserRole(8))? "Edit / View"  : "View"?></i><i class="fa fa-edit float-right pt-1"></i>
+                                            <a href="?rateCardId=<?= $rateCard['id'] ?>" class="dropdown-item"><i><?= (UserRole(8) || $rateCard["card_type"] == "Private") ? "Edit / View"  : "View" ?></i><i class="fa fa-edit float-right pt-1"></i>
                                             </a>
+                                            <?= (UserRole(8) || $rateCard["card_type"] == "Private") ? '<div class="dropdown-item" onclick = "deleteRateCard(' . $rateCard["id"] . ')" id = "delete_rateCard" data-id = "' . $rateCard["id"] . '"><i>Delete</i><i class="fa fa-trash float-right pt-1"></i></div>' : "View" ?>
+
                                         </div>
                                     </td>
                                 </tr>
@@ -108,6 +135,7 @@ contentHeader("Rate Cards");
             data: {
                 action: 'CreateRateCard',
                 rateCardName: $('#rateCardName').val(),
+                rateCardType: $('#cardType').val(),
             },
             success: function(response) {
                 alert(response);
@@ -133,4 +161,20 @@ contentHeader("Rate Cards");
             }
         })
     })
+
+    function deleteRateCard(id) {
+        $.ajax({
+            url: "../model/modelRateCard.php",
+            type: "post",
+            dataType: "text",
+            data: {
+                id: id,
+                action: "Delete"
+            },
+            success: function(response) {
+                alert(response);
+                location.reload();
+            }
+        })
+    }
 </script>

@@ -541,7 +541,7 @@ function convertTablesToExcel(tables, type, sheetNames, FileName) {
 
 
 
-function AJAX(Data) {
+function AJAX(Data , rel = true) {
     $.ajax({
         url: "../model/modelRateCard.php",
         type: "POST",
@@ -551,7 +551,9 @@ function AJAX(Data) {
             console.log(response)
         },
         complete: function () {
-            window.location.reload();
+            if(rel){
+                window.location.reload();
+            }
         }
     })
 }

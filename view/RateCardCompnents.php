@@ -16,7 +16,8 @@ if (isset($_GET['rateCardId'])) {
             </button>
         </div>
         <?php
-        if (UserRole(8)) {
+        $q = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_rate_cards` WHERE `id` = {$id} AND `created_by` = '{$_SESSION['emp_id']}'"));
+        if (UserRole(8) || $q['card_type'] == "Private") {
         ?>
             <div class="form-group ml-auto">
                 <button type="button" class="btn btn-danger" id="deleteProds"> <i class="fa fa-trash"></i> Delete Items</button>
@@ -229,8 +230,8 @@ if (isset($_GET['rateCardId'])) {
                     AJAX({
                         action: 'UpdateProduct',
                         id: id,
-                        price: parseInt($(this).html().replace("₹ ", ''))
-                    })
+                        price: parseFloat($(this).html().replace("₹ ", ''))
+                    },false)
                 })
             })
         <?php
