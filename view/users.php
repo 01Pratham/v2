@@ -29,7 +29,7 @@ function Users($id, $master = '')
                         <!-- <span class="fa fa-angle-down "></span>     -->
                         <img src="../include/dist/img/avatar.png" class="avatar sm rounded-pill me-3 flex-shrink-0" alt="Customer">
                         <div>
-                            <div class="except h6 mb-0 lh-1 mx-2">
+                            <div class="except h6 mb-0 lh-1 mx-2 userName">
                                 <?= $users['first_name'] . " " . $users['last_name'] ?>
                             </div>
                         </div>
@@ -82,6 +82,13 @@ function allUsers($type = "")
     require '../model/database.php';
     ?>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+        <div class="input-group col-4 bg-transparent">
+            <input type="text" name="searchBox" id="searchBox" class="form-control" aria-describedby="">
+            <button class="input-group-text p-0 form-control col-sm-1 bg-light" id="searchButton">
+                <i class="fa fa-search Center"></i>
+            </button>
+        </div>
     <div class="except  mt-3 mx-3">
         <div class="except row">
             <div class="except col-12 mb-3 mb-lg-5">
@@ -126,6 +133,18 @@ function allUsers($type = "")
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $("#searchButton").click(function() {
+            const searchVal = $("#searchBox").val().toLowerCase()
+            $(".userName").each(function() {
+                if ($(this).html().toLowerCase().includes(searchVal)) {
+                    $(this).closest('td').parent().removeAttr("hidden")
+                } else {
+                    $(this).closest('td').parent().attr("hidden", "true")
+                }
+            })
+        })
+    </script>
 <?php
 }
 ?>

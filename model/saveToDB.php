@@ -54,6 +54,12 @@ function saveEstmt()
       '{$data}',
       '{$prices}')"
     );
+
+    if($query){
+      $insertId = mysqli_insert_id($con);
+      $_SESSION["insertID"] = $insertId;
+    }
+
   } elseif ($_POST['action'] == 'save_as') {
     $version = $version + 1;
     $query = mysqli_query(
@@ -117,7 +123,11 @@ function saveEstmt()
     );
   }
   if ($query) {
-    echo "Data Stored Successfully";
+    $arr = array(
+      "Message" => "Data Stored Successfully",
+      "quotationID" => $insertId
+    );
+    echo json_encode($arr);
   } else {
     echo "Error while storing DATA \n";
   }

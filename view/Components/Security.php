@@ -19,7 +19,7 @@
                     $opts[$secProds['sec_category']][$allProds['prod_int']] = $allProds['product'];
                 }
 
-        ?>
+            ?>
                 <div class="form-group col-md-4 row my-3">
                     <select name="<?= $secProds['sec_category'] . "_select[" . $name . "]" ?>" id="<?= $secProds['sec_category'] . "_select_" . $id ?>" class="border-0 " style="width: 70%;">
                         <?php

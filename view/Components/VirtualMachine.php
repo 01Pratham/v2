@@ -23,8 +23,16 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
         ?>
     </div>
     <div class="collapse show py-1" id="vm_collapse_<?= $id ?>">
-        <h6><small>VM Name :</small></h6>
-        <input type="text" class="form-control" id="vmname_<?= $id ?>" placeholder="Virtual Machine" name="vmname[<?= $name ?>][]" value="<?= $Editable['vmname'][$name][$count] ?>">
+        <div class="row">
+            <div class="col-9">
+                <h6><small>VM Name :</small></h6>
+                <input type="text" class="form-control" id="vmname_<?= $id ?>" placeholder="Virtual Machine" name="vmname[<?= $name ?>][]" value="<?= $Editable['vmname'][$name][$count] ?>">
+            </div>
+            <div class="col-3">
+                <h6><small>Quantity :</small></h6>
+                <input type="number" class="form-control small" id="vmqty_<?= $id ?>" min=0 placeholder="Quantity" value="<?= ($Editable['vmqty'][$name][$count] != 0) ? $Editable['vmqty'][$name][$count] : 0; ?>" name="vmqty[<?= $name ?>][]">
+            </div>
+        </div>
         <div class="form-row mt-2">
             <div class="form-group col-md-9 px-2">
                 <h6><small>Instance :</small></h6>
@@ -63,11 +71,11 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
             <div class="form-group col-md-3 px-2">
                 <h6><small>VM State :</small></h6>
                 <select name="state[<?= $name ?>][]" id="state_<?= $id ?>" class="form-control">
-                    <option value="Standalone">Standalone</option>
-                    <option value="Active" class="single">Active</option>
-                    <option value="Passive" class="single">Passive</option>
-                    <option value="Active-Active" class="multiple">Active-Active</option>
-                    <option value="Active-Passive" class="multiple">Active-Passive</option>
+                    <option <?=($Editable["state"][$name][$count] == "Standalone" ) ? "selected" : ''?> value="Standalone">Standalone</option>
+                    <option <?=($Editable["state"][$name][$count] == "Active"  ) ? "selected" : ''?> value="Active" class="single">Active</option>
+                    <option <?=($Editable["state"][$name][$count] == "Passive"  ) ? "selected" : ''?> value="Passive" class="single">Passive</option>
+                    <option <?=($Editable["state"][$name][$count] == "Active-Active" ) ? "selected" : ''?> value="Active-Active" class="multiple">Active-Active</option>
+                    <option <?=($Editable["state"][$name][$count] == "Active-Passive" ) ? "selected" : ''?> value="Active-Passive" class="multiple">Active-Passive</option>
                 </select>
                 <script>
                     $('#vmqty_<?= $id ?>').on("input", function() {
@@ -91,28 +99,31 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
                     <option value="" hidden>Select OS</option>
                     <?php create_opt('os', $Editable['os'][$name][$count]) ?>
                 </select>
-                <input type="hidden" id = "osLic_<?=$id ?>">
+                <input type="hidden" id="osLic_<?= $id ?>">
             </div>
             <div class="form-group col-md-3 px-2">
                 <h6><small>Database :</small></h6>
                 <select name="database[<?= $name ?>][]" id="db_<?= $id ?>" class="form-control">
                     <option value="" hidden>Select DB</option>
                     <option value="NA">NA</option>
-                        <?php create_opt('db', $Editable['database'][$name][$count]) ?>
+                    <?php create_opt('db', $Editable['database'][$name][$count]) ?>
                     <option value="Other" contenteditable="true">Other</option>
                 </select>
-                <input type="hidden" id = "osLic_<?=$id ?>" >
+                <input type="hidden" id="osLic_<?= $id ?>">
             </div>
             <div class="form-group col-md-3 px-2">
-                <h6><small>Quantity :</small></h6>
-                <input type="number" class="form-control small" id="vmqty_<?= $id ?>" min=0 placeholder="Quantity" value="<?= ($Editable['vmqty'][$name][$count] != 0) ? $Editable['vmqty'][$name][$count] : 0; ?>" name="vmqty[<?= $name ?>][]">
+                <select name="ip_public_type[<?= $name ?>][]" id="ip_public<?= $id ?>" class="border-0 small" style="width: 100%;">
+                    <option <?=($Editable["ip_public_type"][$name][$count] == "ipv4") ? "selected" : ''?> value="ipv4">Public IP : IPv6</option>
+                    <option <?=($Editable["ip_public_type"][$name][$count] == "ipv6") ? "selected" : ''?> value="ipv6">Public IP : IPv4</option>
+                </select>
+                <input type="number" class="form-control small" id="ip_public_<?= $id ?>" min=0 placeholder="Quantity" value="<?= ($Editable['ip_public'][$name][$count] != 0) ? $Editable['ip_public'][$name][$count] : 0; ?>" name="ip_public[<?= $name ?>][]">
             </div>
             <div class="form-group col-md-3 px-2">
                 <h6><small>Anti-Virus : </small></h6>
                 <select name="virus_type[<?= $name ?>][]" id="virus_type_<?= $id ?>" class="form-control">
                     <option value="">Select Antivirus</option>
                     <?php
-                        create_opt('av', $Editable['virus_type'][$name][$count]);
+                    create_opt('av', $Editable['virus_type'][$name][$count]);
                     ?>
                 </select>
             </div>
@@ -161,24 +172,23 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
         <?php
         }
         if ($_POST['lastVM'] == "true") {
-            
         }
         ?>
 
-        $("#os_<?=$id?> , #vcpu_<?= $id ?>").on("input", function(){
-            if($("#os_<?=$id?>").val().search(/win/g) == 0){
+        $("#os_<?= $id ?> , #vcpu_<?= $id ?>").on("input", function() {
+            if ($("#os_<?= $id ?>").val().search(/win/g) == 0) {
                 let cpu = parseInt($("#vcpu_<?= $id ?>").val());
                 let qty = parseInt($("#vmqty_<?= $id ?>").val());
-                $("#osLic_<?=$id ?>").val((cpu * qty)/2);
-                console.log((cpu*qty)/2);
-            }else{
+                $("#osLic_<?= $id ?>").val((cpu * qty) / 2);
+                console.log((cpu * qty) / 2);
+            } else {
                 let qty = parseInt($("#vmqty_<?= $id ?>").val());
-                $("#osLic_<?=$id ?>").val(qty);
+                $("#osLic_<?= $id ?>").val(qty);
             }
         })
     </script>
 
-        
+
 
 <?php }
 ?>

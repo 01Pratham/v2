@@ -62,5 +62,12 @@
             <input type="checkbox" name="emagic[<?= $name ?>]" id="emagic_<?= $id ?>" class="check" checked>
             <!-- <input type="number" min = 0  class="hide form-control"> -->
         </div>
+        <div class="form-group col-md-4 row my-3">
+            <select id="otc-select_<?= $id ?>" class="border-0 " style="width: 70%;">
+                <option value="">OTC</option>
+            </select>
+            <input type="checkbox" <?= ($Editable['otc'][$name] == "on") ? "Checked" : "" ?> name="otc[<?= $name ?>]" id="otc_<?= $id ?>" class="check">
+            <!-- <input type="number" min = 0  class="hide form-control"> -->
+        </div>
     </div>
 </div>

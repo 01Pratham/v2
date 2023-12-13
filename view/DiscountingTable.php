@@ -108,7 +108,16 @@ foreach ($estmtname as $j => $_Key) {
             }
         }
 
-        if (!empty($os[$j][0]) || !empty($agenttype[$j]) || isset($drm_tool[$j])) {
+        $softLic = false;
+        foreach ($vmqty[$j] as $i => $vl) {
+            if (!empty($os[$j][$i]) || !empty($os[$j][$i])) {
+                $softLic = true;
+                break;
+            } else {
+                $softLic = false;
+            }
+        }
+        if ($softLic || !empty($agenttype[$j]) || isset($drm_tool[$j])) {
             $b = 'A.' . $no = $no + 1;
             $b .= ' +';
             tblHead("Software Licenses");
@@ -120,134 +129,27 @@ foreach ($estmtname as $j => $_Key) {
                     if ($os_data[$i] == $int) {
                         $DiscountingId = "{$int}_{$j}";
                         $SKU = $product_sku[$int];
-
                         $cal = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_os_calculation` WHERE `product_int` = '{$os_data[$i]}'"));
                         list($variableName, $value) = explode(' = ', $cal['calculation']);
                         $$variableName = $value;
-
-                        // echo PriceOs($os_data[$i], "os");
                         $Products[$j][$DiscountingId] = tblRow("Database", getProdName($os_data[$i]), get_os($os_data[$i], $core_devide),  PriceOs($os_data[$i], "os"), " Lic.");
                     }
                 }
-
-                // if ($os_data[$i] == 'Windows Standard Edition') {
-                //     $SKU = $product_sku['win_se'];
-                //     $DiscountingId = "win_se_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Operating System", $os_data[$i], get_OS($os_data[$i], 2), PriceOs($os_data[$i], "os"), "Lic.");
-                // }
-
-                // if ($os_data[$i] == 'Windows Datacenter Edition') {
-                //     $SKU = $product_sku['win_dc'];
-                //     $DiscountingId = "win_dc_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Operating System", $os_data[$i], get_OS($os_data[$i], 2), PriceOs($os_data[$i], "os"), "Lic.");
-                // }
-
-                // if ($os_data[$i] == 'Linux : RHEL') {
-                //     $SKU = $product_sku['rhel'];
-                //     $DiscountingId = "rhel_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), PriceOs($os_data[$i], "os"), "Lic.");
-                // }
-
-                // if ($os_data[$i] == 'Linux : UBUNTU') {
-                //     $SKU = $product_sku['ubuntu'];
-                //     $DiscountingId = "ubuntu_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), 0, "Lic.");
-                // }
-
-                // if ($os_data[$i] == 'Linux : CENTOS') {
-                //     $SKU = $product_sku['centos'];
-                //     $DiscountingId = "centos_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), 0, "Lic.");
-                // }
-
-                // if ($os_data[$i] == 'Linux : SUSE') {
-                //     $SKU = $product_sku['suse'];
-                //     $DiscountingId = "suse_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Operating System", $os_data[$i], get_OS($os_data[$i]), PriceOs($os_data[$i], "os"), "Lic.");
-                // }
             }
 
             foreach ($vmqty[$j] as $i => $val) {
-
                 foreach ($dbArr as $k => $int) {
-
                     if ($db_data[$i] == $int) {
                         $DiscountingId = "{$int}_{$j}";
                         $SKU = $product_sku[$int];
-
                         $cal = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_os_calculation` WHERE `product_int` = '{$db_data[$i]}'"));
                         list($variableName, $value) = explode(' = ', $cal['calculation']);
                         $$variableName = $value;
                         $Products[$j][$DiscountingId] = tblRow("Database", getProdName($db_data[$i]), get_DB($db_data[$i], $core_devide), PriceOs($db_data[$i], "db"), " Lic.");
                     }
                 }
-
-                // if ($db_data[$i] == 'MS SQL Standard') {
-                //     $SKU = $product_sku['ms_std'];
-                //     $DiscountingId = "ms_std_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
-                // if ($db_data[$i] == 'MS SQL Enterprise') {
-                //     $SKU = $product_sku['ms_ent'];
-                //     $DiscountingId = "ms_ent_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
-                // if ($db_data[$i] == 'MS SQL WEB') {
-                //     $SKU = $product_sku['ms_web'];
-                //     $DiscountingId = "ms_web_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 2), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
-                // if ($db_data[$i] == 'MY SQL Community') {
-                //     $SKU = $product_sku['my_com'];
-                //     $DiscountingId = "my_com_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i]), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
-                // if ($db_data[$i] == 'MY SQL Standard') {
-                //     $SKU = $product_sku['my_std'];
-                //     $DiscountingId = "my_std_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 4), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
-                // if ($db_data[$i] == 'MY SQL Enterprise') {
-                //     $SKU = $product_sku['my_ent'];
-                //     $DiscountingId = "my_ent_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 4), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
-                // if ($db_data[$i] == 'Postgre SQL Enterprise') {
-                //     $SKU = $product_sku['post_ent'];
-                //     $DiscountingId = "post_ent_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
-                // if ($db_data[$i] == 'Postgre SQL Community') {
-                //     $SKU = $product_sku['post_com'];
-                //     $DiscountingId = "post_com_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i]), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
-                // if ($db_data[$i] == 'Oracle SQL Standard') {
-                //     $SKU = $product_sku['orc_std'];
-                //     $DiscountingId = "orc_std_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 8), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
-                // if ($db_data[$i] == 'Oracle SQL Enterprise') {
-                //     $SKU = $product_sku['orc_ent'];
-                //     $DiscountingId = "orc_ent_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i], 1), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
-                // if ($db_data[$i] == 'Mongo DB Community') {
-                //     $SKU = $product_sku['mong_com'];
-                //     $DiscountingId = "mong_com_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i]), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
-                // if ($db_data[$i] == 'Maria DB Community') {
-                //     $SKU = $product_sku['mar_com'];
-                //     $DiscountingId = "mar_com_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i]), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
-                // if ($db_data[$i] == 'Other') {
-                //     $SKU = $product_sku['mar_com'];
-                //     $DiscountingId = "mar_com_{$j}";
-                //     $Products[$j][$DiscountingId] = tblRow("Database", $db_data[$i], get_DB($db_data[$i]), PriceOs($db_data[$i], "db"), " Lic.");
-                // }
             }
+
             $Sku_Data[$estmtname[$j]] = SkuList();
 
             if (!empty($agenttype[$j])) {
@@ -275,104 +177,73 @@ foreach ($estmtname as $j => $_Key) {
                 $Sku_Data[$estmtname[$j]]['Software'][$product_sku['drm_tool']] = $drm_tool_qty;
             }
         }
-        // if (isset($iops1[$j]) || isset($iops3[$j]) || isset($iops5[$j]) || isset($iops8[$j]) || isset($iops10[$j]) || !empty($backupstrg[$j]) || isset($tape_lib[$j]) || isset($tape_cart[$j]) || isset($fire_cab[$j])) {
-        $c = 'A.' . $no = $no + 1;
-        $c .= ' +';
-        tblHead("Storage and Backup Services");
-
         foreach ($strgArr as $int => $strgName) {
             if (isset($EstmDATA[$int])) {
-                $SKU = $product_sku[$int];
-                $DiscountingId = $int . "_" . $j;
-                $Products[$j][$DiscountingId] = tblRow(
-                    "Additional Storage",
-
-                    $strgName,
-
-                    intval($EstmDATA[$int . "_qty"][$j]),
-
-                    $_Prices[$j]["Storage Solution"][$int],
-
-                    $EstmDATA[$int . "_unit"][$j]
-                );
-
-                $Infrastructure['Storage Solution'][$int] = get_strg($EstmDATA[$int . "_unit"][$j], $product_prices[$int]) * intval($EstmDATA[$int . "_qty"][$j]);
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku[$int]] = ($EstmDATA[$int . "_unit"][$j] == 'TB') ? intval(intval($EstmDATA[$int . "_qty"][$j])) * 1024 : intval(intval($EstmDATA[$int . "_qty"][$j]));
+                $strgServ = true;
+                break;
+            } else {
+                $strgServ = false;
             }
         }
+        if ($strgServ || !empty($backupstrg[$j]) || !empty($arc_strg[$j]) || isset($tape_lib[$j]) || isset($tape_cart[$j]) || isset($fire_cab[$j])) {
 
-        // if (isset($iops03[$j])) {
-        //     $SKU = $product_sku['iops_03'];
-        //     $DiscountingId = "iops_03_{$j}";
-        //     $Products[$j][$DiscountingId] = tblRow("Additional Storage", strg_iops($strgunit03[$j], 300), get_strg($iops03qty[$j], 1, $iops03qty[$j]), $_Prices[$j]['Storage Solution'][strg_iops($strgunit03[$j], 300)], "GB");
-        //     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_03']] = ($strgunit03[$j] == 'TB') ? intval($iops03qty[$j]) * 1024 : intval($iops03qty[$j]);
-        // }
-        // if (isset($iops1[$j])) {
-        //     $SKU = $product_sku['iops_1'];
-        //     $DiscountingId = "iops_1_{$j}";
-        //     $Products[$j][$DiscountingId] = tblRow("Additional Storage", strg_iops($strgunit1[$j], 1000), get_strg($iops1qty[$j], 1, $iops1qty[$j]), $Infrastructure['Storage Solution'][strg_iops($strgunit1[$j], 1000)], "GB");
-        //     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_1']] = ($strgunit1[$j] == 'TB') ? intval($iops1qty[$j]) * 1024 : intval($iops1qty[$j]);
-        // }
+            $c = 'A.' . $no = $no + 1;
+            $c .= ' +';
 
-        // if (isset($iops3[$j])) {
-        //     $SKU = $product_sku['iops_3'];
-        //     $DiscountingId = "iops_3_{$j}";
-        //     $Products[$j][$DiscountingId] = tblRow("Additional Storage", strg_iops($strgunit3[$j], 3000), get_strg($iops3qty[$j], 1, $iops3qty[$j]), $_Prices[$j]['Storage Solution'][strg_iops($strgunit3[$j], 3000)], "GB");
-        //     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_3']] = ($strgunit3[$j] == 'TB') ? intval($iops3qty[$j]) * 1024 : intval($iops3qty[$j]);
-        // }
+            tblHead("Storage and Backup Services");
+            foreach ($strgArr as $int => $strgName) {
+                if (isset($EstmDATA[$int])) {
+                    $SKU = $product_sku[$int];
+                    $DiscountingId = $int . "_" . $j;
+                    $Products[$j][$DiscountingId] = tblRow(
+                        "Additional Storage",
 
-        // if (isset($iops5[$j])) {
-        //     $SKU = $product_sku['iops_5'];
-        //     $DiscountingId = "iops_5_{$j}";
-        //     $Products[$j][$DiscountingId] = tblRow("Additional Storage", strg_iops($strgunit5[$j], 5000), get_strg($iops5qty[$j], 1, $iops5qty[$j]), $_Prices[$j]['Storage Solution'][strg_iops($strgunit5[$j], 5000)], "GB");
-        //     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_5']] = ($strgunit5[$j] == 'TB') ? intval($iops5qty[$j]) * 1024 : intval($iops5qty[$j]);
-        // }
+                        $strgName,
 
-        // if (isset($iops8[$j])) {
-        //     $SKU = $product_sku['iops_8'];
-        //     $DiscountingId = "iops_8_{$j}";
-        //     $Products[$j][$DiscountingId] = tblRow("Additional Storage", strg_iops($strgunit8[$j], 8000), get_strg($iops8qty[$j], 1, $iops8qty[$j]), $_Prices[$j]['Storage Solution'][strg_iops($strgunit8[$j], 8000)], "GB");
-        //     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_8']] = ($strgunit8[$j] == 'TB') ? intval($iops8qty[$j]) * 1024 : intval($iops8qty[$j]);
-        // }
-        // if (isset($iops10[$j])) {
-        //     $SKU = $product_sku['iops_10'];
-        //     $DiscountingId = "iops_10_{$j}";
-        //     $Products[$j][$DiscountingId] = tblRow("Additional Storage", strg_iops($strgunit10[$j], 10000), get_strg($iops10qty[$j], 1, $iops10qty[$j]), $_Prices[$j]['Storage Solution'][strg_iops($strgunit10[$j], 10000)], "GB");
-        //     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['iops_10']] = ($strgunit10[$j] == 'TB') ? intval($iops10qty[$j]) * 1024 : intval($iops10qty[$j]);
-        // }
+                        intval($EstmDATA[$int . "_qty"][$j]),
 
-        if (!empty($backupstrg[$j])) {
-            $SKU = $product_sku[$backupunit[$j]];
-            $DiscountingId = "backup_gb_{$j}";
-            $Products[$j][$DiscountingId] = tblRow("Backup Storage", getProdName($backupunit[$j]),  get_strg($backupunit[$j], 1, $backupstrg[$j]), $_Prices[$j]['Storage Solution']['Backup Space'], 'GB');
-            $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['backup_gb']] = ($backupunit[$j] == 'TB') ? intval($backupstrg[$j]) * 1024 : intval($backupstrg[$j]);
-        }
-        if (!empty($arc_strg[$j])) {
-            $SKU = $product_sku['arc_strg_gb'];
-            $DiscountingId = "arc_strg_gb_{$j}";
-            $Products[$j][$DiscountingId] = tblRow("Archival Storage", 'Archival Space',  get_strg($archival_unit[$j], 1, $arc_strg[$j]), $_Prices[$j]['Storage Solution']['Archival Space'], 'GB');
-            $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['arc_strg_gb']] = ($archival_unit[$j] == 'TB') ? intval($arc_strg[$j]) * 1024 : intval($arc_strg[$j]);
-        }
-        if (isset($tape_lib[$j])) {
-            $SKU = $product_sku['tl'];
-            $DiscountingId = "tl_{$j}";
-            $Products[$j][$DiscountingId] = tblRow('Offline Backup', 'Offline Backup Solution Tape Library', $tlqty[$j], $_Prices[$j]['Storage Solution']['Offline Backup Solution Tape Library']);
-            $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['tl']] = $tlqty[$j];
-        }
+                        $_Prices[$j]["Storage Solution"][$int],
 
-        if (isset($tape_cart[$j])) {
-            $SKU = $product_sku['tc'];
-            $DiscountingId = "tc_{$j}";
-            $Products[$j][$DiscountingId] = tblRow('Offline Backup', 'Offline Backup Solution Tape Cartridge', $tcqty[$j], $_Prices[$j]['Storage Solution']['Offline Backup Solution Tape Cartridge']);
-            $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['tc']] = $tcqty[$j];
-            // echo $tcqty[$j];
-        }
+                        $EstmDATA[$int . "_unit"][$j]
+                    );
 
-        if (isset($fire_cab[$j])) {
-            $SKU = $product_sku['fc'];
-            $DiscountingId = "fc_{$j}";
-            $Products[$j][$DiscountingId] = tblRow('Offline Backup', 'Offline Backup Solution Fireproof cabinate', $fcqty[$j], $_Prices[$j]['Storage Solution']['Offline Backup Solution Fireproof cabinate']);
-            $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['fc']] = $fcqty[$j];
+                    $Infrastructure['Storage Solution'][$int] = get_strg($EstmDATA[$int . "_unit"][$j], $product_prices[$int]) * intval($EstmDATA[$int . "_qty"][$j]);
+                    $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku[$int]] = ($EstmDATA[$int . "_unit"][$j] == 'TB') ? intval(intval($EstmDATA[$int . "_qty"][$j])) * 1024 : intval(intval($EstmDATA[$int . "_qty"][$j]));
+                }
+            }
+            if (!empty($backupstrg[$j])) {
+                $SKU = $product_sku[$backupunit[$j]];
+                $DiscountingId = "backup_gb_{$j}";
+                $Products[$j][$DiscountingId] = tblRow("Backup Storage", getProdName($backupunit[$j]),  get_strg($backupunit[$j], 1, $backupstrg[$j]), $_Prices[$j]['Storage Solution']['Backup Space'], 'GB');
+                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['backup_gb']] = ($backupunit[$j] == 'TB') ? intval($backupstrg[$j]) * 1024 : intval($backupstrg[$j]);
+            }
+            if (!empty($arc_strg[$j])) {
+                $SKU = $product_sku['arc_strg_gb'];
+                $DiscountingId = "arc_strg_gb_{$j}";
+                $Products[$j][$DiscountingId] = tblRow("Archival Storage", 'Archival Space',  get_strg($archival_unit[$j], 1, $arc_strg[$j]), $_Prices[$j]['Storage Solution']['Archival Space'], 'GB');
+                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['arc_strg_gb']] = ($archival_unit[$j] == 'TB') ? intval($arc_strg[$j]) * 1024 : intval($arc_strg[$j]);
+            }
+            if (isset($tape_lib[$j])) {
+                $SKU = $product_sku['tl'];
+                $DiscountingId = "tl_{$j}";
+                $Products[$j][$DiscountingId] = tblRow('Offline Backup', 'Offline Backup Solution Tape Library', $tlqty[$j], $_Prices[$j]['Storage Solution']['Offline Backup Solution Tape Library']);
+                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['tl']] = $tlqty[$j];
+            }
+
+            if (isset($tape_cart[$j])) {
+                $SKU = $product_sku['tc'];
+                $DiscountingId = "tc_{$j}";
+                $Products[$j][$DiscountingId] = tblRow('Offline Backup', 'Offline Backup Solution Tape Cartridge', $tcqty[$j], $_Prices[$j]['Storage Solution']['Offline Backup Solution Tape Cartridge']);
+                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['tc']] = $tcqty[$j];
+                // echo $tcqty[$j];
+            }
+
+            if (isset($fire_cab[$j])) {
+                $SKU = $product_sku['fc'];
+                $DiscountingId = "fc_{$j}";
+                $Products[$j][$DiscountingId] = tblRow('Offline Backup', 'Offline Backup Solution Fireproof cabinate', $fcqty[$j], $_Prices[$j]['Storage Solution']['Offline Backup Solution Fireproof cabinate']);
+                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['fc']] = $fcqty[$j];
+            }
         }
 
         if (isset($rack[$j]) || isset($rated[$j]) || isset($metered[$j]) || isset($cage[$j]) || isset($bio[$j]) || isset($pdu[$j]) || isset($cctv[$j])) {
@@ -431,7 +302,19 @@ foreach ($estmtname as $j => $_Key) {
             $public_data[$j] = array_unique($ip_public[$j]);
         }
 
-        if (isset($ip_public[$j]) || isset($ip_private[$j]) || !empty($bandwidth[$j]) || !empty($ccptqty[$j]) || !empty($vpn[$j]) || !empty($lb[$j]) || !empty($rep_link_type[$j])) {
+        if ($ip_public[$j] != NULL) {
+            $public_data[$j] = array_unique($ip_public[$j]);
+        }
+        foreach ($vmqty[$j] as $i => $v) {
+            if (!empty($publicip_qty[$j][$i]) || intval($publicip_qty[$j][$i]) != 0) {
+                $isIp = true;
+                break;
+            } else {
+                $isIp = false;
+            }
+        }
+
+        if ($isIp || !empty($bandwidth[$j]) || !empty($ccptqty[$j]) || !empty($vpn[$j]) || !empty($lb[$j]) || !empty($rep_link_type[$j])) {
             $d = 'A.' . $no = $no + 1;
             $d .= ' +';
             tblHead("Network and Connectivity Services");
@@ -708,257 +591,259 @@ foreach ($estmtname as $j => $_Key) {
         // }
 
 
+        if (isset($osmgmt[$j]) || isset($dbmgmt[$j]) || isset($strgmgmt[$j]) || isset($backup_mgmt[$j]) || isset($lbmgmt[$j]) || isset($fvmgmt[$j]) || isset($wafmgmt[$j]) || !empty($bandwidth[$j]) || isset($EstmDATA['emagic'][$j]) || isset($EstmDATA["otc"][$j])) {
 
-        $Class = "Managed_$j";
-        // }
-        $f = 'A.' . $no = $no + 1;
-        tblHead("Managed Services");
-
-        if (isset($rep_link_mgmt[$j])) {
-            $replication_mgmt = (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0;
-        } else {
-            $replication_mgmt = 0;
-        }
-        if (isset($osmgmt[$j]) && !empty($os[$j])) {
-            // foreach ($os as $i => $val) {
-            //     if (preg_match('/Windows/', $os[$j][$i])) {
-            //         $os_mgmt_name[] = 'Windows';
-            //         $os_mgmt_qty['Windows'][] = $vmqty[$j][$i];
-            //         $mgmtINT['Windows'] = 'win_os_mg';
-            //         // echo $vmqty[ $j ][ $i ];
-            //     }
-            //     if (preg_match('/RHEL/', $os[$j][$i])) {
-            //         $os_mgmt_name[] = 'RHEL';
-            //         $os_mgmt_qty['RHEL'][] = $vmqty[$j][$i];
-            //         $mgmtINT['RHEL'] = 'rhel_os_mg';
-            //     }
-            //     if (preg_match('/SUSE/', $os[$j][$i])) {
-            //         $os_mgmt_name[] = 'SUSE';
-            //         $os_mgmt_qty['SUSE'][] = $vmqty[$j][$i];
-            //         $mgmtINT['SUSE'] = 'suse_os_mg';
-            //     }
-            //     if (preg_match('/UBUNTU/', $os[$j][$i])) {
-            //         $os_mgmt_name[] = 'UBUNTU';
-            //         $os_mgmt_qty['UBUNTU'][] = $vmqty[$j][$i];
-            //         $mgmtINT['UBUNTU'] = 'ubuntu_os_mg';
-            //     }
-            //     if (preg_match('/CENTOS/', $os[$j][$i])) {
-            //         $os_mgmt_name[] = 'CENTOS';
-            //         $os_mgmt_qty['CENTOS'][] = $vmqty[$j][$i];
-            //         $mgmtINT['CENTOS'] = 'centos_os_mg';
-            //     }
+            $Class = "Managed_$j";
             // }
-            foreach ($os[$j] as $i => $val) {
-                foreach ($osArr as $k => $int) {
-                    if ($os[$j][$i] == $int) {
-                        $str = explode("_", $os[$j][$i]);
-                        $osInt[] = $str[0];
-                        $os_mgmt_name[] = getProdName($int);
-                        $os_mgmt_qty[$str[0]][] = $vmqty[$j][$i];
-                        $osmgmtINT[$str[0]] = $str[0] . '_mgmt';
-                    }
-                }
-            }
-            $os_mgmt_data = (!empty($osInt)) ? array_values(array_unique($osInt)) : null;
-        }
+            $f = 'A.' . $no = $no + 1;
+            tblHead("Managed Services");
 
-        if (isset($dbmgmt[$j]) && !empty($db[$j])) {
-            foreach ($db[$j] as $i => $val) {
-                foreach ($dbArr as $k => $int) {
-                    if ($db[$j][$i] == $int) {
-                        $str = explode("_", $db[$j][$i]);
-                        $dbInt[] = $str[0];
-                        $db_mgmt_name[] = getProdName($int);
-                        $db_mgmt_qty[$str[0]][] = $vmqty[$j][$i];
-                        $dbmgmtINT[$str[0]] = $str[0] . '_db_mgmt';
-                    }
-                }
-            }
-            // foreach ($db[$j] as $i => $val) {
-            //     if (preg_match('/MS SQL/', $db[$j][$i])) {
-            //         $db_mgmt_name[] = 'MS SQL';
-            //         $db_mgmt_qty['MS SQL'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
-            //         $mgmtINT['MS SQL'] = 'ms_db_mg';
-            //     }
-            //     if (preg_match('/MY SQL/', $db[$j][$i])) {
-            //         $db_mgmt_name[] = 'MY SQL';
-            //         $db_mgmt_qty['MY SQL'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
-            //         $mgmtINT['MY SQL'] = 'my_db_mg';
-            //     }
-            //     if (preg_match('/Postgre/', $db[$j][$i])) {
-            //         $db_mgmt_name[] = 'Postgre';
-            //         $db_mgmt_qty['Postgre'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
-            //         $mgmtINT['Postgre'] = 'pg_db_mg';
-            //     }
-            //     if (preg_match('/Oracle/', $db[$j][$i])) {
-            //         $db_mgmt_name['Oracle'] = 'Oracle';
-            //         $db_mgmt_qty['Oracle'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
-            //         $mgmtINT['Oracle'] = 'orc_db_mg';
-            //     }
-            //     if (preg_match('/Mongo/', $db[$j][$i])) {
-            //         $db_mgmt_name['Mongo'] = 'Mongo';
-            //         $db_mgmt_qty['Mongo'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
-            //         $mgmtINT['Mongo'] = 'mong_db_mg';
-            //     }
-            //     if (preg_match('/Maria/', $db[$j][$i])) {
-            //         $db_mgmt_name['Maria'] = 'Maria';
-            //         $db_mgmt_qty['Maria'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
-            //         $mgmtINT['Maria'] = 'mar_db_mg';
-            //     }
-            // }
-            $db_mgmt_data = (!empty($dbInt)) ? array_values(array_unique($dbInt)) : null;
-            // $db_mgmt_data = (!empty($db_mgmt_name)) ? array_values(array_unique($db_mgmt_name)) : null;
-        }
-        $strgmgmtqty = array();
-        if (isset($strgmgmt[$j])) {
-            foreach ($strgArr as $int => $strgName) {
-                if (isset($EstmDATA[$int])) {
-                    ($EstmDATA[$int . "_unit"] == "GB") ? array_push($strgmgmtqty, intval($EstmDATA[$int . "_qty"])) : array_push($strgmgmtqty, intval($EstmDATA[$int . "_qty"]) * 1024);
-                }
-            }
-        } else {
-        }
-
-        if (isset($backup_mgmt[$j]) && !empty($backupstrg[$j])) {
-            $backmgmtqty = (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0;
-        } else
-            $backmgmtqty = 0;
-
-        if (isset($lbmgmt[$j]) && !empty($lbqty[$j])) {
-            $lbmgmtqty = $lbqty[$j];
-        } else
-            $lbmgmtqty = 0;
-
-        // print_r($fvmgmt);
-        if (isset($fvmgmt[$j])) {
-            if (!empty($totalFirewalls)) {
-                $fvmgmtqty = array_sum($totalFirewalls);
+            if (isset($rep_link_mgmt[$j])) {
+                $replication_mgmt = (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0;
             } else {
+                $replication_mgmt = 0;
+            }
+            if (isset($osmgmt[$j]) && !empty($os[$j])) {
+                // foreach ($os as $i => $val) {
+                //     if (preg_match('/Windows/', $os[$j][$i])) {
+                //         $os_mgmt_name[] = 'Windows';
+                //         $os_mgmt_qty['Windows'][] = $vmqty[$j][$i];
+                //         $mgmtINT['Windows'] = 'win_os_mg';
+                //         // echo $vmqty[ $j ][ $i ];
+                //     }
+                //     if (preg_match('/RHEL/', $os[$j][$i])) {
+                //         $os_mgmt_name[] = 'RHEL';
+                //         $os_mgmt_qty['RHEL'][] = $vmqty[$j][$i];
+                //         $mgmtINT['RHEL'] = 'rhel_os_mg';
+                //     }
+                //     if (preg_match('/SUSE/', $os[$j][$i])) {
+                //         $os_mgmt_name[] = 'SUSE';
+                //         $os_mgmt_qty['SUSE'][] = $vmqty[$j][$i];
+                //         $mgmtINT['SUSE'] = 'suse_os_mg';
+                //     }
+                //     if (preg_match('/UBUNTU/', $os[$j][$i])) {
+                //         $os_mgmt_name[] = 'UBUNTU';
+                //         $os_mgmt_qty['UBUNTU'][] = $vmqty[$j][$i];
+                //         $mgmtINT['UBUNTU'] = 'ubuntu_os_mg';
+                //     }
+                //     if (preg_match('/CENTOS/', $os[$j][$i])) {
+                //         $os_mgmt_name[] = 'CENTOS';
+                //         $os_mgmt_qty['CENTOS'][] = $vmqty[$j][$i];
+                //         $mgmtINT['CENTOS'] = 'centos_os_mg';
+                //     }
+                // }
+                foreach ($os[$j] as $i => $val) {
+                    foreach ($osArr as $k => $int) {
+                        if ($os[$j][$i] == $int) {
+                            $str = explode("_", $os[$j][$i]);
+                            $osInt[] = $str[0];
+                            $os_mgmt_name[] = getProdName($int);
+                            $os_mgmt_qty[$str[0]][] = $vmqty[$j][$i];
+                            $osmgmtINT[$str[0]] = $str[0] . '_mgmt';
+                        }
+                    }
+                }
+                $os_mgmt_data = (!empty($osInt)) ? array_values(array_unique($osInt)) : null;
+            }
+
+            if (isset($dbmgmt[$j]) && !empty($db[$j])) {
+                foreach ($db[$j] as $i => $val) {
+                    foreach ($dbArr as $k => $int) {
+                        if ($db[$j][$i] == $int) {
+                            $str = explode("_", $db[$j][$i]);
+                            $dbInt[] = $str[0];
+                            $db_mgmt_name[] = getProdName($int);
+                            $db_mgmt_qty[$str[0]][] = $vmqty[$j][$i];
+                            $dbmgmtINT[$str[0]] = $str[0] . '_db_mgmt';
+                        }
+                    }
+                }
+                // foreach ($db[$j] as $i => $val) {
+                //     if (preg_match('/MS SQL/', $db[$j][$i])) {
+                //         $db_mgmt_name[] = 'MS SQL';
+                //         $db_mgmt_qty['MS SQL'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
+                //         $mgmtINT['MS SQL'] = 'ms_db_mg';
+                //     }
+                //     if (preg_match('/MY SQL/', $db[$j][$i])) {
+                //         $db_mgmt_name[] = 'MY SQL';
+                //         $db_mgmt_qty['MY SQL'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
+                //         $mgmtINT['MY SQL'] = 'my_db_mg';
+                //     }
+                //     if (preg_match('/Postgre/', $db[$j][$i])) {
+                //         $db_mgmt_name[] = 'Postgre';
+                //         $db_mgmt_qty['Postgre'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
+                //         $mgmtINT['Postgre'] = 'pg_db_mg';
+                //     }
+                //     if (preg_match('/Oracle/', $db[$j][$i])) {
+                //         $db_mgmt_name['Oracle'] = 'Oracle';
+                //         $db_mgmt_qty['Oracle'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
+                //         $mgmtINT['Oracle'] = 'orc_db_mg';
+                //     }
+                //     if (preg_match('/Mongo/', $db[$j][$i])) {
+                //         $db_mgmt_name['Mongo'] = 'Mongo';
+                //         $db_mgmt_qty['Mongo'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
+                //         $mgmtINT['Mongo'] = 'mong_db_mg';
+                //     }
+                //     if (preg_match('/Maria/', $db[$j][$i])) {
+                //         $db_mgmt_name['Maria'] = 'Maria';
+                //         $db_mgmt_qty['Maria'][] = floor(($vmqty[$j][$i] * $vDisk[$j][$i]) / 100);
+                //         $mgmtINT['Maria'] = 'mar_db_mg';
+                //     }
+                // }
+                $db_mgmt_data = (!empty($dbInt)) ? array_values(array_unique($dbInt)) : null;
+                // $db_mgmt_data = (!empty($db_mgmt_name)) ? array_values(array_unique($db_mgmt_name)) : null;
+            }
+            $strgmgmtqty = array();
+            if (isset($strgmgmt[$j])) {
+                foreach ($strgArr as $int => $strgName) {
+                    if (isset($EstmDATA[$int])) {
+                        ($EstmDATA[$int . "_unit"] == "GB") ? array_push($strgmgmtqty, intval($EstmDATA[$int . "_qty"])) : array_push($strgmgmtqty, intval($EstmDATA[$int . "_qty"]) * 1024);
+                    }
+                }
+            } else {
+            }
+
+            if (isset($backup_mgmt[$j]) && !empty($backupstrg[$j])) {
+                $backmgmtqty = (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0;
+            } else
+                $backmgmtqty = 0;
+
+            if (isset($lbmgmt[$j]) && !empty($lbqty[$j])) {
+                $lbmgmtqty = $lbqty[$j];
+            } else
+                $lbmgmtqty = 0;
+
+            // print_r($fvmgmt);
+            if (isset($fvmgmt[$j])) {
+                if (!empty($totalFirewalls)) {
+                    $fvmgmtqty = array_sum($totalFirewalls);
+                } else {
+                    $fvmgmtqty = 0;
+                }
+            } else
                 $fvmgmtqty = 0;
-            }
-        } else
-            $fvmgmtqty = 0;
 
-        if (isset($wafmgmt[$j]) && !empty($EstmDATA["waf_qty"][$j])) {
-            $wafmgmtqty = $EstmDATA["waf_qty"][$j];
-        } else {
-            $wafmgmtqty = 0;
-        }
-
-        if (!empty($bandwidth[$j])) {
-            $bandwidth_monitoring = 1;
-        } else
-            $bandwidth_monitoring = 0;
-
-        if (isset($EstmDATA['emagic'][$j])) {
-            $emagicqty = array(intval($lbmgmtqty), intval($fvmgmtqty), intval($wafmgmtqty), (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0, intval($ccptqty[$j]), $bandwidth_monitoring);
-        }
-
-        $newInfra = array();
-        foreach ($Infrastructure as $key => $val) {
-            if (is_array($val)) {
-                foreach ($val as $p) {
-                    array_push($newInfra, $p);
-                }
+            if (isset($wafmgmt[$j]) && !empty($EstmDATA["waf_qty"][$j])) {
+                $wafmgmtqty = $EstmDATA["waf_qty"][$j];
             } else {
-                array_push($newInfra, $val);
+                $wafmgmtqty = 0;
             }
-        }
+
+            if (!empty($bandwidth[$j])) {
+                $bandwidth_monitoring = 1;
+            } else
+                $bandwidth_monitoring = 0;
+
+            if (isset($EstmDATA['emagic'][$j])) {
+                $emagicqty = array(intval($lbmgmtqty), intval($fvmgmtqty), intval($wafmgmtqty), (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0, intval($ccptqty[$j]), $bandwidth_monitoring);
+            }
+
+            $newInfra = array();
+            foreach ($Infrastructure as $key => $val) {
+                if (is_array($val)) {
+                    foreach ($val as $p) {
+                        array_push($newInfra, $p);
+                    }
+                } else {
+                    array_push($newInfra, $val);
+                }
+            }
 
 
-        $period = $EstmDATA['period'];
-        if (empty($period[$j])) {
-            $period[$j] = 1;
-        }
-        $DiscountingId = "OTC";
-        // tblRow('Services', 'One Time Infrastructure Setup', '', '', "", 1);
+            $period = $EstmDATA['period'];
+            if (empty($period[$j])) {
+                $period[$j] = 1;
+            }
+            $DiscountingId = "OTC";
+            // tblRow('Services', 'One Time Infrastructure Setup', '', '', "", 1);
         ?>
-        <tr>
-            <td><?php echo "Service"; ?></td>
-            <td class='final'><?php echo 'One Time Infrastructure Setup' ?></td>
-            <td class='qty'></td>
-            <td class='cost unshareable'></td>
-            <td class="MRC mrc_<?= $j ?> unshareable"></td>
-            <td class='discount unshareable' id='disc'></td>
-            <td class='DiscountedMrc unshareable'></td>
-            <td class='unshareable' id="otc_<?= $j ?>"></td>
-        </tr>
+            <tr>
+                <td><?php echo "Service"; ?></td>
+                <td class='final'><?php echo 'One Time Infrastructure Setup' ?></td>
+                <td class='qty'></td>
+                <td class='cost unshareable'></td>
+                <td class="MRC mrc_<?= $j ?> unshareable"></td>
+                <td class='discount unshareable' id='disc'></td>
+                <td class='DiscountedMrc unshareable'></td>
+                <td class='unshareable' id="otc_<?= $j ?>"></td>
+            </tr>
         <?php
-        $Class = "Managed_{$j}";
+            $Class = "Managed_{$j}";
 
 
-        // print_r($osmgmtINT);
-        if (isset($osmgmt[$j]) && !empty($os_mgmt_name)) {
-            for ($i = 0; $i < count($os_mgmt_data); $i++) {
-                $SKU = $product_sku[$osmgmtINT[$os_mgmt_data[$i]]];
-                $DiscountingId = $osmgmtINT[$os_mgmt_data[$i]] . "_$j";
-                $Products[$j][$DiscountingId] = tblRow("Services", getProdName($osmgmtINT[$os_mgmt_data[$i]]), array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $_Prices[$j]['Managed Services'][$osmgmtINT[$os_mgmt_data[$i]]]);
-                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$osmgmtINT[$os_mgmt_data[$i]]]] = array_sum($os_mgmt_qty[$os_mgmt_data[$i]]);
+            // print_r($osmgmtINT);
+            if (isset($osmgmt[$j]) && !empty($os_mgmt_name)) {
+                for ($i = 0; $i < count($os_mgmt_data); $i++) {
+                    $SKU = $product_sku[$osmgmtINT[$os_mgmt_data[$i]]];
+                    $DiscountingId = $osmgmtINT[$os_mgmt_data[$i]] . "_$j";
+                    $Products[$j][$DiscountingId] = tblRow("Services", getProdName($osmgmtINT[$os_mgmt_data[$i]]), array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $_Prices[$j]['Managed Services'][$osmgmtINT[$os_mgmt_data[$i]]]);
+                    $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$osmgmtINT[$os_mgmt_data[$i]]]] = array_sum($os_mgmt_qty[$os_mgmt_data[$i]]);
+                }
             }
-        }
-        if (isset($dbmgmt[$j]) && !empty($db_mgmt_data)) {
-            for ($i = 0; $i < count($db_mgmt_data); $i++) {
-                $SKU = $product_sku[$dbmgmtINT[$db_mgmt_data[$i]]];
-                $DiscountingId = $dbmgmtINT[$db_mgmt_data[$i]] . "_$j";
-                $Products[$j][$DiscountingId] = tblRow("Service", getProdName($dbmgmtINT[$db_mgmt_data[$i]]), array_sum($db_mgmt_qty[$db_mgmt_data[$i]]), $_Prices[$j]['Managed Services'][$dbmgmtINT[$db_mgmt_data[$i]]]);
-                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$dbmgmtINT[$db_mgmt_data[$i]]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]);
-                $managed_services[$dbmgmtINT[$db_mgmt_data[$i]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]) * intval($product_prices[$dbmgmtINT[$db_mgmt_data[$i]]]);
+            if (isset($dbmgmt[$j]) && !empty($db_mgmt_data)) {
+                for ($i = 0; $i < count($db_mgmt_data); $i++) {
+                    $SKU = $product_sku[$dbmgmtINT[$db_mgmt_data[$i]]];
+                    $DiscountingId = $dbmgmtINT[$db_mgmt_data[$i]] . "_$j";
+                    $Products[$j][$DiscountingId] = tblRow("Service", getProdName($dbmgmtINT[$db_mgmt_data[$i]]), array_sum($db_mgmt_qty[$db_mgmt_data[$i]]), $_Prices[$j]['Managed Services'][$dbmgmtINT[$db_mgmt_data[$i]]]);
+                    $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$dbmgmtINT[$db_mgmt_data[$i]]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]);
+                    $managed_services[$dbmgmtINT[$db_mgmt_data[$i]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]) * intval($product_prices[$dbmgmtINT[$db_mgmt_data[$i]]]);
+                }
             }
-        }
-        if (isset($strgmgmt[$j])) {
-            $SKU = $product_sku['strg_mgmt'];
-            $DiscountingId = "strg_mgmt_{$j}";
-            $Products[$j][$DiscountingId] = tblRow("Service", "Storage Management Per TB", floor(array_sum($strgmgmtqty) / 1024), $_Prices[$j]['Managed Services']["st_mg"]);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['strg_mgmt']] = floor(array_sum($strgmgmtqty) / 1024);
-        }
-        if (isset($backup_mgmt[$j])) {
-            $SKU = $product_sku['backup_mgmt'];
-            $DiscountingId = "backup_mgmt_{$j}";
-            $Products[$j][$DiscountingId] = tblRow("Service", 'Backup Management - per Instance', $backmgmtqty, $_Prices[$j]['Managed Services']["back_mg"]);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['backup_mgmt']] = $backmgmtqty;
-        }
-        if (isset($rep_link_mgmt[$j])) {
-            $SKU = $product_sku['rep_mgmt'];
-            $DiscountingId = "rep_mgmt_{$j}";
-            $Products[$j][$DiscountingId] = tblRow("Service", 'Replication Service Management', $replication_mgmt, $_Prices[$j]['Managed Services']['rep_mgmt']);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['rep_mgmt']] = $replication_mgmt;
-        }
+            if (isset($strgmgmt[$j])) {
+                $SKU = $product_sku['strg_mgmt'];
+                $DiscountingId = "strg_mgmt_{$j}";
+                $Products[$j][$DiscountingId] = tblRow("Service", "Storage Management Per TB", floor(array_sum($strgmgmtqty) / 1024), $_Prices[$j]['Managed Services']["st_mg"]);
+                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['strg_mgmt']] = floor(array_sum($strgmgmtqty) / 1024);
+            }
+            if (isset($backup_mgmt[$j])) {
+                $SKU = $product_sku['backup_mgmt'];
+                $DiscountingId = "backup_mgmt_{$j}";
+                $Products[$j][$DiscountingId] = tblRow("Service", 'Backup Management - per Instance', $backmgmtqty, $_Prices[$j]['Managed Services']["back_mg"]);
+                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['backup_mgmt']] = $backmgmtqty;
+            }
+            if (isset($rep_link_mgmt[$j])) {
+                $SKU = $product_sku['rep_mgmt'];
+                $DiscountingId = "rep_mgmt_{$j}";
+                $Products[$j][$DiscountingId] = tblRow("Service", 'Replication Service Management', $replication_mgmt, $_Prices[$j]['Managed Services']['rep_mgmt']);
+                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['rep_mgmt']] = $replication_mgmt;
+            }
 
-        if (isset($dr_drill[$j])) {
-            $SKU = $product_sku['dr_drill'];
-            $DiscountingId = "dr_drill_{$j}";
-            $Products[$j][$DiscountingId] = tblRow("Service", 'DR Drill Per Year', $drill_qty[$j], $_Prices[$j]['Managed Services']["dr_drill"]);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['dr_drill']] = $drill_qty[$j];
-        }
+            if (isset($dr_drill[$j])) {
+                $SKU = $product_sku['dr_drill'];
+                $DiscountingId = "dr_drill_{$j}";
+                $Products[$j][$DiscountingId] = tblRow("Service", 'DR Drill Per Year', $drill_qty[$j], $_Prices[$j]['Managed Services']["dr_drill"]);
+                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['dr_drill']] = $drill_qty[$j];
+            }
 
-        if (isset($lbmgmt[$j])) {
-            $SKU = $product_sku['virt_lb_mgmt'];
-            $DiscountingId = "lb_mg_{$j}";
-            $Products[$j][$DiscountingId] = tblRow("Service", 'Load Balancer Management', $lbmgmtqty, $_Prices[$j]['Managed Services']['lb_mgmt']);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['virt_lb_mgmt']] = $lbmgmtqty;
-        }
-        if (isset($fvmgmt[$j])) {
-            $name = (isset($EstmDATA["utm_check"][$j]) ? 'vUTM ' : '') . "Firewall Management";
-            $INT = (isset($utm[$j])) ? 'utm_mgmt' : 'vfirewall_mgmt';
-            $SKU = $product_sku[$INT];
-            $DiscountingId = "{$INT}_{$j}";
-            $Products[$j][$DiscountingId] = tblRow("Service", $name, $fvmgmtqty, $_Prices[$j]['Managed Services']["fw_mgmt"]);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$INT]] = $fvmgmtqty;
-        }
-        if (isset($wafmgmt[$j])) {
-            $SKU = $product_sku['esds_waf_mgmt'];
-            $DiscountingId = "waf_mg_{$j}";
-            $Products[$j][$DiscountingId] = tblRow("Service", "Web Application Firewall Management", $wafmgmtqty, $_Prices[$j]['Managed Services']['waf_mgmt']);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['esds_waf_mgmt']] = $wafmgmtqty;
-        }
+            if (isset($lbmgmt[$j])) {
+                $SKU = $product_sku['virt_lb_mgmt'];
+                $DiscountingId = "lb_mg_{$j}";
+                $Products[$j][$DiscountingId] = tblRow("Service", 'Load Balancer Management', $lbmgmtqty, $_Prices[$j]['Managed Services']['lb_mgmt']);
+                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['virt_lb_mgmt']] = $lbmgmtqty;
+            }
+            if (isset($fvmgmt[$j])) {
+                $name = (isset($EstmDATA["utm_check"][$j]) ? 'vUTM ' : '') . "Firewall Management";
+                $INT = (isset($utm[$j])) ? 'utm_mgmt' : 'vfirewall_mgmt';
+                $SKU = $product_sku[$INT];
+                $DiscountingId = "{$INT}_{$j}";
+                $Products[$j][$DiscountingId] = tblRow("Service", $name, $fvmgmtqty, $_Prices[$j]['Managed Services']["fw_mgmt"]);
+                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$INT]] = $fvmgmtqty;
+            }
+            if (isset($wafmgmt[$j])) {
+                $SKU = $product_sku['esds_waf_mgmt'];
+                $DiscountingId = "waf_mg_{$j}";
+                $Products[$j][$DiscountingId] = tblRow("Service", "Web Application Firewall Management", $wafmgmtqty, $_Prices[$j]['Managed Services']['waf_mgmt']);
+                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['esds_waf_mgmt']] = $wafmgmtqty;
+            }
 
-        if (isset($EstmDATA['emagic'][$j])) {
-            $SKU = $product_sku['emagic'];
-            $DiscountingId = "emagic_{$j}";
-            $name = 'eMagic Monitoring ' . $emagic_type[$j];
-            $Products[$j][$DiscountingId] = tblRow("Services", $name, array_sum($emagicqty), $_Prices[$j]['Managed Services']['emagic']);
-            $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['emagic']] = array_sum($emagicqty);
-            $info = '';
+            if (isset($EstmDATA['emagic'][$j])) {
+                $SKU = $product_sku['emagic'];
+                $DiscountingId = "emagic_{$j}";
+                $name = 'eMagic Monitoring ' . $emagic_type[$j];
+                $Products[$j][$DiscountingId] = tblRow("Services", $name, array_sum($emagicqty), $_Prices[$j]['Managed Services']['emagic']);
+                $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku['emagic']] = array_sum($emagicqty);
+                $info = '';
+            }
         }
         ?>
         <tr>

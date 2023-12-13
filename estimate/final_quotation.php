@@ -24,14 +24,23 @@ $MothlyTotal = array();
     require '../view/includes/header.php';
     ?>
     <link rel="stylesheet" href="../css/submit.css">
+    <link rel="stylesheet" href="../css/loader.css">
 </head>
 
 <body class="sidebar-mini layout-fixed sidebar-collapse" data-new-gr-c-s-check-loaded="14.1111.0" data-gr-ext-installed style="height: auto; overflow-x: hidden;">
     <?php
     require "../view/includes/nav.php";
-    
+
     ?>
     <div class="content-wrapper except bg-transparent">
+        <div id="loader" class="except" hidden>
+            <div class="except cube-folding">
+                <span class="except leaf1"></span>
+                <span class="except leaf2"></span>
+                <span class="except leaf3"></span>
+                <span class="except leaf4"></span>
+            </div>
+        </div>
         <?php
         // echo "<pre>"; print_r($_POST); echo "</pre>"; exit();
         require '../view/content-header.php';
@@ -41,9 +50,9 @@ $MothlyTotal = array();
             <div class="container-fluid except full" style="zoom : 65%">
                 <div class="errors except container" style="max-width: 2020px; margin: auto; "> </div>
                 <?php
-                if(!empty($_SESSION['edit_id'])){
+                if (!empty($_SESSION['edit_id'])) {
                     $D = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `id` = '{$_SESSION['edit_id']}'"));
-                    if(!empty($D)){
+                    if (!empty($D)) {
                         $_DiscountedData = json_decode($D['discountdata'], true);
                     }
                 }
@@ -55,12 +64,15 @@ $MothlyTotal = array();
                     <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button>
                     <button class="btn btn-outline-success btn-lg mx-1 export" id="exportShareable"><i class="fa fa-file-excel-o pr-2"></i> Export as Shareable</button>
                     <?php
-                    $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `pot_id` = '{$_POST['pot_id']}' AND emp_code = '{$_SESSION['emp_code']}'"));
-                    if (!empty($query['id'])) {
+                    $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `id` = '{$_SESSION["insertID"]}'"));
+                    if (empty($query)) {
+                        unset($_SESSION["insertID"]);
+                    }
+                    if (isset($_SESSION["insertID"]) || isset($_SESSION["edit_id"])) {
                     ?>
 
                         <button class="btn btn-outline-danger btn-lg mx-1 save" id="update"><i class="fas fa-refresh pr-2"></i> Update</button>
-                        <a class="btn btn-outline-info btn-lg mx-1" id="push" target="_blank" href="discounting.php?id=<?= $_SESSION['edit_id'] ?>"><i class="fa fa-calculator pr-2" aria-hidden="true"> Discounting</i></a>
+                        <a class="btn btn-outline-info btn-lg mx-1" id="Discount" target="_blank" href="discounting.php?id=<?= (isset($_SESSION["insertID"])) ? $_SESSION["insertID"] : $_SESSION['edit_id'] ?>"><i class="fa fa-calculator pr-2" aria-hidden="true"> Discounting</i></a>
                     <?php
                     } else { ?>
                         <button class="btn btn-outline-danger btn-lg mx-1 save" id="save"><i class="fas fa-save pr-2"></i> Save</button>
@@ -69,7 +81,9 @@ $MothlyTotal = array();
                 </div>
                 <?php
                 $temp =  json_encode(json_template($Sku_Data, $I_M), JSON_PRETTY_PRINT);
-                echo "<pre>";print_r($temp);echo "</pre>";    
+                // echo "<pre>";
+                // print_r($temp);
+                // echo "</pre>";
                 ?>
             </div>
         </div>
@@ -89,20 +103,20 @@ $MothlyTotal = array();
         $('#create').addClass('active');
 
 
-            function Push() {
-                $.ajax({
-                    type: 'POST',
-                    url: "../controller/push.php",
-                    dataType: "TEXT",
-                    data: {
-                        action : 'push',
-                        data : '<?= base64_encode($temp) ?>'
-                    },
-                    success: function(response) {
-                        alert(response);
-                    }
-                })
-            }
+        function Push() {
+            $.ajax({
+                type: 'POST',
+                url: "../controller/push.php",
+                dataType: "TEXT",
+                data: {
+                    action: 'push',
+                    data: '<?= base64_encode($temp) ?>'
+                },
+                success: function(response) {
+                    alert(response);
+                }
+            })
+        }
         $(document).ready(function() {
             // $.ajax({
             //     type: "POST",
@@ -118,15 +132,18 @@ $MothlyTotal = array();
             // })
         });
 
-        let sheetNames = {
-            <?php
-            $i = 1;
-            foreach ($estmtname as $key => $val) {
-                echo "'sheet{$i}' : '{$val}' ,";
-                $i++;
+
+        <?php
+        echo "let sheetNames = {";
+        $i = 1;
+        foreach ($estmtname as $key => $val) {
+            echo "'sheet{$i}' : '{$val}' ,";
+            $i++;
+        }
+        echo "sheet{$i} : 'Summary Sheet'
             }
-            echo "sheet{$i} : 'Summary Sheet'";
-            ?>}
+            ";
+        ?>
         <?php if (UserRole(1)) { ?>
             $(document).ready(function() {
                 $("#export").click(function() {
@@ -142,6 +159,9 @@ $MothlyTotal = array();
             echo '$(".export").remove();';
         } ?>
         $('.save').click(function() {
+            if ($(this).prop("id") == "save") {
+                $("#loader").removeAttr("hidden")
+            }
             $.ajax({
                 type: "POST",
                 url: '../model/saveToDB.php',
@@ -157,30 +177,24 @@ $MothlyTotal = array();
                 },
                 dataType: "TEXT",
                 success: function(response) {
-                    alert("Data Saved Successfully");
+                    // alert("Data Saved Successfully");
+                    const jsonObj = JSON.parse(response)
+                    alert(jsonObj.Message)
+                    location.reload()
                 }
             });
         })
 
-        $(document).ready(function() {
-            $('.full').find('.mng_qty').each(function() {
-                var tr_val = $(this).html()
-                if (tr_val == "0 NO") {
-                    $(this).parent().find('td').each(function() {
-                        $(this).addClass('bg-danger')
-                    })
-                }
-            })
-        })
 
-        window.addEventListener('beforeunload',
-            function(e) {
-                let conf = confirm("Are You sure want to unsave this Estimate ? ");
-                if (conf) {} else {
-                    e.preventDefault();
-                    e.returnValue = '';
-                }
-            });
+
+        // window.addEventListener('beforeunload',
+        //     function(e) {
+        //         let conf = confirm("Are You sure want to unsave this Estimate ? ");
+        //         if (conf) {} else {
+        //             e.preventDefault();
+        //             e.returnValue = '';
+        //         }
+        //     });
     </script>
 </body>
 

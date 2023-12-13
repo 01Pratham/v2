@@ -11,14 +11,20 @@ if (isset($_GET['rateCardId'])) {
     <div class="row except  mt-3 mx-3">
         <div class="input-group col-4 bg-transparent">
             <input type="text" name="searchBox" id="searchBox" class="form-control" aria-describedby="">
-            <span class="input-group-text p-0 form-control col-sm-1 bg-light" id="searchBox">
+            <button class="input-group-text p-0 form-control col-sm-1 bg-light" id="searchButton">
                 <i class="fa fa-search Center"></i>
-            </span>
+            </button>
         </div>
-        <div class="form-group ml-auto">
-            <button type="button" class="btn btn-danger" id="deleteProds"> <i class="fa fa-trash"></i> Delete Items</button>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Add Items</button>
-        </div>
+        <?php
+        if (UserRole(8)) {
+        ?>
+            <div class="form-group ml-auto">
+                <button type="button" class="btn btn-danger" id="deleteProds"> <i class="fa fa-trash"></i> Delete Items</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Add Items</button>
+            </div>
+        <?php
+        }
+        ?>
         <div class="modal fade bd-example-modal-xl except" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-heading text-center border-bottom">
@@ -26,22 +32,17 @@ if (isset($_GET['rateCardId'])) {
                 </div>
                 <div class="modal-content py-2 border-0">
                     <div class="input-group p-2 bg-transparent">
-                        <input type="text" name="searchBox" id="searchBox" class="form-control" aria-describedby="">
-                        <span class="input-group-text p-0 form-control col-sm-1 bg-light" id="searchBox">
+                        <input type="text" name="searchBox" id="addSearchBox" class="form-control" aria-describedby="">
+                        <button class="input-group-text p-0 form-control col-sm-1 bg-light" id="addSearchButton">
                             <i class="fa fa-search Center"></i>
-                        </span>
+                        </button>
                     </div>
                     <div class="except table-card mx-2">
                         <div class="except table-responsive">
                             <table class="table mb-0 rounded-2">
                                 <thead class="small text-uppercase bg-body text-muted">
                                     <tr class="border-bottom">
-                                        <th><input 
-                                            type="checkbox" 
-                                            name="" 
-                                            id="SelectAll" 
-                                            class='from-control' 
-                                            oninput="
+                                        <th><input type="checkbox" name="" id="SelectAll" class='from-control' oninput="
                                             $('.prodChecks').each(function(){
                                                 if($(this).prop('checked') && $('#SelectAll').prop('cheked') ){} else{$(this).click()}
                                                 })"></th>
@@ -53,14 +54,14 @@ if (isset($_GET['rateCardId'])) {
                                     <?php
                                     $productPricesQuery = mysqli_query($con, "SELECT * FROM `product_list` ORDER BY `product_list`.`product` ASC");
                                     while ($product = mysqli_fetch_assoc($productPricesQuery)) {
-                                        $productRateQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$id}' AND `prod_id` = '{$product['id']}'"));
+                                        $productRateQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '' AND `prod_id` = '{$product['id']}'"));
                                         // echo $productRateQuery['id'];
                                     ?>
                                         <tr class="border-bottom" onclick="//$('#<?= $product['id'] ?>').click()">
                                             <td>
                                                 <input type="checkbox" name="" id="<?= $product['id'] ?>" class='from-control prodChecks <?= (!empty($productRateQuery['id'])) ? "Present" : "" ?>' <?= (!empty($productRateQuery['id'])) ? "Checked" : ''; ?>>
                                             </td>
-                                            <td class="col-4 text-center">
+                                            <td class="col-4 text-center addProdNameTD">
                                                 <?= $product['product'] ?>
                                             </td>
                                             <td class="col-4 text-center">
@@ -71,7 +72,7 @@ if (isset($_GET['rateCardId'])) {
                                     }
                                     ?>
                                     <tr>
-                                        <td colspan="3" class="text-center prodDIv" >
+                                        <td colspan="3" class="text-center prodDIv">
                                             <button class="btn btn-primary except" id="addProds"> Add Products</button>
                                         </td>
                                     </tr>
@@ -90,14 +91,14 @@ if (isset($_GET['rateCardId'])) {
             <div class="except col-12 mb-3 mb-lg-5">
                 <div class="except table-card">
                     <div class="except table-responsive">
-                        <table class="table mb-0 rounded-2">
+                        <table class="table mb-0 rounded-2" id="prodsTable">
                             <thead class="small text-uppercase bg-body text-muted">
                                 <tr class="border-bottom">
                                     <th><input type="checkbox" name="" id="" class="selectActionProds" oninput="$('.selectProds').each(function(){$(this).click()})"></th>
                                     <th>#</th>
                                     <th class="text-start">Product</th>
                                     <th class="text-center">Region</th>
-                                    <?=($_GET['rateCardId'] != "1") ? '<th class="text-center">General Price</th>' : '' ?>
+                                    <?= ($_GET['rateCardId'] != "1") ? '<th class="text-center">General Price</th>' : '' ?>
                                     <th class="text-center">Configured Price</th>
                                     <th class="text-center">Is Active</th>
                                     <!-- <th class="text-center">Action</th> -->
@@ -115,16 +116,16 @@ if (isset($_GET['rateCardId'])) {
                                         <td class="">
                                             <?= $i ?>
                                         </td>
-                                        <td class="text-start">
+                                        <td class="text-start prodNameTD">
                                             <?= GetVal($prods['prod_id'])['product'] ?>
                                         </td>
                                         <td class="text-center">
                                             <?= getRegion(GetVal($prods['prod_id'])['region']) ?>
                                         </td>
 
-                                        <?php  
-                                        if ($_GET['rateCardId'] != "1") {?> <td class='text-center'><?=INR($generalPrice['price'])?> </td> <?php }?>
-                                        <td class="text-center Price" contenteditable="true" id="price_<?= $prods['id'] ?>">
+                                        <?php
+                                        if ($_GET['rateCardId'] != "1") { ?> <td class='text-center'><?= INR($generalPrice['price']) ?> </td> <?php } ?>
+                                        <td class="text-center Price" id="price_<?= $prods['id'] ?>">
                                             <?= (!empty($prods['price'])) ? INR($prods['price']) : INR(0) ?>
                                         </td>
                                         <td class="text-center">
@@ -148,11 +149,11 @@ if (isset($_GET['rateCardId'])) {
     <script>
         let Loader = '<div class="spinner-grow text-light mx-1  except" role="status"><span class="sr-only except"></span></div>';
         $('#addProds').click(function() {
-            $(this).attr('disabled','true'); 
+            $(this).attr('disabled', 'true');
             $(this).html(Loader.repeat(4));
             let prods = {
-                add : {},
-                rem : {}
+                add: {},
+                rem: {}
             }
             let i = 1;
             $(".prodChecks").each(function() {
@@ -185,7 +186,7 @@ if (isset($_GET['rateCardId'])) {
             }
         });
         $('.prodStatus').each(function() {
-            
+
             $(this).on('input', function() {
                 let id = $(this).prop('id').replace("status_", '');
                 AJAX({
@@ -197,7 +198,7 @@ if (isset($_GET['rateCardId'])) {
         })
 
         $("#deleteProds").click(function() {
-            $(this).attr('disabled','true'); 
+            $(this).attr('disabled', 'true');
             $(this).html(Loader.repeat(4));
             let prods = {}
             let i = 1
@@ -212,40 +213,72 @@ if (isset($_GET['rateCardId'])) {
                 prods: prods,
             });
         })
-
-        $(".Price").keypress(function(e) {
-            var key = e.keyCode || e.charCode; // ie||others
-            if (key == 13) { // if enter key is pressed            
-                $(this).blur();
-            }
-            $(this).on('blur', function() {
-                let id = $(this).prop('id').replace("price_", '');
-                AJAX({
-                    action: 'UpdateProduct',
-                    id: id,
-                    price: parseInt($(this).html().replace("₹ ", ''))
+        <?php
+        if (UserRole(8)) {
+        ?>
+            $(".Price").each(function() {
+                $(this).attr("contenteditable", "true")
+            });
+            $(".Price").keypress(function(e) {
+                var key = e.keyCode || e.charCode; // ie||o thers
+                if (key == 13) { // if enter key is pressed            
+                    $(this).blur();
+                }
+                $(this).on('blur', function() {
+                    let id = $(this).prop('id').replace("price_", '');
+                    AJAX({
+                        action: 'UpdateProduct',
+                        id: id,
+                        price: parseInt($(this).html().replace("₹ ", ''))
+                    })
                 })
             })
-        })
-
+        <?php
+        }
+        ?>
         let stat = false;
-        $('.prodChecks').each(function(){
-            if($(this).prop("checked")){
+        $('.prodChecks').each(function() {
+            if ($(this).prop("checked")) {
                 stat = true;
             }
 
-            $(this).on("input",function(){
-                if(!$(this).prop("checked")){
+            $(this).on("input", function() {
+                if (!$(this).prop("checked")) {
                     $('#SelectAll').removeAttr('checked');
-                }else if($(this).prop("checked")){
-                    $('#SelectAll').attr('checked',true);
+                } else if ($(this).prop("checked")) {
+                    $('#SelectAll').attr('checked', true);
                 }
             })
         });
 
-        if(stat){
+        if (stat) {
             $('#SelectAll').attr('checked', true);
         }
+
+
+        $("#searchButton").click(function() {
+            const searchVal = $("#searchBox").val()
+            $(".prodNameTD").each(function() {
+                if ($(this).html().includes(searchVal)) {
+                    $(this).parent().removeAttr("hidden")
+
+                } else {
+                    $(this).parent().attr("hidden", "true")
+                }
+            })
+        })
+
+        $("#addSearchButton").click(function() {
+            const searchVal = $("#addSearchBox").val()
+            $(".addProdNameTD").each(function() {
+                if ($(this).html().includes(searchVal)) {
+                    $(this).parent().removeAttr("hidden")
+
+                } else {
+                    $(this).parent().attr("hidden", "true")
+                }
+            })
+        })
     </script>
 
 
@@ -254,9 +287,10 @@ if (isset($_GET['rateCardId'])) {
 }
 
 
-function getRegion($id){
+function getRegion($id)
+{
     global $con;
-    $Query = mysqli_query($con,"SELECT * FROM `tbl_region` WHERE `id` = '{$id}'");
+    $Query = mysqli_query($con, "SELECT * FROM `tbl_region` WHERE `id` = '{$id}'");
     $arr = mysqli_fetch_assoc($Query);
     return $arr["region"];
 }

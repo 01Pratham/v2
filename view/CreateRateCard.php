@@ -1,20 +1,23 @@
-<?php 
+<?php
+
 require "../view/content-header.php";
 contentHeader("Rate Cards");
 ?>
 <div class="row except  mt-3 mx-3">
     <div class="input-group col-4 bg-transparent">
         <input type="text" name="searchBox" id="searchBox" class="form-control" aria-describedby="">
-        <span class="input-group-text p-0 form-control col-sm-1 bg-light" id="searchBox">
+        <button class="input-group-text p-0 form-control col-sm-1 bg-light" id="searchBox">
             <i class="fa fa-search Center"></i>
-        </span>
+        </button>
     </div>
     <div class="form-group ml-auto">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-m">Create Rate
-            Card</button>
+        <?php
+        if (UserRole(7)) { ?>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-m">Create Rate
+                Card</button>
+        <?php }  ?>
     </div>
-    <div class="modal fade bd-example-modal-m except" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-        aria-hidden="true">
+    <div class="modal fade bd-example-modal-m except" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-m">
             <div class="modal-heading text-center border-bottom">
                 <h4>Create Rate Card</h4>
@@ -56,7 +59,7 @@ contentHeader("Rate Cards");
                             $rateCareQuery = mysqli_query($con, "SELECT * FROM `tbl_rate_cards`");
                             $i = 1;
                             while ($rateCard = mysqli_fetch_assoc($rateCareQuery)) {
-                                ?>
+                            ?>
                                 <tr class="border-bottom">
                                     <td class="col-1">
                                         <?= $i ?>
@@ -70,22 +73,19 @@ contentHeader("Rate Cards");
                                     <td class="col-3 text-center">
                                         <?= $rateCard['created_date'] ?>
                                     </td>
-                                    <td class="col-2 text-center"><input type="checkbox" class="rateCardStatus ToogleSwitch"
-                                            id="<?= $rateCard['id'] ?>" <?= ($rateCard['is_active'] == "True") ? "Checked" : ''; ?>>
+                                    <td class="col-2 text-center"><input type="checkbox" class="rateCardStatus ToogleSwitch" id="<?= $rateCard['id'] ?>" <?= ($rateCard['is_active'] == "True") ? "Checked" : ''; ?>>
                                     </td>
                                     <td class="drodown text-center">
                                         <a data-bs-toggle="dropdown" href="#" class="btn p-1" aria-expanded="false">
                                             <span class="fa fa-bars" aria-hidden="true"></span>
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-end text-light"
-                                            style="min-width: 8rem; z-index:1 ">
-                                            <a href="?rateCardId=<?= $rateCard['id'] ?>" class="dropdown-item"><i>Edit</i><i
-                                                    class="fa fa-edit float-right pt-1"></i>
+                                        <div class="dropdown-menu dropdown-menu-end text-light" style="min-width: 8rem; z-index:1 ">
+                                            <a href="?rateCardId=<?= $rateCard['id'] ?>" class="dropdown-item"><i><?=(UserRole(8))? "Edit / View"  : "View"?></i><i class="fa fa-edit float-right pt-1"></i>
                                             </a>
                                         </div>
                                     </td>
                                 </tr>
-                                <?php
+                            <?php
                                 $i++;
                             }
                             ?>
@@ -100,7 +100,7 @@ contentHeader("Rate Cards");
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    $('#rateCardSubmit').click(function () {
+    $('#rateCardSubmit').click(function() {
         $.ajax({
             url: "../model/modelRateCard.php",
             type: "POST",
@@ -109,14 +109,14 @@ contentHeader("Rate Cards");
                 action: 'CreateRateCard',
                 rateCardName: $('#rateCardName').val(),
             },
-            success: function (response) {
+            success: function(response) {
                 alert(response);
                 window.location.href = "index.php?rateCard";
             }
         })
     });
 
-    $('.rateCardStatus').on('input', function () {
+    $('.rateCardStatus').on('input', function() {
         let id = $(this).prop('id');
         $.ajax({
             url: "../model/modelRateCard.php",
@@ -127,7 +127,7 @@ contentHeader("Rate Cards");
                 id: id,
                 status: $(this).prop('checked')
             },
-            success: function (response) {
+            success: function(response) {
                 alert(response);
                 // window.location.href="index.php?rateCard";
             }

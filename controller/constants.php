@@ -37,7 +37,7 @@ $EstmDATA = $_SESSION['post_data'];
     $db = $EstmDATA['database'];
     $series = $EstmDATA['series'];
     $ip_public = $EstmDATA['ip_public'];
-    $publicip_vers = $EstmDATA["publicipversion"];
+    $publicip_vers = $EstmDATA["ip_public_type"];
     $ip_private = $EstmDATA['ipprivate'];
     $privateip_vers = $EstmDATA["privateipversion"];
     $state = $EstmDATA["state"];
@@ -143,7 +143,7 @@ $EstmDATA = $_SESSION['post_data'];
     $rep_link_mgmt = $EstmDATA['rep_link_mgmt'];
 
 
-    $publicip_qty = $EstmDATA["public_ipqty"];
+    $publicip_qty = $EstmDATA["ip_public"];
     $privateip_qty = $EstmDATA["private_ipqty"];
     $iops03qty = $EstmDATA['03iopsqty'];
     $iops1qty = $EstmDATA['1iopsqty'];
