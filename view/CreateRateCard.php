@@ -77,11 +77,11 @@ contentHeader("Rate Cards");
                                         <?= $i ?>
                                     </td>
                                     <td class="col-4 text-center">
-                                        <a href="?rateCardId=<?= $rateCard['id'] ?>" class="text-dark"><?= $rateCard['rate_card_name'] ?></a>
+                                        <a href="?rateCardId=<?= $rateCard['id'] ?>"><div> <?= $rateCard['rate_card_name'] ?></div></a>
 
                                     </td>
                                     <td class="col-2 text-center">
-                                        <?= $rateCard['created_by'] ?>
+                                        <?= employee($rateCard['created_by'])['first_name'] ?>
                                     </td>
                                     <td class="col-2 text-center">
                                         <?php
@@ -107,7 +107,14 @@ contentHeader("Rate Cards");
                                         <div class="dropdown-menu dropdown-menu-end text-light" style="min-width: 8rem; z-index:1 ">
                                             <a href="?rateCardId=<?= $rateCard['id'] ?>" class="dropdown-item"><i><?= (UserRole(8) || $rateCard["card_type"] == "Private") ? "Edit / View"  : "View" ?></i><i class="fa fa-edit float-right pt-1"></i>
                                             </a>
-                                            <?= (UserRole(8) || $rateCard["card_type"] == "Private") ? '<div class="dropdown-item" onclick = "deleteRateCard(' . $rateCard["id"] . ')" id = "delete_rateCard" data-id = "' . $rateCard["id"] . '"><i>Delete</i><i class="fa fa-trash float-right pt-1"></i></div>' : "View" ?>
+                                            <?= (UserRole(8) || $rateCard["card_type"] == "Private") ? 
+                                                '<div class="dropdown-item" 
+                                                    onclick = "deleteRateCard(' . $rateCard["id"] . ')" 
+                                                    id = "delete_rateCard" 
+                                                    data-id = "' . $rateCard["id"] . '">
+                                                    <i>Delete</i><i class="fa fa-trash float-right pt-1"></i>
+                                                </div>' 
+                                            : "View" ?>
 
                                         </div>
                                     </td>

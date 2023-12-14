@@ -16,8 +16,8 @@ if (isset($_GET['rateCardId'])) {
             </button>
         </div>
         <?php
-        $q = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_rate_cards` WHERE `id` = {$id} AND `created_by` = '{$_SESSION['emp_id']}'"));
-        if (UserRole(8) || $q['card_type'] == "Private") {
+        $q = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_rate_cards` WHERE `id` = {$id} AND `created_by` = '{$_SESSION['emp_code']}'"));
+        if (UserRole(8) || preg_match("/Private/", $q['card_type'])) {
         ?>
             <div class="form-group ml-auto">
                 <button type="button" class="btn btn-danger" id="deleteProds"> <i class="fa fa-trash"></i> Delete Items</button>
@@ -55,8 +55,9 @@ if (isset($_GET['rateCardId'])) {
                                     <?php
                                     $productPricesQuery = mysqli_query($con, "SELECT * FROM `product_list` ORDER BY `product_list`.`product` ASC");
                                     while ($product = mysqli_fetch_assoc($productPricesQuery)) {
-                                        $productRateQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '' AND `prod_id` = '{$product['id']}'"));
+                                        $productRateQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '1' AND `prod_id` = '{$product['id']}'"));
                                         // echo $productRateQuery['id'];
+                                        // print_r($productRateQuery);
                                     ?>
                                         <tr class="border-bottom" onclick="//$('#<?= $product['id'] ?>').click()">
                                             <td>
@@ -66,7 +67,7 @@ if (isset($_GET['rateCardId'])) {
                                                 <?= $product['product'] ?>
                                             </td>
                                             <td class="col-4 text-center">
-                                                <?= INR($product['price']) ?>
+                                                <?= INR($productRateQuery['price']) ?>
                                             </td>
                                         </tr>
                                     <?php
@@ -125,8 +126,9 @@ if (isset($_GET['rateCardId'])) {
                                         </td>
 
                                         <?php
-                                        if ($_GET['rateCardId'] != "1") { ?> <td class='text-center'><?= INR($generalPrice['price']) ?> </td> <?php } ?>
-                                        <td class="text-center Price" id="price_<?= $prods['id'] ?>">
+                                        if ($_GET['rateCardId'] != "1") { ?> <td class='text-center GeneralPrice'><?= INR($generalPrice['price']) ?> </td> <?php } ?>
+
+                                        <td class="text-center Price <?= (floatval($generalPrice['price']) > floatval($prods['price']) || empty($prods['price'])) ? "text-danger" : '' ?>" id="price_<?= $prods['id'] ?>">
                                             <?= (!empty($prods['price'])) ? INR($prods['price']) : INR(0) ?>
                                         </td>
                                         <td class="text-center">
@@ -215,7 +217,7 @@ if (isset($_GET['rateCardId'])) {
             });
         })
         <?php
-        if (UserRole(8)) {
+        if (UserRole(8) || preg_match("/Private/", $q['card_type'])) {
         ?>
             $(".Price").each(function() {
                 $(this).attr("contenteditable", "true")
@@ -227,11 +229,34 @@ if (isset($_GET['rateCardId'])) {
                 }
                 $(this).on('blur', function() {
                     let id = $(this).prop('id').replace("price_", '');
-                    AJAX({
-                        action: 'UpdateProduct',
-                        id: id,
-                        price: parseFloat($(this).html().replace("₹ ", ''))
-                    },false)
+                    const price = parseFloat($(this).html().replace("₹ ", ''))
+                    <?php
+                    if (preg_match("/Private/", $q['card_type'])) {
+                        echo '
+                        const general = parseFloat($(this).parent().find(".GeneralPrice").html().replace("₹ ", ""))
+                    if (general > price) {
+                        // alert("The Price cannot be Lesser than General Price.");
+                        $(this).addClass("text-danger")
+                    } else {
+                        AJAX({
+                            action: "UpdateProduct",
+                            id: id,
+                            price: price
+                        }, false)
+                        $(this).removeClass("text-danger")
+                    }
+                        ';
+                    } else {
+                        echo '
+                        AJAX({
+                            action: "UpdateProduct",
+                            id: id,
+                            price: price
+                        }, false)
+                        ';
+                    }
+                    ?>
+
                 })
             })
         <?php

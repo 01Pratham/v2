@@ -23,7 +23,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="index.php" class="nav-link active">
+                    <a href="index.php" class="nav-link active except   ">
                         <i class="nav-icon fas fa-th"></i>
                         <p class="except">
                             Dashboard
@@ -31,7 +31,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?all" class="nav-link" id="allEstms">
+                    <a href="index.php?all" class="nav-link except  " id="allEstms">
                         <i class="nav-icon fa fa-folder-open"></i>
                         <p class="except">
                             Saved Quotations
@@ -39,7 +39,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?create_new" class="nav-link" id="create">
+                    <a href="index.php?create_new" class="nav-link except   " id="create">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p class="except">
                             Create New
@@ -47,7 +47,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?users" class="nav-link" id="teamUsers">
+                    <a href="index.php?users" class="nav-link except    " id="teamUsers">
                         <i class="nav-icon fas fa-users"></i>
                         <p class="except">
                             Team
@@ -55,7 +55,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?rateCard" class="nav-link" id="rateCard">
+                    <a href="index.php?rateCard" class="nav-link except" id="rateCard">
                         <i class="nav-icon fas fa-book-open"></i>
                         <p class="except">
                             Rate Card

@@ -320,7 +320,7 @@ function mode() {
             $(".mytabs").removeClass('dark')
         }
 
-        $('#mode').parent().find('label').attr("title", "Turn to Light Mode")
+        $('#mode').parent().find('label').attr("title", "Turn to Light Mode").removeClass("text-dark").addClass("text-light")
 
     }
     else {
@@ -348,7 +348,7 @@ function mode() {
             $('.except').removeClass('light')
         }
 
-        $('#mode').parent().find('label').attr("title", "Turn to Dark Mode")
+        $('#mode').parent().find('label').attr("title", "Turn to Dark Mode").removeClass("text-light").addClass("text-dark")
     }
 }
 
