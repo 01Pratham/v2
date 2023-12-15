@@ -9,6 +9,7 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
     require "../model/editable.php";
     global $Editable, $con, $EstmtDone;
     // print_r($Editable);  
+    
 ?>
 
     <section class="est_div align-center Main mt-2" id="est_div_<?= $id ?>">

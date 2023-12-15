@@ -1,11 +1,8 @@
 <?php
 $timeout = 2;
-
-//Set the maxlifetime of the session
 ini_set("session.gc_maxlifetime", $timeout);
 
 session_start();
-
 
 if (isset($_SESSION['uname'])) {
     // print_r($_SESSION);

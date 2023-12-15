@@ -1,6 +1,7 @@
 <!-- <span class="loader except" ></span> -->
 <div class="except content-wrapper Main bg-transparent" >
     <?php
+
 //  print_r($Editable['count_of_est'] > 1);
 
     if (empty($_SERVER['QUERY_STRING'])) {
@@ -8,19 +9,9 @@
         unset($_SESSION['edit_id']);
     }
     elseif (isset($_GET['rateCard'])){
-        echo "
-        <script>
-            $('.nav-link').removeClass('active')
-            $('#rateCard').addClass('active')
-        </script>";
         require '../view/CreateRateCard.php';
     }
     elseif (isset($_GET['rateCardId'])){
-        echo "
-        <script>
-            $('.nav-link').removeClass('active')
-            $('#rateCard').addClass('active')
-        </script>";
         require '../view/RateCardCompnents.php';
     }
     // elseif (isset($_GET['priceBook'])) {
@@ -44,13 +35,6 @@
     // } 
     elseif (isset($_GET['all'])) {
         unset($_SESSION['post_data']);
-        echo "
-        <script>
-            $('#dashboard').remove()
-            $('.nav-link').removeClass('active')
-            $('#allEstms').addClass('active')
-        </script>
-        ";
         require 'all_estms.php';
         if (!empty($_GET['all'])) {
             allEstimates($_GET['all'], $_GET['all']);
@@ -87,8 +71,7 @@
         unset($_SESSION['edit_id']);
         echo "<script>
                 $('#dashboard').remove()
-                $('.nav-link').removeClass('active')
-                $('#create').addClass('active');
+                
             </script>";
         require('../view/create_new.php');
         CreateNew();
@@ -103,14 +86,6 @@
         $_SESSION['edit_id'] = $_GET['edit_id'];
         require "../model/editable.php";
         // print_r($Editable['count_of_est']);
-        echo "
-        <script>
-            $('#dashboard').remove()
-            $('.nav-link').removeClass('active')
-            $('#create').addClass('active')
-        </script>";
-
-
         require('../view/create_new.php');
         CreateNew();
         require('edit_estimate.php');
@@ -118,29 +93,12 @@
             echo "<script> 
                 $('.Create').remove(); 
                 $('#dashboard').remove()
-                $('.nav-link').removeClass('active');
-                $('#create').addClass('active')
             </script>";
             // require('edit_estimate.php');
         }
-        // if($Editable['count_of_est'] > 1) {
-        //     for ($count = 1; $count < $Editable['count_of_est']; $count++){
-        //         echo "<script>add_estmt()</script>";
-        //         if($count == ($Editable['count_of_est'] - 1)){
-        //             $EstmtDone = true;
-        //             // echo "<script>console.log('estmt success')</script>";
-        //         }
-        //     }
-        // }
         
     } elseif (!isset($_GET['edit_id']) && isset($_GET['next'])) {
 
-        echo "<script>
-                    $('#dashboard').remove()
-                    $('#create_Main').remove();
-                    $('.nav-link').removeClass('active')
-                    $('#create').addClass('active')
-                </script>";
         require('edit_estimate.php');
     } elseif (isset($_GET['clone_id'])) {
         $qoutaion = mysqli_fetch_array(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `emp_code`='{$_SESSION['emp_code']}' AND `id` = '{$_GET['clone_id']}' "));
@@ -221,10 +179,6 @@
     } else if (isset($_GET['users'])) {
         require '../view/users.php';
         allUsers();
-        echo "<script>
-        $('.nav-link').removeClass('active')
-        $('#teamUsers').addClass('active')
-        </script>";
     } else {
         echo "<h1>404 Page Not Found</h1>";
     }

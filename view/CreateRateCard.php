@@ -45,7 +45,8 @@ contentHeader("Rate Cards");
     </div>
 </div>
 
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<!-- 
+ <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> --> 
 <div class="except  mt-3 mx-3">
     <div class="except row">
         <div class="except col-12 mb-3 mb-lg-5">
@@ -81,13 +82,13 @@ contentHeader("Rate Cards");
 
                                     </td>
                                     <td class="col-2 text-center">
-                                        <?= employee($rateCard['created_by'])['first_name'] ?>
+                                        <?= ($rateCard['created_by'] == $_SESSION['emp_code'])?"You": employee($rateCard['created_by'])['first_name'] ?>
                                     </td>
                                     <td class="col-2 text-center">
                                         <?php
                                         if (UserRole(10)) {
                                         ?>
-                                            <select name="" id="UpdateCardType" class="form-control border-0">
+                                            <select name="" id="UpdateCardType" class="form-control border-0" data-id = "<?= $rateCard['id'] ?>">
                                                 <option <?= ($rateCard["card_type"] == "Private") ? "Selected" : '' ?> value="Private">Private</option>
                                                 <option <?= ($rateCard["card_type"] == "Public") ? "Selected" : '' ?> value="Public">Public</option>
                                             </select>
@@ -184,4 +185,24 @@ contentHeader("Rate Cards");
             }
         })
     }
+
+
+    $("#UpdateCardType").on("change", function(){
+        const id = $(this).data("id")
+
+        $.ajax({
+            url: "../model/modelRateCard.php",
+            type: "post",
+            dataType: "text",
+            data: {
+                id: id,
+                visibility : $(this).val(),
+                action: "updateVisibility"
+            },
+            success: function(response) {
+                // alert(response);
+                // location.reload();
+            }
+        })
+    })
 </script>

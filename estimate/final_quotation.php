@@ -100,8 +100,8 @@ $MothlyTotal = array();
 
 
     <script>
-        $('.nav-link').removeClass('active')
-        $('#create').addClass('active');
+            // $('.nav-link').removeClass('active')
+            // $('#create').addClass('active');
 
 
         function Push() {

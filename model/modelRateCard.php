@@ -98,4 +98,10 @@ if (isset($_POST['action'])) {
             }
         }
     }
+
+    if($action == "updateVisibility"){
+        $id = $_POST["id"];
+        $visibility = $_POST["visibility"];
+        $query = mysqli_query($con,"UPDATE `tbl_rate_cards` SET `card_type`='{$visibility}' WHERE `id` = '{$id}'"); 
+    }
 }

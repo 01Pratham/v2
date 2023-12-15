@@ -45,17 +45,19 @@ if (isset($_GET['rateCardId'])) {
                                     <tr class="border-bottom">
                                         <th><input type="checkbox" name="" id="SelectAll" class='from-control' oninput="
                                             $('.prodChecks').each(function(){
-                                                if($(this).prop('checked') && $('#SelectAll').prop('cheked') ){} else{$(this).click()}
+                                                if (!$(this).parent().prop('hidden')){
+                                                    if($(this).prop('checked') && $('#SelectAll').prop('cheked') ){} else{$(this).click()}
+                                                }
                                                 })"></th>
                                         <th class="col-8 text-center">Product Name</th>
-                                        <th class="text-center">Product Prices</th>
+                                        <th class="text-center">General Prices</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $productPricesQuery = mysqli_query($con, "SELECT * FROM `product_list` ORDER BY `product_list`.`product` ASC");
                                     while ($product = mysqli_fetch_assoc($productPricesQuery)) {
-                                        $productRateQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '1' AND `prod_id` = '{$product['id']}'"));
+                                        $productRateQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$id}' AND `prod_id` = '{$product['id']}'"));
                                         // echo $productRateQuery['id'];
                                         // print_r($productRateQuery);
                                     ?>
@@ -67,7 +69,7 @@ if (isset($_GET['rateCardId'])) {
                                                 <?= $product['product'] ?>
                                             </td>
                                             <td class="col-4 text-center">
-                                                <?= INR($productRateQuery['price']) ?>
+                                                <?= INR(getGeneralPrice($product['id'])) ?>
                                             </td>
                                         </tr>
                                     <?php
@@ -87,7 +89,8 @@ if (isset($_GET['rateCardId'])) {
         </div>
     </div>
 
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    
+<!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
     <div class="except  mt-3 mx-3">
         <div class="except row">
             <div class="except col-12 mb-3 mb-lg-5">
@@ -111,10 +114,10 @@ if (isset($_GET['rateCardId'])) {
                                 $rateCardQuery = mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$id}'");
                                 $i = 1;
                                 while ($prods = mysqli_fetch_assoc($rateCardQuery)) {
-                                    $generalPrice = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = 1 AND `prod_id` = '{$prods['prod_id']}' "));
+                                   
                                 ?>
                                     <tr class="border-bottom">
-                                        <td><input type="checkbox" name="" id="prods_<?= $prods['id'] ?>" class="selectProds"></td>
+                                        <td><input type="checkbox" name="" id="prods_<?= $prods['prod_id'] ?>" class="selectProds"></td>
                                         <td class="">
                                             <?= $i ?>
                                         </td>
@@ -126,9 +129,9 @@ if (isset($_GET['rateCardId'])) {
                                         </td>
 
                                         <?php
-                                        if ($_GET['rateCardId'] != "1") { ?> <td class='text-center GeneralPrice'><?= INR($generalPrice['price']) ?> </td> <?php } ?>
+                                        if ($_GET['rateCardId'] != "1") { ?> <td class='text-center GeneralPrice'><?= INR(getGeneralPrice($prods["prod_id"])) ?> </td> <?php } ?>
 
-                                        <td class="text-center Price <?= (floatval($generalPrice['price']) > floatval($prods['price']) || empty($prods['price'])) ? "text-danger" : '' ?>" id="price_<?= $prods['id'] ?>">
+                                        <td class="text-center Price <?= (floatval(getGeneralPrice($prods["id"])) > floatval($prods['price']) || empty($prods['price'])) ? "text-danger" : '' ?>" id="price_<?= $prods['id'] ?>">
                                             <?= (!empty($prods['price'])) ? INR($prods['price']) : INR(0) ?>
                                         </td>
                                         <td class="text-center">
@@ -151,6 +154,7 @@ if (isset($_GET['rateCardId'])) {
 
     <script>
         let Loader = '<div class="spinner-grow text-light mx-1  except" role="status"><span class="sr-only except"></span></div>';
+
         $('#addProds').click(function() {
             $(this).attr('disabled', 'true');
             $(this).html(Loader.repeat(4));
@@ -177,7 +181,6 @@ if (isset($_GET['rateCardId'])) {
                     prods: prods.rem,
                     rateCardId: <?= $id ?>
                 })
-                // console.log(prods.rem);
             }
             if (Object.keys(prods.add) != '') {
                 AJAX({
@@ -185,7 +188,6 @@ if (isset($_GET['rateCardId'])) {
                     prods: prods.add,
                     rateCardId: <?= $id ?>
                 })
-                // console.log(prods.add);
             }
         });
         $('.prodStatus').each(function() {
@@ -295,9 +297,9 @@ if (isset($_GET['rateCardId'])) {
         })
 
         $("#addSearchButton").click(function() {
-            const searchVal = $("#addSearchBox").val()
+            const searchVal = $("#addSearchBox").val().toLowerCase()
             $(".addProdNameTD").each(function() {
-                if ($(this).html().includes(searchVal)) {
+                if ($(this).html().toLowerCase().includes(searchVal)) {
                     $(this).parent().removeAttr("hidden")
 
                 } else {
@@ -306,9 +308,6 @@ if (isset($_GET['rateCardId'])) {
             })
         })
     </script>
-
-
-
 <?php
 }
 
@@ -321,4 +320,10 @@ function getRegion($id)
     return $arr["region"];
 }
 
+function getGeneralPrice($id){
+    global $con;
+    $generalPriceQuery =mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = 1 AND `prod_id` = '{$id}' ");
+    $generalPrice = mysqli_fetch_assoc($generalPriceQuery);
+    return $generalPrice['price'];
+}getGeneralPrice($prods["id"])
 ?>

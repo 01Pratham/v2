@@ -81,7 +81,8 @@ function allUsers($type = "")
     contentHeader('Team Details');
     require '../model/database.php';
     ?>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    
+<!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
 
         <div class="input-group col-4 bg-transparent">
             <input type="text" name="searchBox" id="searchBox" class="form-control" aria-describedby="">
@@ -109,7 +110,7 @@ function allUsers($type = "")
                                 if (empty(mysqli_fetch_assoc($user_query)['id']) && $type != "share") {
                                     echo "
                                     <tr>
-                                        <td colspan = '2' class = 'text-center'> There is No User in your TEAM. </td>
+                                        <td colspan = '4' class = 'text-center'> There is No User in your TEAM. </td>
                                     </tr>
                                     <style>
                                         body{

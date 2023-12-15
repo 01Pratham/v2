@@ -1,3 +1,4 @@
+
 <aside class="main-sidebar sidebar-light-primary elevation-4">
     <a href="" class="brand-link mt-2">
         <img src="../include/dist/img/logo.png" alt="ESDS Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -23,7 +24,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="index.php" class="nav-link active except   ">
+                    <a href="index.php" class="nav-link <?=(empty($_SERVER['QUERY_STRING'] ) && preg_match("/index/",$_SERVER["SCRIPT_NAME"] ))? "active":''?>  except ">
                         <i class="nav-icon fas fa-th"></i>
                         <p class="except">
                             Dashboard
@@ -31,7 +32,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?all" class="nav-link except  " id="allEstms">
+                    <a href="index.php?all" class="nav-link except <?=($_SERVER['QUERY_STRING'] == "all")? "active":''?> " id="allEstms">
                         <i class="nav-icon fa fa-folder-open"></i>
                         <p class="except">
                             Saved Quotations
@@ -39,7 +40,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?create_new" class="nav-link except   " id="create">
+                    <a href="index.php?create_new" class="nav-link except  <?= (preg_match("/next|create_new|edit_id/",$_SERVER['QUERY_STRING']) || preg_match("/final_quotation/", $_SERVER["SCRIPT_NAME"])) ? "active" : ""  ?> " id="create">
                         <i class="nav-icon fas fa-cogs"></i>
                         <p class="except">
                             Create New
@@ -47,7 +48,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?users" class="nav-link except    " id="teamUsers">
+                    <a href="index.php?users" class="nav-link except  <?=($_SERVER['QUERY_STRING'] == "users")? "active":''?>   " id="teamUsers">
                         <i class="nav-icon fas fa-users"></i>
                         <p class="except">
                             Team
@@ -55,14 +56,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="index.php?rateCard" class="nav-link except" id="rateCard">
+                    <a href="index.php?rateCard" class="nav-link except <?=($_SERVER['QUERY_STRING'] == "rateCard" || preg_match( "/rateCardId/",$_SERVER['QUERY_STRING']))? "active":''?> " id="rateCard">
                         <i class="nav-icon fas fa-book-open"></i>
                         <p class="except">
                             Rate Card
+                        
+                        
+                       
                         </p>
                     </a>
                 </li>
             </ul>
         </nav>
     </div>
+   
 </aside>
+
