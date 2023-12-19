@@ -1,7 +1,7 @@
 <?php
 function CreateNew()
 {
-
+// print_r($_SESSION);
     echo '<section class="Create except">';
     require_once '../model/editable.php';
     global $con, $Editable;
@@ -45,7 +45,11 @@ function CreateNew()
                             }else{
                                 echo "<option value='{$pricing_list['id']}'> {$pricing_list['rate_card_name']} </option>";
                             }
-                            if($rateCard['created_by'] != $_SESSION['emp_code'] && $rateCard["card_type"] == "Private"){
+                            if($rateCard["card_type"] == "Private" && $_SESSION['quoteEditor'] != $_SESSION['emp_id']){
+                                echo "<option value='{$pricing_list['id']}' selected> {$pricing_list['rate_card_name']} </option>";
+                            }
+                            
+                            if($rateCard['created_by'] != $_SESSION['emp_code']){
                                 continue;
                             }
                             ?>

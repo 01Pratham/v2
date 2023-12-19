@@ -7,7 +7,7 @@ if ( $_POST['login_btn'] == 'Login') {
     $UserName = $_POST['login_uname'];
     $user_pass = md5($_POST['login_pass']);
 
-    $login_query = mysqli_query($con, "SELECT * FROM `login_master` where `username` = '{$UserName}' AND `password` = '{$user_pass}' ;");
+    $login_query = mysqli_query($con, "SELECT * FROM `login_master` where `username` LIKE '%{$UserName}%' AND `password` LIKE '{$user_pass}' ;");
     $login_data = mysqli_fetch_assoc($login_query);
 
     

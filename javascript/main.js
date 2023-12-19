@@ -580,3 +580,25 @@ function INR(number) {
     }
     return "₹ " + result;
 }
+
+
+function del(id){
+    let action = confirm('Are you Sure wanted to delete this ? ');
+    if (action) {
+        $.ajax({
+            type: 'POST',
+            url: '../model/saveToDB.php',
+            data: {
+                'action': 'Delete',
+                'id': id
+            },
+            dataType: 'TEXT',
+            success: function(response) {
+                alert('Deleted the Estimate');
+                window.location.href = 'index.php?all';
+            }
+        });
+    } else {
+        window.location.href = 'index.php?all';
+    }
+}

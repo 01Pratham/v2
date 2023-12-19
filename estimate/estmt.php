@@ -1,39 +1,17 @@
 <!-- <span class="loader except" ></span> -->
-<div class="except content-wrapper Main bg-transparent" >
+<div class="except content-wrapper Main bg-transparent">
     <?php
 
-//  print_r($Editable['count_of_est'] > 1);
+    //  print_r($Editable['count_of_est'] > 1);
 
     if (empty($_SERVER['QUERY_STRING'])) {
         unset($_SESSION['post_data']);
         unset($_SESSION['edit_id']);
-    }
-    elseif (isset($_GET['rateCard'])){
+    } elseif (isset($_GET['rateCard'])) {
         require '../view/CreateRateCard.php';
-    }
-    elseif (isset($_GET['rateCardId'])){
+    } elseif (isset($_GET['rateCardId'])) {
         require '../view/RateCardCompnents.php';
-    }
-    // elseif (isset($_GET['priceBook'])) {
-    //     unset($_SESSION['post_data']);
-    //     require '../view/priceBook.php';
-    //     priceBook();
-    //     echo "
-    //     <script>
-    //         $('.nav-link').removeClass('active')
-    //         $('#priceBook').addClass('active')
-    //     </script>";
-    // } elseif (isset($_GET['data_id'])) {
-    //     unset($_SESSION['post_data']);
-    //     require '../view/TableEditAdmin.php';
-    //     EditTableEstmt();
-    //     echo "
-    //     <script>
-    //         $('.nav-link').removeClass('active')
-    //         $('#priceBook').addClass('active')
-    //     </script>";
-    // } 
-    elseif (isset($_GET['all'])) {
+    } elseif (isset($_GET['all'])) {
         unset($_SESSION['post_data']);
         require 'all_estms.php';
         if (!empty($_GET['all'])) {
@@ -41,37 +19,14 @@
         } else {
             allEstimates($_SESSION['emp_code']);
         }
-
         if (isset($_GET['delete_id'])) {
-            echo "
-            <script> 
-            
-                let action = confirm('Are you Sure wanted to delete this ? ');
-                if (action) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '../model/saveToDB.php',
-                        data: {
-                            'action': 'Delete',
-                            'post_data': {$_GET['delete_id']}
-                        },
-                        dataType: 'TEXT',
-                        success: function(response) {
-                            alert('Deleted the Estimate');
-                            window.location.href = 'index.php?all';
-                        }
-                    });
-                } else {
-                    window.location.href = 'index.php?all';
-                }
-            </script>";
+            echo "<script>del({$_GET['delete_id']})</script>";
         }
     } elseif (isset($_GET['create_new'])) {
         unset($_SESSION['post_data']);
         unset($_SESSION['edit_id']);
         echo "<script>
                 $('#dashboard').remove()
-                
             </script>";
         require('../view/create_new.php');
         CreateNew();
@@ -81,11 +36,13 @@
         echo "<script>$('#dashboard').remove()</script>";
         exit();
     } elseif (isset($_GET['edit_id'])) {
-        
+
         unset($_SESSION['post_data']);
         $_SESSION['edit_id'] = $_GET['edit_id'];
+        $estmtData = getEstimateDetails($_GET['edit_id']);
+        $_SESSION['quoteEditor'] = $estmtData['emp_code'];
+
         require "../model/editable.php";
-        // print_r($Editable['count_of_est']);
         require('../view/create_new.php');
         CreateNew();
         require('edit_estimate.php');
@@ -94,9 +51,7 @@
                 $('.Create').remove(); 
                 $('#dashboard').remove()
             </script>";
-            // require('edit_estimate.php');
         }
-        
     } elseif (!isset($_GET['edit_id']) && isset($_GET['next'])) {
 
         require('edit_estimate.php');
@@ -190,7 +145,6 @@
 </div>
 <script>
     $(".edit").click(function() {
-
         $("#form").remove();
         if (typeof($("#edit_form").val()) == 'undefined' || $("#edit_form").val() == null) {
             data_id = $(this).attr("name")
@@ -205,7 +159,7 @@
                     $('.editable').append(response);
                 }
             });
-        } else {    
+        } else {
             alert("The Data has already been Showed")
         }
     })

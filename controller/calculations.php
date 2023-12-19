@@ -51,7 +51,7 @@ function get_DB($sw_name, $core_devide = 1, $price = 1, $Data = 'price')
           $vmqty_data[$i] = $vmqty[$j][$i] / 2;
         }
         $final_qty[$i] = (intval($core_data[$i]) * intval($vmqty_data[$i])) / $core_devide;
-      } else if (preg_match("/Community/", $sw_name)) {
+      } else if (is_null($core_devide)) {
         $final_qty[$i] = intval($vmqty_data[$i]);
       } else {
         $final_qty[$i] = ($core_data[$i] * $vmqty_data[$i]) / $core_devide;

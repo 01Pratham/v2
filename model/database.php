@@ -31,7 +31,7 @@ if (!function_exists("priceTbl")) {
         $exe_query = mysqli_query($con, "SELECT * FROM `product_list` WHERE `region` = '{$region}'");
         while ($price_tbl = mysqli_fetch_assoc($exe_query)) {
             $price_query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$EstmDATA['product_list']}' AND `prod_id` = '{$price_tbl['id']}'"));
-            $product_prices[$price_tbl['prod_int']] = intval($price_query['price']);
+            $product_prices[$price_tbl['prod_int']] = floatval($price_query['price']);
             $prod_cat[$price_tbl['prod_int']] = $price_tbl['sec_category'];
             $product_sku[$price_tbl['prod_int']] = $price_tbl['sku_code'];
             $products[$price_tbl['prod_int']] = $price_tbl['product'];
@@ -144,4 +144,15 @@ if (!function_exists("getProdName")) {
         $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT DISTINCT `product` FROM `product_list` WHERE `prod_int` = '{$int}'"));
         return $query['product'];
     }
+}
+
+if (!function_exists("getEstimateDetails")) {
+function getEstimateDetails($id){
+    global $con;
+    $query = mysqli_query($con , "SELECT * FROM `tbl_saved_estimates` WHERE `id` = '{$id}' ");
+    if($query){
+        $data = mysqli_fetch_assoc($query);
+        return $data;
+    }
+}
 }
