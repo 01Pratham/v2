@@ -697,7 +697,7 @@ foreach ($estmtname as $j => $_Key) {
 
     <script>
         $("#perce_<?= $j ?>").on("click", function() {
-            $obj = {
+            var $obj = {
                 action: "Discount",
                 discountVal: $("#DiscountPercetage_<?= $j ?>").val() / 100,
                 Total: "<?= $_Prices[$j]['MonthlyTotal'] ?>",
@@ -745,7 +745,7 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
             }
 
             ?></td>
-        <td class='discount unshareable' id='disc'>
+        <td class='discount unshareable' id='disc' data-key = "<?=$j ?>" data-discId = "<?=$DiscountingId ?>">
             <?php
             if (!empty($_DiscountedData)) {
 
@@ -878,7 +878,6 @@ function PriceOs($SW, $Feild)
     <?php
     echo "let DiscountedData = {";
     foreach ($estmtname as $j => $_Key) {
-
         echo $j . " : {
                 'percentage' : '',
                 'Data' : {} 
@@ -902,12 +901,12 @@ function PriceOs($SW, $Feild)
                     "DATA": DATA
                 });
                 // console.log(Obj)
+                $(".discount").attr("Contenteditable", "true");
             }
         })
-
     }
 
-    function totalInfra(j) {
+    function totalInfra(j, type = "total") {
         let Infrastructure = [];
         let Managed = [];
         $(".Managed_" + j + " , .Infrastructure_" + j + "").each(function() {
@@ -915,37 +914,98 @@ function PriceOs($SW, $Feild)
 
             let valHTML = $(this).html();
             let val = valHTML.replace(/₹|,|\n| /g, '');
-
-            if ($(this).hasClass("Infrastructure_" + j) && val !== '' && $(this).hasClass("MRC")) {
-                Infrastructure.push(parseFloat(val));
-                // console.log(val)
-            }
-
-            if ($(this).hasClass("Managed_" + j) && val !== '' && $(this).hasClass("MRC")) {
-                Managed.push(parseFloat(val));
+            if(type == "total"){
+                if ($(this).hasClass("Infrastructure_" + j) && val !== '' && $(this).hasClass("MRC")) {
+                    Infrastructure.push(parseFloat(val));
+                    // console.log(val)
+                }
+    
+                if ($(this).hasClass("Managed_" + j) && val !== '' && $(this).hasClass("MRC")) {
+                    Managed.push(parseFloat(val));
+                }
+            }else if (type == "discountedTotal"){
+                if ($(this).hasClass("Infrastructure_" + j) && val !== '' && $(this).hasClass("DiscountedMrc")) {
+                    Infrastructure.push(parseFloat(val));
+                    // console.log(val)
+                }
+    
+                if ($(this).hasClass("Managed_" + j) && val !== '' && $(this).hasClass("DiscountedMrc")) {
+                    Managed.push(parseFloat(val));
+                }
             }
         })
 
         infraTotal = Infrastructure.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
         mngTotal = Managed.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-        $("#infraTotal_" + j).html(INR(infraTotal));
-        $("#MngTotal_" + j).html(INR(mngTotal));
 
-        $("#total_monthly_" + j).html(INR(
-            parseFloat(infraTotal) +
-            parseFloat(mngTotal)
-        ))
-        let otc_perc = "<?= getProdName("otc") ?>".replace(/otc|-/g, '');
-        $("#final_otc_" + j + ",#otc_" + j).html(INR(
-            ((parseFloat(infraTotal) +
-                parseFloat(mngTotal)) * 12) * parseFloat(otc_perc)
-        ))
-        let period = parseFloat($("#MonthlyTotal_" + j).data("period"))
-        $("#MonthlyTotal_" + j).html(INR(
-            (parseFloat(infraTotal) +
-                parseFloat(mngTotal)) * period
-        ))
+        if (type == "discountedTotal"){
+            $("#DiscInfra_" + j).html(INR(infraTotal));
+            $("#DiscMng_" + j).html(INR(mngTotal));
+
+            $("#DiscTotal_" + j).html(INR(
+                parseFloat(infraTotal) +
+                parseFloat(mngTotal)
+            ))
+            let otc_perc = "<?= getProdName("otc") ?>".replace(/otc|-/g, '');
+            // $("#final_otc_" + j + ",#otc_" + j).html(INR(
+            //     ((parseFloat(infraTotal) +
+            //         parseFloat(mngTotal)) * 12) * parseFloat(otc_perc)
+            // ))
+            let period = parseFloat($("#MonthlyTotal_" + j).data("period"))
+            $("#MonthlyDiscounted_" + j).html(INR(
+                (parseFloat(infraTotal) +
+                    parseFloat(mngTotal)) * period
+            ))            
+        }else if (type == "total"){
+            $("#infraTotal_" + j).html(INR(infraTotal));
+            $("#MngTotal_" + j).html(INR(mngTotal));
+    
+            $("#total_monthly_" + j).html(INR(
+                parseFloat(infraTotal) +
+                parseFloat(mngTotal)
+            ))
+            let otc_perc = "<?= getProdName("otc") ?>".replace(/otc|-/g, '');
+            $("#final_otc_" + j + ",#otc_" + j).html(INR(
+                ((parseFloat(infraTotal) +
+                    parseFloat(mngTotal)) * 12) * parseFloat(otc_perc)
+            ))
+            let period = parseFloat($("#MonthlyTotal_" + j).data("period"))
+            $("#MonthlyTotal_" + j).html(INR(
+                (parseFloat(infraTotal) +
+                    parseFloat(mngTotal)) * period
+            ))
+        }
     }
+
+
+    // function manualDiscount(){
+        $(".discount").on("blur",function(){
+            let percentage = $(this).html().replace(/%| /g, '')
+            $(this).html(percentage + " %")
+            if(!isNaN(percentage)){
+                percentage = parseFloat(percentage) / 100
+                let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g,'')
+                console.log(percentage +" "+ Mrc)
+                Mrc = parseFloat(Mrc)
+                let discountedMrc = Mrc - (Mrc * percentage)
+                $(this).parent().find(".DiscountedMrc").html(INR(discountedMrc))
+                let j = $(this).data("key")
+                totalInfra(j,"discountedTotal")
+                // console.log(j)
+                let discountID = $(this).data("discid")
+                DiscountedData[j]["Data"][discountID] = discountedMrc
+
+                let DiscTotal = parseFloat($("#DiscTotal_"+j).html().replace(/₹|,| /g,''))
+                let total_monthly = parseFloat($("#total_monthly_"+j).html().replace(/₹|,| /g,''))
+
+                let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
+                $("#DiscountPercetage_"+j).val(TotalDiscountPercentage.toFixed(2))
+            }
+        })
+    // }
+
+    // manualDiscount()
+
 </script>
 
 
@@ -955,6 +1015,7 @@ if (!empty($_DiscountedData)) {
     <script>
         let _Data = '{$Quer['discountdata']}';
         let __DATA = JSON.parse(_Data);
+        $('.discount').attr('Contenteditable', 'true');
     </script>";
 
     foreach ($_DiscountedData as  $key => $arr) {
