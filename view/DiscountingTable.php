@@ -434,7 +434,7 @@ foreach ($estmtname as $j => $_Key) {
 
                     $secArr[$cat][($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j]],
 
-                    intval($EstmDATA[$cat . "_qty"][$j]),
+                    ($EstmDATA[$cat . "_qty"][$j]),
 
                     $_Prices[$j]["Security Solution"][$cat]
                 );
@@ -446,6 +446,7 @@ foreach ($estmtname as $j => $_Key) {
 
                 $Infrastructure['Storage Solution'][$cat] = $product_prices[($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j]];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$cat] = $EstmDATA[$cat . "_qty"][$j];
+                // echo $EstmDATA[$cat . "_qty"][$j];
             }
         }
         if (isset($osmgmt[$j]) || isset($dbmgmt[$j]) || isset($strgmgmt[$j]) || isset($backup_mgmt[$j]) || isset($lbmgmt[$j]) || isset($fvmgmt[$j]) || isset($wafmgmt[$j]) || !empty($bandwidth[$j]) || isset($EstmDATA['emagic'][$j]) || isset($EstmDATA["otc"][$j])) {
