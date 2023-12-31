@@ -1,4 +1,7 @@
 <?php
+
+if (!function_exists("vmContent")){
+    
 function vmContent($name, $id, $count, $type = '', $cloneId = '')
 {
     require '../model/editable.php';
@@ -191,4 +194,6 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
 
 
 <?php }
+}
+
 ?>

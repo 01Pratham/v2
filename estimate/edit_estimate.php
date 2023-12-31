@@ -42,7 +42,17 @@ if (isset($_GET['type'])) {
           // require '../view/Loader.php';
           require '../view/Colocation.php';
           $getTypeQuot = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_quot_type` WHERE `id` = '{$_GET['type']}'"));
-          $getTypeQuot['template_name'](1, 1);
+          $getTypeQuot['template_name'](1, 1); 
+
+          if ($Editable['count_of_est'] > 1) {
+            foreach ($Editable['estmtname'] as $i=>$val) {
+              if($i == "1"){
+                continue;
+              }
+              $getTypeQuot['template_name']($i, $i . "1", 'ajax'); 
+            }
+          }
+
           ?>
         </div>
         <div class="light py-2 rounded d-flex justify-content-center my-4">
@@ -110,16 +120,16 @@ if (isset($_GET['type'])) {
 
     <?php
 
-    if ($Editable['count_of_est'] > 1) {
-      for ($count = 1; $count < $Editable['count_of_est']; $count++) {
-        if ($count == ($Editable['count_of_est'] - 1)) {
-          $EstmtDone = true;
-          echo "add_estmt('',true)";
-        } else {
-          echo "add_estmt()";
-        }
-      }
-    }
+    // if ($Editable['count_of_est'] > 1) {
+    //   for ($count = 1; $count < $Editable['count_of_est']; $count++) {
+    //     if ($count == ($Editable['count_of_est'] - 1)) {
+    //       $EstmtDone = true;
+    //       echo "add_estmt('',true)";
+    //     } else {
+    //       echo "add_estmt()";
+    //     }
+    //   }
+    // }
     ?>
   </script>
 
