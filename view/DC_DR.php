@@ -2,7 +2,7 @@
 
 function DC_DR($name, $id, $type = '', $cloneId = '')
 {
-    echo $name." ". $id." " .$type." " . $cloneId;
+    // echo $name." ". $id." " .$type." " . $cloneId;
     session_start();
     $SESSION['post_data'] = $_POST;
     // require "colocation.php";
@@ -94,8 +94,11 @@ function DC_DR($name, $id, $type = '', $cloneId = '')
                     vmContent($name, $id, 0, "", $cloneId);
                     if ($Editable['vmname'][$name] != null) {
                         if (count($Editable['vmname'][$name]) > 1) {
-                            for ($i = 1; $i < $Editable['count_of_vm'][$name]; $i++) {
-                                vmContent($name, $id, $i, 'ajax', $cloneId);
+                            foreach ($Editable["vmqty"][$name] as $i => $val) {
+                                if ($i == 0){
+                                    continue;
+                                }
+                                vmContent($name, $id,   $i, 'ajax', $cloneId);
                             }
                         }
                     }

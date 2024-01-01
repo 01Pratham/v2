@@ -1,4 +1,4 @@
-<div class="content-wrapper bg-transparent except" id="dashboard" style="margin-top: 2.5%;">
+<!-- <div class="content-wrapper bg-transparent except" id="dashboard" style="margin-top: 2.5%;"> -->
     <?php
     require '../view/content-header.php';
     contentHeader('Dashboard');
@@ -80,4 +80,4 @@
         overflow-y: hidden;
     }
 </style>
-</div>
+<!-- </div> -->

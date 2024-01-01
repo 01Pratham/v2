@@ -1,5 +1,9 @@
 <?php
 session_start();
+if ($_SERVER['REQUEST_METHOD'] == "GET") {
+    header("Location: index.php");
+    unset($_SESSION['post_data']);
+}
 if (!isset($_SESSION['emp_code'])) {
     require "../view/session_expired.php";
     exit();
@@ -33,7 +37,7 @@ $MothlyTotal = array();
 
     ?>
     <div class="content-wrapper except bg-transparent">
-        <div id="loader" class="except" hidden>
+        <div id="loader" class="except">
             <div class="except cube-folding">
                 <span class="except leaf1"></span>
                 <span class="except leaf2"></span>
@@ -41,8 +45,12 @@ $MothlyTotal = array();
                 <span class="except leaf4"></span>
             </div>
         </div>
+        <script>
+            $(document).ready(function() {
+                $("#loader").addClass("d-none");
+            })
+        </script>
         <?php
-        // echo "<pre>"; print_r($_POST); echo "</pre>"; exit();
         require '../view/content-header.php';
         contentHeader('Quotation');
         ?>
@@ -51,7 +59,7 @@ $MothlyTotal = array();
                 <div class="errors except container" style="max-width: 2020px; margin: auto; "> </div>
                 <?php
                 if (!empty($_SESSION['edit_id'])) {
-                    
+
                     $D = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `id` = '{$_SESSION['edit_id']}'"));
                     if (!empty($D)) {
                         $_DiscountedData = json_decode($D['discountdata'], true);
@@ -100,8 +108,8 @@ $MothlyTotal = array();
 
 
     <script>
-            // $('.nav-link').removeClass('active')
-            // $('#create').addClass('active');
+        // $('.nav-link').removeClass('active')
+        // $('#create').addClass('active');
 
 
         function Push() {

@@ -5,6 +5,8 @@ if (!function_exists("vmContent")){
 function vmContent($name, $id, $count, $type = '', $cloneId = '')
 {
     require '../model/editable.php';
+
+    // echo  $name." ". $id." ". $count." ". $type." ". $cloneId
 ?>
 
     <div class="contain-btn btn-link border-bottom" id='vmHead_<?= $id ?>'>

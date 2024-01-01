@@ -4,11 +4,11 @@
 	height: 100%;
 	top: 0;
 	left: 0;
-	background: grey;
+	background: rgb(244, 246, 249);
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	opacity : 0.5
+	z-index: 200;
 }
 .cube-folding {
 	width: 50px;
@@ -30,7 +30,7 @@
 }
 .cube-folding span::before {
 	content: "";
-	background-color: white;
+	background-color: #545454;
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -53,7 +53,7 @@
 .cube-folding .leaf2::before {
 	-webkit-animation-delay: 0.3s;
 	animation-delay: 0.3s;
-	background-color: #f2f2f2;
+	background-color: #818181;
 }
 .cube-folding .leaf3 {
 	-webkit-transform: rotateZ(270deg) scale(1.1);
@@ -63,7 +63,7 @@
 .cube-folding .leaf3::before {
 	-webkit-animation-delay: 0.9s;
 	animation-delay: 0.9s;
-	background-color: #f2f2f2;
+	background-color: #cfcfcf;
 }
 .cube-folding .leaf4 {
 	-webkit-transform: rotateZ(180deg) scale(1.1);
@@ -73,7 +73,7 @@
 .cube-folding .leaf4::before {
 	-webkit-animation-delay: 0.6s;
 	animation-delay: 0.6s;
-	background-color: #e6e6e6;
+	background-color: #b1b1b1;
 }
 
 @-webkit-keyframes folding {

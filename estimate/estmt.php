@@ -1,9 +1,19 @@
 <!-- <span class="loader except" ></span> -->
 <div class="except content-wrapper Main bg-transparent">
+    <div id="loader" class="except">
+        <div class="except cube-folding">
+            <span class="except leaf1"></span>
+            <span class="except leaf2"></span>
+            <span class="except leaf3"></span>
+            <span class="except leaf4"></span>
+        </div>
+    </div>
     <?php
 
     //  print_r($Editable['count_of_est'] > 1);
-
+    if (empty($_SERVER['QUERY_STRING'])) {
+        require "../view/dashboard.php";
+    }else
     if (empty($_SERVER['QUERY_STRING'])) {
         unset($_SESSION['post_data']);
         unset($_SESSION['edit_id']);

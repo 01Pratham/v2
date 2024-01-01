@@ -14,3 +14,4 @@
 <link rel="stylesheet" href="../include/plugins/jqvmap/jqvmap.min.css">
 <link rel="stylesheet" href="../include/style.css">
 <link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/loader.css">

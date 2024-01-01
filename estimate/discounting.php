@@ -35,6 +35,14 @@ if (isset($_GET['id'])) {
         if (UserRole(3)) {
         ?>
             <div class="content-wrapper except bg-transparent">
+                <div id="loader" class="except">
+                    <div class="except cube-folding">
+                        <span class="except leaf1"></span>
+                        <span class="except leaf2"></span>
+                        <span class="except leaf3"></span>
+                        <span class="except leaf4"></span>
+                    </div>
+                </div>
                 <?php
                 require '../view/content-header.php';
                 contentHeader('Quotation / Discounting');
@@ -51,7 +59,7 @@ if (isset($_GET['id'])) {
                                 $_Prices = json_decode($Quer['prices'], true);
                                 $_Data = json_decode($Quer['data'], true);
                                 $_SESSION['post_data'] = $_Data;
-                                $_DiscountedData = json_decode($Quer["discountdata"],true);
+                                $_DiscountedData = json_decode($Quer["discountdata"], true);
                                 require '../view/DiscountingTable.php';
                             }
                         }
@@ -60,7 +68,7 @@ if (isset($_GET['id'])) {
                             <button class="btn btn-outline-success btn-lg mx-1 export" id="export"><i class="fa fa-file-excel-o pr-2"></i> Export</button>
                             <!-- <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button> -->
                             <button class="btn btn-outline-success btn-lg mx-1 export" id="exportShareable"><i class="fa fa-file-excel-o pr-2"></i> Export as Shareable</button>
-                            <button class="btn btn-outline-danger btn-lg mx-1 save" id="update" ><i class="fas fa-refresh pr-2"></i> Update</button>
+                            <button class="btn btn-outline-danger btn-lg mx-1 save" id="update"><i class="fas fa-refresh pr-2"></i> Update</button>
                         </div>
                     </div>
                 </div>
@@ -68,7 +76,7 @@ if (isset($_GET['id'])) {
 
 
             <?php
-                require '../view/includes/footer.php';
+            require '../view/includes/footer.php';
             ?>
             <script src="../javascript/jquery-3.6.4.js"></script>
             <script src="https://unpkg.com/exceljs/dist/exceljs.min.js"></script>
@@ -78,7 +86,10 @@ if (isset($_GET['id'])) {
             <script>
                 $('.nav-link').removeClass('active')
                 $('#create').addClass('active');
-                
+
+                $(document).ready(function() {
+                    $("#loader").addClass("d-none");
+                })
 
                 function Push() {
                     $.ajax({
@@ -140,15 +151,15 @@ if (isset($_GET['id'])) {
                     })
                 <?php
                 }
+                $i = 1;
+                echo "let sheetNames = {";
+                foreach ($estmtname as $key => $val) {
+                    echo "'sheet{$i}' : '{$val}' ,";
+                    $i++;
+                }
+                echo "sheet{$i} : 'Summary Sheet'";
+                echo "}";
                 ?>
-                let sheetNames = {
-                    <?php
-                    $i = 1;
-                    foreach ($estmtname as $key => $val) {
-                        echo "'sheet{$i}' : '{$val}' ,";
-                        $i++;
-                    }
-                    echo "sheet{$i} : 'Summary Sheet'"; ?>}
 
                 $(document).ready(function() {
                     $("#export").click(function() {

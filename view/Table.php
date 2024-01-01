@@ -9,7 +9,7 @@ foreach ($estmtname as $j => $_Key) {
     $antiVirus = false;
     $product_prices = priceTbl($region[$j])["product_prices"];
     $product_sku = priceTbl($region[$j])["product_sku"];
-    // echo "<pre>";print_r($_POST);echo "</pre>";
+    // echo "<pre>";print_r($EstmDATA);echo "</pre>";
 ?>
     <table class='final-tbl table except' id="final-tbl<?= $j ?>">
         <tr hidden></tr>
@@ -114,6 +114,7 @@ foreach ($estmtname as $j => $_Key) {
                             $core_devide = NULL;
                             $DiscountingId = "{$int}_{$j}";
                             $cal = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_os_calculation` WHERE `product_int` = '{$db_data[$i]}'"));
+                            // print_r($cal);
                             if (!empty($cal['calculation'])) {
                                 list($variableName, $value) = explode(' = ', $cal['calculation']);
                                 $$variableName = $value;
@@ -443,7 +444,7 @@ foreach ($estmtname as $j => $_Key) {
 
             $totalFirewalls = array();
             foreach ($secArr as $cat => $prod) {
-                if (isset($EstmDATA[$cat . "_check"])) {
+                if (isset($EstmDATA[$cat . "_check"][$j])) {
                     $calQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_calculation` WHERE `sec_cat_name` = '{$cat}'"));
                     if (!empty($calQuery)) {
                         $itemsArr = explode(",", $calQuery["calculation"]);
@@ -869,7 +870,7 @@ function tblRow($Service, $Product, $Quantity, $Price, $Unit = "NO", $OTC = '')
                 }
 
                 echo round($percentage, 2) . " %";
-            } else "";
+            } else { echo "";} ;
             ?></td>
         <td class='discountPrice unshareable' id='discPrice'><?php
                                                                 if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {

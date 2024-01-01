@@ -1,19 +1,10 @@
 <?php
-// require '../model/   .php';
-
 $Sku_Data = array();
 require_once "../controller/calculations.php";
-// echo "<pre>";
-// print_r($EstmDATA);
-// echo "</pre>";
-
-
-
 foreach ($estmtname as $j => $_Key) {
     $no = 0;
     $Infrastructure = array();
     $antiVirus = false;
-    // print_r($region);
     $product_prices = priceTbl($region[$j])["product_prices"];
     $product_sku = priceTbl($region[$j])["product_sku"];
 ?>
@@ -48,24 +39,16 @@ foreach ($estmtname as $j => $_Key) {
         </tr>
         <?php
 
-        $Class = "Infrastructure_$j";
+        $Class = "Infrastructure_{$j}";
         if (!empty($vmqty[$j][0])) {
             $no + 1;
             $a = 'A.' . $no . ' +';
-
             tblHead('eNlight Cloud Hosting');
 
             $vm_total = array();
             $vcore_data = array();
             foreach ($vmqty[$j] as $i => $val) {
-                // $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
                 $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk -" . preg_replace("/Object Storage|IOPS per GB| /", "", getProdName($diskType[$j][$i])) . " IOPS -  {$disk[$j][$i]} GB";
-                // $price = ($instance[$j][$i] == 'Flexi') ?
-                //     (($product_prices['cpu'] * intval($cpu[$j][$i])) +
-                //         ($product_prices['ram'] * intval($ram[$j][$i])) +
-                //         ($product_prices['iops_1'] * intval($disk[$j][$i])))
-                //     : $cost_rows['price'];
-
                 $price = (($product_prices['vcpu_static'] * intval($cpu[$j][$i])) +
                     ($product_prices['vram_static'] * intval($ram[$j][$i])) +
                     ($product_prices[$diskType[$j][$i]] * intval($disk[$j][$i])));
@@ -425,6 +408,21 @@ foreach ($estmtname as $j => $_Key) {
         foreach ($secArr as $cat => $prod) {
 
             if (isset($EstmDATA[$cat . "_check"][$j])) {
+                $calQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_calculation` WHERE `sec_cat_name` = '{$cat}'"));
+                if (!empty($calQuery)) {
+                    $itemsArr = explode(",", $calQuery["calculation"]);
+                    // print_r($itemsArr);
+                    $calculation = array();
+                    foreach ($itemsArr as $item) {
+                        if (preg_match("/vm/", $item)) {
+                            $calculation[$item] = (!empty($$item[$j])) ? array_sum($$item[$j]) : 0;
+                        } else {
+                            $calculation[$item] = (!empty($EstmDATA[$item][$j])) ? $EstmDATA[$item][$j] : 0;
+                        }
+                    }
+                    // print_r($calculation);
+                    $EstmDATA[$cat . "_qty"][$j] = array_sum($calculation);
+                }
 
                 $SKU = get_Price(($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j], 'sku_code');
                 $DiscountingId = $cat . "_" . $j;
@@ -449,11 +447,26 @@ foreach ($estmtname as $j => $_Key) {
             }
         }
         if (isset($osmgmt[$j]) || isset($dbmgmt[$j]) || isset($strgmgmt[$j]) || isset($backup_mgmt[$j]) || isset($lbmgmt[$j]) || isset($fvmgmt[$j]) || isset($wafmgmt[$j]) || !empty($bandwidth[$j]) || isset($EstmDATA['emagic'][$j]) || isset($EstmDATA["otc"][$j])) {
-
-            $Class = "Managed_$j";
-            // }
             $f = 'A.' . $no = $no + 1;
             tblHead("Managed Services");
+            $DiscountingId = "OTC";
+            if (isset($EstmDATA["otc"][$j])) {
+        ?>
+                <tr>
+                    <td><?php echo "Service"; ?></td>
+                    <td class='final'><?php echo 'One Time Infrastructure Setup' ?></td>
+                    <td class='qty'></td>
+                    <td class='cost unshareable'></td>
+                    <td class="MRC mrc_<?= $j ?> unshareable"></td>
+                    <td class='discount unshareable' id='disc'></td>
+                    <td class='DiscountedMrc unshareable'></td>
+                    <td class='unshareable' id="otc_<?= $j ?>"></td>
+                </tr>
+
+
+        <?php
+            }
+            $Class = "Managed_{$j}";
 
             if (isset($rep_link_mgmt[$j])) {
                 $replication_mgmt = (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0;
@@ -547,22 +560,7 @@ foreach ($estmtname as $j => $_Key) {
             if (empty($period[$j])) {
                 $period[$j] = 1;
             }
-            $DiscountingId = "OTC";
             // tblRow('Services', 'One Time Infrastructure Setup', '', '', "", 1);
-        ?>
-            <tr>
-                <td><?php echo "Service"; ?></td>
-                <td class='final'><?php echo 'One Time Infrastructure Setup' ?></td>
-                <td class='qty'></td>
-                <td class='cost unshareable'></td>
-                <td class="MRC mrc_<?= $j ?> unshareable"></td>
-                <td class='discount unshareable' id='disc'></td>
-                <td class='DiscountedMrc unshareable'></td>
-                <td class='unshareable' id="otc_<?= $j ?>"></td>
-            </tr>
-        <?php
-            $Class = "Managed_{$j}";
-
 
             // print_r($osmgmtINT);
             if (isset($osmgmt[$j]) && !empty($os_mgmt_name)) {
@@ -745,9 +743,9 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
             }
 
             ?></td>
-        <td class='discount unshareable' id='disc' data-key = "<?=$j ?>" data-discId = "<?=$DiscountingId ?>">
+        <td class='discount unshareable' id='disc' data-key="<?= $j ?>" data-discId="<?= $DiscountingId ?>">
             <?php
-            if (!empty($_DiscountedData)) {
+            if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
 
                 if ($MRC != 0) {
                     if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
@@ -763,7 +761,7 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
             ?>
         </td>
         <td class='DiscountedMrc unshareable <?= $Class ?>' id="<?= $DiscountingId ?>"><?php
-                                                                                        if (!empty($_DiscountedData)) {
+                                                                                        if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
                                                                                             if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
                                                                                                 INR(array_sum($_DiscountedData[$j]["Data"][$DiscountingId]));
                                                                                             } else {
@@ -914,21 +912,21 @@ function PriceOs($SW, $Feild)
 
             let valHTML = $(this).html();
             let val = valHTML.replace(/₹|,|\n| /g, '');
-            if(type == "total"){
+            if (type == "total") {
                 if ($(this).hasClass("Infrastructure_" + j) && val !== '' && $(this).hasClass("MRC")) {
                     Infrastructure.push(parseFloat(val));
                     // console.log(val)
                 }
-    
+
                 if ($(this).hasClass("Managed_" + j) && val !== '' && $(this).hasClass("MRC")) {
                     Managed.push(parseFloat(val));
                 }
-            }else if (type == "discountedTotal"){
+            } else if (type == "discountedTotal") {
                 if ($(this).hasClass("Infrastructure_" + j) && val !== '' && $(this).hasClass("DiscountedMrc")) {
                     Infrastructure.push(parseFloat(val));
                     // console.log(val)
                 }
-    
+
                 if ($(this).hasClass("Managed_" + j) && val !== '' && $(this).hasClass("DiscountedMrc")) {
                     Managed.push(parseFloat(val));
                 }
@@ -938,7 +936,7 @@ function PriceOs($SW, $Feild)
         infraTotal = Infrastructure.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
         mngTotal = Managed.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 
-        if (type == "discountedTotal"){
+        if (type == "discountedTotal") {
             $("#DiscInfra_" + j).html(INR(infraTotal));
             $("#DiscMng_" + j).html(INR(mngTotal));
 
@@ -955,11 +953,11 @@ function PriceOs($SW, $Feild)
             $("#MonthlyDiscounted_" + j).html(INR(
                 (parseFloat(infraTotal) +
                     parseFloat(mngTotal)) * period
-            ))            
-        }else if (type == "total"){
+            ))
+        } else if (type == "total") {
             $("#infraTotal_" + j).html(INR(infraTotal));
             $("#MngTotal_" + j).html(INR(mngTotal));
-    
+
             $("#total_monthly_" + j).html(INR(
                 parseFloat(infraTotal) +
                 parseFloat(mngTotal)
@@ -979,33 +977,32 @@ function PriceOs($SW, $Feild)
 
 
     // function manualDiscount(){
-        $(".discount").on("blur",function(){
-            let percentage = $(this).html().replace(/%| /g, '')
-            $(this).html(percentage + " %")
-            if(!isNaN(percentage)){
-                percentage = parseFloat(percentage) / 100
-                let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g,'')
-                console.log(percentage +" "+ Mrc)
-                Mrc = parseFloat(Mrc)
-                let discountedMrc = Mrc - (Mrc * percentage)
-                $(this).parent().find(".DiscountedMrc").html(INR(discountedMrc))
-                let j = $(this).data("key")
-                totalInfra(j,"discountedTotal")
-                // console.log(j)
-                let discountID = $(this).data("discid")
-                DiscountedData[j]["Data"][discountID] = discountedMrc
+    $(".discount").on("blur", function() {
+        let percentage = $(this).html().replace(/%| /g, '')
+        $(this).html(percentage + " %")
+        if (!isNaN(percentage)) {
+            percentage = parseFloat(percentage) / 100
+            let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g, '')
+            console.log(percentage + " " + Mrc)
+            Mrc = parseFloat(Mrc)
+            let discountedMrc = Mrc - (Mrc * percentage)
+            $(this).parent().find(".DiscountedMrc").html(INR(discountedMrc))
+            let j = $(this).data("key")
+            totalInfra(j, "discountedTotal")
+            // console.log(j)
+            let discountID = $(this).data("discid")
+            DiscountedData[j]["Data"][discountID] = discountedMrc
 
-                let DiscTotal = parseFloat($("#DiscTotal_"+j).html().replace(/₹|,| /g,''))
-                let total_monthly = parseFloat($("#total_monthly_"+j).html().replace(/₹|,| /g,''))
+            let DiscTotal = parseFloat($("#DiscTotal_" + j).html().replace(/₹|,| /g, ''))
+            let total_monthly = parseFloat($("#total_monthly_" + j).html().replace(/₹|,| /g, ''))
 
-                let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
-                $("#DiscountPercetage_"+j).val(TotalDiscountPercentage.toFixed(2))
-            }
-        })
+            let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
+            $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2))
+        }
+    })
     // }
 
     // manualDiscount()
-
 </script>
 
 
