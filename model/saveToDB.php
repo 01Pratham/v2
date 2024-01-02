@@ -4,6 +4,8 @@ require("database.php");
 
 if ($_POST['action'] == 'Delete') {
   deleteEstimate($con, $_POST['id']);
+}elseif($_POST['action'] == "Discount"){
+  updateDiscountTbl($con , $_POST);
 } else {
   saveEstmt($con);
 }
@@ -35,7 +37,7 @@ function saveEstmt($con)
   $stmt = null;
   if ($_POST['action'] == 'update') {
     $Total = (isset($_POST['total'])) ? "`total_upfront`='{$_POST['total']}' ," : ('');
-    $discountedData = (isset($_POST['discountedData'])) ? "`discountdata` = '{$_POST['discountedData']}' ," : ("");
+    // $discountedData = (isset($_POST['discountedData'])) ? "`discountdata` = '{$_POST['discountedData']}' ," : ("");
     $discounted_upfront = (isset($_POST['discounted_upfront'])) ? "`discounted_upfront` = '{$_POST['discounted_upfront']}' " : ('');
     $data = (isset($_POST['data'])) ? "`data` = '{$_POST['data']}' ," : ("");
     $priceData = (isset($_POST['priceData'])) ? "`prices` = '{$_POST['priceData']}' ," : ("");
@@ -49,7 +51,6 @@ function saveEstmt($con)
       $con,
       "UPDATE `tbl_saved_estimates` SET
                 {$Total}
-                {$discountedData}
                 {$data}
                 {$priceData}
                 {$lastUpdated}
@@ -81,6 +82,32 @@ function saveEstmt($con)
     $insertId = (mysqli_insert_id($con)) ? mysqli_insert_id($con) : $_SESSION['edit_id'];
     $_SESSION['insertID'] = $insertId;
 
+    $arr = array(
+      "Message" => "Data Stored Successfully",
+      "quotationID" => $insertId
+    );
+    echo json_encode($arr);
+  } else {
+    echo 'Error while storing data';
+  }
+}
+
+
+
+function updateDiscountTbl($con , $data){
+  $checkQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_discount_data` WHERE `quot_id` = '{$data['id']}'"));
+  if(!empty($checkQuery)){
+    //update tbl_discounts table
+    $query = mysqli_query($con, "UPDATE `tbl_discount_data` SET `discounted_data` = '{$data['discountedData']}' WHERE `quot_id` = '{$data['id']}'");
+
+  }else{
+    //add new row to tbl_discounts and get the discount_id for use in tbl_quote_items
+    $query = mysqli_query($con, "INSERT INTO `tbl_discount_data`(`quot_id`, `discounted_data`, `approved_status`) VALUES ('{$data['id']}','{$data['discountedData']}','false')");
+  }
+
+  if ($query) { 
+    
+    $insertId = (mysqli_insert_id($con)) ? mysqli_insert_id($con) : $_SESSION['edit_id'];
     $arr = array(
       "Message" => "Data Stored Successfully",
       "quotationID" => $insertId

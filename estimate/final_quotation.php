@@ -60,9 +60,9 @@ $MothlyTotal = array();
                 <?php
                 if (!empty($_SESSION['edit_id'])) {
 
-                    $D = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `id` = '{$_SESSION['edit_id']}'"));
+                    $D = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_discount_data` WHERE `quot_id` = '{$_SESSION['edit_id']}'"));
                     if (!empty($D)) {
-                        $_DiscountedData = json_decode($D['discountdata'], true);
+                        $_DiscountedData = json_decode($D['discounted_data'], true);
                     }
                 }
                 require '../view/Table.php';

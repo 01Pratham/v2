@@ -54,12 +54,13 @@ if (isset($_GET['id'])) {
                         <?php
                         if (isset($_GET["id"])) {
                             $Quer = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `id` = '{$_GET['id']}'"));
+                            $data_query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_discount_data` WHERE `quot_id` = '{$_GET['id']}'"));
                             if (!empty($Quer['data'])) {
                                 require "../controller/constants.php";
                                 $_Prices = json_decode($Quer['prices'], true);
                                 $_Data = json_decode($Quer['data'], true);
                                 $_SESSION['post_data'] = $_Data;
-                                $_DiscountedData = json_decode($Quer["discountdata"], true);
+                                $_DiscountedData = json_decode($data_query["discounted_data"], true);
                                 require '../view/DiscountingTable.php';
                             }
                         }
@@ -180,8 +181,9 @@ if (isset($_GET['id'])) {
                         type: "POST",
                         url: '../model/saveToDB.php',
                         data: {
-                            'action': "update",
+                            'action': "Discount",
                             'emp_id': <?= $_SESSION['emp_code'] ?>,
+                            'id' : '<?=$_GET['id']?>',
                             "discountedData": JSON.stringify(DiscountedData),
                             "discounted_upfront": ""
                         },
