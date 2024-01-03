@@ -70,7 +70,21 @@ $MothlyTotal = array();
                 ?>
                 <div class="container except d-flex justify-content-center mt-3 py-3">
                     <button class="btn btn-outline-success btn-lg mx-1 export" id="export"><i class="fa fa-file-excel-o pr-2"></i> Export</button>
-                    <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button>
+                    <?php
+                    if (empty($D)) {
+                    ?>
+                        <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button>
+                    <?php
+                    }
+                    elseif (!empty($D) && $D['approved_status'] == 'Approved') {
+                    ?>
+                        <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button>
+                    <?php
+                    }
+                    else{ ?>
+                        <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="updateStatus()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Send for Approval</button>
+                    <?php }
+                    ?>
                     <button class="btn btn-outline-success btn-lg mx-1 export" id="exportShareable"><i class="fa fa-file-excel-o pr-2"></i> Export as Shareable</button>
                     <?php
                     $query = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `id` = '{$_SESSION["insertID"]}'"));
@@ -108,10 +122,6 @@ $MothlyTotal = array();
 
 
     <script>
-        // $('.nav-link').removeClass('active')
-        // $('#create').addClass('active');
-
-
         function Push() {
             $.ajax({
                 type: 'POST',
@@ -126,22 +136,21 @@ $MothlyTotal = array();
                 }
             })
         }
-        $(document).ready(function() {
-            // $.ajax({
-            //     type: "POST",
-            //     url: "../model/database.php",
-            //     dataType: "TEXT",
-            //     data: {
-            //         type: "buffer",
-            //         buffer: <?= array_sum($MothlyTotal) * 0.05 ?>
-            //     },
-            //     success: function(response) {
-            //         // alert ("Contingency Buffer has been added into your quotation : " + response);
-            //     }
-            // })
-        });
-
-
+        function updateStatus() {
+            $.ajax({
+                type: 'POST',
+                url: "../model/saveToDB.php",
+                dataType: "TEXT",
+                data: {
+                    id: '<?=$_SESSION['edit_id']?>',
+                    action: 'UpdateDiscountingStatus',
+                    status : "Remaining",
+                },
+                success: function(response) {
+                    alert(response);
+                }
+            })
+        }
         <?php
         echo "let sheetNames = {";
         $i = 1;

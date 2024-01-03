@@ -363,87 +363,80 @@ foreach ($estmtname as $j => $_Key) {
                 $Sku_Data[$estmtname[$j]]['Network Solution'][$lb[$j]] = $lbqty[$j];
             }
         }
-        // if (
-        //     emp ty ($av) ||
-        //     isset($ext_firewall[$j]) ||
-        //     isset($int_fv[$j]) ||
-        //     isset($ddos[$j]) ||
-        //     isset($waf[$j]) ||
-        //     isset($tfa[$j]) ||
-        //     isset($sslcert[$j]) ||
-        //     isset($siem[$j]) ||
-        //     isset($pim[$j]) ||
-        //     isset($vtm[$j]) ||
-        //     isset($vapt[$j]) ||
-        //     isset($hsm[$j]) ||
-        //     isset($iam[$j]) ||
-        //     isset($dlp[$j]) ||
-        //     isset($edr[$j]) ||
-        //     isset($dam[$j]) ||
-        //     isset($sor[$j])
-        // ) {
         if (!empty($vmqty[$j])) {
             $av_count = array();
             foreach ($vmqty[$j] as $i => $val) {
                 if (!empty($av_type[$j][$i])) {
+                    // $av_type[ $j ][ $key ] = $val;
                     $newAV = $av_type[$j][$i];
+                    // echo $vmqty[ $j ][ $i ];
                     array_push($av_count, $vmqty[$j][$i]);
                 } else {
                     unset($av_type[$j][$i]);
                 }
             }
         }
-        $e = 'A.' . $no = $no + 1;
-        tblHead('Security Solution');
-
-        if (!empty($newAV)) {
-            $DiscountingId = "av_{$j}";
-            $SKU = $product_sku[$newAV];
-            $Products[$j][$DiscountingId] = tblRow('Services', getProdName($newAV), array_sum($av_count), $_Prices[$j]["Security Solution"]["av"]);
-            $Infrastructure['Security Solution']['av'] = $product_prices[$newAV];
-            $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku[$newAV]] = array_sum($av_count);
-        }
-
-        $totalFirewalls = array();
         foreach ($secArr as $cat => $prod) {
+            if (isset($EstmDATA[$cat . "_check"])) {
+                $secServ = true;
+                break;
+            } else {
+                $secServ = false;
+            }
+        }
+        if (!empty($newAV) || $secServ) {
+            $e = 'A.' . $no = $no + 1;
+            tblHead('Security Solution');
 
-            if (isset($EstmDATA[$cat . "_check"][$j])) {
-                $calQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_calculation` WHERE `sec_cat_name` = '{$cat}'"));
-                if (!empty($calQuery)) {
-                    $itemsArr = explode(",", $calQuery["calculation"]);
-                    // print_r($itemsArr);
-                    $calculation = array();
-                    foreach ($itemsArr as $item) {
-                        if (preg_match("/vm/", $item)) {
-                            $calculation[$item] = (!empty($$item[$j])) ? array_sum($$item[$j]) : 0;
-                        } else {
-                            $calculation[$item] = (!empty($EstmDATA[$item][$j])) ? $EstmDATA[$item][$j] : 0;
+            if (!empty($newAV)) {
+                $DiscountingId = "av_{$j}";
+                $SKU = $product_sku[$newAV];
+                $Products[$j][$DiscountingId] = tblRow('Services', getProdName($newAV), array_sum($av_count), $_Prices[$j]["Security Solution"]["av"]);
+                $Infrastructure['Security Solution']['av'] = $product_prices[$newAV];
+                $Sku_Data[$estmtname[$j]]['Security Solution'][$product_sku[$newAV]] = array_sum($av_count);
+            }
+
+            $totalFirewalls = array();
+            foreach ($secArr as $cat => $prod) {
+
+                if (isset($EstmDATA[$cat . "_check"][$j])) {
+                    $calQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_calculation` WHERE `sec_cat_name` = '{$cat}'"));
+                    if (!empty($calQuery)) {
+                        $itemsArr = explode(",", $calQuery["calculation"]);
+                        // print_r($itemsArr);
+                        $calculation = array();
+                        foreach ($itemsArr as $item) {
+                            if (preg_match("/vm/", $item)) {
+                                $calculation[$item] = (!empty($$item[$j])) ? array_sum($$item[$j]) : 0;
+                            } else {
+                                $calculation[$item] = (!empty($EstmDATA[$item][$j])) ? $EstmDATA[$item][$j] : 0;
+                            }
+                        }
+                        // print_r($calculation);
+                        $EstmDATA[$cat . "_qty"][$j] = array_sum($calculation);
+                    }
+
+                    $SKU = get_Price(($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j], 'sku_code');
+                    $DiscountingId = $cat . "_" . $j;
+
+                    $Products[$j][$DiscountingId] = tblRow(
+                        "Services",
+
+                        $secArr[$cat][($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j]],
+
+                        intval($EstmDATA[$cat . "_qty"][$j]),
+
+                        $_Prices[$j]["Security Solution"][$cat]
+                    );
+                    if (preg_match("/fw/", $cat)) {
+                        if (isset($EstmDATA[$cat . "_check"])) {
+                            $totalFirewalls[$cat] =   $EstmDATA[$cat . "_qty"][$j];
                         }
                     }
-                    // print_r($calculation);
-                    $EstmDATA[$cat . "_qty"][$j] = array_sum($calculation);
+
+                    $Infrastructure['Storage Solution'][$cat] = $product_prices[($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j]];
+                    $Sku_Data[$estmtname[$j]]['Storage Solution'][$cat] = $EstmDATA[$cat . "_qty"][$j];
                 }
-
-                $SKU = get_Price(($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j], 'sku_code');
-                $DiscountingId = $cat . "_" . $j;
-
-                $Products[$j][$DiscountingId] = tblRow(
-                    "Services",
-
-                    $secArr[$cat][($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j]],
-
-                    intval($EstmDATA[$cat . "_qty"][$j]),
-
-                    $_Prices[$j]["Security Solution"][$cat]
-                );
-                if (preg_match("/fw/", $cat)) {
-                    if (isset($EstmDATA[$cat . "_check"])) {
-                        $totalFirewalls[$cat] =   $EstmDATA[$cat . "_qty"][$j];
-                    }
-                }
-
-                $Infrastructure['Storage Solution'][$cat] = $product_prices[($EstmDATA[$cat . "_select"][$j] == '') ? $cat : $EstmDATA[$cat . "_select"][$j]];
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$cat] = $EstmDATA[$cat . "_qty"][$j];
             }
         }
         if (isset($osmgmt[$j]) || isset($dbmgmt[$j]) || isset($strgmgmt[$j]) || isset($backup_mgmt[$j]) || isset($lbmgmt[$j]) || isset($fvmgmt[$j]) || isset($wafmgmt[$j]) || !empty($bandwidth[$j]) || isset($EstmDATA['emagic'][$j]) || isset($EstmDATA["otc"][$j])) {
@@ -757,7 +750,6 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
                     echo 0 . "%";
                 }
             }
-            // echo $_DiscountedData[$j]["Data"][$DiscountingId];
             ?>
         </td>
         <td class='DiscountedMrc unshareable <?= $Class ?>' id="<?= $DiscountingId ?>"><?php

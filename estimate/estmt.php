@@ -8,12 +8,17 @@
             <span class="except leaf4"></span>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $("#loader").addClass("d-none")
+        });
+    </script>
     <?php
 
     //  print_r($Editable['count_of_est'] > 1);
     if (empty($_SERVER['QUERY_STRING'])) {
         require "../view/dashboard.php";
-    }else
+    } else
     if (empty($_SERVER['QUERY_STRING'])) {
         unset($_SESSION['post_data']);
         unset($_SESSION['edit_id']);

@@ -320,7 +320,9 @@ function mode() {
             $(".mytabs").removeClass('dark')
         }
 
-        $('#mode').parent().find('label').attr("title", "Turn to Light Mode").removeClass("text-dark").addClass("text-light")
+        $('#mode').parent().find('#modeIcon').attr("title", "Turn to Light Mode")
+
+        $(".nav-funcs").removeClass("text-dark").addClass("text-light")
 
     }
     else {
@@ -348,7 +350,8 @@ function mode() {
             $('.except').removeClass('light')
         }
 
-        $('#mode').parent().find('label').attr("title", "Turn to Dark Mode").removeClass("text-light").addClass("text-dark")
+        $('#mode').parent().find('#modeIcon').attr("title", "Turn to Dark Mode")
+        $(".nav-funcs").removeClass("text-light").addClass("text-dark")
     }
 }
 
@@ -541,7 +544,7 @@ function convertTablesToExcel(tables, type, sheetNames, FileName) {
 
 
 
-function AJAX(Data , rel = true) {
+function AJAX(Data, rel = true) {
     $.ajax({
         url: "../model/modelRateCard.php",
         type: "POST",
@@ -551,7 +554,7 @@ function AJAX(Data , rel = true) {
             console.log(response)
         },
         complete: function () {
-            if(rel){
+            if (rel) {
                 window.location.reload();
             }
         }
@@ -582,7 +585,7 @@ function INR(number) {
 }
 
 
-function del(id){
+function del(id) {
     let action = confirm('Are you Sure wanted to delete this ? ');
     if (action) {
         $.ajax({
@@ -593,7 +596,7 @@ function del(id){
                 'id': id
             },
             dataType: 'TEXT',
-            success: function(response) {
+            success: function (response) {
                 alert('Deleted the Estimate');
                 window.location.href = 'index.php?all';
             }

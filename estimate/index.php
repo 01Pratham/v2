@@ -37,14 +37,7 @@ if (isset($_SESSION['uname'])) {
 
     ?>
 
-    <script>
-        // $(document).ajaxStop(function() {
-        //     alert("All AJAX requests completed");
-        // });
-        $(document).ready(function() {
-            $("#loader").addClass("d-none")
-        });
-    </script>
+    
 
 
     </body>

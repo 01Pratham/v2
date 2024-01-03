@@ -156,3 +156,11 @@ function getEstimateDetails($id){
     }
 }
 }
+
+
+if (!function_exists("Query")){
+    function Query($query){
+        global $con ;
+        return mysqli_query($con, $query);
+    }
+}

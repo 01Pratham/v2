@@ -43,6 +43,11 @@ if (isset($_GET['id'])) {
                         <span class="except leaf4"></span>
                     </div>
                 </div>
+                <script>
+                    $(document).ready(function() {
+                        $("#loader").addClass("d-none")
+                    });
+                </script>
                 <?php
                 require '../view/content-header.php';
                 contentHeader('Quotation / Discounting');
@@ -183,7 +188,7 @@ if (isset($_GET['id'])) {
                         data: {
                             'action': "Discount",
                             'emp_id': <?= $_SESSION['emp_code'] ?>,
-                            'id' : '<?=$_GET['id']?>',
+                            'id': '<?= $_GET['id'] ?>',
                             "discountedData": JSON.stringify(DiscountedData),
                             "discounted_upfront": ""
                         },

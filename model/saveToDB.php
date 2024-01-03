@@ -4,8 +4,8 @@ require("database.php");
 
 if ($_POST['action'] == 'Delete') {
   deleteEstimate($con, $_POST['id']);
-}elseif($_POST['action'] == "Discount"){
-  updateDiscountTbl($con , $_POST);
+} elseif (preg_match("/Discount/", $_POST['action'])) {
+  updateDiscountTbl($con, $_POST);
 } else {
   saveEstmt($con);
 }
@@ -94,19 +94,22 @@ function saveEstmt($con)
 
 
 
-function updateDiscountTbl($con , $data){
+function updateDiscountTbl($con, $data)
+{
   $checkQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_discount_data` WHERE `quot_id` = '{$data['id']}'"));
-  if(!empty($checkQuery)){
-    //update tbl_discounts table
-    $query = mysqli_query($con, "UPDATE `tbl_discount_data` SET `discounted_data` = '{$data['discountedData']}' WHERE `quot_id` = '{$data['id']}'");
-
-  }else{
+  if (!empty($checkQuery)) {
+    if ($data['action'] == "UpdateDiscountingStatus") {
+      $query = mysqli_query($con, "UPDATE `tbl_discount_data` SET `approved_status`='{$data['status']}' WHERE `quot_id` = '{$data['id']}'");
+    } else {
+      $query = mysqli_query($con, "UPDATE `tbl_discount_data` SET `discounted_data` = '{$data['discountedData']}' WHERE `quot_id` = '{$data['id']}'");
+    }
+  } else {
+    $query = mysqli_query($con, "INSERT INTO `tbl_discount_data`(`quot_id`, `discounted_data`, `approved_status`) VALUES ('{$data['id']}','{$data['discountedData']}','')");
     //add new row to tbl_discounts and get the discount_id for use in tbl_quote_items
-    $query = mysqli_query($con, "INSERT INTO `tbl_discount_data`(`quot_id`, `discounted_data`, `approved_status`) VALUES ('{$data['id']}','{$data['discountedData']}','false')");
   }
 
-  if ($query) { 
-    
+  if ($query) {
+
     $insertId = (mysqli_insert_id($con)) ? mysqli_insert_id($con) : $_SESSION['edit_id'];
     $arr = array(
       "Message" => "Data Stored Successfully",
@@ -116,4 +119,5 @@ function updateDiscountTbl($con , $data){
   } else {
     echo 'Error while storing data';
   }
+    // print_r($data);
 }
