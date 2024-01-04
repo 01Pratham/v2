@@ -44,7 +44,7 @@ function Users($id, $master = '')
                 <td class="text-center">
                     <div class="except drodown">
                         <a data-bs-toggle="dropdown" href="#" class="btn p-1" aria-expanded="false" onclick="preventdefault()">
-                            <i class="fa fa-bars" aria-hidden="true"></i>
+                            <span class="fa fa-bars" aria-hidden="true"></span>
                         </a>
                         <div class="except dropdown-menu dropdown-menu-end text-light" style="min-width: 8rem; z-index:1 ">
                             <?php

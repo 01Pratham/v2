@@ -405,3 +405,54 @@ table th {
   left:0; */
   overflow-y: hidden; 
 }
+
+
+.notification-box {
+  display: none;
+  position: absolute;
+  top: 57px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  width: 20%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow-y: scroll;
+  max-height: 225px;
+}
+
+.notification-box.show {
+  display: block;
+}
+
+.notification-text {
+  font-size: 14px;
+}
+
+.notifications-item {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  padding: 6px 9px;
+  margin-bottom: 0px;
+  cursor: pointer
+}
+
+.notifications-item .text h4 {
+  color: #777;
+  font-size: 16px;
+  margin-top: 3px
+}
+
+.notifications-item .text p {
+  color: #aaa;
+  font-size: 12px
+}
+
+.nav-funcs {
+  color: rgba(0, 0, 0, .5);
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+.notifications-item:hover .text p,
+.notifications-item:hover .text h4 {
+  color: blue !important;
+}

@@ -218,7 +218,6 @@ foreach ($estmtname as $j => $_Key) {
                 $DiscountingId = "tc_{$j}";
                 $Products[$j][$DiscountingId] = tblRow('Offline Backup', 'Offline Backup Solution Tape Cartridge', $tcqty[$j], $_Prices[$j]['Storage Solution']['Offline Backup Solution Tape Cartridge']);
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['tc']] = $tcqty[$j];
-                // echo $tcqty[$j];
             }
 
             if (isset($fire_cab[$j])) {
@@ -288,9 +287,11 @@ foreach ($estmtname as $j => $_Key) {
         if ($ip_public[$j] != NULL) {
             $public_data[$j] = array_unique($ip_public[$j]);
         }
+        $IpAddress = array();
         foreach ($vmqty[$j] as $i => $v) {
             if (!empty($publicip_qty[$j][$i]) || intval($publicip_qty[$j][$i]) != 0) {
                 $isIp = true;
+                $IpAddress[$publicip_vers[$j][$i]][] = $publicip_qty[$j][$i];
                 break;
             } else {
                 $isIp = false;
@@ -301,17 +302,12 @@ foreach ($estmtname as $j => $_Key) {
             $d = 'A.' . $no = $no + 1;
             $d .= ' +';
             tblHead("Network and Connectivity Services");
-            foreach ($vmqty[$j] as $i => $val) {
-                if ($isIp) {
-                    $SKU = $product_sku['ip'];
-                    $DiscountingId = "ip_{$j}";
-                    $Products[$j][$DiscountingId] = tblRow('Services', 'Public IP Address : ' . $publicip_vers[$j][$i], array_sum($publicip_qty[$j]), $_Prices[$j]['Network Solution']['ip']);
-                    $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['ip']] = array_sum($publicip_qty[$j]);
-                }
-
-                if (isset($private_data[$j][$i])) {
-                    $Products[$j][$DiscountingId] = tblRow('Services', 'Private IP Address : ' . $privateip_vers[$j][$i], array_sum($privateip_qty[$j]), 0);
-                    $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['private_ip']] = array_sum($privateip_qty[$j]);
+            if ($isIp) {
+                foreach ($IpAddress as $vers => $qty) {
+                    $SKU = $product_sku[$vers];
+                    $DiscountingId = "{$vers}_{$j}";
+                    $Products[$j][$DiscountingId] = tblRow('Services', 'Public IP Address : ' . $vers, array_sum($qty), $_Prices[$j]['Network Solution'][$vers]);
+                    $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['ip']] = array_sum($qty);
                 }
             }
             if (!empty($bandwidth[$j])) {
@@ -547,15 +543,10 @@ foreach ($estmtname as $j => $_Key) {
                     array_push($newInfra, $val);
                 }
             }
-
-
             $period = $EstmDATA['period'];
             if (empty($period[$j])) {
                 $period[$j] = 1;
             }
-            // tblRow('Services', 'One Time Infrastructure Setup', '', '', "", 1);
-
-            // print_r($osmgmtINT);
             if (isset($osmgmt[$j]) && !empty($os_mgmt_name)) {
                 for ($i = 0; $i < count($os_mgmt_data); $i++) {
                     $SKU = $product_sku[$osmgmtINT[$os_mgmt_data[$i]]];
@@ -688,14 +679,18 @@ foreach ($estmtname as $j => $_Key) {
 
     <script>
         $("#perce_<?= $j ?>").on("click", function() {
-            var $obj = {
-                action: "Discount",
-                discountVal: $("#DiscountPercetage_<?= $j ?>").val() / 100,
-                Total: "<?= $_Prices[$j]['MonthlyTotal'] ?>",
-                data: "<?= base64_encode(json_encode($Products[$j])) ?>",
-                regionId: "<?= $region[$j] ?>"
-            };
-            DiscountingAjax($obj, <?= $j ?>);
+            if($("#DiscountPercetage_<?= $j ?>").val() < <?=employee($_SESSION["emp_code"])['applicable_discounting_percentage']?>){
+                var $obj = {
+                    action: "Discount",
+                    discountVal: $("#DiscountPercetage_<?= $j ?>").val() / 100,
+                    Total: "<?= $_Prices[$j]['MonthlyTotal'] ?>",
+                    data: "<?= base64_encode(json_encode($Products[$j])) ?>",
+                    regionId: "<?= $region[$j] ?>"
+                };
+                DiscountingAjax($obj, <?= $j ?>);
+            }else{
+                alert('Please enter a valid percentage');
+            }
         })
         $(document).ready(function() {
             totalInfra(<?= $j ?>)
@@ -796,16 +791,11 @@ function PriceOs($SW, $Feild)
     foreach ($vmqty[$j] as $i => $val) {
         if ($$Feild[$j][$i] == $SW) {
             $Price[] = $_Prices[$j]["VM{$i}"][$Feild];
-            // echo $_Prices[$j]["VM{$i}"][$Feild];
         }
     }
     return array_sum($Price);
 }
-
-
 ?>
-
-
 <script>
     function updateTotalHtml(object) {
 
@@ -814,10 +804,7 @@ function PriceOs($SW, $Feild)
             DiscountedMRC = 0,
             DiscountedTotal = 0,
             discountPercentage = 0;
-
-        // console.log(res);
         Object.keys(object.Obj).forEach(function(key) {
-
             let MRC = $("#" + key).parent().find(".MRC").html().replace(/₹|,| /g, '');
             if (typeof object.Obj[key] === "object") {
                 let vmMRC = 0;
@@ -826,7 +813,6 @@ function PriceOs($SW, $Feild)
                 })
                 $("#" + key).html(INR(vmMRC));
                 discountPercentage = 100 - ((parseFloat(vmMRC) / parseFloat(MRC)) * 100);
-
             } else {
                 $("#" + key).html(INR(object.Obj[key]));
                 discountPercentage = 100 - ((parseFloat(object.Obj[key]) / parseFloat(MRC)) * 100)
@@ -835,6 +821,7 @@ function PriceOs($SW, $Feild)
                 $("#" + key).parent().find(".discount").html("0 %");
             } else {
                 $("#" + key).parent().find(".discount").html(discountPercentage.toFixed(2) + " %");
+                $("#" + key).parent().find(".discount").data("percent", discountPercentage);
             }
             if ($("#" + key).hasClass("Infrastructure_" + object.j)) {
                 if (typeof object.Obj[key] === "object") {
@@ -864,7 +851,6 @@ function PriceOs($SW, $Feild)
 
         $("#MonthlyDiscounted_" + object.j).data("value", DiscountedTotal);
     }
-
     <?php
     echo "let DiscountedData = {";
     foreach ($estmtname as $j => $_Key) {
@@ -875,7 +861,6 @@ function PriceOs($SW, $Feild)
     }
     echo "}";
     ?>
-
 
     function DiscountingAjax(DATA, j) {
         $.ajax({
@@ -890,7 +875,6 @@ function PriceOs($SW, $Feild)
                     "j": j,
                     "DATA": DATA
                 });
-                // console.log(Obj)
                 $(".discount").attr("Contenteditable", "true");
             }
         })
@@ -900,25 +884,19 @@ function PriceOs($SW, $Feild)
         let Infrastructure = [];
         let Managed = [];
         $(".Managed_" + j + " , .Infrastructure_" + j + "").each(function() {
-            // console.log($(this).html());
-
             let valHTML = $(this).html();
             let val = valHTML.replace(/₹|,|\n| /g, '');
             if (type == "total") {
                 if ($(this).hasClass("Infrastructure_" + j) && val !== '' && $(this).hasClass("MRC")) {
                     Infrastructure.push(parseFloat(val));
-                    // console.log(val)
                 }
-
                 if ($(this).hasClass("Managed_" + j) && val !== '' && $(this).hasClass("MRC")) {
                     Managed.push(parseFloat(val));
                 }
             } else if (type == "discountedTotal") {
                 if ($(this).hasClass("Infrastructure_" + j) && val !== '' && $(this).hasClass("DiscountedMrc")) {
                     Infrastructure.push(parseFloat(val));
-                    // console.log(val)
                 }
-
                 if ($(this).hasClass("Managed_" + j) && val !== '' && $(this).hasClass("DiscountedMrc")) {
                     Managed.push(parseFloat(val));
                 }
@@ -937,10 +915,6 @@ function PriceOs($SW, $Feild)
                 parseFloat(mngTotal)
             ))
             let otc_perc = "<?= getProdName("otc") ?>".replace(/otc|-/g, '');
-            // $("#final_otc_" + j + ",#otc_" + j).html(INR(
-            //     ((parseFloat(infraTotal) +
-            //         parseFloat(mngTotal)) * 12) * parseFloat(otc_perc)
-            // ))
             let period = parseFloat($("#MonthlyTotal_" + j).data("period"))
             $("#MonthlyDiscounted_" + j).html(INR(
                 (parseFloat(infraTotal) +
@@ -966,16 +940,13 @@ function PriceOs($SW, $Feild)
             ))
         }
     }
-
-
-    // function manualDiscount(){
     $(".discount").on("blur", function() {
         let percentage = $(this).html().replace(/%| /g, '')
         $(this).html(percentage + " %")
         if (!isNaN(percentage)) {
-            percentage = parseFloat(percentage) / 100
+            percentage = parseFloat($(this).data('percent')) / 100
             let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g, '')
-            console.log(percentage + " " + Mrc)
+            // console.log(percentage + " " + Mrc)
             Mrc = parseFloat(Mrc)
             let discountedMrc = Mrc - (Mrc * percentage)
             $(this).parent().find(".DiscountedMrc").html(INR(discountedMrc))
@@ -989,12 +960,13 @@ function PriceOs($SW, $Feild)
             let total_monthly = parseFloat($("#total_monthly_" + j).html().replace(/₹|,| /g, ''))
 
             let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
-            $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2))
+            if(TotalDiscountPercentage < <?=employee($_SESSION["emp_code"])['applicable_discounting_percentage']?>){
+                $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2))
+            }else{
+                alert("Please enter a valid number.")
+            }
         }
     })
-    // }
-
-    // manualDiscount()
 </script>
 
 
@@ -1002,18 +974,14 @@ function PriceOs($SW, $Feild)
 if (!empty($_DiscountedData)) {
     echo "
     <script>
-        let _Data = '{$Quer['discountdata']}';
+        let _Data = '{$data_query['discounted_data']}';
         let __DATA = JSON.parse(_Data);
-        $('.discount').attr('Contenteditable', 'true');
-    </script>";
-
+        $('.discount').attr('Contenteditable', 'true');";
     foreach ($_DiscountedData as  $key => $arr) {
-        echo "
-        <script>
-            updateTotalHtml({'Obj':__DATA[" . $key . "]['Data'], 'j':" . $key . ", 'DATA': { discountVal : " . $_DiscountedData[$key]["percentage"] . "}});
-        </script>
-        ";
+        echo "updateTotalHtml({'Obj':__DATA[" . $key . "]['Data'], 'j':" . $key . ", 'DATA': { discountVal : " . $_DiscountedData[$key]["percentage"] . "}});";
     }
+    echo "
+    </script>";
 }
 
 ?>

@@ -9,7 +9,6 @@ foreach ($estmtname as $j => $_Key) {
     $antiVirus = false;
     $product_prices = priceTbl($region[$j])["product_prices"];
     $product_sku = priceTbl($region[$j])["product_sku"];
-    // echo "<pre>";print_r($EstmDATA);echo "</pre>";
 ?>
     <table class='final-tbl table except' id="final-tbl<?= $j ?>">
         <tr hidden></tr>
@@ -37,20 +36,11 @@ foreach ($estmtname as $j => $_Key) {
         if (!empty($vmqty[$j][0])) {
             $no + 1;
             $a = 'A.' . $no . ' +';
-
             tblHead('eNlight Cloud Hosting');
-
             $vm_total = array();
             $vcore_data = array();
             foreach ($vmqty[$j] as $i => $val) {
-                // $cost_rows = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_pack` WHERE `sr_no` = '{$instance[$j][$i]}' AND `region` =  '{$region[$j][$i]}' "));
                 $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk - " . preg_replace("/Object Storage|IOPS per GB| /", "", getProdName($diskType[$j][$i])) . " IOPS/GB -  {$disk[$j][$i]} GB";
-                // $price = ($instance[$j][$i] == 'Flexi') ?
-                //     (($product_prices['cpu'] * intval($cpu[$j][$i])) +
-                //         ($product_prices['ram'] * intval($ram[$j][$i])) +
-                //         ($product_prices['iops_1'] * intval($disk[$j][$i])))
-                //     : $cost_rows['price'];
-
                 $price = (($product_prices['vcpu_static'] * intval($cpu[$j][$i])) +
                     ($product_prices['vram_static'] * intval($ram[$j][$i])) +
                     ($product_prices[$diskType[$j][$i]] * intval($disk[$j][$i])));
@@ -320,9 +310,11 @@ foreach ($estmtname as $j => $_Key) {
         if ($ip_public[$j] != NULL) {
             $public_data[$j] = array_unique($ip_public[$j]);
         }
+        $IpAddress = array();
         foreach ($vmqty[$j] as $i => $v) {
             if (!empty($publicip_qty[$j][$i]) || intval($publicip_qty[$j][$i]) != 0) {
                 $isIp = true;
+                $IpAddress[$publicip_vers[$j][$i]][] = $publicip_qty[$j][$i];
                 break;
             } else {
                 $isIp = false;
@@ -333,14 +325,14 @@ foreach ($estmtname as $j => $_Key) {
             $d = 'A.' . $no = $no + 1;
             $d .= ' +';
             tblHead("Network and Connectivity Services");
-            foreach ($vmqty[$j] as $i => $val) {
-                if ($isIp) {
-                    $DiscountingId = "ip_{$j}";
-                    $totalDisc[$Class][$DiscountingId] = tblRow('Services', 'Public IP Address : ' . strtoupper($publicip_vers[$j][$i]), array_sum($publicip_qty[$j]), $product_prices[$publicip_vers[$j][$i]]);
-                    $Infrastructure['Network Solution']['ip'] = array_sum($publicip_qty[$j]) * $product_prices[$publicip_vers[$j][$i]];
-                    $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku[$publicip_vers[$j][$i]]] = [
-                        "qty" => array_sum($publicip_qty[$j]),
-                        "discount" => (!empty($_DiscountedData)) ? GetDiscountedPercentage(array_sum($publicip_qty[$j]), $product_prices[$publicip_vers[$j][$i]]) : 0
+            if ($isIp) {
+                foreach ($IpAddress as $vers => $qty){
+                    $DiscountingId = "{$vers}_{$j}";
+                    $totalDisc[$Class][$DiscountingId] = tblRow('Services', 'Public IP Address : ' . strtoupper($vers), array_sum($qty), $product_prices[$vers]);
+                    $Infrastructure['Network Solution']['ip'] = array_sum($qty) * $product_prices[$vers];
+                    $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku[$vers]] = [
+                        "qty" => array_sum($qty),
+                        "discount" => (!empty($_DiscountedData)) ? GetDiscountedPercentage(array_sum($qty), $product_prices[$vers]) : 0
                     ];
                 }
             }
@@ -629,8 +621,6 @@ foreach ($estmtname as $j => $_Key) {
 
             if (isset($osmgmt[$j]) && !empty($os_mgmt_name)) {
                 for ($i = 0; $i < count($os_mgmt_data); $i++) {
-                    // echo $mgmtINT[$os_mgmt_data[$i]];
-
                     $DiscountingId = $osmgmtINT[$os_mgmt_data[$i]] . "_$j";
                     $totalDisc[$Class][$DiscountingId] = tblRow("Services", getProdName($osmgmtINT[$os_mgmt_data[$i]]), array_sum($os_mgmt_qty[$os_mgmt_data[$i]]), $product_prices[$osmgmtINT[$os_mgmt_data[$i]]]);
                     $Sku_Data[$estmtname[$j]]['Managed Services'][$product_sku[$osmgmtINT[$os_mgmt_data[$i]]]] = [
@@ -641,7 +631,6 @@ foreach ($estmtname as $j => $_Key) {
             }
             if (isset($dbmgmt[$j]) && !empty($db_mgmt_data)) {
                 for ($i = 0; $i < count($db_mgmt_data); $i++) {
-                    // print_r($dbmgmtINT);
                     $DiscountingId = $dbmgmtINT[$db_mgmt_data[$i]] . "_$j";
                     $totalDisc[$Class][$DiscountingId] = tblRow("Services", getProdName($dbmgmtINT[$db_mgmt_data[$i]]), array_sum($db_mgmt_qty[$db_mgmt_data[$i]]), $product_prices[$dbmgmtINT[$db_mgmt_data[$i]]]);
                     $managed_services[$dbmgmtINT[$db_mgmt_data[$i]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]) * intval($product_prices[$dbmgmtINT[$db_mgmt_data[$i]]]);
@@ -870,7 +859,9 @@ function tblRow($Service, $Product, $Quantity, $Price, $Unit = "NO", $OTC = '')
                 }
 
                 echo round($percentage, 2) . " %";
-            } else { echo "";} ;
+            } else {
+                echo "";
+            };
             ?></td>
         <td class='discountPrice unshareable' id='discPrice'><?php
                                                                 if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
@@ -881,7 +872,7 @@ function tblRow($Service, $Product, $Quantity, $Price, $Unit = "NO", $OTC = '')
                                                                         INR(!empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? ($_DiscountedData[$j]["Data"][$DiscountingId]) : 0);
                                                                     }
                                                                 } else {
-                                                                    echo "";
+                                                                    echo INR(0);
                                                                 }
                                                                 ?></td>
         <td class='unshareable' id='otc'><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>

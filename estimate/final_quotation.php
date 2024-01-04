@@ -75,15 +75,21 @@ $MothlyTotal = array();
                     ?>
                         <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button>
                     <?php
-                    }
-                    elseif (!empty($D) && $D['approved_status'] == 'Approved') {
+                    } elseif (!empty($D) && $D['approved_status'] == 'Approved') {
                     ?>
                         <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button>
+                        <?php
+                    } else {
+                        if (UserRole(12) || employee($_SESSION['emp_code'])['applicable_discounting_percentage']) { ?>
+                            <button class="btn btn-outline-success btn-lg mx-1" id="push" onclick="updateStatus('Approved' , <?= $_SESSION['emp_code'] ?>)"><i class="fa fa-check pr-2" aria-hidden="true"></i>Approve</button>
+                            <button class="btn btn-outline-danger btn-lg mx-1" id="push" onclick="updateStatus('Rejected' , <?= $_SESSION['emp_code'] ?>)"><i class="fa fa-times pr-2" aria-hidden="true"></i>Reject</button>
+                        <?php
+                        } else {
+                        ?>
+                            <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="updateStatus('Remaining')"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Send for Approval</button>
                     <?php
+                        }
                     }
-                    else{ ?>
-                        <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="updateStatus()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Send for Approval</button>
-                    <?php }
                     ?>
                     <button class="btn btn-outline-success btn-lg mx-1 export" id="exportShareable"><i class="fa fa-file-excel-o pr-2"></i> Export as Shareable</button>
                     <?php
@@ -93,7 +99,6 @@ $MothlyTotal = array();
                     }
                     if (isset($_SESSION["insertID"]) || isset($_SESSION["edit_id"])) {
                     ?>
-
                         <button class="btn btn-outline-danger btn-lg mx-1 save" id="update"><i class="fas fa-refresh pr-2"></i> Update</button>
                         <a class="btn btn-outline-info btn-lg mx-1" id="Discount" target="_blank" href="discounting.php?id=<?= (isset($_SESSION["insertID"])) ? $_SESSION["insertID"] : $_SESSION['edit_id'] ?>"><i class="fa fa-calculator pr-2" aria-hidden="true"> Discounting</i></a>
                     <?php
@@ -104,9 +109,6 @@ $MothlyTotal = array();
                 </div>
                 <?php
                 $temp =  json_encode(json_template($Sku_Data, $I_M), JSON_PRETTY_PRINT);
-                // echo "<pre>";
-                // print_r($temp);
-                // echo "</pre>";
                 ?>
             </div>
         </div>
@@ -136,18 +138,21 @@ $MothlyTotal = array();
                 }
             })
         }
-        function updateStatus() {
+
+        function updateStatus(status, approved_by = '') {
             $.ajax({
                 type: 'POST',
                 url: "../model/saveToDB.php",
                 dataType: "TEXT",
                 data: {
-                    id: '<?=$_SESSION['edit_id']?>',
+                    id: '<?= $_SESSION['edit_id'] ?>',
                     action: 'UpdateDiscountingStatus',
-                    status : "Remaining",
+                    status: status,
+                    approved_by: approved_by
                 },
                 success: function(response) {
                     alert(response);
+                    window.location.reload()
                 }
             })
         }
@@ -195,24 +200,12 @@ $MothlyTotal = array();
                 },
                 dataType: "TEXT",
                 success: function(response) {
-                    // alert("Data Saved Successfully");
                     const jsonObj = JSON.parse(response)
                     alert(jsonObj.Message)
                     location.reload()
                 }
             });
         })
-
-
-
-        // window.addEventListener('beforeunload',
-        //     function(e) {
-        //         let conf = confirm("Are You sure want to unsave this Estimate ? ");
-        //         if (conf) {} else {
-        //             e.preventDefault();
-        //             e.returnValue = '';
-        //         }
-        //     });
     </script>
 </body>
 

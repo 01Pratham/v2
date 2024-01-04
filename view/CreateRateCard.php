@@ -46,7 +46,7 @@ contentHeader("Rate Cards");
 </div>
 
 <!-- 
- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> --> 
+ <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
 <div class="except  mt-3 mx-3">
     <div class="except row">
         <div class="except col-12 mb-3 mb-lg-5">
@@ -78,24 +78,26 @@ contentHeader("Rate Cards");
                                         <?= $i ?>
                                     </td>
                                     <td class="col-4 text-center">
-                                        <a href="?rateCardId=<?= $rateCard['id'] ?>"><div> <?= $rateCard['rate_card_name'] ?></div></a>
+                                        <a href="?rateCardId=<?= $rateCard['id'] ?>">
+                                            <div> <?= $rateCard['rate_card_name'] ?></div>
+                                        </a>
 
                                     </td>
                                     <td class="col-2 text-center">
-                                        <?= ($rateCard['created_by'] == $_SESSION['emp_code'])?"You": employee($rateCard['created_by'])['first_name'] ?>
+                                        <?= ($rateCard['created_by'] == $_SESSION['emp_code']) ? "You" : employee($rateCard['created_by'])['first_name'] ?>
                                     </td>
                                     <td class="col-2 text-center">
                                         <?php
                                         if (UserRole(10)) {
                                         ?>
-                                            <select name="" id="UpdateCardType" class="form-control border-0" data-id = "<?= $rateCard['id'] ?>">
+                                            <select name="" id="UpdateCardType" class="form-control border-0" data-id="<?= $rateCard['id'] ?>">
                                                 <option <?= ($rateCard["card_type"] == "Private") ? "Selected" : '' ?> value="Private">Private</option>
                                                 <option <?= ($rateCard["card_type"] == "Public") ? "Selected" : '' ?> value="Public">Public</option>
                                             </select>
                                         <?php } else {
                                             echo $rateCard["card_type"];
                                         } ?>
-                                    </td>
+                                    </td>       
                                     <td class="col-3 text-center">
                                         <?= $rateCard['created_date'] ?>
                                     </td>
@@ -106,16 +108,14 @@ contentHeader("Rate Cards");
                                             <span class="fa fa-bars" aria-hidden="true"></span>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-end text-light" style="min-width: 8rem; z-index:1 ">
-                                            <a href="?rateCardId=<?= $rateCard['id'] ?>" class="dropdown-item"><i><?= (UserRole(8) || $rateCard["card_type"] == "Private") ? "Edit / View"  : "View" ?></i><i class="fa fa-edit float-right pt-1"></i>
-                                            </a>
-                                            <?= (UserRole(8) || $rateCard["card_type"] == "Private") ? 
+                                            <a href="?rateCardId=<?= $rateCard['id'] ?>" class="dropdown-item"><span><?= (UserRole(8) || $rateCard["card_type"] == "Private") ? "Edit / View"  : "View" ?></span><span class="fa fa-edit float-right pt-1"></span></a>
+                                            <?= (UserRole(8) || $rateCard["card_type"] == "Private") ?
                                                 '<div class="dropdown-item" 
                                                     onclick = "deleteRateCard(' . $rateCard["id"] . ')" 
                                                     id = "delete_rateCard" 
                                                     data-id = "' . $rateCard["id"] . '">
                                                     <i>Delete</i><i class="fa fa-trash float-right pt-1"></i>
-                                                </div>' 
-                                            : "View" ?>
+                                                </div>' : ''?>
 
                                         </div>
                                     </td>
@@ -187,7 +187,7 @@ contentHeader("Rate Cards");
     }
 
 
-    $("#UpdateCardType").on("change", function(){
+    $("#UpdateCardType").on("change", function() {
         const id = $(this).data("id")
 
         $.ajax({
@@ -196,7 +196,7 @@ contentHeader("Rate Cards");
             dataType: "text",
             data: {
                 id: id,
-                visibility : $(this).val(),
+                visibility: $(this).val(),
                 action: "updateVisibility"
             },
             success: function(response) {

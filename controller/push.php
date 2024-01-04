@@ -26,10 +26,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'push') {
     $arrResp = json_decode($response,true);
     
 
-    $arr = json_decode($str, true);
+    // $arr = json_decode($str, true);
 
-    if(!empty($arr) || $arr["result"]["status"]){
-        echo ($arr["result"]["message"]);
+    if(!empty($arrResp) || $arrResp["result"]["status"]){
+        echo ($arrResp["result"]["message"]);
     }else{
         echo ("Error");
     }
