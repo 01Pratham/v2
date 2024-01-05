@@ -679,7 +679,7 @@ foreach ($estmtname as $j => $_Key) {
 
     <script>
         $("#perce_<?= $j ?>").on("click", function() {
-            if($("#DiscountPercetage_<?= $j ?>").val() < <?=employee($_SESSION["emp_code"])['applicable_discounting_percentage']?>){
+            if($("#DiscountPercetage_<?= $j ?>").val() <= <?=employee($_SESSION["emp_code"])['applicable_discounting_percentage']?>){
                 var $obj = {
                     action: "Discount",
                     discountVal: $("#DiscountPercetage_<?= $j ?>").val() / 100,

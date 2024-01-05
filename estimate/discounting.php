@@ -32,7 +32,7 @@ if (isset($_GET['id'])) {
     <body class="sidebar-mini layout-fixed sidebar-collapse" data-new-gr-c-s-check-loaded="14.1111.0" data-gr-ext-installed style="height: auto; overflow-x: hidden;">
         <?php
         require "../view/includes/nav.php";
-        if (UserRole(3)) {
+        if (UserRole(3) || employee($_SESSION['emp_code'])["applicable_discounting_percentage"] != 0 )  {
         ?>
             <div class="content-wrapper except bg-transparent">
                 <div id="loader" class="except">
