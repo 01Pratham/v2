@@ -113,7 +113,11 @@ foreach ($estmtname as $j => $_Key) {
                         $DiscountingId = "{$int}_{$j}";
                         $SKU = $product_sku[$int];
                         $cal = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_os_calculation` WHERE `product_int` = '{$os_data[$i]}'"));
-                        list($variableName, $value) = explode(' = ', $cal['calculation']);
+                        if (!empty($cal)) {
+                            list($variableName, $value) = explode(' = ', $cal['calculation']);
+                        } else {
+                            $core_devide = '';
+                        }
                         $$variableName = $value;
                         $Products[$j][$DiscountingId] = tblRow("Database", getProdName($os_data[$i]), get_os($os_data[$i], $core_devide),  PriceOs($os_data[$i], "os"), " Lic.");
                     }
@@ -123,12 +127,15 @@ foreach ($estmtname as $j => $_Key) {
             foreach ($vmqty[$j] as $i => $val) {
                 foreach ($dbArr as $k => $int) {
                     if ($db_data[$i] == $int) {
+                        $core_devide = NULL;
                         $DiscountingId = "{$int}_{$j}";
                         $SKU = $product_sku[$int];
                         $cal = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_os_calculation` WHERE `product_int` = '{$db_data[$i]}'"));
-                        list($variableName, $value) = explode(' = ', $cal['calculation']);
-                        $$variableName = $value;
-                        $Products[$j][$DiscountingId] = tblRow("Database", getProdName($db_data[$i]), get_DB($db_data[$i], $core_devide), PriceOs($db_data[$i], "db"), " Lic.");
+                        if (!empty($cal['calculation'])) {
+                            list($variableName, $value) = explode(' = ', $cal['calculation']);
+                            $$variableName = $value;
+                        }
+                        $Products[$j][$DiscountingId] = tblRow("Database", getProdName($int), get_DB($int, $core_devide), PriceOs($int, "db"), " Lic.");
                     }
                 }
             }
@@ -201,10 +208,10 @@ foreach ($estmtname as $j => $_Key) {
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['backup_gb']] = ($backupunit[$j] == 'TB') ? intval($backupstrg[$j]) * 1024 : intval($backupstrg[$j]);
             }
             if (!empty($arc_strg[$j])) {
-                $SKU = $product_sku['arc_strg_gb'];
+                $SKU = $product_sku['arc_strg'];
                 $DiscountingId = "arc_strg_gb_{$j}";
                 $Products[$j][$DiscountingId] = tblRow("Archival Storage", 'Archival Space',  get_strg($archival_unit[$j], 1, $arc_strg[$j]), $_Prices[$j]['Storage Solution']['Archival Space'], 'GB');
-                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['arc_strg_gb']] = ($archival_unit[$j] == 'TB') ? intval($arc_strg[$j]) * 1024 : intval($arc_strg[$j]);
+                $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['arc_strg']] = ($archival_unit[$j] == 'TB') ? intval($arc_strg[$j]) * 1024 : intval($arc_strg[$j]);
             }
             if (isset($tape_lib[$j])) {
                 $SKU = $product_sku['tl'];
@@ -320,11 +327,11 @@ foreach ($estmtname as $j => $_Key) {
                 $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku[$bandInt]] = $bandwidth[$j];
             }
             if (!empty($ccptqty[$j])) {
-                $SKU = $product_sku['ccpt'];
-                $DiscountingId = "ccpt_{$j}";
-                $Products[$j][$DiscountingId] = tblRow('Services', "Cross Connect and Port Termination", $ccptqty[$j], $_Prices[$j]['Network Solution']['ccpt']);
-                $Infrastructure['Network Solution']['ccpt'] = intval($product_prices['ccpt']) * intval($ccptqty[$j]);
-                $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['ccpt']] = $ccptqty[$j];
+                $SKU = $product_sku["cross_connect"];
+                $DiscountingId = "cross_connect_{$j}";
+                $Products[$j][$DiscountingId] = tblRow('Services', "Cross Connect and Port Termination", $ccptqty[$j], $_Prices[$j]['Network Solution']["cross_connect"]);
+                $Infrastructure['Network Solution']["cross_connect"] = intval($product_prices["cross_connect"]) * intval($ccptqty[$j]);
+                $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku["cross_connect"]] = $ccptqty[$j];
             }
 
             if (isset($rep_link[$j])) {
@@ -484,7 +491,7 @@ foreach ($estmtname as $j => $_Key) {
                             $str = explode("_", $db[$j][$i]);
                             $dbInt[] = $str[0];
                             $db_mgmt_name[] = getProdName($int);
-                            $db_mgmt_qty[$str[0]][] = $vmqty[$j][$i];
+                            $db_mgmt_qty[$str[0]][] = intval(($disk[$j][$i] * $vmqty[$j][$i])/100);
                             $dbmgmtINT[$str[0]] = $str[0] . '_db_mgmt';
                         }
                     }
@@ -623,7 +630,7 @@ foreach ($estmtname as $j => $_Key) {
         ?>
         <tr>
             <th class='except unshareable' style='background: rgba(212,212,212,1); '> Sr No . </th>
-            <th class=' final colspan except unshareable' colspan='3' style='background: rgba(212,212,212,1); '> Description </th>
+            <th class='final colspan except unshareable' colspan='3' style='background: rgba(212,212,212,1); '> Description </th>
             <th class='colspan except unshareable' style='background: rgba(212,212,212,1);' colspan='2'>MRC</th>
             <th class='colspan except unshareable' style='background: rgba(212,212,212,1);' colspan='2'>Discounted MRC</th>
         </tr>
@@ -663,34 +670,30 @@ foreach ($estmtname as $j => $_Key) {
             <td class='colspan unshareable' colspan='2'></td>
         </tr>
         <tr>
-            <th class=' final unshareable' style='background-color: rgb(255, 207, 203);'> </th>
-            <th class=' final colspan except unshareable' colspan='3' style='background-color: rgb(255, 207, 203);'> Total [ Monthly ]</th>
-            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 207, 203);' id='total_monthly_<?= $j ?>'></th>
-            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 207, 203);' id='DiscTotal_<?= $j ?>'></th>
+            <th class='final unshareable' style='background-color: rgb(255, 207, 203);'> </th>
+            <th class='final colspan except unshareable' colspan='3' style='background-color: rgb(255, 207, 203);'> Total [ Monthly ]</th>
+            <th class='colspan except unshareable' colspan='2' style='background-color: rgb(255, 207, 203);' id='total_monthly_<?= $j ?>'></th>
+            <th class='colspan except unshareable' colspan='2' style='background-color: rgb(255, 207, 203);' id='DiscTotal_<?= $j ?>'></th>
         </tr>
         <tr>
-            <th class=' final unshareable' style='background-color: rgb(255, 226, 182);'> </th>
-            <th class=' final colspan except unshareable' colspan='3' style='background-color: rgb(255, 226, 182);'> Total [ For <?= $period[$j] ?> Months ]</th>
-            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);' id="MonthlyTotal_<?= $j ?>" data-period="<?= $period[$j] ?>"></th>
-            <th class=' colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);' id="MonthlyDiscounted_<?= $j ?>" data-period="<?= $period[$j] ?>"></th>
+            <th class='final unshareable' style='background-color: rgb(255, 226, 182);'> </th>
+            <th class='final colspan except unshareable' colspan='3' style='background-color: rgb(255, 226, 182);'> Total [ For <?= $period[$j] ?> Months ]</th>
+            <th class='colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);' id="MonthlyTotal_<?= $j ?>" data-period="<?= $period[$j] ?>"></th>
+            <th class='colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);' id="MonthlyDiscounted_<?= $j ?>" data-period="<?= $period[$j] ?>"></th>
         </tr>
     </table>
     <input type="hidden" name="" id="Months_<?= $j ?>" value="<?= $period[$j] ?>">
 
     <script>
         $("#perce_<?= $j ?>").on("click", function() {
-            if($("#DiscountPercetage_<?= $j ?>").val() <= <?=employee($_SESSION["emp_code"])['applicable_discounting_percentage']?>){
-                var $obj = {
-                    action: "Discount",
-                    discountVal: $("#DiscountPercetage_<?= $j ?>").val() / 100,
-                    Total: "<?= $_Prices[$j]['MonthlyTotal'] ?>",
-                    data: "<?= base64_encode(json_encode($Products[$j])) ?>",
-                    regionId: "<?= $region[$j] ?>"
-                };
-                DiscountingAjax($obj, <?= $j ?>);
-            }else{
-                alert('Please enter a valid percentage');
-            }
+            var $obj = {
+                action: "Discount",
+                discountVal: $("#DiscountPercetage_<?= $j ?>").val() / 100,
+                Total: "<?= $_Prices[$j]['MonthlyTotal'] ?>",
+                data: "<?= base64_encode(json_encode($Products[$j])) ?>",
+                regionId: "<?= $region[$j] ?>"
+            };  
+            DiscountingAjax($obj, <?= $j ?>);
         })
         $(document).ready(function() {
             totalInfra(<?= $j ?>)
@@ -731,21 +734,22 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
             }
 
             ?></td>
-        <td class='discount unshareable' id='disc' data-key="<?= $j ?>" data-discId="<?= $DiscountingId ?>">
-            <?php
-            if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
+        <?php
+        if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
 
-                if ($MRC != 0) {
-                    if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
-                        echo round(100 - ((array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100), 2) . " %";
-                    } else {
-                        echo round(100 - (($_DiscountedData[$j]["Data"][$DiscountingId] / $MRC) * 100), 2) . " %";
-                    }
+            if ($MRC != 0) {
+                if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
+                    $percentage =  round(100 - ((array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100), 2);
                 } else {
-                    echo 0 . "%";
+                    $percentage =  round(100 - (($_DiscountedData[$j]["Data"][$DiscountingId] / $MRC) * 100), 2);
                 }
+            } else {
+                $percentage = 0;
             }
-            ?>
+        }
+        ?>
+        <td class='discount unshareable' id='disc' data-key="<?= $j ?>" data-discId="<?= $DiscountingId ?>" data-percent="<?= $percentage ?>" data-percent-fixed="<?= round($percentage, 2) ?>">>
+            <?= $percentage ?> %
         </td>
         <td class='DiscountedMrc unshareable <?= $Class ?>' id="<?= $DiscountingId ?>"><?php
                                                                                         if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
@@ -810,7 +814,7 @@ function PriceOs($SW, $Feild)
                 let vmMRC = 0;
                 Object.keys(object.Obj[key]).forEach((item) => {
                     vmMRC += object.Obj[key][item];
-                })
+                });
                 $("#" + key).html(INR(vmMRC));
                 discountPercentage = 100 - ((parseFloat(vmMRC) / parseFloat(MRC)) * 100);
             } else {
@@ -941,18 +945,33 @@ function PriceOs($SW, $Feild)
         }
     }
     $(".discount").on("blur", function() {
-        let percentage = $(this).html().replace(/%| /g, '')
-        $(this).html(percentage + " %")
+        let percentage = NaN;
+        let percHtml = parseFloat($(this).html().replace(/%| /g, ''));
+        let percData = parseFloat($(this).data('percent'));
+        if (percHtml > 99) {
+            alert("Please Enter valid Percentage");
+            $(this).html(percData.toFixed(2) + " %")
+
+        } else {
+            if (isNaN(percData) || percHtml != percData) {
+                percentage = percHtml
+            } else {
+                percentage = percData
+            }
+            $(this).html((isNaN(percentage) ? 0 : percentage) + " %")
+        }
         if (!isNaN(percentage)) {
-            percentage = parseFloat($(this).data('percent')) / 100
+            percentage = parseFloat(percentage) / 100
             let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g, '')
-            // console.log(percentage + " " + Mrc)
             Mrc = parseFloat(Mrc)
             let discountedMrc = Mrc - (Mrc * percentage)
-            $(this).parent().find(".DiscountedMrc").html(INR(discountedMrc))
+            if (discountedMrc <= 0 && percentage > 0) {
+                alert("Please Enter Valid Percentage")
+            } else {
+                $(this).parent().find(".DiscountedMrc").html(INR(discountedMrc))
+            }
             let j = $(this).data("key")
             totalInfra(j, "discountedTotal")
-            // console.log(j)
             let discountID = $(this).data("discid")
             DiscountedData[j]["Data"][discountID] = discountedMrc
 
@@ -960,11 +979,20 @@ function PriceOs($SW, $Feild)
             let total_monthly = parseFloat($("#total_monthly_" + j).html().replace(/₹|,| /g, ''))
 
             let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
-            if(TotalDiscountPercentage < <?=employee($_SESSION["emp_code"])['applicable_discounting_percentage']?>){
-                $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2))
-            }else{
-                alert("Please enter a valid number.")
-            }
+
+            $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2))
+        } else {
+            let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g, '')
+            Mrc = parseFloat(Mrc)
+            $(this).parent().find(".DiscountedMrc").html(INR(Mrc))
+            let j = $(this).data("key")
+            totalInfra(j, "discountedTotal")
+            let discountID = $(this).data("discid")
+            DiscountedData[j]["Data"][discountID] = Mrc
+            let DiscTotal = parseFloat($("#DiscTotal_" + j).html().replace(/₹|,| /g, ''))
+            let total_monthly = parseFloat($("#total_monthly_" + j).html().replace(/₹|,| /g, ''))
+            let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
+            $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2))
         }
     })
 </script>

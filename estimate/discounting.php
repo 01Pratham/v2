@@ -182,6 +182,7 @@ if (isset($_GET['id'])) {
                     $('.alert').remove();
                 }
                 $('.save').click(function() {
+                    let TotalDiscountedMrc ;
                     $.ajax({
                         type: "POST",
                         url: '../model/saveToDB.php',
@@ -190,7 +191,7 @@ if (isset($_GET['id'])) {
                             'emp_id': <?= $_SESSION['emp_code'] ?>,
                             'id': '<?= $_GET['id'] ?>',
                             "discountedData": JSON.stringify(DiscountedData),
-                            "discounted_upfront": ""
+                            "discounted_upfront": TotalDiscountedMrc
                         },
                         dataType: "TEXT",
                         success: function(response) {

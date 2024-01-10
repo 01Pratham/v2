@@ -326,10 +326,10 @@ foreach ($estmtname as $j => $_Key) {
             $d .= ' +';
             tblHead("Network and Connectivity Services");
             if ($isIp) {
-                foreach ($IpAddress as $vers => $qty){
+                foreach ($IpAddress as $vers => $qty) {
                     $DiscountingId = "{$vers}_{$j}";
                     $totalDisc[$Class][$DiscountingId] = tblRow('Services', 'Public IP Address : ' . strtoupper($vers), array_sum($qty), $product_prices[$vers]);
-                    $Infrastructure['Network Solution']['ip'] = array_sum($qty) * $product_prices[$vers];
+                    $Infrastructure['Network Solution'][$vers] = array_sum($qty) * $product_prices[$vers];
                     $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku[$vers]] = [
                         "qty" => array_sum($qty),
                         "discount" => (!empty($_DiscountedData)) ? GetDiscountedPercentage(array_sum($qty), $product_prices[$vers]) : 0
@@ -348,9 +348,9 @@ foreach ($estmtname as $j => $_Key) {
                 ];
             }
             if (!empty($ccptqty[$j])) {
-                $DiscountingId = "ccpt_{$j}";
+                $DiscountingId = "cross_connect_{$j}";
                 $totalDisc[$Class][$DiscountingId] = tblRow('Services', "Cross Connect and Port Termination", $ccptqty[$j], $product_prices['cross_connect']);
-                $Infrastructure['Network Solution']['ccpt'] = intval($product_prices['cross_connect']) * intval($ccptqty[$j]);
+                $Infrastructure['Network Solution']['cross_connect'] = intval($product_prices['cross_connect']) * intval($ccptqty[$j]);
                 $Sku_Data[$estmtname[$j]]['Network Solution'][$product_sku['cross_connect']] = [
                     "qty" => $ccptqty[$j],
                     "discount" => (!empty($_DiscountedData)) ? GetDiscountedPercentage($ccptqty[$j], $product_prices["cross_connect"]) : 0
@@ -872,7 +872,7 @@ function tblRow($Service, $Product, $Quantity, $Price, $Unit = "NO", $OTC = '')
                                                                         INR(!empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? ($_DiscountedData[$j]["Data"][$DiscountingId]) : 0);
                                                                     }
                                                                 } else {
-                                                                    echo INR(0);
+                                                                    echo INR($MRC);
                                                                 }
                                                                 ?></td>
         <td class='unshareable' id='otc'><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>
