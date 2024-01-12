@@ -9,13 +9,9 @@ if (isset($_GET['rateCardId'])) {
 ?>
 
     <div class="row except  mt-3 mx-3">
-        <div class="input-group col-4 bg-transparent">
-            <input type="text" name="searchBox" id="searchBox" class="form-control" aria-describedby="">
-            <button class="input-group-text p-0 form-control col-sm-1 bg-light" id="searchButton">
-                <i class="fa fa-search Center"></i>
-            </button>
-        </div>
         <?php
+        require "../view/Components/SearchBoxComponent.php";
+        SearchBox("prodsTable");
         $q = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_rate_cards` WHERE `id` = {$id} AND `created_by` = '{$_SESSION['emp_code']}'"));
         if (UserRole(8) || preg_match("/Private/", $q['card_type'])) {
         ?>
@@ -32,15 +28,13 @@ if (isset($_GET['rateCardId'])) {
                     <h4>Product List</h4>
                 </div>
                 <div class="modal-content py-2 border-0">
-                    <div class="input-group p-2 bg-transparent">
-                        <input type="text" name="searchBox" id="addSearchBox" class="form-control" aria-describedby="">
-                        <button class="input-group-text p-0 form-control col-sm-1 bg-light" id="addSearchButton">
-                            <i class="fa fa-search Center"></i>
-                        </button>
-                    </div>
+                    <?php
+                    SearchBox("addProdsTbl");
+
+                    ?>
                     <div class="except table-card mx-2">
                         <div class="except table-responsive">
-                            <table class="table mb-0 rounded-2">
+                            <table class="table mb-0 rounded-2" id="addProdsTbl">
                                 <thead class="small text-uppercase bg-body text-muted">
                                     <tr class="border-bottom">
                                         <th><input type="checkbox" name="" id="SelectAll" class='from-control' oninput="
@@ -65,7 +59,7 @@ if (isset($_GET['rateCardId'])) {
                                             <td>
                                                 <input type="checkbox" name="" id="<?= $product['id'] ?>" class='from-control prodChecks <?= (!empty($productRateQuery['id'])) ? "Present" : "" ?>' <?= (!empty($productRateQuery['id'])) ? "Checked" : ''; ?>>
                                             </td>
-                                            <td class="col-4 text-center addProdNameTD">
+                                            <td class="col-4 text-center addProdNameTD searchTd">
                                                 <?= $product['product'] ?>
                                             </td>
                                             <td class="col-4 text-center">
@@ -89,8 +83,8 @@ if (isset($_GET['rateCardId'])) {
         </div>
     </div>
 
-    
-<!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
+
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
     <div class="except  mt-3 mx-3">
         <div class="except row">
             <div class="except col-12 mb-3 mb-lg-5">
@@ -114,14 +108,14 @@ if (isset($_GET['rateCardId'])) {
                                 $rateCardQuery = mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = '{$id}'");
                                 $i = 1;
                                 while ($prods = mysqli_fetch_assoc($rateCardQuery)) {
-                                   
+
                                 ?>
                                     <tr class="border-bottom">
                                         <td><input type="checkbox" name="" id="prods_<?= $prods['prod_id'] ?>" class="selectProds"></td>
                                         <td class="">
                                             <?= $i ?>
                                         </td>
-                                        <td class="text-start prodNameTD">
+                                        <td class="text-start prodNameTD searchTd">
                                             <?= GetVal($prods['prod_id'])['product'] ?>
                                         </td>
                                         <td class="text-center">
@@ -284,29 +278,29 @@ if (isset($_GET['rateCardId'])) {
         }
 
 
-        $("#searchButton").click(function() {
-            const searchVal = $("#searchBox").val()
-            $(".prodNameTD").each(function() {
-                if ($(this).html().includes(searchVal)) {
-                    $(this).parent().removeAttr("hidden")
+        // $("#searchButton").click(function() {
+        //     const searchVal = $("#searchBox").val()
+        //     $(".prodNameTD").each(function() {
+        //         if ($(this).html().includes(searchVal)) {
+        //             $(this).parent().removeAttr("hidden")
 
-                } else {
-                    $(this).parent().attr("hidden", "true")
-                }
-            })
-        })
+        //         } else {
+        //             $(this).parent().attr("hidden", "true")
+        //         }
+        //     })
+        // })
 
-        $("#addSearchButton").click(function() {
-            const searchVal = $("#addSearchBox").val().toLowerCase()
-            $(".addProdNameTD").each(function() {
-                if ($(this).html().toLowerCase().includes(searchVal)) {
-                    $(this).parent().removeAttr("hidden")
+        // $("#addSearchButton").click(function() {
+        //     const searchVal = $("#addSearchBox").val().toLowerCase()
+        //     $(".addProdNameTD").each(function() {
+        //         if ($(this).html().toLowerCase().includes(searchVal)) {
+        //             $(this).parent().removeAttr("hidden")
 
-                } else {
-                    $(this).parent().attr("hidden", "true")
-                }
-            })
-        })
+        //         } else {
+        //             $(this).parent().attr("hidden", "true")
+        //         }
+        //     })
+        // })
     </script>
 <?php
 }
@@ -320,10 +314,12 @@ function getRegion($id)
     return $arr["region"];
 }
 
-function getGeneralPrice($id){
+function getGeneralPrice($id)
+{
     global $con;
-    $generalPriceQuery =mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = 1 AND `prod_id` = '{$id}' ");
+    $generalPriceQuery = mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `rate_card_id` = 1 AND `prod_id` = '{$id}' ");
     $generalPrice = mysqli_fetch_assoc($generalPriceQuery);
     return $generalPrice['price'];
-}getGeneralPrice($prods["id"])
+}
+getGeneralPrice($prods["id"])
 ?>

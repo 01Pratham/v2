@@ -748,7 +748,7 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
             }
         }
         ?>
-        <td class='discount unshareable' id='disc' data-key="<?= $j ?>" data-discId="<?= $DiscountingId ?>" data-percent="<?= $percentage ?>" data-percent-fixed="<?= round($percentage, 2) ?>">>
+        <td class='discount unshareable' id='disc' data-key="<?= $j ?>" data-discId="<?= $DiscountingId ?>" data-percent="<?= $percentage ?>" data-percent-fixed="<?= round($percentage, 2) ?>">
             <?= $percentage ?> %
         </td>
         <td class='DiscountedMrc unshareable <?= $Class ?>' id="<?= $DiscountingId ?>"><?php

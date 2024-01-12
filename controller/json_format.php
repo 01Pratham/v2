@@ -53,7 +53,8 @@ function json_template($arr,    $total)
                     $template['phase_name'][$pCount]["group_name"][$gCount]['group_otp_price'] = 1;
                     $template['phase_name'][$pCount]["group_name"][$gCount]['group_recurring_price'] = (array_sum($total[$p][$gName[$Pname[$pCount]][$gCount]]));
                     $template['phase_name'][$pCount]["group_name"][$gCount]['group_quantity'] = ($arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Quantity'])?$arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Quantity'] :1 ;
-
+                    $template['phase_name'][$pCount]["group_name"][$gCount]['group_id'] = '';
+                    
                     $i = 1;
                     $iCount = 0;
                     foreach ($v as $_k => $_v){

@@ -4,12 +4,9 @@ require "../view/content-header.php";
 contentHeader("Rate Cards");
 ?>
 <div class="row except  mt-3 mx-3">
-    <div class="input-group col-4 bg-transparent">
-        <input type="text" name="searchBox" id="searchBox" class="form-control" aria-describedby="">
-        <button class="input-group-text p-0 form-control col-sm-1 bg-light" id="searchBox">
-            <i class="fa fa-search Center"></i>
-        </button>
-    </div>
+    <?php 
+    SearchBox("RateCardTable");
+    ?>
     <div class="form-group ml-auto">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-m">Create Rate Card</button>
     </div>
@@ -44,15 +41,12 @@ contentHeader("Rate Cards");
         </div>
     </div>
 </div>
-
-<!-- 
- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
 <div class="except  mt-3 mx-3">
     <div class="except row">
         <div class="except col-12 mb-3 mb-lg-5">
             <div class="except table-card">
                 <div class="except table-responsive">
-                    <table class="table mb-0 rounded-2">
+                    <table class="table mb-0 rounded-2" id = "RateCardTable">
                         <thead class="small text-uppercase bg-body text-muted">
                             <tr class="border-bottom">
                                 <th class="">#</th>
@@ -77,8 +71,8 @@ contentHeader("Rate Cards");
                                     <td class="col-1">
                                         <?= $i ?>
                                     </td>
-                                    <td class="col-4 text-center">
-                                        <a href="?rateCardId=<?= $rateCard['id'] ?>">
+                                    <td class="col-4 text-center searchTd ">
+                                        <a href="?rateCardId=<?= $rateCard['id'] ?>" >
                                             <div> <?= $rateCard['rate_card_name'] ?></div>
                                         </a>
 
@@ -113,7 +107,9 @@ contentHeader("Rate Cards");
                                                 '<div class="dropdown-item" 
                                                     onclick = "deleteRateCard(' . $rateCard["id"] . ')" 
                                                     id = "delete_rateCard" 
-                                                    data-id = "' . $rateCard["id"] . '">
+                                                    data-id = "' . $rateCard["id"] . '"
+                                                    style = "cursor: pointer"
+                                                    >
                                                     <i>Delete</i><i class="fa fa-trash float-right pt-1"></i>
                                                 </div>' : ''?>
 

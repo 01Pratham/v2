@@ -97,14 +97,12 @@ foreach ($estmtname as $j => $_Key) {
                         }
                     }
                 }
-
                 foreach ($vmqty[$j] as $i => $val) {
                     foreach ($dbArr as $k => $int) {
                         if ($db_data[$i] == $int) {
                             $core_devide = NULL;
                             $DiscountingId = "{$int}_{$j}";
                             $cal = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_os_calculation` WHERE `product_int` = '{$db_data[$i]}'"));
-                            // print_r($cal);
                             if (!empty($cal['calculation'])) {
                                 list($variableName, $value) = explode(' = ', $cal['calculation']);
                                 $$variableName = $value;
@@ -115,7 +113,6 @@ foreach ($estmtname as $j => $_Key) {
                 }
                 $Sku_Data[$estmtname[$j]] = SkuList();
             }
-
             if (!empty($agenttype[$j])) {
                 if ($agenttype[$j] == 'All VM') {
                     $agentqty[$j] = $vmqty[$j];
@@ -178,8 +175,6 @@ foreach ($estmtname as $j => $_Key) {
 
                         $EstmDATA[$int . "_unit"][$j]
                     );
-                    // echo $product_prices[$int];
-
                     $Infrastructure['Storage Solution'][$int] = get_strg($EstmDATA[$int . "_unit"][$j], $product_prices[$int]) * intval($EstmDATA[$int . "_qty"][$j]);
                     $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku[$int]] = [
                         "qty" => ($EstmDATA[$int . "_unit"][$j] == 'TB') ? intval(intval($EstmDATA[$int . "_qty"][$j])) * 1024 : intval(intval($EstmDATA[$int . "_qty"][$j])),
@@ -533,7 +528,7 @@ foreach ($estmtname as $j => $_Key) {
                             $str = explode("_", $db[$j][$i]);
                             $dbInt[] = $str[0];
                             $db_mgmt_name[] = getProdName($int);
-                            $db_mgmt_qty[$str[0]][] = $vmqty[$j][$i];
+                            $db_mgmt_qty[$str[0]][] = intval(($disk[$j][$i] * $vmqty[$j][$i]) / 100);
                             $dbmgmtINT[$str[0]] = $str[0] . '_db_mgmt';
                         }
                     }
@@ -616,8 +611,6 @@ foreach ($estmtname as $j => $_Key) {
                     $managed_services[$dbmgmtINT[$db_mgmt_data[$i]]] = array_sum($db_mgmt_qty[$db_mgmt_data[$i]]) * intval($product_prices[$dbmgmtINT[$db_mgmt_data[$i]]]);
                 }
             }
-
-
 
             if (isset($osmgmt[$j]) && !empty($os_mgmt_name)) {
                 for ($i = 0; $i < count($os_mgmt_data); $i++) {
@@ -834,6 +827,7 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
 
 function tblRow($Service, $Product, $Quantity, $Price, $Unit = "NO", $OTC = '')
 {
+
     global $j, $DiscountingId, $_DiscountedData;
     // echo gettype($OTC);
     $MRC = floatval($Price) * floatval($Quantity);
