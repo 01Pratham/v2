@@ -164,3 +164,12 @@ if (!function_exists("Query")){
         return mysqli_query($con, $query);
     }
 }
+
+if (!function_exists("PPrint")){
+    function PPrint($Array){
+        echo "<pre>";
+        print_r($Array);
+        echo "</pre>";
+    }
+}
+

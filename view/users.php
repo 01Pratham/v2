@@ -61,7 +61,6 @@ function Users($id, $master = '')
             </tr>
 
         <?php
-            // print_r(empty($quer));
             if (!empty($quer)) {
                 Users($users['employee_code'], $id);
             }
@@ -81,15 +80,15 @@ function allUsers($type = "")
     contentHeader('Team Details');
     require '../model/database.php';
     ?>
-    
-<!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
 
-        <div class="input-group col-4 bg-transparent">
-            <input type="text" name="searchBox" id="searchBox" class="form-control" aria-describedby="">
-            <button class="input-group-text p-0 form-control col-sm-1 bg-light" id="searchButton">
-                <i class="fa fa-search Center"></i>
-            </button>
-        </div>
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
+
+    <div class="input-group col-4 bg-transparent">
+        <input type="text" name="searchBox" id="searchBox" class="form-control" aria-describedby="">
+        <button class="input-group-text p-0 form-control col-sm-1 bg-light" id="searchButton">
+            <i class="fa fa-search Center"></i>
+        </button>
+    </div>
     <div class="except  mt-3 mx-3">
         <div class="except row">
             <div class="except col-12 mb-3 mb-lg-5">

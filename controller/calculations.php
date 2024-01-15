@@ -102,6 +102,7 @@ function ManagedServices($service, $service_qty)
 {
   if (isset($service)) {
     if (!empty($service_qty)) {
+
     }
   }
 }
@@ -239,7 +240,6 @@ function GetDiscountedPercentage(int $Quantity,  $Price, $ID = "")
           $i = preg_replace("/VM_{$j}__|CPU|RAM|Disk/", "", $ID);
           $D = preg_replace("/{$i}VM_{$j}__/", "", $ID);
           $percentage = (100 - ((floatval($_DiscountedData[$j]["Data"]["VM{$i}_{$j}"][$D]) / $MRC) * 100));
-          // $percentage = $MRC;
         } else {
           $percentage = (100 - ((floatval($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100));
         }
@@ -247,7 +247,8 @@ function GetDiscountedPercentage(int $Quantity,  $Price, $ID = "")
     } catch (DivisionByZeroError $e) {
       $percentage =  0;
     }
-
     return strval(round($percentage, 2));
   }
 }
+
+
