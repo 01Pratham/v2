@@ -32,7 +32,7 @@ if (isset($_GET['id'])) {
     <body class="sidebar-mini layout-fixed sidebar-collapse" data-new-gr-c-s-check-loaded="14.1111.0" data-gr-ext-installed style="height: auto; overflow-x: hidden;">
         <?php
         require "../view/includes/nav.php";
-        if (UserRole(3) || employee($_SESSION['emp_code'])["applicable_discounting_percentage"] != 0 )  {
+        if (UserRole(3) || employee($_SESSION['emp_code'])["applicable_discounting_percentage"] != 0) {
         ?>
             <div class="content-wrapper except bg-transparent">
                 <div id="loader" class="except">
@@ -121,40 +121,8 @@ if (isset($_GET['id'])) {
                             $(this).blur();
                             $(this).html();
                         }
-                        $(this).on('blur', function() {
-                            if ($(this).html() > 10) {
-                                $('.errors').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">Maximum Discount limit is only 10%. <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="remAlert()"><span aria-hidden="true">&times;</span></button></div>')
-                                var val = 0;
-                                $(this).html(0)
-                            } else {
-                                var val = $(this).html() / 100;
-                            }
-                            var unit = $(this).parent().find('.qty').html();
-                            var cost = $(this).parent().find('.cost').html();
-                            var mrc = $(this).parent().find('.mrc');
-                            cost = cost.replace(',', "");
-                            cost = cost.replace('₹', "");
-                            unit = unit.replace('  NO', "")
-                            $.ajax({
-                                type: 'POST',
-                                url: "../controller/discounting.php",
-                                dataType: 'Text',
-                                data: {
-                                    type: "Discount",
-                                    percent: val,
-                                    qty: unit,
-                                    cost: cost
-                                },
-                                success: function(response) {
-                                    mrc.html(response);
-                                }
-                            })
-
-                            $('#alert_btn').on('click', function() {
-                                $(this).remove();
-                            })
-                        })
                     })
+
                 <?php
                 }
                 $i = 1;
@@ -182,7 +150,7 @@ if (isset($_GET['id'])) {
                     $('.alert').remove();
                 }
                 $('.save').click(function() {
-                    let TotalDiscountedMrc ;
+                    let TotalDiscountedMrc;
                     $.ajax({
                         type: "POST",
                         url: '../model/saveToDB.php',

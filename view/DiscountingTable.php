@@ -491,7 +491,7 @@ foreach ($estmtname as $j => $_Key) {
                             $str = explode("_", $db[$j][$i]);
                             $dbInt[] = $str[0];
                             $db_mgmt_name[] = getProdName($int);
-                            $db_mgmt_qty[$str[0]][] = intval(($disk[$j][$i] * $vmqty[$j][$i])/100);
+                            $db_mgmt_qty[$str[0]][] = intval(($disk[$j][$i] * $vmqty[$j][$i]) / 100);
                             $dbmgmtINT[$str[0]] = $str[0] . '_db_mgmt';
                         }
                     }
@@ -692,7 +692,7 @@ foreach ($estmtname as $j => $_Key) {
                 Total: "<?= $_Prices[$j]['MonthlyTotal'] ?>",
                 data: "<?= base64_encode(json_encode($Products[$j])) ?>",
                 regionId: "<?= $region[$j] ?>"
-            };  
+            };
             DiscountingAjax($obj, <?= $j ?>);
         })
         $(document).ready(function() {
@@ -712,7 +712,7 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
     global $j, $DiscountingId, $SKU, $Class, $_DiscountedData;
     // echo gettype($OTC);
 ?>
-    <tr>
+    <tr id="<?= $DiscountingId ?>">
         <td><?php echo $Service; ?></td>
         <td class='final'><?php echo $Product ?></td>
         <td class='qty'><?php echo $Quantity . " " . $Unit; ?></td>
@@ -724,15 +724,13 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
                                             INR(0);
                                         }
                                         ?></td>
-        <td class="MRC mrc_<?= $j ?> unshareable <?= $Class ?>">
+        <td class="MRC mrc_<?= $j ?> unshareable <?= $Class ?>" data-MRC="<?= $MRC ?>" data-discId="<?= $DiscountingId ?>">
             <?php
-
             try {
                 INR($MRC);
             } catch (TypeError $e) {
                 INR(0);
             }
-
             ?></td>
         <?php
         if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
@@ -748,18 +746,18 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
             }
         }
         ?>
-        <td class='discount unshareable' id='disc' data-key="<?= $j ?>" data-discId="<?= $DiscountingId ?>" data-percent="<?= $percentage ?>" data-percent-fixed="<?= round($percentage, 2) ?>">
+        <td class='discount unshareable' id='disc' data-key="<?= $j ?>" data-discId="<?= $DiscountingId ?>">
             <?= $percentage ?> %
         </td>
-        <td class='DiscountedMrc unshareable <?= $Class ?>' id="<?= $DiscountingId ?>"><?php
-                                                                                        if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
-                                                                                            if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
-                                                                                                INR(array_sum($_DiscountedData[$j]["Data"][$DiscountingId]));
-                                                                                            } else {
-                                                                                                INR($_DiscountedData[$j]["Data"][$DiscountingId]);
-                                                                                            }
-                                                                                        }
-                                                                                        ?></td>
+        <td class='DiscountedMrc unshareable <?= $Class ?>'><?php
+                                                            if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
+                                                                if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
+                                                                    INR(array_sum($_DiscountedData[$j]["Data"][$DiscountingId]));
+                                                                } else {
+                                                                    INR($_DiscountedData[$j]["Data"][$DiscountingId]);
+                                                                }
+                                                            }
+                                                            ?></td>
         <td class='unshareable' <?= (!empty($OTC)) ? "id='otc{$j}'" : '' ?>><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>
     </tr>
 <?php
@@ -801,59 +799,48 @@ function PriceOs($SW, $Feild)
 }
 ?>
 <script>
-    function updateTotalHtml(object) {
+    const sum = (obj) => Object.values(obj).reduce((a, b) => a + b, 0);
 
+    function updateTotalHtml(object) {
         let DiscountedInfra = 0,
             DiscountedMng = 0,
             DiscountedMRC = 0,
             DiscountedTotal = 0,
-            discountPercentage = 0;
+            discountPercentage = 0
+        j = object.j;
         Object.keys(object.Obj).forEach(function(key) {
-            let MRC = $("#" + key).parent().find(".MRC").html().replace(/₹|,| /g, '');
+            let $thisMrc = $("#" + key)
+            MRC = $thisMrc.find(".mrc_" + j).data("mrc");
             if (typeof object.Obj[key] === "object") {
-                let vmMRC = 0;
-                Object.keys(object.Obj[key]).forEach((item) => {
-                    vmMRC += object.Obj[key][item];
-                });
-                $("#" + key).html(INR(vmMRC));
-                discountPercentage = 100 - ((parseFloat(vmMRC) / parseFloat(MRC)) * 100);
-            } else {
-                $("#" + key).html(INR(object.Obj[key]));
-                discountPercentage = 100 - ((parseFloat(object.Obj[key]) / parseFloat(MRC)) * 100)
-            }
-            if (isNaN(discountPercentage)) {
-                $("#" + key).parent().find(".discount").html("0 %");
-            } else {
-                $("#" + key).parent().find(".discount").html(discountPercentage.toFixed(2) + " %");
-                $("#" + key).parent().find(".discount").data("percent", discountPercentage);
-            }
-            if ($("#" + key).hasClass("Infrastructure_" + object.j)) {
-                if (typeof object.Obj[key] === "object") {
-                    Object.keys(object.Obj[key]).forEach((item) => {
-                        DiscountedInfra += object.Obj[key][item];
-                    })
-                } else if (isNaN(object.Obj[key])) {
-                    DiscountedInfra += 0;
-                } else {
-                    DiscountedInfra += (parseFloat(object.Obj[key]));
+                let vmAvgPerc = (sum(object.Obj[key]) / Object.keys(object.Obj[key]).length);
+                let DiscountedMRC = MRC - (MRC * (vmAvgPerc / 100));
+                $thisMrc.find(".discount").html(vmAvgPerc.toFixed(2) + " %").data("percentage", vmAvgPerc);
+                $thisMrc.find(".DiscountedMrc").html(INR(DiscountedMRC));
+                if ($thisMrc.find(".DiscountedMrc").hasClass("Infrastructure_" + j)) {
+                    DiscountedInfra += DiscountedMRC;
+                } else if ($thisMrc.find(".DiscountedMrc").hasClass("Managed_" + j)) {
+                    DiscountedMng += DiscountedMRC;
                 }
-            }
-            if ($("#" + key).hasClass("Managed_" + object.j)) {
-                DiscountedMng += (isNaN(object.Obj[key])) ? 0 : (parseFloat(object.Obj[key]));
+            } else {
+                discountPercentage = object.Obj[key];
+                DiscountedMRC = MRC - (MRC * (discountPercentage / 100));
+                $thisMrc.find(".discount").html(discountPercentage.toFixed(2) + " %").data("percentage", discountPercentage);
+                $thisMrc.find(".DiscountedMrc").html(INR(DiscountedMRC));
+                if ($thisMrc.find(".DiscountedMrc").hasClass("Infrastructure_" + j)) {
+                    DiscountedInfra += DiscountedMRC;
+                } else if ($thisMrc.find(".DiscountedMrc").hasClass("Managed_" + j)) {
+                    DiscountedMng += DiscountedMRC;
+                }
             }
         })
         DiscountedMRC = parseFloat(DiscountedInfra) + parseFloat(DiscountedMng);
-        DiscountedTotal = parseFloat(DiscountedMRC) * parseFloat($("#MonthlyDiscounted_" + object.j).data("period"));
-
-        $("#DiscInfra_" + object.j).html(INR(DiscountedInfra));
-        $("#DiscMng_" + object.j).html(INR(DiscountedMng));
-        $("#DiscTotal_" + object.j).html(INR(DiscountedMRC));
-        $("#MonthlyDiscounted_" + object.j).html(INR(DiscountedTotal));
-
+        DiscountedTotal = parseFloat(DiscountedMRC) * parseFloat($("#MonthlyDiscounted_" + j).data("period"));
+        $("#DiscInfra_" + j).html(INR(DiscountedInfra));
+        $("#DiscMng_" + j).html(INR(DiscountedMng));
+        $("#DiscTotal_" + j).html(INR(DiscountedMRC));
+        $("#MonthlyDiscounted_" + j).html(INR(DiscountedTotal)).data("value", DiscountedTotal);
         DiscountedData[object.j]["percentage"] = object.DATA.discountVal;
         DiscountedData[object.j]["Data"] = object.Obj;
-
-        $("#MonthlyDiscounted_" + object.j).data("value", DiscountedTotal);
     }
     <?php
     echo "let DiscountedData = {";
@@ -944,56 +931,58 @@ function PriceOs($SW, $Feild)
             ))
         }
     }
-    $(".discount").on("blur", function() {
-        let percentage = NaN;
-        let percHtml = parseFloat($(this).html().replace(/%| /g, ''));
-        let percData = parseFloat($(this).data('percent'));
-        if (percHtml > 99) {
-            alert("Please Enter valid Percentage");
-            $(this).html(percData.toFixed(2) + " %")
-
-        } else {
-            if (isNaN(percData) || percHtml != percData) {
-                percentage = percHtml
-            } else {
-                percentage = percData
+    let FirstFocused = true;
+    $(".discount").on({
+        "click": function() {
+            if (FirstFocused) {
+                $(this).text($(this).data("percentage"))
+                FirstFocused = false;
             }
-            $(this).html((isNaN(percentage) ? 0 : percentage) + " %")
-        }
-        if (!isNaN(percentage)) {
-            percentage = parseFloat(percentage) / 100
-            let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g, '')
-            Mrc = parseFloat(Mrc)
-            let discountedMrc = Mrc - (Mrc * percentage)
-            if (discountedMrc <= 0 && percentage > 0) {
-                alert("Please Enter Valid Percentage")
-            } else {
-                $(this).parent().find(".DiscountedMrc").html(INR(discountedMrc))
+        },
+        "blur": function() {
+            let percentage = parseFloat($(this).data("percentage"));
+            let newPerc = parseFloat($(this).html().replace(/ |%/g, ''));
+            FirstFocused = true;
+            if (newPerc > 99) {
+                alert("Please Enter valid Percentage");
+                $(this).html(percentage.toFixed(2) + " %")
             }
-            let j = $(this).data("key")
-            totalInfra(j, "discountedTotal")
-            let discountID = $(this).data("discid")
-            DiscountedData[j]["Data"][discountID] = discountedMrc
+            if (!isNaN(percentage)) {
+                percentage = parseFloat(percentage) / 100
+                let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g, '')
+                Mrc = parseFloat(Mrc)
+                let discountedMrc = Mrc - (Mrc * percentage)
+                if (discountedMrc <= 0 && percentage > 0) {
+                    alert("Please Enter Valid Percentage")
+                } else {
+                    $(this).parent().find(".DiscountedMrc").html(INR(discountedMrc))
+                }
+                let j = $(this).data("key")
+                totalInfra(j, "discountedTotal")
+                let discountID = $(this).data("discid")
+                DiscountedData[j]["Data"][discountID] = discountedMrc
 
-            let DiscTotal = parseFloat($("#DiscTotal_" + j).html().replace(/₹|,| /g, ''))
-            let total_monthly = parseFloat($("#total_monthly_" + j).html().replace(/₹|,| /g, ''))
+                let DiscTotal = parseFloat($("#DiscTotal_" + j).html().replace(/₹|,| /g, ''))
+                let total_monthly = parseFloat($("#total_monthly_" + j).html().replace(/₹|,| /g, ''))
 
-            let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
+                let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
 
-            $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2))
-        } else {
-            let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g, '')
-            Mrc = parseFloat(Mrc)
-            $(this).parent().find(".DiscountedMrc").html(INR(Mrc))
-            let j = $(this).data("key")
-            totalInfra(j, "discountedTotal")
-            let discountID = $(this).data("discid")
-            DiscountedData[j]["Data"][discountID] = Mrc
-            let DiscTotal = parseFloat($("#DiscTotal_" + j).html().replace(/₹|,| /g, ''))
-            let total_monthly = parseFloat($("#total_monthly_" + j).html().replace(/₹|,| /g, ''))
-            let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
-            $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2))
-        }
+                $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2))
+            } else {
+                let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g, '')
+                Mrc = parseFloat(Mrc)
+                $(this).parent().find(".DiscountedMrc").html(INR(Mrc))
+                let j = $(this).data("key")
+                totalInfra(j, "discountedTotal")
+                let discountID = $(this).data("discid")
+                DiscountedData[j]["Data"][discountID] = Mrc
+                let DiscTotal = parseFloat($("#DiscTotal_" + j).html().replace(/₹|,| /g, ''))
+                let total_monthly = parseFloat($("#total_monthly_" + j).html().replace(/₹|,| /g, ''))
+                let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
+                $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2))
+            }
+        },
+        
     })
 </script>
 

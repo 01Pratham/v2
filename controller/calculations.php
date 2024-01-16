@@ -114,7 +114,7 @@ if (!function_exists('SkuList')) {
   {
     // include 'constants.php';
     require '../model/database.php';
-    global $vmname, $j, $product_sku, $db_cal, $vCore, $vRam, $vDisk, $vmqty, $diskType, $os, $db, $region, $product_prices, $_DiscountedData;
+    global $vmname, $j, $product_sku, $db_cal, $vCore, $vRam, $vDisk, $vmqty, $diskType, $os, $db, $region, $product_prices, $_DiscountedData,$os;
     // $product_prices = priceTbl($region[$j])["product_prices"];
     $prod_cat = priceTbl($region[$j])["prod_cat"];
     $Sku_Data = array();
@@ -145,12 +145,18 @@ if (!function_exists('SkuList')) {
             $$variableName = $value;
           }
           if ($os[$j][$i] == $int) {
+
             $Sku_Data["VM" . $i][$product_sku[$int]] = [
               "qty" => get_OS($os[$j][$i], $core_devide, '', 'SKU')[$i],
-              "discount" => !empty($_DiscountedData) ? GetDiscountedPercentage(get_OS($os[$j][$i], $core_devide, '', 'SKU')[$i], $product_prices[$os[$j][$i]], "{$int}_{$j}")  : 0
+              "Name" => getProdName($os[$j][$i]),
+              "discount" => get_OS($os[$j][$i], $core_devide)
             ];
+            if (!empty($_DiscountedData)){
+              // $Sku_Data["VM" . $i][$product_sku[$int]]["discount"] = GetDiscountedPercentage(get_OS($os[$j][$i], $core_devide, '', 'SKU')[$i], $product_prices[$os[$j][$i]], "{$int}_{$j}");
+            }
           }
         }
+        // , $product_prices[$os[$j][$i]], "{$int}_{$j}")  : 0
         if ($cat == 'db') {
           if ($db[$j][$i] == $int) {
             $cal = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_os_calculation` WHERE `product_int` = '{$db[$j][$i]}'"));
@@ -176,9 +182,7 @@ if (!function_exists('SkuList')) {
 if (!function_exists('GroupPrice')) {
   function GroupPrice()
   {
-    // require '../controller/constants.php';
     require '../model/database.php';
-
     global $vmname, $j, $i, $db_cal, $vCore, $vRam, $vDisk, $vmqty, $os, $db, $region;
     $product_prices = priceTbl($region[$j])["product_prices"];
     $prod_cat = priceTbl($region[$j])["prod_cat"];
@@ -187,19 +191,16 @@ if (!function_exists('GroupPrice')) {
     $Infrastructure['VM' . $i][$vmname[$j][$i]] = intval($vmqty[$j][$i]) * $price;
     foreach ($prod_cat as $int => $cat) {
       foreach ($products as $new_int => $product) {
-        // echo $new_int;
         $core_devide = NULL;
         if ($new_int == $int) {
           if ($cat == "os") {
             if ($os[$j][$i] == $new_int) {
               $cal = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_os_calculation` WHERE `product_int` = '{$os[$j][$i]}'"));
-              // print_r($cal);
               if (!empty($cal['calculation'])) {
                 list($variableName, $value) = explode(' = ', $cal['calculation']);
                 $$variableName = $value;
               }
               $PriceData["VM" . $i]["os"] = get_OS($os[$j][$i], $core_devide, $product_prices[$new_int], "SKU")[$i] * $product_prices[$new_int];
-              // print_r($product_prices[$new_int]);
             }
           }
           if ($cat == 'db') {
@@ -227,7 +228,7 @@ if (!function_exists('GroupPrice')) {
 function GetDiscountedPercentage(int $Quantity,  $Price, $ID = "")
 {
   if (is_null($Quantity) || is_null($Price)) {
-    return 0;
+    return;
   } else {
     global $_DiscountedData, $j, $DiscountingId;
     ($ID != "" &&  !preg_match("/VM_{$j}__|CPU|RAM|Disk/", $ID)) ? $DiscountingId = $ID : '';

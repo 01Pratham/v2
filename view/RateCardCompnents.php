@@ -29,7 +29,7 @@ if (isset($_GET['rateCardId'])) {
                 </div>
                 <div class="modal-content py-2 border-0">
                     <?php
-                    SearchBox("addProdsTbl");
+                    // SearchBox("addProdsTbl");
 
                     ?>
                     <div class="except table-card mx-2">

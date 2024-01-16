@@ -5,7 +5,7 @@ contentHeader("Rate Cards");
 ?>
 <div class="row except  mt-3 mx-3">
     <?php 
-    SearchBox("RateCardTable");
+    // SearchBox("RateCardTable");
     ?>
     <div class="form-group ml-auto">
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-m">Create Rate Card</button>

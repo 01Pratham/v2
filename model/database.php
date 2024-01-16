@@ -68,7 +68,6 @@ if (!function_exists('create_opt')) {
         global $con;
         $query = mysqli_query($con, "SELECT DISTINCT `product` , `prod_int` FROM `product_list` WHERE `sec_category` = '{$category}'");
         while ($product = mysqli_fetch_assoc($query)) {
-            // echo $product['product'];
             if ($savedVal == $product['prod_int']) {
                 echo "<option selected value  = '{$product['prod_int']}'>{$product['product']}</option>";
             } else {

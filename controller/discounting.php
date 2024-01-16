@@ -39,16 +39,19 @@ if (isset($_POST['action']) && $_POST['action'] == "Discount") {
         if (is_array($Arr)) {
             foreach ($Arr as $Key => $Val) {
                 if (is_array($Val)) {
-                    $DiscountedMrcArr[$Index][$Val["product"]] = (
-                        (floatval($Val["MRC"]) * floatval($Arr["QTY"])) -
-                            (((floatval(Product($Val['SKU'])["discountable_price"]) * floatval($Val["Quantity"])) * floatval($Arr["QTY"])) *
-                                floatval($avgDiscPerc)));
+                    $MR = floatval($Val["MRC"]) * floatval($Arr["QTY"]);
+                    $DM = ($MR -
+                        (((floatval(Product($Val['SKU'])["discountable_price"]) * floatval($Val["Quantity"])) * floatval($Arr["QTY"])) *
+                            floatval($avgDiscPerc)));
+                    $DiscountedMrcArr[$Index][$Val["product"]] = ($MR <= 0)? 0: 100 - (100 * ($DM / $MR));
                 } else {
                     if ($Key == "SKU") {
-                        $DiscountedMrcArr[$Index] =
-                            floatval($Arr['MRC']) -
+                        $MR = floatval($Arr["MRC"]);
+                        $DM = floatval($Arr['MRC']) -
                             ((floatval(Product($Arr['SKU'])["discountable_price"]) * floatval($Arr['Quantity'])) *
                                 floatval($avgDiscPerc));
+
+                        $DiscountedMrcArr[$Index] =($MR <= 0)? 0: 100 - (100 * ($DM / $MR));
                     }
                 }
             }
@@ -56,15 +59,8 @@ if (isset($_POST['action']) && $_POST['action'] == "Discount") {
     }
 
     foreach ($DiscountedMrcArr as $KEY => $VAL) {
-        if (is_array($VAL)) {
-            // $DiscountedMrcArr[$KEY] = round(array_sum($VAL),2);
-            foreach ($VAL as  $_k => $_v) {
-                $DiscountedMrcArr[$KEY][$_k] = round($_v, 2);
-            }
-        } elseif ($VAL < 0) {
+        if ($VAL < 0) {
             $DiscountedMrcArr[$KEY] = 0;
-        } else {
-            $DiscountedMrcArr[$KEY] = round($VAL, 2);
         }
     }
 }
