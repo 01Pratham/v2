@@ -17,6 +17,7 @@ if (isset($_GET['type'])) {
             <input type="hidden" name="quot_type" value="<?= $_GET['type'] ?>">
             <input type="hidden" name="product_list" value="<?= $_GET['list'] ?>">
             <input type="hidden" name="pot_id" value="<?= $_GET['pot_id'] ?>">
+            <input type="hidden" name="edit_id" value="<?= $_GET['edit_id'] ?>">
             <input type="hidden" name="project_name" value="<?= $_GET['project_name'] ?>">
             <?php
             $p = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `id` = '{$_SESSION['edit_id']}' "));

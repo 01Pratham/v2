@@ -581,7 +581,7 @@ foreach ($estmtname as $j => $_Key) {
                 $emagicqty = array(intval($lbmgmtqty), intval($fvmgmtqty), intval($wafmgmtqty), (!empty($vmqty[$j])) ? array_sum($vmqty[$j]) : 0, intval($ccptqty[$j]), $bandwidth_monitoring);
             }
             $managed_services = array(
-                'st_mg' => floor(array_sum($strgmgmtqty) / 1024) * $product_prices['strg_mgmt'],
+                'st_mg' => floor(array_sum($strgmgmtqty) / 1000) * $product_prices['strg_mgmt'],
                 'back_mg' => intval($backmgmtqty) * intval($product_prices['backup_mgmt']),
                 'rep_mgmt' => $replication_mgmt * $product_prices['rep_mgmt'],
                 'dr_drill' => intval($drill_qty[$j]) * $product_prices['dr_drill'],
@@ -838,41 +838,28 @@ function tblRow($Service, $Product, $Quantity, $Price, $Unit = "NO", $OTC = '')
         <td class='qty'><?php echo $Quantity . " " . $Unit; ?></td>
         <td class='cost unshareable'><?php INR(floatval($Price)); ?></td>
         <td class="mrc_<?= $j ?> unshareable"><?php INR($MRC); ?></td>
-        <td class='discount unshareable' id='disc'>
-            <?php
-            if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
-                $percentage = 0;
-                try {
-                    if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
-                        $percentage = 100 - ((floatval(array_sum($_DiscountedData[$j]["Data"][$DiscountingId])) / $MRC) * 100);
-                    } else {
-                        $percentage = 100 - ((floatval($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100);
-                    }
-                } catch (DivisionByZeroError $e) {
-                    echo "0";
-                }
-
-                echo round($percentage, 2) . " %";
+        <?php
+        if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
+            if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
+                $percentage =  array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) / count($_DiscountedData[$j]["Data"][$DiscountingId]);
             } else {
-                echo "";
-            };
-            ?></td>
-        <td class='discountPrice unshareable' id='discPrice'><?php
-                                                                if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
-
-                                                                    if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
-                                                                        INR(!empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) : 0);
-                                                                    } else {
-                                                                        INR(!empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? ($_DiscountedData[$j]["Data"][$DiscountingId]) : 0);
-                                                                    }
-                                                                } else {
-                                                                    echo INR($MRC);
-                                                                }
-                                                                ?></td>
+                $percentage = ($_DiscountedData[$j]["Data"][$DiscountingId]);
+            }
+        }
+        ?>
+        <td class='discount unshareable' id='disc'><?= round($percentage, 2) ?> %</td>
+        <?php
+        if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
+            $DiscMRC = ($MRC - ($MRC * ($percentage / 100)));
+        } else {
+            $DiscMRC =($MRC);
+        }
+        ?>
+        <td class='discountPrice unshareable' id='discPrice'><?=INR($DiscMRC)?></td>
         <td class='unshareable' id='otc'><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>
     </tr>
 <?php
-    return !empty($_DiscountedData[$j]["Data"][$DiscountingId]) ? (is_array($_DiscountedData[$j]["Data"][$DiscountingId]) ? array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) : $_DiscountedData[$j]["Data"][$DiscountingId]) : 0;
+    return $DiscMRC;
 }
 
 function tblHead($Service)

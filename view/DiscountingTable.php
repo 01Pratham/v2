@@ -31,7 +31,12 @@ foreach ($estmtname as $j => $_Key) {
                                     else{
                                         $(this).removeClass('border-danger');
                                         $('#perce_<?= $j ?>').removeAttr('disabled');
-                                    }" value="<?= floatval($_DiscountedData[$j]["percentage"]) * 100 ?>" step="0.01">
+                                    }" 
+                                    onfocus="$(this).val($(this).data('percentage'))"
+                                    onblur="
+                                    let val = parseFloat($(this).val());    
+                                    $(this).data('percentage',val).val(val.toFixed(2))"
+                                    value="<?= floatval($_DiscountedData[$j]["percentage"]) * 100 ?>"  data-percentage="<?= floatval($_DiscountedData[$j]["percentage"]) * 100 ?>" step="0.01">
                         <button class="input-group-text form-control bg-light col-2 p-0 d-flex justify-content-center " id="perce_<?= $j ?>" style="cursor : pointer"> % </button>
                     </div>
                 </div>
@@ -734,29 +739,18 @@ function tblRow($Service, $Product, $Quantity, $MRC, $Unit = "NO", $OTC = '')
             ?></td>
         <?php
         if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
-
-            if ($MRC != 0) {
-                if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
-                    $percentage =  round(100 - ((array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100), 2);
-                } else {
-                    $percentage =  round(100 - (($_DiscountedData[$j]["Data"][$DiscountingId] / $MRC) * 100), 2);
-                }
+            if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
+                $percentage =  array_sum($_DiscountedData[$j]["Data"][$DiscountingId]) / count($_DiscountedData[$j]["Data"][$DiscountingId]);
             } else {
-                $percentage = 0;
-            }
+                $percentage = ($_DiscountedData[$j]["Data"][$DiscountingId]);
+            }            
         }
         ?>
-        <td class='discount unshareable' id='disc' data-key="<?= $j ?>" data-discId="<?= $DiscountingId ?>">
+        <td class='discount unshareable' id='disc' data-percentage = "<?= $percentage ?>" data-key="<?= $j ?>" data-discId="<?= $DiscountingId ?>">
             <?= $percentage ?> %
         </td>
         <td class='DiscountedMrc unshareable <?= $Class ?>'><?php
-                                                            if (!empty($_DiscountedData[$j]["Data"][$DiscountingId])) {
-                                                                if (is_array($_DiscountedData[$j]["Data"][$DiscountingId])) {
-                                                                    INR(array_sum($_DiscountedData[$j]["Data"][$DiscountingId]));
-                                                                } else {
-                                                                    INR($_DiscountedData[$j]["Data"][$DiscountingId]);
-                                                                }
-                                                            }
+                                                            INR(($MRC - ($MRC * $percentage)));
                                                             ?></td>
         <td class='unshareable' <?= (!empty($OTC)) ? "id='otc{$j}'" : '' ?>><?php (!empty($OTC)) ? INR($OTC) : '' ?></td>
     </tr>
@@ -939,17 +933,24 @@ function PriceOs($SW, $Feild)
                 FirstFocused = false;
             }
         },
+        "focus": function() {
+            if (FirstFocused) {
+                $(this).text($(this).data("percentage"))
+                FirstFocused = false;
+            }
+        },
         "blur": function() {
             let percentage = parseFloat($(this).data("percentage"));
-            let newPerc = parseFloat($(this).html().replace(/ |%/g, ''));
+            let newPerc = parseFloat($(this).html().replace(/ |%/g,""));
             FirstFocused = true;
             if (newPerc > 99) {
                 alert("Please Enter valid Percentage");
                 $(this).html(percentage.toFixed(2) + " %")
             }
-            if (!isNaN(percentage)) {
-                percentage = parseFloat(percentage) / 100
-                let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g, '')
+            if (!isNaN(newPerc)) {
+                percentage = parseFloat(percentage) / 100;
+                // $(this).html(newPerc).data(newPerc);
+                let Mrc = $(this).parent().find(".MRC").html().replace(/,|₹| /g,"")
                 Mrc = parseFloat(Mrc)
                 let discountedMrc = Mrc - (Mrc * percentage)
                 if (discountedMrc <= 0 && percentage > 0) {
@@ -960,18 +961,19 @@ function PriceOs($SW, $Feild)
                 let j = $(this).data("key")
                 totalInfra(j, "discountedTotal")
                 let discountID = $(this).data("discid")
-                DiscountedData[j]["Data"][discountID] = discountedMrc
+                DiscountedData[j]["Data"][discountID] = percentage
 
                 let DiscTotal = parseFloat($("#DiscTotal_" + j).html().replace(/₹|,| /g, ''))
                 let total_monthly = parseFloat($("#total_monthly_" + j).html().replace(/₹|,| /g, ''))
 
                 let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
 
-                $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2))
+                $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2)).data("percentage", TotalDiscountPercentage)
+                $(this).html(newPerc.toFixed(2) + " %").data("percentage",newPerc)
             } else {
                 let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g, '')
                 Mrc = parseFloat(Mrc)
-                $(this).parent().find(".DiscountedMrc").html(INR(Mrc))
+                $(this).parent().find(".DiscountedMrc").html(INR(isNaN(Mrc) ? 0:Mrc))
                 let j = $(this).data("key")
                 totalInfra(j, "discountedTotal")
                 let discountID = $(this).data("discid")
@@ -979,7 +981,7 @@ function PriceOs($SW, $Feild)
                 let DiscTotal = parseFloat($("#DiscTotal_" + j).html().replace(/₹|,| /g, ''))
                 let total_monthly = parseFloat($("#total_monthly_" + j).html().replace(/₹|,| /g, ''))
                 let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
-                $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2))
+                $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2)).data("percentage", TotalDiscountPercentage)
             }
         },
         

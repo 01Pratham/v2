@@ -20,7 +20,6 @@ function get_OS($sw_name, $core_devide = 1, $price = 1, $Data = 'Price')
         $final_qty[$i] = ($core_data[$i] * $vmqty_data[$i]) / $core_devide;
       } else {
         $final_qty[$i] = $vmqty_data[$i];
-        // echo ($vmqty_data[$i])."\n";
       }
     }
   }
@@ -102,7 +101,6 @@ function ManagedServices($service, $service_qty)
 {
   if (isset($service)) {
     if (!empty($service_qty)) {
-
     }
   }
 }
@@ -114,7 +112,7 @@ if (!function_exists('SkuList')) {
   {
     // include 'constants.php';
     require '../model/database.php';
-    global $vmname, $j, $product_sku, $db_cal, $vCore, $vRam, $vDisk, $vmqty, $diskType, $os, $db, $region, $product_prices, $_DiscountedData,$os;
+    global $vmname, $j, $product_sku, $db_cal, $vCore, $vRam, $vDisk, $vmqty, $diskType, $os, $db, $region, $product_prices, $_DiscountedData, $os;
     // $product_prices = priceTbl($region[$j])["product_prices"];
     $prod_cat = priceTbl($region[$j])["prod_cat"];
     $Sku_Data = array();
@@ -149,9 +147,9 @@ if (!function_exists('SkuList')) {
             $Sku_Data["VM" . $i][$product_sku[$int]] = [
               "qty" => get_OS($os[$j][$i], $core_devide, '', 'SKU')[$i],
               "Name" => getProdName($os[$j][$i]),
-              "discount" => get_OS($os[$j][$i], $core_devide)
+              "discount" => !empty($_DiscountedData) ? GetDiscountedPercentage(get_OS($os[$j][$i], $core_devide,'','SKU')[$i],$product_prices[$os[$j][$i]], "{$int}_{$j}"):0,
             ];
-            if (!empty($_DiscountedData)){
+            if (!empty($_DiscountedData)) {
               // $Sku_Data["VM" . $i][$product_sku[$int]]["discount"] = GetDiscountedPercentage(get_OS($os[$j][$i], $core_devide, '', 'SKU')[$i], $product_prices[$os[$j][$i]], "{$int}_{$j}");
             }
           }
@@ -228,28 +226,20 @@ if (!function_exists('GroupPrice')) {
 function GetDiscountedPercentage(int $Quantity,  $Price, $ID = "")
 {
   if (is_null($Quantity) || is_null($Price)) {
-    return;
+    return "no  ";
   } else {
     global $_DiscountedData, $j, $DiscountingId;
     ($ID != "" &&  !preg_match("/VM_{$j}__|CPU|RAM|Disk/", $ID)) ? $DiscountingId = $ID : '';
-
-    $MRC = $Quantity * $Price;
-    $percentage = 0;
-    try {
-      if ($MRC != 0) {
-        if (preg_match("/VM_{$j}__/", $ID)) {
-          $i = preg_replace("/VM_{$j}__|CPU|RAM|Disk/", "", $ID);
-          $D = preg_replace("/{$i}VM_{$j}__/", "", $ID);
-          $percentage = (100 - ((floatval($_DiscountedData[$j]["Data"]["VM{$i}_{$j}"][$D]) / $MRC) * 100));
-        } else {
-          $percentage = (100 - ((floatval($_DiscountedData[$j]["Data"][$DiscountingId]) / $MRC) * 100));
-        }
+    if (!empty($_DiscountedData[$j]["Data"])) {
+      $percentage = 0;
+      if (preg_match("/VM_{$j}__/", $ID)) {
+        $i = preg_replace("/VM_{$j}__|CPU|RAM|Disk/", "", $ID);
+        $D = preg_replace("/{$i}VM_{$j}__/", "", $ID);
+        $percentage = floatval($_DiscountedData[$j]["Data"]["VM{$i}_{$j}"][$D]);
+      } else {
+        $percentage = floatval($_DiscountedData[$j]["Data"][$DiscountingId]);
       }
-    } catch (DivisionByZeroError $e) {
-      $percentage =  0;
     }
-    return strval(round($percentage, 2));
+    return $percentage;
   }
 }
-
-

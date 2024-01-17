@@ -28,14 +28,14 @@ if (isset($_POST['action']) && $_POST['action'] == 'push') {
 
     // $arr = json_decode($str, true);
 
-    if(!empty($arrResp) || $arrResp["result"]["status"]){
-        echo ($arrResp["result"]["message"]);
-    }else{
-        echo ("Error");
-    }
+    // if(!empty($arrResp) || $arrResp["result"]["status"]){
+    //     echo ($arrResp["result"]["message"]);
+    // }else{
+    //     echo ("Error");
+    // }
 
-
-    // print_r($response);
+            
+    print_r($response);
 
 }
 else{

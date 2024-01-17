@@ -19,7 +19,6 @@ if (isset($_GET['id'])) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <?php
         require '../controller/constants.php';
-
         require '../model/database.php';
         require '../controller/json_format.php';
         require '../controller/Currency_Format.php';

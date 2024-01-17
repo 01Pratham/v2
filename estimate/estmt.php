@@ -17,11 +17,9 @@
 
     //  print_r($Editable['count_of_est'] > 1);
     if (empty($_SERVER['QUERY_STRING'])) {
-        require "../view/dashboard.php";
-    } else
-    if (empty($_SERVER['QUERY_STRING'])) {
         unset($_SESSION['post_data']);
         unset($_SESSION['edit_id']);
+        require "../view/dashboard.php";
     } elseif (isset($_GET['rateCard'])) {
         require '../view/CreateRateCard.php';
     } elseif (isset($_GET['rateCardId'])) {
@@ -152,9 +150,6 @@
     } else {
         echo "<h1>404 Page Not Found</h1>";
     }
-
-    // print_r($_SERVER);
-
     ?>
 
 </div>

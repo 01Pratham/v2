@@ -1,14 +1,16 @@
 <?php
 session_start();
-if ($_SERVER['REQUEST_METHOD'] == "GET") {
+if ($_SERVER['REQUEST_METHOD'] == "GET" ) {
     header("Location: index.php");
     unset($_SESSION['post_data']);
 }
-if (!isset($_SESSION['emp_code'])) {
+if (!isset($_SESSION['emp_code']) ) {
     require "../view/session_expired.php";
     exit();
 }
 $_SESSION['post_data'] = $_POST;
+
+
 
 $ProjectTotal = array();
 $MothlyTotal = array();
@@ -35,6 +37,7 @@ $MothlyTotal = array();
     <?php
     require "../view/includes/nav.php";
 
+
     ?>
     <div class="content-wrapper except bg-transparent">
         <div id="loader" class="except">
@@ -59,11 +62,16 @@ $MothlyTotal = array();
                 <div class="errors except container" style="max-width: 2020px; margin: auto; "> </div>
                 <?php
                 if (!empty($_SESSION['edit_id'])) {
-
-                    $D = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_discount_data` WHERE `quot_id` = '{$_SESSION['edit_id']}'"));
+                    $DISC = null;
+                    $D = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_discount_data` WHERE `quot_id` = '{$_POST['edit_id']}'"));
                     if (!empty($D)) {
                         $_DiscountedData = json_decode($D['discounted_data'], true);
+                        $DISC = true;   
+
+                    }else{
+                        $DISC = false;
                     }
+
                 }
                 require '../view/Table.php';
                 require '../view/summary_table.php';
@@ -71,11 +79,11 @@ $MothlyTotal = array();
                 <div class="container except d-flex justify-content-center mt-3 py-3">
                     <button class="btn btn-outline-success btn-lg mx-1 export" id="export"><i class="fa fa-file-excel-o pr-2"></i> Export</button>
                     <?php
-                    if (empty($D)) {
+                    if (is_null($DISC)) {
                     ?>
                         <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button>
                     <?php
-                    } elseif (!empty($D) && $D['approved_status'] == 'Approved') {
+                    } elseif ($DISC && $D['approved_status'] == 'Approved') {
                     ?>
                         <button class="btn btn-outline-primary btn-lg mx-1" id="push" onclick="Push()"><i class="fab fa-telegram-plane pr-2" aria-hidden="true"></i>Push</button>
                         <?php
@@ -109,7 +117,7 @@ $MothlyTotal = array();
                 </div>
                 <?php
                 $temp =  json_encode(json_template($Sku_Data, $I_M), JSON_PRETTY_PRINT);
-                PPrint($Sku_Data);
+                // PPrint($Sku_Data);
                 // PPrint(json_template($Sku_Data, $I_M));
                 ?>
             </div>
