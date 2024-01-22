@@ -235,7 +235,7 @@ function GetDiscountedPercentage(int $Quantity,  $Price, $ID = "")
       if (preg_match("/VM_{$j}__/", $ID)) {
         $i = preg_replace("/VM_{$j}__|CPU|RAM|Disk/", "", $ID);
         $D = preg_replace("/{$i}VM_{$j}__/", "", $ID);
-        $percentage = floatval($_DiscountedData[$j]["Data"]["VM{$i}_{$j}"][$D]);
+        $percentage = floatval($_DiscountedData[$j]["Data"]["VM{$i}_{$j}"][$D]);  
       } else {
         $percentage = floatval($_DiscountedData[$j]["Data"][$DiscountingId]);
       }

@@ -90,5 +90,5 @@ function Product($SKU)
 // // echo "<pre>";
 // // print_r($Data);
 // // echo "</pre>";
-
+// echo $avgDiscPerc;
 echo json_encode($DiscountedMrcArr, JSON_PRETTY_PRINT);

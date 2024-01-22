@@ -459,8 +459,8 @@ foreach ($estmtname as $j => $_Key) {
                     <td class='qty'></td>
                     <td class='cost unshareable'></td>
                     <td class="MRC mrc_<?= $j ?> unshareable"></td>
-                    <td class='discount unshareable' id='disc'></td>
-                    <td class='DiscountedMrc unshareable'></td>
+                    <td class=' unshareable' id='disc'></td>
+                    <td class='  unshareable'></td>
                     <td class='unshareable' id="otc_<?= $j ?>"></td>
                 </tr>
 
@@ -506,8 +506,8 @@ foreach ($estmtname as $j => $_Key) {
             $strgmgmtqty = array();
             if (isset($strgmgmt[$j])) {
                 foreach ($strgArr as $int => $strgName) {
-                    if (isset($EstmDATA[$int])) {
-                        ($EstmDATA[$int . "_unit"] == "GB") ? array_push($strgmgmtqty, intval($EstmDATA[$int . "_qty"])) : array_push($strgmgmtqty, intval($EstmDATA[$int . "_qty"]) * 1024);
+                    if (isset($EstmDATA[$int])) {            
+                        ($EstmDATA[$int . "_unit"][$j] == "GB") ? array_push($strgmgmtqty, floatval($EstmDATA[$int . "_qty"][$j])) : array_push($strgmgmtqty, (floatval($EstmDATA[$int . "_qty"][$j]) * 1024));   
                     }
                 }
             } else {
@@ -684,7 +684,7 @@ foreach ($estmtname as $j => $_Key) {
             <th class='final unshareable' style='background-color: rgb(255, 226, 182);'> </th>
             <th class='final colspan except unshareable' colspan='3' style='background-color: rgb(255, 226, 182);'> Total [ For <?= $period[$j] ?> Months ]</th>
             <th class='colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);' id="MonthlyTotal_<?= $j ?>" data-period="<?= $period[$j] ?>"></th>
-            <th class='colspan except unshareable' colspan='2' style='background-color: rgb(255, 226, 182);' id="MonthlyDiscounted_<?= $j ?>" data-period="<?= $period[$j] ?>"></th>
+            <th class='colspan except unshareable MonthlyDiscounted' colspan='2' style='background-color: rgb(255, 226, 182);' id="MonthlyDiscounted_<?= $j ?>" data-period="<?= $period[$j] ?>"></th>
         </tr>
     </table>
     <input type="hidden" name="" id="Months_<?= $j ?>" value="<?= $period[$j] ?>">
@@ -949,7 +949,6 @@ function PriceOs($SW, $Feild)
             }
             if (!isNaN(newPerc)) {
                 percentage = parseFloat(percentage) / 100;
-                // $(this).html(newPerc).data(newPerc);
                 let Mrc = $(this).parent().find(".MRC").html().replace(/,|₹| /g,"")
                 Mrc = parseFloat(Mrc)
                 let discountedMrc = Mrc - (Mrc * percentage)
@@ -965,9 +964,7 @@ function PriceOs($SW, $Feild)
 
                 let DiscTotal = parseFloat($("#DiscTotal_" + j).html().replace(/₹|,| /g, ''))
                 let total_monthly = parseFloat($("#total_monthly_" + j).html().replace(/₹|,| /g, ''))
-
                 let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
-
                 $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2)).data("percentage", TotalDiscountPercentage)
                 $(this).html(newPerc.toFixed(2) + " %").data("percentage",newPerc)
             } else {

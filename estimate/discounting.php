@@ -149,7 +149,10 @@ if (isset($_GET['id'])) {
                     $('.alert').remove();
                 }
                 $('.save').click(function() {
-                    let TotalDiscountedMrc;
+                    let TotalDiscountedMrc = 0;
+                    $(".MonthlyDiscounted").each(function(){
+                        TotalDiscountedMrc += $(this).data('value')
+                    });
                     $.ajax({
                         type: "POST",
                         url: '../model/saveToDB.php',
@@ -162,7 +165,7 @@ if (isset($_GET['id'])) {
                         },
                         dataType: "TEXT",
                         success: function(response) {
-                            alert("Data Saved Successfully");
+                            alert(response);
                         }
                     });
                 })

@@ -56,9 +56,9 @@ function vmContent($name, $id, $count, $type = '', $cloneId = '')
                         <span class="input-group-text form-control col-5 p-0 bg-transparent border-0 " id="inst_disk_<?= $id ?>">
                             <select name="vmDiskIOPS[<?= $name ?>][]" id="disk_<?= $id ?>" class="form-control p-0 text-sm  border-right-0">
                                 <?php
-                                $strQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `product_list` WHERE `sec_category` = 'object_storage'");
+                                $strQuery = mysqli_query($con, "SELECT DISTINCT `product`, `prod_int` FROM `product_list` WHERE `sec_category` = 'block_storage'");
                                 while ($strg = mysqli_fetch_assoc($strQuery)) {
-                                    $iops = preg_replace("/Object Storage | IOPS per GB/", '', $strg['product']) . " IOPS/GB";
+                                    $iops = preg_replace("/Block Storage | IOPS per GB/", '', $strg['product']) . " IOPS/GB";
                                     if ($Editable["vmDiskIOPS"][$name][$count] == $strg['prod_int']) {
                                         echo '<option selected value = "' . $strg['prod_int'] . '">' . $iops . '</option>';
                                     } else {

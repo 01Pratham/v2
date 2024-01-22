@@ -49,11 +49,11 @@ function json_template($arr,    $total)
                 // print_r($gName);
                 if (is_array($v)) {
                      
-                    $template['phase_name'][$pCount]["group_name"][$gCount]['quotation_group_name'] = (preg_match("/VM/",$gName[$Pname[$pCount]][$gCount])) ? $arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Group_Name'] : $gName[$Pname[$pCount]][$gCount];
-                    $template['phase_name'][$pCount]["group_name"][$gCount]['group_otp_price'] = 1;
-                    $template['phase_name'][$pCount]["group_name"][$gCount]['group_recurring_price'] = (array_sum($total[$p][$gName[$Pname[$pCount]][$gCount]]));
-                    $template['phase_name'][$pCount]["group_name"][$gCount]['group_quantity'] = ($arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Quantity'])?$arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Quantity'] :1 ;
-                    $template['phase_name'][$pCount]["group_name"][$gCount]['group_id'] = '';
+                    // $template['phase_name'][$pCount]["group_name"][$gCount]['quotation_group_name'] = (preg_match("/VM/",$gName[$Pname[$pCount]][$gCount])) ? $arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Group_Name'] : $gName[$Pname[$pCount]][$gCount];
+                    // $template['phase_name'][$pCount]["group_name"][$gCount]['group_otp_price'] = 1;
+                    // $template['phase_name'][$pCount]["group_name"][$gCount]['group_recurring_price'] = (array_sum($total[$p][$gName[$Pname[$pCount]][$gCount]]));
+                    // $template['phase_name'][$pCount]["group_name"][$gCount]['group_quantity'] = ($arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Quantity'])?$arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Quantity'] :1 ;
+                    // $template['phase_name'][$pCount]["group_name"][$gCount]['group_id'] = '';
                     
                     $i = 1;
                     $iCount = 0;
@@ -63,6 +63,13 @@ function json_template($arr,    $total)
                             if($iName[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]][$iCount] == "NULL" || $iName[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]][$iCount] == "Quantity" || $iName[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]][$iCount] == "Group_Name"){
                                 // continue;
                             }else{
+                                $template['phase_name'][$pCount]["group_name"][$gCount]['quotation_group_name'] = (preg_match("/VM/",$gName[$Pname[$pCount]][$gCount])) ? $arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Group_Name'] : $gName[$Pname[$pCount]][$gCount];
+                                $template['phase_name'][$pCount]["group_name"][$gCount]['group_otp_price'] = 1;
+                                $template['phase_name'][$pCount]["group_name"][$gCount]['group_recurring_price'] = (array_sum($total[$p][$gName[$Pname[$pCount]][$gCount]]));
+                                $template['phase_name'][$pCount]["group_name"][$gCount]['group_quantity'] = ($arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Quantity'])?$arr[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]]['Quantity'] :1 ;
+                                $template['phase_name'][$pCount]["group_name"][$gCount]['group_id'] = getGroupId($iName[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]][$iCount]);
+
+
                                 $template['phase_name'][$pCount]["group_name"][$gCount]['products'][$iCount]['product_sku'] = $iName[$Pname[$pCount]][$gName[$Pname[$pCount]][$gCount]][$iCount];
                                 if(empty($_v)){
                                     // continue;
@@ -102,4 +109,12 @@ function getPerUnitPriceFromRateCard($SKU){
     $PriceQuery = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `rate_card_prices` WHERE `prod_id` = '{$getProdId['id']}'"));
 
     return ($PriceQuery["price"] != null) ? $PriceQuery["price"] : "0";
+}
+
+
+function getGroupId($SKU){
+    global $con;
+    $getProdId = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `product_list` WHERE `sku_code` = '{$SKU}' "));
+
+    return $getProdId["crm_group_id"]??$SKU;
 }

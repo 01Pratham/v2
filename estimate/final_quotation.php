@@ -56,6 +56,7 @@ $MothlyTotal = array();
         <?php
         require '../view/content-header.php';
         contentHeader('Quotation');
+        
         ?>
         <div class="content Main except ">
             <div class="container-fluid except full" style="zoom : 65%">
@@ -118,6 +119,7 @@ $MothlyTotal = array();
                 <?php
                 $temp =  json_encode(json_template($Sku_Data, $I_M), JSON_PRETTY_PRINT);
                 // PPrint($Sku_Data);
+                PPrint($temp)
                 // PPrint(json_template($Sku_Data, $I_M));
                 ?>
             </div>

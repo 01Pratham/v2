@@ -115,7 +115,7 @@ function updateDiscountTbl($con, $data)
       "Message" => "Discounting {$data['status']} Successfully",
       "quotationID" => $insertId
     );
-    echo json_encode($arr);
+    echo json_encode($arr); 
   } else {
     echo 'Error while storing data';
   }

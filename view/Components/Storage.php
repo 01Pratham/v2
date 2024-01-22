@@ -10,7 +10,7 @@
         if (preg_match("/archiv|backup|offline/", $strg['sec_category'])) {
         } else {
             $CategoryName =  preg_replace('/_/', ' ', $strg['sec_category']);
-            $new_name = ucwords($CategoryName);
+            $new_name = ucwords( $CategoryName );
     ?>
             <div class="mx-3">
                 <h6><small><?= $new_name ?> : </small></h6>
