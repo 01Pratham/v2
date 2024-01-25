@@ -104,7 +104,8 @@ function updateDiscountTbl($con, $data)
       $query = mysqli_query($con, "UPDATE `tbl_discount_data` SET `discounted_data` = '{$data['discountedData']}' WHERE `quot_id` = '{$data['id']}'");
     }
   } else {
-    $query = mysqli_query($con, "INSERT INTO `tbl_discount_data`(`quot_id`, `discounted_data`, `approved_status` , `approved_by`) VALUES ('{$data['id']}','{$data['discountedData']}','' , '{$data['approved_by']})'");
+    // $Q =  "INSERT INTO `tbl_discount_data`(`quot_id`, `discounted_data`, `approved_status` , `approved_by`) VALUES ('{$data['id']}','{$data['discountedData']}','' , '{$data['approved_by']}')";
+    $query = mysqli_query($con, "INSERT INTO `tbl_discount_data`(`quot_id`, `discounted_data`, `approved_status` , `approved_by`) VALUES ('{$data['id']}','{$data['discountedData']}','' , '{$data['approved_by']}')");
     //add new row to tbl_discounts and get the discount_id for use in tbl_quote_items
   }
 

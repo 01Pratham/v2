@@ -54,7 +54,7 @@ $EstmDATA = $_SESSION['post_data'];
     $drm_type = $EstmDATA['drm_type'];
     $agenttype = $EstmDATA['age_qty_type'];
     $backupstrg = $EstmDATA['backup_strg'];
-    $backupunit = $EstmDATA['backup_unit'];
+    // $backupunit = $EstmDATA['backup_unit'];
     $tape_lib = $EstmDATA['tape_lib'];
 
     $tape_cart = $EstmDATA['tape_cart'];

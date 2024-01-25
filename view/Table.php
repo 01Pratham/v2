@@ -185,6 +185,7 @@ foreach ($estmtname as $j => $_Key) {
             if (!empty($backupstrg[$j])) {
 
                 $DiscountingId = "backup_gb_{$j}";
+                $backupunit[$j] = $EstmDATA['backup_unit'] ?? "backup_gb";
                 $totalDisc[$Class][$DiscountingId] = tblRow("Backup Storage", getProdName($backupunit[$j]), $backupstrg[$j], get_strg('GB', $product_prices[$backupunit[$j]]), "GB");
                 $Infrastructure['Storage Solution']['Backup Space'] = get_strg('GB', $product_prices[$backupunit[$j]]) * $backupstrg[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['backup_gb']] = [

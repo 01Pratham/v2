@@ -23,7 +23,6 @@ if (isset($_GET['id'])) {
         require '../controller/json_format.php';
         require '../controller/Currency_Format.php';
         require '../view/includes/header.php';
-
         ?>
         <link rel="stylesheet" href="../css/submit.css">
     </head>

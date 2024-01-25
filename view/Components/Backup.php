@@ -20,9 +20,8 @@
                                     if($strg['prod_int'] == $Editable["backup_unit"][$name]){
                                         echo '<option selected value = "' .$strg['prod_int']. '">' . $iops . '</option>';
                                     }else{
-                                        echo '<option value = "' .$strg['prod_int']. '">' . $iops . '</option>';
+                                        echo '<option selected value = "' .$strg['prod_int']. '">' . $iops . '</option>';
                                     }
-
                                 }
                                 ?>
                     </select>
