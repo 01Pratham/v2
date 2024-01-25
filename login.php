@@ -184,3 +184,11 @@ if (isset($_GET['SignUp'])) {
 </body>
 
 </html>
+
+
+<!-- 
+    $HostName = '10.60.90.194';
+$UserName = 'admin_portal';
+$Password = '4q!@#$%TYbm@gUi95';
+$DataBase = 'configurator_v2';
+ -->

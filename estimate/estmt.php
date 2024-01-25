@@ -144,9 +144,11 @@
                 echo "<script>alert('Error While Sharing Data')</script>";
             }
         }
-    } else if (isset($_GET['users'])) {
+    } elseif (isset($_GET['users'])) {
         require '../view/users.php';
         allUsers();
+    }elseif(isset($_GET['test'])){
+        require "test.php";
     } else {
         echo "<h1>404 Page Not Found</h1>";
     }
