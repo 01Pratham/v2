@@ -12,6 +12,7 @@
             <th style="background: rgba(198,224,180,1)">Monthly Service Pay</th>
             <th style="background: rgba(198,224,180,1)">Months</th>
             <th style="background: rgba(198,224,180,1)">Total Cost</th>
+            <th style="background: rgba(198,224,180,1)">Discounted Total Cost</th>
             <th style="background: rgba(198,224,180,1)">One Time Service Pay</th>
         </tr>
     <?php
@@ -22,11 +23,13 @@
                 <td><?= INR(array_sum($total[$i])); ?></td>
                 <td><?= intval($period[$i]) ?></td>
                 <td><?= INR(array_sum($total[$i]) * intval($period[$i])); ?></td>
+                <td><?= INR($DiscountedTotal[$i] * intval($period[$i])); ?></td>
                 <td><?= INR((array_sum($total[$i]) * 12) * 0.05); ?></td>
             </tr>
 
         <?php
-            $FinalTotal[] = array_sum($total[$i]) * intval($period[$i]);
+            $T[] =  array_sum($total[$i]) * intval($period[$i]);
+            $FinalTotal[] =($DISC)? $DiscountedTotal[$i] * intval($period[$i]) : array_sum($total[$i]) * intval($period[$i]);
             $FinalOTC[] = (array_sum($total[$i]) * 12) * 0.05;
         }
 
@@ -35,11 +38,12 @@
             <td>Total</td>
             <td></td>
             <td></td>
+            <td><?= INR(array_sum($T)); ?></td>
             <td><?= INR(array_sum($FinalTotal)); ?></td>
             <td><?= INR(array_sum($FinalOTC)); ?></td>
         </tr>
         <tr>
-            <th style="background: rgba(198,224,180,1)" colspan=4>Total Cost for <?= implode(" and ", $estmtname); ?> ( Exclusive of Taxes ).</th>
+            <th style="background: rgba(198,224,180,1)" colspan=5>Total Cost for <?= implode(" and ", $estmtname); ?> ( Exclusive of Taxes ).</th>
             <th style="background: rgba(198,224,180,1)"><?= INR(array_sum($FinalTotal) + array_sum($FinalOTC)) ?></th>
         </tr>
     </tbody>
@@ -130,7 +134,6 @@
             }
         })
     }
-
     inputLines("#terms_cond", '#TClines');
     inputLines("#asump", '#AClines');
     inputLines("#text_excl", '#EXlines');

@@ -3,12 +3,14 @@
 $Sku_Data = array();
 require_once "../controller/calculations.php";
 // print_r($_DiscountedData);
+$DiscountedTotal = array();
 foreach ($estmtname as $j => $_Key) {
     $no = 0;
     $Infrastructure = array();
     $antiVirus = false;
     $product_prices = priceTbl($region[$j])["product_prices"];
     $product_sku = priceTbl($region[$j])["product_sku"];
+
 ?>
     <table class='final-tbl table except' id="final-tbl<?= $j ?>">
         <tr hidden></tr>
@@ -184,9 +186,17 @@ foreach ($estmtname as $j => $_Key) {
             }
             if (!empty($backupstrg[$j])) {
 
+                $backupunit[$j] = $EstmDATA['backup_unit'][$j] ?? "backup_gb";
+
                 $DiscountingId = "backup_gb_{$j}";
-                $backupunit[$j] = $EstmDATA['backup_unit'] ?? "backup_gb";
-                $totalDisc[$Class][$DiscountingId] = tblRow("Backup Storage", getProdName($backupunit[$j]), $backupstrg[$j], get_strg('GB', $product_prices[$backupunit[$j]]), "GB");
+                $totalDisc[$Class][$DiscountingId] = 
+                    tblRow("Backup Storage", 
+                    getProdName($backupunit[$j]), 
+                    $backupstrg[$j], 
+                    get_strg('GB', 
+                            $product_prices[$backupunit[$j]]
+                    ), 
+                    "GB");
                 $Infrastructure['Storage Solution']['Backup Space'] = get_strg('GB', $product_prices[$backupunit[$j]]) * $backupstrg[$j];
                 $Sku_Data[$estmtname[$j]]['Storage Solution'][$product_sku['backup_gb']] = [
                     "qty" => ($backupunit[$j] == 'TB') ? intval($backupstrg[$j]) * 1024 : intval($backupstrg[$j]),
@@ -357,7 +367,7 @@ foreach ($estmtname as $j => $_Key) {
                 $DiscountingId = "{$rep_link_type[$j]}_{$j}";
                 $totalDisc[$Class][$DiscountingId] = tblRow('Services', getProdName($rep_link_type[$j]) . ' Replication Link', $rep_link_qty[$j], get_Price($rep_link_type[$j]), "Mbps");
                 $Infrastructure['Network Solution']['rep_link'] = intval($rep_link_qty[$j]) * get_Price($rep_link_type[$j]);
-                $Sku_Data[$estmtname[$j]]['Network Solution']['CNPP000000000000'] = [
+                $Sku_Data[$estmtname[$j]]['Network Solution'][$rep_link_type[$j]] = [
                     "qty" => $rep_link_qty[$j],
                     "discount" => (!empty($_DiscountedData)) ? GetDiscountedPercentage($rep_link_qty[$j], get_Price($rep_link_type[$j])) : 0
                 ];
@@ -798,6 +808,8 @@ Bandwidth Monitoring - $emagicqty[5] '></i>";
             </tr>
         <?php
         }
+
+        $DiscountedTotal[$j] = array_sum($totalDisc["Infrastructure_{$j}"]) + array_sum($totalDisc["Managed_{$j}"]);
         ?>
         <tr>
             <th class=' final unshareable' style='background-color: rgb(255, 207, 203);'> </th>
@@ -879,4 +891,5 @@ function tblHead($Service)
     </tr>
 <?php
 }
+?>
 ?>

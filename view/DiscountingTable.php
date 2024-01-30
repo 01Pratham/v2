@@ -53,7 +53,7 @@ foreach ($estmtname as $j => $_Key) {
             $vm_total = array();
             $vcore_data = array();
             foreach ($vmqty[$j] as $i => $val) {
-                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk -" . preg_replace("/Object Storage|IOPS per GB| /", "", getProdName($diskType[$j][$i])) . " IOPS -  {$disk[$j][$i]} GB";
+                $compute[$j][$i] = "vCores {$cpu[$j][$i]} | RAM  {$ram[$j][$i]} GB | Disk -" . preg_replace("/Block Storage|IOPS per GB| /", "", getProdName($diskType[$j][$i])) . " IOPS -  {$disk[$j][$i]} GB";
                 $price = (($product_prices['vcpu_static'] * intval($cpu[$j][$i])) +
                     ($product_prices['vram_static'] * intval($ram[$j][$i])) +
                     ($product_prices[$diskType[$j][$i]] * intval($disk[$j][$i])));
@@ -207,6 +207,7 @@ foreach ($estmtname as $j => $_Key) {
                 }
             }
             if (!empty($backupstrg[$j])) {
+                $backupunit[$j] = $EstmDATA['backup_unit'][$j] ?? "backup_gb";
                 $SKU = $product_sku[$backupunit[$j]];
                 $DiscountingId = "backup_gb_{$j}";
                 $Products[$j][$DiscountingId] = tblRow("Backup Storage", getProdName($backupunit[$j]),  get_strg($backupunit[$j], 1, $backupstrg[$j]), $_Prices[$j]['Storage Solution']['Backup Space'], 'GB');
@@ -948,8 +949,8 @@ function PriceOs($SW, $Feild)
                 $(this).html(percentage.toFixed(2) + " %")
             }
             if (!isNaN(newPerc)) {
-                percentage = parseFloat(percentage) / 100;
-                let Mrc = $(this).parent().find(".MRC").html().replace(/,|₹| /g,"")
+                percentage = ((newPerc === percentage)? parseFloat(percentage) : parseFloat(newPerc) )/ 100;
+                let Mrc = $(this).parent().find(".MRC").html().replace(/,|₹| /g,"") 
                 Mrc = parseFloat(Mrc)
                 let discountedMrc = Mrc - (Mrc * percentage)
                 if (discountedMrc <= 0 && percentage > 0) {
@@ -960,13 +961,14 @@ function PriceOs($SW, $Feild)
                 let j = $(this).data("key")
                 totalInfra(j, "discountedTotal")
                 let discountID = $(this).data("discid")
-                DiscountedData[j]["Data"][discountID] = percentage
+                DiscountedData[j]["Data"][discountID] = percentage * 100
 
                 let DiscTotal = parseFloat($("#DiscTotal_" + j).html().replace(/₹|,| /g, ''))
                 let total_monthly = parseFloat($("#total_monthly_" + j).html().replace(/₹|,| /g, ''))
                 let TotalDiscountPercentage = 100 - (100 * (DiscTotal / total_monthly));
                 $("#DiscountPercetage_" + j).val(TotalDiscountPercentage.toFixed(2)).data("percentage", TotalDiscountPercentage)
-                $(this).html(newPerc.toFixed(2) + " %").data("percentage",newPerc)
+                $(this).html(isNaN(newPerc.toFixed(2)) ? 0 : newPerc.toFixed(2) + " %").data("percentage",isNaN(newPerc.toFixed(2)) ? 0 :newPerc)
+
             } else {
                 let Mrc = $(this).parent().find(".MRC").html().replace(/₹|,| /g, '')
                 Mrc = parseFloat(Mrc)

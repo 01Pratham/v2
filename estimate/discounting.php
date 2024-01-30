@@ -10,7 +10,6 @@ if (isset($_GET['id'])) {
 
 
 ?>
-    <!DOCTYPE html>
     <html lang="en">
 
     <head>
@@ -53,7 +52,6 @@ if (isset($_GET['id'])) {
                 <div class="content Main except ">
                     <div class="container-fluid except full" style="zoom : 65%">
                         <div class="errors except container" style="max-width: 2020px; margin: auto; "> </div>
-
                         <?php
                         if (isset($_GET["id"])) {
                             $Quer = mysqli_fetch_assoc(mysqli_query($con, "SELECT * FROM `tbl_saved_estimates` WHERE `id` = '{$_GET['id']}'"));
@@ -77,16 +75,12 @@ if (isset($_GET['id'])) {
                     </div>
                 </div>
             </div>
-
-
             <?php
             require '../view/includes/footer.php';
             ?>
             <script src="../javascript/jquery-3.6.4.js"></script>
             <script src="https://unpkg.com/exceljs/dist/exceljs.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
-
             <script>
                 $('.nav-link').removeClass('active')
                 $('#create').addClass('active');
@@ -102,16 +96,14 @@ if (isset($_GET['id'])) {
                         dataType: "TEXT",
                         data: {
                             action: 'push',
-
                         },
                         success: function(response) {
                             alert(response);
                         }
                     })
                 }
-                <?php
+                <?php 
                 if (UserRole("3")) { ?>
-                    // $('.discount').attr('contentEditable', 'true')
                     var mrc = $('#vm-mrc').html();
                     $(".discount").keypress(function(e) {
                         var key = e.keyCode || e.charCode;
@@ -163,12 +155,11 @@ if (isset($_GET['id'])) {
                             "discounted_upfront": TotalDiscountedMrc
                         },
                         dataType: "TEXT",
-                        success: function(response) {
+                        success: function(response){
                             alert(response);
                         }
                     });
                 })
-
                 $(document).ready(function() {
                     $('.full').find('.mng_qty').each(function() {
                         var tr_val = $(this).html()
@@ -179,14 +170,6 @@ if (isset($_GET['id'])) {
                         }
                     })
                 })
-                // window.addEventListener('beforeunload',
-                //     function(e) {
-                //         let conf = confirm("Are You sure want to unsave this Estimate ? ");
-                //         if (conf) {} else {
-                //             e.preventDefault();
-                //             e.returnValue = '';
-                //         }
-                //     });
             </script>
         <?php } else {
             require "../view/PageNotFound.php";
