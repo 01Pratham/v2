@@ -12,5 +12,3 @@ $DataBase = 'configurator_v2';
 $con = mysqli_connect($HostName, $UserName, $Password, $DataBase)  or die('Database Error : Connection Lost');
 
 
-
-?> 
